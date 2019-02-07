@@ -80,6 +80,7 @@ class BeritaController extends Controller
             if ($model->loadAll(Yii::$app->request->post())) {
                 $transaction = $model->getDb()->beginTransaction(); //set transaction
                 $model->scenario = "create"; //set scenario
+
                 if ($model->image != "") {
                     $fileName = md5("berita_")."_".random_int(0, 100)."_".time().".".$model->image->extension; //generate name file
                     $model->gambar = $fileName; //set value field gambar
@@ -113,7 +114,7 @@ class BeritaController extends Controller
                         Yii::$app->session->setFlash('error','Error validate data');
                         return $this->render('create',['model'=>$model]);
                     }
-                } else {
+                } else { // jika image kosong
                     /**
                      * 
                      * check $model->validate()

@@ -22,7 +22,7 @@ use yii\behaviors\BlameableBehavior;
  * @property string $deleted_at
  * @property integer $lock
  *
- * @property \common\models\ModuleSppBayar[] $moduleSppBayars
+ * @property \common\models\ModuleSpp[] $moduleSpps
  */
 class ModuleBank extends \yii\db\ActiveRecord
 {
@@ -30,6 +30,7 @@ class ModuleBank extends \yii\db\ActiveRecord
 
     private $_rt_softdelete;
     private $_rt_softrestore;
+    public $image;
 
     public function __construct(){
         parent::__construct();
@@ -50,7 +51,7 @@ class ModuleBank extends \yii\db\ActiveRecord
     public function relationNames()
     {
         return [
-            'moduleSppBayars'
+            'moduleSpps'
         ];
     }
 
@@ -65,6 +66,7 @@ class ModuleBank extends \yii\db\ActiveRecord
             [['deleted_at'], 'safe'],
             [['no_rekening', 'atas_nama', 'gambar'], 'string', 'max' => 45],
             [['nama_bank'], 'string', 'max' => 30],
+            [['image'],'file','extensions'=>'jpg,jpeg,gif,png', 'skipOnEmpty' => false, 'on' => ['create','update','delete'], 'maxSize' => 1024*1024*2],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];
@@ -107,9 +109,9 @@ class ModuleBank extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getModuleSppBayars()
+    public function getModuleSpps()
     {
-        return $this->hasMany(\common\models\ModuleSppBayar::className(), ['bank_id' => 'id']);
+        return $this->hasMany(\common\models\ModuleSpp::className(), ['bank_id' => 'id']);
     }
     
     /**

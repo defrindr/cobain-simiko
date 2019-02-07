@@ -1,7 +1,11 @@
 <?php
 
 $admin = true;
+$guru = true;
+$siswa = true;
 $admin = (Yii::$app->user->identity->role == 10);
+$guru = (Yii::$app->user->identity->role == 20);
+$siswa = (Yii::$app->user->identity->role == 30);
 
 
 ?>
@@ -51,6 +55,7 @@ $admin = (Yii::$app->user->identity->role == 10);
                             ['label' => 'Berita-kategori', 'url' => ['/berita-kategori'], 'icon' => 'dashboard'],
                          ],
                      ],
+                    ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard', 'visible' => $admin],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
                         'label' => 'Some tools',

@@ -22,6 +22,7 @@ class ModuleBank extends BaseModuleBank
             [['deleted_at'], 'safe'],
             [['no_rekening', 'atas_nama', 'gambar'], 'string', 'max' => 45],
             [['nama_bank'], 'string', 'max' => 30],
+            [['image'],'file','extensions'=>'jpg,jpeg,gif,png', 'skipOnEmpty' => false, 'on' => ['create','update','delete'], 'maxSize' => 1024*1024*2],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);
