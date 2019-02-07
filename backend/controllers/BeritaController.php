@@ -9,11 +9,17 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use yii\web\ForbiddenHttpException; // enable forbidden access
+use yii\web\UploadedFile; //require to upload image
+use yii\helpers\Url; // require
+
+
 /**
  * BeritaController implements the CRUD actions for ModuleBerita model.
  */
 class BeritaController extends Controller
 {
+
     public function behaviors()
     {
         return [
@@ -61,14 +67,87 @@ class BeritaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ModuleBerita();
+        /**
+         * Hanya user dengan role admin
+         * yang dapat menambahkan berita
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('Admin')) {
+            $model = new ModuleBerita();
+            $model->image = UploadedFile::getInstance($model,'image'); //get image
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->loadAll(Yii::$app->request->post())) {
+                $transaction = $model->getDb()->beginTransaction(); //set transaction
+                $model->scenario = "create"; //set scenario
+                if ($model->image != "") {
+                    $fileName = md5("berita_")."_".random_int(0, 100)."_".time().".".$model->image->extension; //generate name file
+                    $model->gambar = $fileName; //set value field gambar
+
+                    $this->checkDir(); //called func checkDIr()
+
+                    /**
+                     *
+                     *  check $model->validate()
+                     * 
+                     */
+                    if($model->validate()) // check validate
+                    {
+                        $path = Yii::$app->basePath."/web/uploaded/berita/".$fileName;
+                        if($model->save()){
+                            if($model->image->saveAs($path)){
+                                $transaction->commit();
+                                Yii::$app->session->setFlash('success','Data berhasil disimpan');
+                                return $this->redirect(['view', 'id' => $model->id]);
+                            } else {
+                                $transaction->rollback();
+                                Yii::$app->session->setFlash('error','Data gagal disimpan');
+                                return $this->render('create',['model'=>$model]);
+                            }
+                        } else {
+                            $transaction->rollback();
+                            Yii::$app->session->setFlash('error','Data gagal disimpan');
+                            return $this->render('create',['model'=>$model]);
+                        }
+                    } else{
+                        Yii::$app->session->setFlash('error','Error validate data');
+                        return $this->render('create',['model'=>$model]);
+                    }
+                } else {
+                    /**
+                     * 
+                     * check $model->validate()
+                     * return boolean value
+                     * 
+                     */
+                    if($model->validate()){
+                        /**
+                         *
+                         * check apakah $model->saveAll() berhasil atau gagal
+                         * return boolean value
+                         *
+                         */
+                        if($model->saveAll()){
+                            $transaction->commit();
+                            Yii::$app->session->setFlash('success','Data berhasil disimpan');
+                            return $this->redirect(['view', 'id' => $model->id]);
+                        } else {
+                            $transaction->rollback();
+                            Yii::$app->session->setFlash('error','Error create data');
+                            return $this->render('create',['model'=>$model]);
+                        }
+                    } else {
+                        Yii::$app->session->setFlash('error','Error validate data');
+                        return $this->render('create',['model'=>$model]);
+                    }
+                }
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -80,14 +159,92 @@ class BeritaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        /**
+         * Hanya user dengan role admin
+         * yang dapat mengubah berita
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('Admin')){
+            $model = $this->findModel($id);
+            $model->image = UploadedFile::getInstance($model,'image'); // set $model->image
+            /**
+             *
+             * Load request data dan
+             * Check request method (kalau tidak salah :v)
+             * 
+             */
+            if ($model->loadAll(Yii::$app->request->post())) {
+                $transaction = $model->getDb()->beginTransaction(); // set transaction
+                $model->scenario = "update"; // set scenario
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+                $this->checkDir();
+
+                /**
+                 *  Check $model->validate()
+                 */
+                if($model->validate()){
+                    /**
+                     * Check $model->image
+                     */
+                    if($model->image != ""){ //jika gambar diupdate
+                        $oldImage = $model->gambar;
+                        $fileName = md5("berita_")."_".random_int(0, 100)."_".time().".".$model->image->extension; //generate name file
+                        $model->gambar = $fileName;
+                        /**
+                         * Jika data berhasil disave
+                         */
+                        if($model->saveAll()){
+                            /**
+                             * Check file gambar
+                             * Jika file masih ada maka hapus file
+                             */
+                            if($oldImage != ""){
+                                if(file_exists(Yii::$app->basePath."/web/uploaded/berita/".$oldImage)){
+                                    unlink(Yii::$app->basePath."/web/uploaded/berita/".$oldImage);
+                                }
+                            }
+                            $model->image->saveAs(Yii::$app->basePath."/web/uploaded/berita/".$fileName); //save image
+                            $transaction->commit(); // commit $model
+                            Yii::$app->session->setFlash('success','Data berita berhasil diubah');
+                            return $this->redirect(['view','id'=>$model->id]);
+                        } else { // jika saveAll() gagal maka
+                            $transaction->rollback(); //rollback $model
+                            Yii::$app->session->setFlash('error','Data berita gagal diubah');
+                            return $this->render('update', [
+                                'model' => $model,
+                            ]);
+                        }
+
+
+                    } else { // jika gambar tidak diupdate
+                        /**
+                         * check return bool value $model->saveAll()
+                         */
+                        if($model->saveAll()){
+                            $model->commit(); // commit $model
+                            Yii::$app->session->setFlash('success','Data berita berhasil diubah');
+                            return $this->redirect(['view','id'=>$model->id]);
+                        } else { // jika saveAll() gagal maka
+                            $model->rollback(); //rollback $model
+                            Yii::$app->session->setFlash('error','Data berita gagal diubah');
+                            return $this->redirect(['view','id'=>$model->id]);
+                        }
+                    }
+                } else { // jika gagal validate
+                    Yii::$app->session->setFlash('Error','Error validation data');
+                    return $this->render('update', [
+                        'model' => $model,
+                    ]);
+                }
+
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -99,9 +256,91 @@ class BeritaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
+        /**
+         * Hanya user dengan role admin
+         * yang dapat menghapus berita
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('Admin')){
+            if($this->findModel($id)->deleteWithRelated()){
+                Yii:$app->session->setFlash('success','Data berhasil dihapus');
+            }
+            return $this->redirect(['index']);
+        } else {
+            throw new ForbiddenHttpException;
+        }
+    }
 
-        return $this->redirect(['index']);
+
+    /**
+     * Delete image from berita
+     * @param  int $id
+     * @return mixed
+     */
+    public function actionDeleteImage($id)
+    {
+        /**
+         * Hanya user dengan role Admin
+         * yang dapat menghapus gambar
+         * selain itu maka akan
+         * return throw new ForbiddenHttpException
+         *
+         *
+         * referensi http://stackoverflow.com
+         */
+        if(Yii::$app->user->can( "Admin" )){
+            $model = $this->findModel($id); // mencari data dan menampungnya di $model
+
+            $model->scenario = "deleteImage"; // set scenario deleteImage
+            $transaction = $model->getDb()->beginTransaction(); //set transaction
+            $image = $model->gambar; //menampung nilai $model->gambar dalam $image
+            $model->gambar = ""; //set $model->gambar menjadi kosong
+
+            /**
+             * check $model validate
+             */
+            if($model->validate()){
+
+                /**
+                 * Check apakah $model berhasil disave
+                 */
+                if($model->saveAll()){
+                    unlink(Yii::$app->basePath."/web/uploaded/berita/".$image); //hapus gambar
+                    $transaction->commit(); // commit $model
+                    Yii::$app->session->setFlash('success','Gambar berhasil dihapus'); //set flash message
+                    return $this->redirect(['view','id'=>$model->id]); // return
+                } else {
+                    $transaction->rollback(); // rollback $model
+                    Yii::$app->session->setFlash('error','Gambar gagal dihapus'); //set flash message
+                    return $this->redirect(['view','id'=>$model->id]); //return
+                }
+            } else {
+                Yii::$app->session->setFlash('error','Gambar gagal dihapus'); //set flash message
+                return $this->redirect(['view','id'=>$model->id]); //return
+            }
+        } else {
+            throw new ForbiddenHttpException;
+            
+        }
+    }
+
+    /**
+     * Check dir exist or not
+     * if dir is not exist
+     * create dir
+     *
+     * reference http://youtube.com
+     * no return value
+     */
+    public function checkDir(){
+
+        if(!file_exists(Url::to('@webroot'))) {
+            mkdir(Url::to('@webroot/uploaded'),0777,true);
+        }
+        if(!file_exists(Url::to(Yii::$app->basePath."/web/uploaded/berita"))){
+            mkdir(Url::to(Yii::$app->basePath."/web/uploaded/berita"),0777,true);
+        }
     }
 
     

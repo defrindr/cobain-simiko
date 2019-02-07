@@ -37,7 +37,7 @@ $this->registerJs($search);
                         'attribute' => 'berita_kategori_id',
                         'label' => 'Berita Kategori',
                         'value' => function($model){
-                            return $model->beritaKategori->id;
+                            return $model->beritaKategori->nama;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
                         'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBeritaKategori::find()->asArray()->all(), 'id', 'nama'),
@@ -58,13 +58,6 @@ $this->registerJs($search);
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
-                'rowOptions' => function ($model, $key, $index, $grid) {
-                    return [
-                        'style' => "cursor: pointer",
-                        'id' => $model['group_id'],
-                        'onclick' => '$( "#recipient-list" ).load('.Yii::$app->urlManager->createUrl('berita').'&scenario=RECIPIENTS&params="+(this.id);',
-                    ];  
-                },
                 'columns' => $gridColumn,
                 'pjax' => true,
                 'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-berita']],

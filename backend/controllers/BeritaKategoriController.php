@@ -32,7 +32,7 @@ class BeritaKategoriController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
+    { 
         $searchModel = new ModuleBeritaKategoriSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -66,11 +66,23 @@ class BeritaKategoriController extends Controller
      */
     public function actionCreate()
     {
-        if(Yii::$app->user->can('admin')){
+        /**
+         * Hanya user dengan role admin
+         * yang dapat menambahkan berita
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('Admin')){
             $model = new ModuleBeritaKategori();
 
-            if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->saveAll()){
+                    Yii::$app->session->setFlash('success','Data berhasil disimpan');
+                    return $this->redirect(['index']);
+                } else {
+                    Yii::$app->session->setFlash('error','Data gagal disimpan');
+                    return $this->render('create',['model' => $model]);
+                }
             } else {
                 return $this->render('create', [
                     'model' => $model,
@@ -89,13 +101,25 @@ class BeritaKategoriController extends Controller
      */
     public function actionUpdate($id)
     {
-        if(Yii::$app->user->can('admin')){
+        /**
+         * Hanya user dengan role admin
+         * yang dapat mengubah berita
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('Admin')){
             $model = $this->findModel($id);
 
-            if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->saveAll()){
+                    Yii::$app->session->setFlash('success','Data berhasil diubah');
+                    return $this->redirect(['index']);
+                } else {
+                    Yii::$app->session->setFlash('error','Data gagal diubah');
+                    return $this->render('create',['model' => $model]);
+                }
             } else {
-                return $this->render('update', [
+                return $this->render('create', [
                     'model' => $model,
                 ]);
             }
@@ -112,9 +136,16 @@ class BeritaKategoriController extends Controller
      */
     public function actionDelete($id)
     {
-        if(Yii::$app->user->can('admin')){
-            $this->findModel($id)->deleteWithRelated();
-
+        /**
+         * Hanya user dengan role admin
+         * yang dapat menghapus berita
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('Admin')){
+            if($this->findModel($id)->deleteWithRelated()){
+                Yii:$app->session->setFlash('success','Data berhasil dihapus');
+            }
             return $this->redirect(['index']);
         } else {
             throw new ForbiddenHttpException;

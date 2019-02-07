@@ -41,7 +41,16 @@ $admin = (Yii::$app->user->identity->role == 10);
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
-                    ['label' => 'berita', 'icon' => 'dashboard', 'url' => ['/berita'], 'visible' => $admin],
+                    [
+                        'label' => 'berita',
+                         'icon' => 'dashboard',
+                         'url' => '#',
+                         'visible' => $admin,
+                         'items' => [
+                            ['label' => 'Berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
+                            ['label' => 'Berita-kategori', 'url' => ['/berita-kategori'], 'icon' => 'dashboard'],
+                         ],
+                     ],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
                         'label' => 'Some tools',
