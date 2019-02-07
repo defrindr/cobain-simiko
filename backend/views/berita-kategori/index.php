@@ -1,14 +1,14 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\ModuleBeritaSearch */
+/* @var $searchModel common\models\ModuleBeritaKategoriSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
 
-$this->title = 'Berita';
+$this->title = 'Berita Kategori';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -16,7 +16,7 @@ $search = "$('.search-button').click(function(){
 });";
 $this->registerJs($search);
 ?>
-<div class="module-berita-index">
+<div class="module-berita-kategori-index">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="box box-danger">
         <div class="box-header">
@@ -28,46 +28,26 @@ $this->registerJs($search);
                 <?=  $this->render('_search', ['model' => $searchModel]); ?>
             </div>
         </div>
+
         <div class="box-body">
             <?php 
             $gridColumn = [
                 ['class' => 'yii\grid\SerialColumn'],
                 ['attribute' => 'id', 'visible' => false],
-                [
-                        'attribute' => 'berita_kategori_id',
-                        'label' => 'Berita Kategori',
-                        'value' => function($model){
-                            return $model->beritaKategori->id;
-                        },
-                        'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBeritaKategori::find()->asArray()->all(), 'id', 'nama'),
-                        'filterWidgetOptions' => [
-                            'pluginOptions' => ['allowClear' => true],
-                        ],
-                        'filterInputOptions' => ['placeholder' => 'Module berita kategori', 'id' => 'grid-module-berita-search-berita_kategori_id']
-                    ],
-                'judul',
-                'isi:ntext',
-                'gambar',
+                'nama',
                 ['attribute' => 'lock', 'visible' => false],
                 [
                     'class' => 'yii\grid\ActionColumn',
+                    'template' => '{update} {delete}',
                 ],
             ]; 
             ?>
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
-                'rowOptions' => function ($model, $key, $index, $grid) {
-                    return [
-                        'style' => "cursor: pointer",
-                        'id' => $model['group_id'],
-                        'onclick' => '$( "#recipient-list" ).load('.Yii::$app->urlManager->createUrl('berita').'&scenario=RECIPIENTS&params="+(this.id);',
-                    ];  
-                },
                 'columns' => $gridColumn,
                 'pjax' => true,
-                'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-berita']],
+                'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-berita-kategori']],
                 'panel' => false,
                 'export' => false,
                 // your toolbar can include the additional full export menu
@@ -93,5 +73,5 @@ $this->registerJs($search);
             ]); ?>
         </div>
     </div>
-    <!-- end box -->
+
 </div>

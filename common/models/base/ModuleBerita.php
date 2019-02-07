@@ -30,6 +30,7 @@ class ModuleBerita extends \yii\db\ActiveRecord
 
     private $_rt_softdelete;
     private $_rt_softrestore;
+    public $image;
 
     public function __construct(){
         parent::__construct();
@@ -66,6 +67,7 @@ class ModuleBerita extends \yii\db\ActiveRecord
             [['deleted_at'], 'safe'],
             [['judul'], 'string', 'max' => 65],
             [['gambar'], 'string', 'max' => 150],
+            [['image'] , 'file' , 'skipOnEmpty' => true, 'extensions' => 'jpg,png,gif,jpeg'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];

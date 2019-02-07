@@ -23,6 +23,7 @@ class ModuleBerita extends BaseModuleBerita
             [['deleted_at'], 'safe'],
             [['judul'], 'string', 'max' => 65],
             [['gambar'], 'string', 'max' => 150],
+            [['image'] , 'file' , 'skipOnEmpty' => true, 'extensions' => 'jpg,png,gif,jpeg'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);
