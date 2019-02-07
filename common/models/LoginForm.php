@@ -63,6 +63,21 @@ class LoginForm extends Model
     }
 
     /**
+     * [loginBack description]
+     * @return [type] [description]
+     */
+    public function loginBack()
+    {
+        if ($this->validate() && (User::isAdmin($this->username) or User::isGuru($this->username)))
+        {
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        } else
+        {
+            return false;
+        }
+    }
+
+    /**
      * Finds user by [[username]]
      *
      * @return User|null

@@ -10,7 +10,10 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+      'admin',
+      'log',
+    ],
     'name' => 'Manajemen Sekolah',
     'modules' => [
       'admin' => [
@@ -27,7 +30,6 @@ return [
                 'assignment' => [
                     'label' => 'Grand Access' // change label
                 ],
-                'route' => null, // disable menu route
             ]
       ],
       'gridview' => [

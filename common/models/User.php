@@ -26,6 +26,11 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
+    // const role
+    const ROLE_ADMIN = 10;
+    const ROLE_GURU = 20;
+    const ROLE_SISWA = 30;
+
     public static $roles = [20 => 'admin', 30 => 'guru',40 => 'siswa'];
     /**
      * {@inheritdoc}
@@ -186,4 +191,45 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+
+    /**
+     * [isAdmin description]
+     * @param  [type]  $username [description]
+     * @return boolean           [description]
+     */
+    public static function isAdmin($username){
+        if (static::findOne(['username' => $username, 'role' => self::ROLE_ADMIN])){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * [isGuru description]
+     * @param  [type]  $username [description]
+     * @return boolean           [description]
+     */
+    public function isGuru($username){
+        if (static::findOne(['username' => $username, 'role' => self::ROLE_GURU])){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * [isSiswa description]
+     * @param  [type]  $username [description]
+     * @return boolean           [description]
+     */
+    public function isSiswa($username){
+        if (static::findOne(['username' => $username, 'role' => self::ROLE_SISWA])){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
