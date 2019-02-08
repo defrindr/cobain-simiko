@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
+use kartik\widgets\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleBerita */
@@ -30,8 +31,9 @@ use yii\helpers\Url;
             <?= $form->field($model, 'judul')->textInput(['maxlength' => true, 'placeholder' => 'Judul']) ?>
 
             <?= $form->field($model, 'isi')->textarea(['rows' => 6]) ?>
-
-            <?= $form->field($model,'image')->fileInput() ?>
+            <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+                'options' => ['accept' => 'image/*'],
+                ]);?>
 
             <?= $form->field($model, 'gambar', ['template' => '{input}'])->textInput(['maxlength' => true, 'placeholder' => 'Gambar','style' => 'display:none']) ?>
 

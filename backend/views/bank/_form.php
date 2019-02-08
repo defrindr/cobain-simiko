@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleBank */
@@ -35,7 +36,9 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'gambar',['template'=>'{input}'])->textInput(['style' => 'display:none','maxlength' => true, 'placeholder' => 'Gambar']) ?>
 
-            <?= $form->field($model, 'image')->fileInput(); ?>
+            <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+                'options' => ['accept' => 'image/*'],
+                ]);?>
 
             <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
