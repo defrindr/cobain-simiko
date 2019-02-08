@@ -22,6 +22,8 @@ class ModuleGaleri extends BaseModuleGaleri
             [['tahun'], 'safe'],
             [['link'], 'string', 'max' => 200],
             [['judul'], 'string', 'max' => 45],
+            [['images'], 'file', 'skipOnEmpty' => false, 'maxFiles'=> 5, 'extensions' => 'png,jpg,jpeg,gif', 'maxSize' => 1024*1024*3, 'on' =>'create'],
+            [['images'], 'file', 'skipOnEmpty' => true, 'maxFiles'=> 1, 'extensions' => 'png,jpg,jpeg,gif', 'maxSize' => 1024*1024*3, 'on' =>'update'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);
