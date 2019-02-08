@@ -61,7 +61,7 @@ $siswa = (Yii::$app->user->identity->role == 30);
                         'url' => '#', 
                         'icon' => 'dashboard',
                         'items' => [
-                            ['label' => 'Galeri', 'icon'=> 'dashboard', 'url' => ['/galer']],
+                            ['label' => 'Galeri', 'icon'=> 'dashboard', 'url' => ['/galeri']],
                             ['label' => 'Galeri Kategori', 'icon' => 'dashboard', 'url'=> ['/galeri-kategori']],
                         ],
                     ],
