@@ -7,6 +7,7 @@
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
+use yii\helpers\StringHelper;
 
 $this->title = 'Berita';
 $this->params['breadcrumbs'][] = $this->title;
@@ -47,7 +48,12 @@ $this->registerJs($search);
                         'filterInputOptions' => ['placeholder' => 'Module berita kategori', 'id' => 'grid-module-berita-search-berita_kategori_id']
                     ],
                 'judul',
-                'isi:ntext',
+                [
+                    'attribute'=>'isi',
+                    'value' => function($dataProvider){
+                        return StringHelper::truncateWords($dataProvider->isi,5,'...',null,false);
+                    }
+                ],
                 'gambar',
                 ['attribute' => 'lock', 'visible' => false],
                 [

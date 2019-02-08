@@ -85,13 +85,18 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-md-4">
             <div class="box box-danger">
-                <?php 
-                    $fileName = $model->gambar;
-                    $path = Url::base()."/uploaded/bank/".$fileName;
-                    echo Html::img($path,[
-                        'class' => 'img img-responsive'
-                    ]);
-                     ?>
+                <div class="box-header">
+                    <h4>Image preview</h4>
+                </div>
+                <div class="box-body">
+                    <?php 
+                        $fileName = $model->gambar;
+                        $path = Url::base()."/uploaded/bank/".$fileName;
+                        echo Html::img($path,[
+                            'class' => 'img img-responsive'
+                        ]);
+                         ?>
+                </div>
             </div>
         </div>
     </div>

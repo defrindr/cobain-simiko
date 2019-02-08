@@ -177,6 +177,9 @@ class BankController extends Controller
                         $path = Yii::$app->basePath."/web/uploaded/bank/".$fileName;
                         if($model->saveAll()) {
                             if($model->image->saveAs($path)){
+                                if(file_exists(Yii::$app->basePath."/web/uploaded/bank/".$oldImage)){
+                                    unlink(Yii::$app->basePath."/web/uploaded/bank/".$oldImage);
+                                }
                                 $transaction->commit();
                                 Yii::$app->session->setFlash('success','Data berhasil diubah');
                                 return $this->redirect(['view', 'id' => $model->id]);
