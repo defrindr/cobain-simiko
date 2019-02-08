@@ -63,8 +63,6 @@ yii\bootstrap\Modal::end();
                 'link',
                 'judul',
                 'tahun',
-                'uploaded_by',
-                'uploaded_at',
                 ['attribute' => 'lock', 'visible' => false],
                 [
                     'class' => 'yii\grid\ActionColumn',
