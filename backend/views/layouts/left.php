@@ -56,6 +56,15 @@ $siswa = (Yii::$app->user->identity->role == 30);
                          ],
                      ],
                     ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard', 'visible' => $admin],
+                    [
+                        'label' => 'Galeri', 
+                        'url' => '#', 
+                        'icon' => 'dashboard',
+                        'items' => [
+                            ['label' => 'Galeri', 'icon'=> 'dashboard', 'url' => ['/galer']],
+                            ['label' => 'Galeri Kategori', 'icon' => 'dashboard', 'url'=> ['/galeri-kategori']],
+                        ],
+                    ],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
                         'label' => 'Some tools',
