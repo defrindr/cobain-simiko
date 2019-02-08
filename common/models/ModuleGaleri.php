@@ -17,7 +17,7 @@ class ModuleGaleri extends BaseModuleGaleri
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['kategori', 'link', 'judul', 'tahun'], 'required'],
+            [['kategori', 'judul', 'tahun'], 'required'],
             [['kategori', 'uploaded_by', 'uploaded_at', 'updated_by', 'updated_at', 'lock'], 'integer'],
             [['tahun'], 'safe'],
             [['link'], 'string', 'max' => 200],

@@ -45,7 +45,7 @@ class ModuleGaleri extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['kategori', 'link', 'judul', 'tahun'], 'required'],
+            [['kategori', 'judul', 'tahun'], 'required'],
             [['kategori', 'uploaded_by', 'uploaded_at', 'updated_by', 'updated_at', 'lock'], 'integer'],
             [['tahun'], 'safe'],
             [['link'], 'string', 'max' => 200],
@@ -112,7 +112,7 @@ class ModuleGaleri extends \yii\db\ActiveRecord
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'uploaded_at',
                 'updatedAtAttribute' => 'updated_at',
-                'value' => new \yii\db\Expression('NOW()'),
+                'value' => time(),
             ],
             'blameable' => [
                 'class' => BlameableBehavior::className(),

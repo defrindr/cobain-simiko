@@ -117,7 +117,7 @@ class ModuleGaleriKategori extends \yii\db\ActiveRecord
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => 'updated_at',
-                'value' => new \yii\db\Expression('NOW()'),
+                'value' => time(),
             ],
             'blameable' => [
                 'class' => BlameableBehavior::className(),
