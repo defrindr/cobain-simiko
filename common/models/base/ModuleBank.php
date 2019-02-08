@@ -61,12 +61,14 @@ class ModuleBank extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['no_rekening', 'nama_bank', 'atas_nama', 'gambar'], 'required'],
+            [['no_rekening', 'nama_bank', 'atas_nama'], 'required'],
             [['created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
-            [['no_rekening', 'atas_nama', 'gambar'], 'string', 'max' => 45],
+            [['no_rekening', 'atas_nama'], 'string', 'max' => 45],
+            [['gambar'], 'string' , 'max' => 200],
             [['nama_bank'], 'string', 'max' => 30],
-            [['image'],'file','extensions'=>'jpg,jpeg,gif,png', 'skipOnEmpty' => false, 'on' => ['create','update','delete'], 'maxSize' => 1024*1024*2],
+            [['image'],'file', 'skipOnEmpty' => true, 'extensions'=>'jpg,jpeg,gif,png', 'on'=>'update', 'maxSize' => 1024*1024*2],
+            [['image'],'file', 'skipOnEmpty' => false, 'extensions'=>'jpg,jpeg,gif,png', 'on' => 'create', 'maxSize' => 1024*1024*2],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];

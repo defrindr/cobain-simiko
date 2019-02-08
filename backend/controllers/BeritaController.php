@@ -110,7 +110,7 @@ class BeritaController extends Controller
                             Yii::$app->session->setFlash('error','Data gagal disimpan');
                             return $this->render('create',['model'=>$model]);
                         }
-                    } else{
+                    } else{ //if wrong validate
                         Yii::$app->session->setFlash('error','Error validate data');
                         return $this->render('create',['model'=>$model]);
                     }
@@ -121,7 +121,8 @@ class BeritaController extends Controller
                      * return boolean value
                      * 
                      */
-                    if($model->validate()){
+                    if($model->validate())
+                    {
                         /**
                          *
                          * check apakah $model->saveAll() berhasil atau gagal
