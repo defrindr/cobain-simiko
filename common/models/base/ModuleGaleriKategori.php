@@ -32,7 +32,7 @@ class ModuleGaleriKategori extends \yii\db\ActiveRecord
         parent::__construct();
         $this->_rt_softdelete = [
             'deleted_by' => \Yii::$app->user->id,
-            'deleted_at' => date('Y-m-d H:i:s'),
+            'deleted_at' => time(),
         ];
         $this->_rt_softrestore = [
             'deleted_by' => 0,

@@ -6,6 +6,7 @@ use Yii;
 use common\models\ModuleGaleriKategori;
 use common\models\ModuleGaleriKategoriSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -46,17 +47,17 @@ class GaleriKategoriController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        $model = $this->findModel($id);
-        $providerModuleGaleri = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->moduleGaleris,
-        ]);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'providerModuleGaleri' => $providerModuleGaleri,
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     $providerModuleGaleri = new \yii\data\ArrayDataProvider([
+    //         'allModels' => $model->moduleGaleris,
+    //     ]);
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //         'providerModuleGaleri' => $providerModuleGaleri,
+    //     ]);
+    // }
 
     /**
      * Creates a new ModuleGaleriKategori model.
@@ -65,14 +66,16 @@ class GaleriKategoriController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ModuleGaleriKategori();
+        if(Yii::$app->user->can('galeri.create')){
+            $model = new ModuleGaleriKategori();
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            if ($model->loadAll(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         }
     }
 
@@ -84,14 +87,18 @@ class GaleriKategoriController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can('galeri.update')){
+            $model = $this->findModel($id);
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->loadAll(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            throw new NotFoundHttpException;
         }
     }
 
@@ -103,9 +110,17 @@ class GaleriKategoriController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
+        if(Yii::$app->user->can("galeri.delete")){
+           if($this->findModel($id)->deleteWithRelated()){
+                Yii::$app->session->setFlash("success","Data berhasil dihapus");
+            } {
+                Yii::$app->session->setFlash("error","Data gagal dihapus");
+            }
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        } else {
+            throw new ForbiddenHttpException;
+        }
     }
 
     
@@ -133,15 +148,15 @@ class GaleriKategoriController extends Controller
     *
     * @return mixed
     */
-    public function actionAddModuleGaleri()
-    {
-        if (Yii::$app->request->isAjax) {
-            $row = Yii::$app->request->post('ModuleGaleri');
-            if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
-                $row[] = [];
-            return $this->renderAjax('_formModuleGaleri', ['row' => $row]);
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
+    // public function actionAddModuleGaleri()
+    // {
+    //     if (Yii::$app->request->isAjax) {
+    //         $row = Yii::$app->request->post('ModuleGaleri');
+    //         if((Yii::$app->request->post('isNewRecord') && Yii::$app->request->post('_action') == 'load' && empty($row)) || Yii::$app->request->post('_action') == 'add')
+    //             $row[] = [];
+    //         return $this->renderAjax('_formModuleGaleri', ['row' => $row]);
+    //     } else {
+    //         throw new NotFoundHttpException('The requested page does not exist.');
+    //     }
+    // }
 }

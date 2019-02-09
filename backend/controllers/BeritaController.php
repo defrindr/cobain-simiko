@@ -73,7 +73,7 @@ class BeritaController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('Admin')) {
+        if(Yii::$app->user->can('berita.create')) {
             $model = new ModuleBerita();
             $model->image = UploadedFile::getInstance($model,'image'); //get image
 
@@ -167,7 +167,7 @@ class BeritaController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('Admin')){
+        if(Yii::$app->user->can('berita.update')){
             $model = $this->findModel($id);
             $model->image = UploadedFile::getInstance($model,'image'); // set $model->image
             /**
@@ -264,12 +264,30 @@ class BeritaController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('Admin')){
-            if($this->findModel($id)->deleteWithRelated()){
+        if(Yii::$app->user->can('berita.update')){
+            $model = $this->findModel($id);
+            /**
+             * check gambar ada atau tidak
+             */
+            if($model->gambar != ""){
+                
+                $path = Yii::$app->basePath."/web/uploaded/berita/".$model->gambar // set path
+
+                if(file_exists($path)){
+                    unlink($path);
+                }
+
+                $model->deleteWithRelated();
                 Yii:$app->session->setFlash('success','Data berhasil dihapus');
+                return $this->redirect(['index']);
+
+            } else { // jika gambar tidak ada maka
+
+                $model->deleteWithRelated();
+                Yii:$app->session->setFlash('success','Data berhasil dihapus');
+                return $this->redirect(['index']);
             }
-            return $this->redirect(['index']);
-        } else {
+        } else { // jika permission ditolak
             throw new ForbiddenHttpException;
         }
     }

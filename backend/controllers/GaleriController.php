@@ -51,7 +51,7 @@ class GaleriController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -64,47 +64,47 @@ class GaleriController extends Controller
     public function actionCreate()
     {
         $model = new ModuleGaleri();
-        if(Yii::$app->user->can('Admin')){
+        if(Yii::$app->user->can('galeri.create')){
             if ($model->loadAll(Yii::$app->request->post())) {
                 $model->images = UploadedFile::getInstances($model,'images');
                 $model->scenario = "create";
+                $this->checkDir();
+
+
+                /**
+                 *
+                 * Check validaion
+                 * 
+                 */
                 if($model->validate()){
-                    $this->checkDir();
                     foreach ($model->images as $image) {
                         $upload = new ModuleGaleri();
                         $fileName = md5("galeri_").random_int(0, 100).time().".".$image->extension;
                         $upload->kategori = $model->kategori;
                         $upload->judul = $model->judul;
                         $transaction = $upload->getDb()->beginTransaction();
-                        $upload->scenario = $model->scenario;
                         $upload->link = $fileName;
                         $upload->tahun = $model->tahun;
                         $upload->images = $image;
                         $path = Yii::$app->basePath."/web/uploaded/galeri/".$fileName;
 
-                        /**
-                         *
-                         * Check validaion
-                         * 
-                         */
-                        if($upload->validate()){
-                            if($upload->saveAll()){
-                                if($upload->images->saveAs($path)){
-                                    Yii::$app->session->setFlash('success','Data berhasil disimpan');
-                                    $transaction->commit();
-                                } else {
-                                    $transaction->rollback();
-                                    yii::$app->session->setFlash('error','Validation error');
-                                }
-                            } else { // if saveAll() gagal
+                        if($upload->saveAll()){
+                            if($image->saveAs($path)){
+                                Yii::$app->session->setFlash('success','Data berhasil disimpan');
+                                $transaction->commit();
+                            } else {
                                 $transaction->rollback();
                                 yii::$app->session->setFlash('error','Validation error');
                             }
-                        } else { // validate error
+                        } else { // if saveAll() gagal
+                            $transaction->rollback();
                             yii::$app->session->setFlash('error','Validation error');
                         }
-                        return $this->redirect(['index']);
                     }
+
+                    return $this->redirect(['index']);
+
+
                 }else { //if validate error
                     yii::$app->session->setFlash('error','Validation error');
                     return $this->renderAjax('create', [
@@ -130,14 +130,46 @@ class GaleriController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can("galeri.update")){
+            $model = $this->findModel($id);
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->loadAll(Yii::$app->request->post())) {
+
+                $transaction = $model->getDb()->beginTransaction();
+                $model->Scenario = "update";
+                /**
+                 * check validate
+                 */
+                if($model->validate()){
+                    $this->checkDir(); //check dir
+                    $model->images = UploadedFile::getInstance($model,'images');
+                    if($model->images != ""){
+                        $oldImages = $model->link; // get old image
+                        $fileName = md5("galeri_").random_int(0, 100).time().".".$image->extension; // generate new name
+                        $model->link = $fileName; // set model link image
+                    } else { // jika gambar kosong
+
+                    }
+
+
+                } else { //jika validate gagal
+                    Yii::$app->session->setFlash('error','Data gagal diubah');
+                    return $this->redirect(['index']);
+                }
+
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->renderAjax('update', [
+                    'model' => $model,
+                ]);
+            }
+
+
+
+
+
         } else {
-            return $this->renderAjax('update', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -152,6 +184,17 @@ class GaleriController extends Controller
         $this->findModel($id)->deleteWithRelated();
 
         return $this->redirect(['index']);
+    }
+
+
+
+    public function checkDir(){
+        if(!file_exists(Yii::$app->basePath."/web/uploaded/")){
+            mkdir(Yii::$app->basePath."/web/uploaded/");
+        }
+        if(!file_exists(Yii::$app->basePath."/web/uploaded/galeri/")){
+            mkdir(Yii::$app->basePath."/web/uploaded/galeri/");
+        }
     }
 
     

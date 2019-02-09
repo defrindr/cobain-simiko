@@ -49,27 +49,7 @@ $this->registerJs($search);
                 'pjax' => true,
                 'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-berita-kategori']],
                 'panel' => false,
-                'export' => false,
-                // your toolbar can include the additional full export menu
-                'toolbar' => [
-                    '{export}',
-                    ExportMenu::widget([
-                        'dataProvider' => $dataProvider,
-                        'columns' => $gridColumn,
-                        'target' => ExportMenu::TARGET_BLANK,
-                        'fontAwesome' => true,
-                        'dropdownOptions' => [
-                            'label' => 'Full',
-                            'class' => 'btn btn-default',
-                            'itemsBefore' => [
-                                '<li class="dropdown-header">Export All Data</li>',
-                            ],
-                        ],
-                        'exportConfig' => [
-                            ExportMenu::FORMAT_PDF => false
-                        ]
-                    ]) ,
-                ],
+                'responsiveWrap' => false,
             ]); ?>
         </div>
     </div>

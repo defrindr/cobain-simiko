@@ -72,7 +72,7 @@ class BeritaKategoriController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('Admin')){
+        if(Yii::$app->user->can('berita-kategori.')){
             $model = new ModuleBeritaKategori();
 
             if ($model->loadAll(Yii::$app->request->post())) {
@@ -107,7 +107,7 @@ class BeritaKategoriController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('Admin')){
+        if(Yii::$app->user->can('berita-kategori.')){
             $model = $this->findModel($id);
 
             if ($model->loadAll(Yii::$app->request->post())) {
@@ -142,9 +142,11 @@ class BeritaKategoriController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('Admin')){
+        if(Yii::$app->user->can('berita-kategori.delete')){
             if($this->findModel($id)->deleteWithRelated()){
                 Yii:$app->session->setFlash('success','Data berhasil dihapus');
+            } else {
+                Yii:$app->session->setFlash('gagal','Data gagal dihapus');
             }
             return $this->redirect(['index']);
         } else {

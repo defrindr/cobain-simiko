@@ -2,6 +2,17 @@ html,
 body {
     height: 100%;
 }
+.btn-actionColumn{
+    background-color:transparent;
+    border:0;
+    box-shadow:none;
+    outline: 0;
+    padding: 2px;
+    color: rgb(60, 141, 188);
+}
+.btn-actionColumn:hover{
+    color: rgb(51, 122, 183,0.7);
+}
 
 .wrap {
     min-height: 100%;

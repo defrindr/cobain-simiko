@@ -49,6 +49,7 @@ $this->registerJs($search);
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => $gridColumn,
+                'responsiveWrap' => false,
                 'pjax' => true,
                 'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-bank']],
                 'panel' => false,

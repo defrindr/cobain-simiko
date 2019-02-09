@@ -22,14 +22,14 @@ use kartik\widgets\FileInput;
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
     <?= $form->field($model, 'kategori')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGaleriKategori::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGaleriKategori::find()->orderBy('id')->asArray()->all(), 'id', 'nama'),
         'options' => ['placeholder' => 'Choose Module galeri kategori'],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ]); ?>
 
-    <?= $form->field($model, 'link')->textInput(['maxlength' => true, 'placeholder' => 'Link']) ?>
+    <?= $form->field($model, 'link', ['template'=> '{input}'])->textInput(['maxlength' => true, 'placeholder' => 'Link', 'style' => 'display:none']) ?>
 
     <?= $form->field($model, 'judul')->textInput(['maxlength' => true, 'placeholder' => 'Judul']) ?>
 

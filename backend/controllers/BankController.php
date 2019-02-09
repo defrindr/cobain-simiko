@@ -79,7 +79,7 @@ class BankController extends Controller
          * user can't running this action
          *
          */
-        if(Yii::$app->user->can('Admin')){
+        if(Yii::$app->user->can('bank.create')){
             $model = new ModuleBank();
 
             if ($model->loadAll(Yii::$app->request->post())) {
@@ -150,7 +150,7 @@ class BankController extends Controller
          * user can't running this action
          * 
          */
-        if(Yii::$app->user->can('Admin')){
+        if(Yii::$app->user->can('bank.update')){
             
             $model = $this->findModel($id);
 
@@ -246,7 +246,7 @@ class BankController extends Controller
          * user can't running this action
          * 
          */
-        if(Yii::$app->user->can('Admin')){
+        if(Yii::$app->user->can('bank.delete')){
         $this->findModel($id)->deleteWithRelated();
 
         return $this->redirect(['index']);
