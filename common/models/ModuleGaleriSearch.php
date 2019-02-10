@@ -71,4 +71,44 @@ use common\models\ModuleGaleri;
 
         return $dataProvider;
     }
+
+    
+
+    /**
+     * [searchRestore description]
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     */
+    public function searchRestore($params)
+    {
+        $query = ModuleGaleri::findDeleted();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'kategori' => $this->kategori,
+            'tahun' => $this->tahun,
+            'uploaded_by' => $this->uploaded_by,
+            'uploaded_at' => $this->uploaded_at,
+            'updated_by' => $this->updated_by,
+            'updated_at' => $this->updated_at,
+            'lock' => $this->lock,
+        ]);
+
+        $query->andFilterWhere(['like', 'link', $this->link])
+            ->andFilterWhere(['like', 'judul', $this->judul]);
+
+        return $dataProvider;
+    }
 }

@@ -42,6 +42,16 @@ class GaleriKategoriController extends Controller
         ]);
     }
 
+
+    public function actionDataRestore(){
+        $searchModel = new ModuleGaleriKategoriSearch();
+        $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+
+        return $this->render('data-restore', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     /**
      * Displays a single ModuleGaleriKategori model.
      * @param integer $id
@@ -66,13 +76,18 @@ class GaleriKategoriController extends Controller
      */
     public function actionCreate()
     {
-        if(Yii::$app->user->can('galeri.create')){
+        if(Yii::$app->user->can('galeri-kategori.create')){
             $model = new ModuleGaleriKategori();
 
-            if ($model->loadAll(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->save()){
+                    Yii::$app->session->setFlash("success","Data berhasil disimpan");
+                } else {
+                    Yii::$app->session->setFlash("error","Data gagal disimpan");
+                }
+                return $this->redirect(['index']);
             } else {
-                return $this->render('create', [
+                return $this->renderAjax('create', [
                     'model' => $model,
                 ]);
             }
@@ -87,13 +102,18 @@ class GaleriKategoriController extends Controller
      */
     public function actionUpdate($id)
     {
-        if(Yii::$app->user->can('galeri.update')){
+        if(Yii::$app->user->can('galeri-kategori.update')){
             $model = $this->findModel($id);
 
-            if ($model->loadAll(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->save()){
+                    Yii::$app->session->setFlash("success","Data berhasil diubah");
+                } else {
+                    Yii::$app->session->setFlash("error","Data gagal diubah");
+                }
+                return $this->redirect(['index']);
             } else {
-                return $this->render('update', [
+                return $this->renderAjax('update', [
                     'model' => $model,
                 ]);
             }
@@ -110,10 +130,10 @@ class GaleriKategoriController extends Controller
      */
     public function actionDelete($id)
     {
-        if(Yii::$app->user->can("galeri.delete")){
+        if(Yii::$app->user->can("galeri-kategori.delete")){
            if($this->findModel($id)->deleteWithRelated()){
                 Yii::$app->session->setFlash("success","Data berhasil dihapus");
-            } {
+            } else {
                 Yii::$app->session->setFlash("error","Data gagal dihapus");
             }
 

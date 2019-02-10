@@ -7,6 +7,7 @@
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
+use yii\helpers\Url;
 
 $this->title = 'Berita Kategori';
 $this->params['breadcrumbs'][] = $this->title;
@@ -15,14 +16,24 @@ $search = "$('.search-button').click(function(){
 	return false;
 });";
 $this->registerJs($search);
+
+yii\bootstrap\Modal::begin([
+'headerOptions' => ['id' => 'modalHeader'],
+'id' => 'modal',
+'size' => 'modal-lg',
+/*'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]*/
+]);
+echo "<div id='modalContent'></div>";
+yii\bootstrap\Modal::end();
+
 ?>
 <div class="module-berita-kategori-index">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="box box-danger">
         <div class="box-header">
             <p>
-                <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
-                <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?= Html::button('Tambah',['value' => Url::to(['berita-kategori/create']),'title' => 'Tambah', 'class' => 'showModalButton btn btn-success']); ?>
+                <!-- <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?> -->
             </p>
             <div class="search-form" style="display:none">
                 <?=  $this->render('_search', ['model' => $searchModel]); ?>
@@ -39,6 +50,17 @@ $this->registerJs($search);
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => '{update} {delete}',
+                    'buttons' => [
+                        'update' => function($url,$model){
+                            $id = $model->id;
+                            return Html::button('<i class="glyphicon glyphicon-eye-open"></i>',
+                                [
+                                    'value' => Url::to(['berita-kategori/update','id' => $id]),
+                                    'title' => 'Update ', 'class'=> 'showModalButton btn btn-actionColumn',
+                                ]
+                            );
+                        },
+                    ]
                 ],
             ]; 
             ?>

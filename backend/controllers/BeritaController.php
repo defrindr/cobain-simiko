@@ -264,27 +264,27 @@ class BeritaController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('berita.update')){
+        if(Yii::$app->user->can('berita.delete')){
             $model = $this->findModel($id);
             /**
              * check gambar ada atau tidak
              */
             if($model->gambar != ""){
                 
-                $path = Yii::$app->basePath."/web/uploaded/berita/".$model->gambar // set path
+                // $path = Yii::$app->basePath."/web/uploaded/berita/".$model->gambar; // set path
 
-                if(file_exists($path)){
-                    unlink($path);
-                }
+                // if(file_exists($path)){
+                //     unlink($path);
+                // }
 
                 $model->deleteWithRelated();
-                Yii:$app->session->setFlash('success','Data berhasil dihapus');
+                Yii::$app->session->setFlash('success','Data berhasil dihapus');
                 return $this->redirect(['index']);
 
             } else { // jika gambar tidak ada maka
 
                 $model->deleteWithRelated();
-                Yii:$app->session->setFlash('success','Data berhasil dihapus');
+                Yii::$app->session->setFlash('success','Data berhasil dihapus');
                 return $this->redirect(['index']);
             }
         } else { // jika permission ditolak

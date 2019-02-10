@@ -47,17 +47,17 @@ class BeritaKategoriController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        $model = $this->findModel($id);
-        $providerModuleBerita = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->moduleBeritas,
-        ]);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'providerModuleBerita' => $providerModuleBerita,
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     $providerModuleBerita = new \yii\data\ArrayDataProvider([
+    //         'allModels' => $model->moduleBeritas,
+    //     ]);
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //         'providerModuleBerita' => $providerModuleBerita,
+    //     ]);
+    // }
 
     /**
      * Creates a new ModuleBeritaKategori model.
@@ -72,7 +72,7 @@ class BeritaKategoriController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('berita-kategori.')){
+        if(Yii::$app->user->can('berita-kategori.create')){
             $model = new ModuleBeritaKategori();
 
             if ($model->loadAll(Yii::$app->request->post())) {
@@ -81,10 +81,10 @@ class BeritaKategoriController extends Controller
                     return $this->redirect(['index']);
                 } else {
                     Yii::$app->session->setFlash('error','Data gagal disimpan');
-                    return $this->render('create',['model' => $model]);
+                    return $this->renderAjax('create',['model' => $model]);
                 }
             } else {
-                return $this->render('create', [
+                return $this->renderAjax('create', [
                     'model' => $model,
                 ]);
             }
@@ -107,7 +107,7 @@ class BeritaKategoriController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('berita-kategori.')){
+        if(Yii::$app->user->can('berita-kategori.update')){
             $model = $this->findModel($id);
 
             if ($model->loadAll(Yii::$app->request->post())) {
@@ -116,10 +116,10 @@ class BeritaKategoriController extends Controller
                     return $this->redirect(['index']);
                 } else {
                     Yii::$app->session->setFlash('error','Data gagal diubah');
-                    return $this->render('create',['model' => $model]);
+                    return $this->renderAjax('create',['model' => $model]);
                 }
             } else {
-                return $this->render('create', [
+                return $this->renderAjax('create', [
                     'model' => $model,
                 ]);
             }
@@ -144,9 +144,9 @@ class BeritaKategoriController extends Controller
          */
         if(Yii::$app->user->can('berita-kategori.delete')){
             if($this->findModel($id)->deleteWithRelated()){
-                Yii:$app->session->setFlash('success','Data berhasil dihapus');
+                Yii::$app->session->setFlash('success','Data berhasil dihapus');
             } else {
-                Yii:$app->session->setFlash('gagal','Data gagal dihapus');
+                Yii::$app->session->setFlash('gagal','Data gagal dihapus');
             }
             return $this->redirect(['index']);
         } else {

@@ -36,6 +36,10 @@ yii\bootstrap\Modal::end();
             <p>
                 <?= Html::button('Tambah',['value' => Url::to(['galeri/create']),'title' => 'Tambah', 'class' => 'showModalButton btn btn-success']); ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?php if(Yii::$app->user->can('Admin')){ ?>
+
+                <?= Html::a('Restore Data', ['/galeri/data-restore'], ['class' => 'btn btn-warning']) ?>
+                <?php } ?>
             </p>
             <div class="search-form" style="display:none">
                 <?=  $this->render('_search', ['model' => $searchModel]); ?>

@@ -17,13 +17,13 @@ class ModuleGaleri extends BaseModuleGaleri
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['kategori', 'judul', 'tahun'], 'required'],
-            [['kategori', 'uploaded_by', 'uploaded_at', 'updated_by', 'updated_at', 'lock'], 'integer'],
-            [['tahun'], 'safe'],
+            [['kategori', 'link', 'judul', 'tahun', 'deleted_by'], 'required'],
+            [['kategori', 'uploaded_by', 'uploaded_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['tahun', 'deleted_at'], 'safe'],
             [['link'], 'string', 'max' => 200],
             [['judul'], 'string', 'max' => 45],
-            [['images'], 'file', 'skipOnEmpty' => false, 'maxFiles'=> 5, 'extensions' => 'png,jpg,jpeg,gif', 'maxSize' => 1024*1024*3, 'on' =>'create'],
-            [['images'], 'file', 'skipOnEmpty' => true, 'maxFiles'=> 1, 'extensions' => 'png,jpg,jpeg,gif', 'maxSize' => 1024*1024*3, 'on' =>'update'],
+            [['images'], 'file', 'skipOnEmpty' => false, 'maxFiles'=> 5, 'extensions' => 'png,jpg,jpeg,gif', 'maxSize' => 1024*1024*3, 'on' => 'create'],
+            [['images'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png,jpg,jpeg,gif', 'maxSize' => 1024*1024*3, 'on' =>'update'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);

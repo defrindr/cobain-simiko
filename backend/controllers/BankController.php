@@ -247,9 +247,10 @@ class BankController extends Controller
          * 
          */
         if(Yii::$app->user->can('bank.delete')){
-        $this->findModel($id)->deleteWithRelated();
+            Yii::$app->session->setFlash("success","Data berhasil dihapus");
+            $this->findModel($id)->deleteWithRelated();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
             
         }  else { // if user not 'Admin'
             throw new ForbiddenHttpException;

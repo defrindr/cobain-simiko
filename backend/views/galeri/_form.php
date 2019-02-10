@@ -34,7 +34,9 @@ use kartik\widgets\FileInput;
     <?= $form->field($model, 'judul')->textInput(['maxlength' => true, 'placeholder' => 'Judul']) ?>
 
     <?= $form->field($model, 'tahun')->textInput(['maxlength' => true, 'placeholder' => 'Tahun']) ?>
-
+    <?php 
+    if($model->Scenario  == "create"){
+     ?>
     <?= $form->field($model, 'images[]')->widget(FileInput::classname(), [
         'options' => [
             'accept' => 'image/*',
@@ -47,6 +49,22 @@ use kartik\widgets\FileInput;
             'showUpload' => false
             ],
         ]);?>
+    <?php }elseif ($model->Scenario == "update") {
+     ?>
+    <?= $form->field($model, 'images')->widget(FileInput::classname(), [
+        'options' => [
+            'accept' => 'image/*',
+            'multiple' => false,
+            ],
+        'pluginOptions' => [
+            'showPreview' => true,
+            'showCaption' => true,
+            'showRemove' => true,
+            'showUpload' => false
+            ],
+        ]);?>
+    <?php }
+         ?>
     <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
     <div class="form-group">

@@ -43,6 +43,39 @@ class GaleriController extends Controller
         ]);
     }
 
+
+    /**
+     * [actionDataRestore description]
+     * @return [type] [description]
+     */
+    public function actionDataRestore()
+    {
+        if(Yii::$app->user->can('Admin')){
+            $searchModel = new ModuleGaleriSearch();
+            $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+
+            return $this->render('data-restore', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+    }
+
+
+    /**
+     * [actionRestored description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function actionRestore($id)
+    {
+            $model = ModuleGaleri::findDeleted($id)->one();
+            if($model->restoreWithRelated()){
+                Yii::$app->session->setFlash('success','Data berhasil direstore');
+            }
+            return $this->redirect(['data-restore']);
+    }
+
     /**
      * Displays a single ModuleGaleri model.
      * @param integer $id
@@ -63,11 +96,11 @@ class GaleriController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ModuleGaleri();
         if(Yii::$app->user->can('galeri.create')){
+            $model = new ModuleGaleri();
+            $model->scenario = "create";
             if ($model->loadAll(Yii::$app->request->post())) {
                 $model->images = UploadedFile::getInstances($model,'images');
-                $model->scenario = "create";
                 $this->checkDir();
 
 
@@ -132,11 +165,11 @@ class GaleriController extends Controller
     {
         if(Yii::$app->user->can("galeri.update")){
             $model = $this->findModel($id);
+            $model->scenario = "update";
 
             if ($model->loadAll(Yii::$app->request->post())) {
 
                 $transaction = $model->getDb()->beginTransaction();
-                $model->Scenario = "update";
                 /**
                  * check validate
                  */
@@ -145,15 +178,36 @@ class GaleriController extends Controller
                     $model->images = UploadedFile::getInstance($model,'images');
                     if($model->images != ""){
                         $oldImages = $model->link; // get old image
-                        $fileName = md5("galeri_").random_int(0, 100).time().".".$image->extension; // generate new name
+                        $fileName = md5("galeri_").random_int(0, 100).time().".".$model->images->extension; // generate new name
                         $model->link = $fileName; // set model link image
+                        if($model->saveAll()){
+                            $transaction->commit();
+                            $model->images->saveAs(Yii::$app->basePath."/web/uploaded/galeri/".$fileName);
+                            if(file_exists(Yii::$app->basePath."/web/uploaded/galeri/".$oldImages)){
+                                unlink(Yii::$app->basePath."/web/uploaded/galeri/".$oldImages);
+                            }
+                            Yii::$app->session->setFlash('success','Data berhasil diubah');
+                        } else { //gagal save All
+                            $transaction->rollback();
+                            Yii::$app->session->setFlash('error','Data gagal diubah');
+                        }
+
+
                     } else { // jika gambar kosong
+                        if($model->saveAll()){
+                            $transaction->commit();
+                            Yii::$app->session->setFlash('success','Data berhasil diubah');
+                        } else { //gagal save All
+                            $transaction->rollback();
+                            Yii::$app->session->setFlash('error','Data gagal diubah');
+                        }
 
                     }
 
+                    return $this->redirect(['index']);
 
                 } else { //jika validate gagal
-                    Yii::$app->session->setFlash('error','Data gagal diubah');
+                    Yii::$app->session->setFlash('error','Validation error');
                     return $this->redirect(['index']);
                 }
 
