@@ -54,10 +54,13 @@ class GaleriController extends Controller
             $searchModel = new ModuleGaleriSearch();
             $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-            return $this->render('data-restore', [
+            return $this->renderAjax('data-restore', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
+        } else 
+        {
+            throw new \Yii\web\ForbiddenHttpException;
         }
     }
 
@@ -69,11 +72,18 @@ class GaleriController extends Controller
      */
     public function actionRestore($id)
     {
+        if(Yii::$app->user->can('Admin')){
             $model = ModuleGaleri::findDeleted($id)->one();
             if($model->restoreWithRelated()){
                 Yii::$app->session->setFlash('success','Data berhasil direstore');
+            } else {
+                Yii::$app->session->setFlash('error','Data gagal direstore');
             }
-            return $this->redirect(['data-restore']);
+            return $this->redirect(['index']);
+        } else 
+        {
+            throw new \Yii\web\ForbiddenHttpException;
+        }
     }
 
     /**

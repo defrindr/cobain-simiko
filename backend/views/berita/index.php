@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
 use yii\helpers\StringHelper;
+use yii\helpers\Url;
 
 $this->title = 'Berita';
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,6 +17,16 @@ $search = "$('.search-button').click(function(){
 	return false;
 });";
 $this->registerJs($search);
+
+yii\bootstrap\Modal::begin([
+'headerOptions' => ['id' => 'modalHeader'],
+'id' => 'modal',
+'size' => 'modal-lg',
+/*'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]*/
+]);
+echo "<div id='modalContent'></div>";
+yii\bootstrap\Modal::end();
+
 ?>
 <div class="module-berita-index">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -24,6 +35,10 @@ $this->registerJs($search);
             <p>
                 <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?php if(Yii::$app->user->can('Admin')){ ?>
+
+                <?= Html::button('Restore data',['value' => Url::to(['berita/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning']); ?>
+                <?php } ?>
             </p>
             <div class="search-form" style="display:none">
                 <?=  $this->render('_search', ['model' => $searchModel]); ?>

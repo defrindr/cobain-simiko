@@ -44,14 +44,49 @@ class GaleriKategoriController extends Controller
 
 
     public function actionDataRestore(){
-        $searchModel = new ModuleGaleriKategoriSearch();
-        $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+        if(Yii::$app->user->can('Admin'))
+        {
+            $searchModel = new ModuleGaleriKategoriSearch();
+            $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-        return $this->render('data-restore', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->renderAjax('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else 
+        {
+            throw new \Yii\web\ForbiddenHttpException;
+        }
     }
+
+
+    public function actionRestore($id){
+        if(Yii::$app->user->can('Admin'))
+        {
+            $model = ModuleGaleriKategori::findDeleted($id)->one();
+            if($model->restoreWithRelated())
+            {
+                Yii::$app->session->setFlash('success','Data berhasil direstore');
+            } else 
+            {
+                Yii::$app->session->setFlash('error','Data gagal direstore');
+            }
+            return $this->redirect(['data-restore']);
+        } else 
+        {
+            throw new \yii\web\ForbiddenHttpException;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     /**
      * Displays a single ModuleGaleriKategori model.
      * @param integer $id

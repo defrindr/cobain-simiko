@@ -50,6 +50,43 @@ class BankController extends Controller
     }
 
     /**
+     * [actionDataRestore description]
+     * @return [type] [description]
+     */
+    public function actionDataRestore()
+    {
+        if(Yii::$app->user->can('Admin'))
+        {
+            $searchModel = new ModuleBankSearch();
+            $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+
+            return $this->renderAjax('data-restore', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else 
+        {
+            throw new \Yii\web\ForbiddenHttpException;
+        }
+    }
+
+
+    public function actionRestore($id){
+        if(Yii::$app->user->can('Admin')){
+            $model = ModuleBank::findDeleted($id)->one();
+            if($model->restoreWithRelated()){
+                Yii::$app->session->setFlash('success','Data berhasil direstore');
+            } else {
+                Yii::$app->session->setFlash('error','Data gagal direstore');
+            }
+            return $this->redirect(['index']);
+        } else 
+        {
+            throw new \Yii\web\ForbiddenHttpException;
+        }
+    }
+
+    /**
      * Displays a single ModuleBank model.
      * @param integer $id
      * @return mixed

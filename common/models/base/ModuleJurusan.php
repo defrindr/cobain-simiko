@@ -159,4 +159,11 @@ class ModuleJurusan extends \yii\db\ActiveRecord
         $query = new \app\models\ModuleJurusanQuery(get_called_class());
         return $query->where(['module_jurusan.deleted_by' => 0]);
     }
+
+
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleJurusanQuery(get_called_class());
+        return $query->where('deleted_by != 0');
+    }
 }

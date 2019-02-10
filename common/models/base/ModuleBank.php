@@ -168,4 +168,15 @@ class ModuleBank extends \yii\db\ActiveRecord
         $query = new \app\models\ModuleBankQuery(get_called_class());
         return $query->where(['module_bank.deleted_by' => 0]);
     }
+
+
+    /**
+     * [find description]
+     * @return [type] [description]
+     */
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleBankQuery(get_called_class());
+        return $query->where('deleted_by != 0');
+    }
 }

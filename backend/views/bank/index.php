@@ -7,6 +7,7 @@
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
+use yii\helpers\Url;
 
 $this->title = 'Bank';
 $this->params['breadcrumbs'][] = $this->title;
@@ -15,6 +16,18 @@ $search = "$('.search-button').click(function(){
 	return false;
 });";
 $this->registerJs($search);
+
+
+yii\bootstrap\Modal::begin([
+'headerOptions' => ['id' => 'modalHeader'],
+'id' => 'modal',
+'size' => 'modal-lg',
+/*'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]*/
+]);
+echo "<div id='modalContent'></div>";
+yii\bootstrap\Modal::end();
+
+
 ?>
 <div class="module-bank-index">
 
@@ -25,6 +38,10 @@ $this->registerJs($search);
             <p>
                 <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?php if(Yii::$app->user->can('Admin')){ ?>
+
+                <?= Html::button('Restore data',['value' => Url::to(['bank/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning']); ?>
+                <?php } ?>
             </p>
             <div class="search-form" style="display:none">
                 <?=  $this->render('_search', ['model' => $searchModel]); ?>

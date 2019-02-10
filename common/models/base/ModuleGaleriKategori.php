@@ -158,4 +158,11 @@ class ModuleGaleriKategori extends \yii\db\ActiveRecord
         $query = new \app\models\ModuleGaleriKategoriQuery(get_called_class());
         return $query->where(['module_galeri_kategori.deleted_by' => 0]);
     }
+
+
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleGaleriKategoriQuery(get_called_class());
+        return $query->where('deleted_by != 0');
+    }
 }

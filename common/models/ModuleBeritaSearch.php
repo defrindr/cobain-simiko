@@ -73,4 +73,47 @@ use common\models\ModuleBerita;
 
         return $dataProvider;
     }
+
+
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function searchRestore($params)
+    {
+        $query = ModuleBerita::findDeleted();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'berita_kategori_id' => $this->berita_kategori_id,
+            'created_by' => $this->created_by,
+            'created_at' => $this->created_at,
+            'updated_by' => $this->updated_by,
+            'updated_at' => $this->updated_at,
+            'deleted_by' => $this->deleted_by,
+            'deleted_at' => $this->deleted_at,
+            'lock' => $this->lock,
+        ]);
+
+        $query->andFilterWhere(['like', 'judul', $this->judul])
+            ->andFilterWhere(['like', 'isi', $this->isi])
+            ->andFilterWhere(['like', 'gambar', $this->gambar]);
+
+        return $dataProvider;
+    }
 }

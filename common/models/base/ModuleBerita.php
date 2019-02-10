@@ -167,4 +167,10 @@ class ModuleBerita extends \yii\db\ActiveRecord
         $query = new \app\models\ModuleBeritaQuery(get_called_class());
         return $query->where(['module_berita.deleted_by' => 0]);
     }
+
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleBeritaQuery(get_called_class());
+        return $query->where('deleted_by != 0');
+    }
 }

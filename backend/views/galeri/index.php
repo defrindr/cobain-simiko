@@ -38,7 +38,7 @@ yii\bootstrap\Modal::end();
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
                 <?php if(Yii::$app->user->can('Admin')){ ?>
 
-                <?= Html::a('Restore Data', ['/galeri/data-restore'], ['class' => 'btn btn-warning']) ?>
+                <?= Html::button('Restore data',['value' => Url::to(['galeri/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning']); ?>
                 <?php } ?>
             </p>
             <div class="search-form" style="display:none">

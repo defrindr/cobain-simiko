@@ -182,4 +182,11 @@ class ModuleGuru extends \yii\db\ActiveRecord
         $query = new \app\models\ModuleGuruQuery(get_called_class());
         return $query->where(['module_guru.deleted_by' => 0]);
     }
+
+
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleGuruQuery(get_called_class());
+        return $query->where('deleted_by != 0');
+    }
 }

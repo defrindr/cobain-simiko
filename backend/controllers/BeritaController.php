@@ -47,6 +47,48 @@ class BeritaController extends Controller
         ]);
     }
 
+
+
+
+
+    public function actionDataRestore()
+    {
+        if(Yii::$app->user->can('Admin'))
+        {
+            $searchModel = new ModuleBeritaSearch();
+            $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+
+            return $this->renderAjax('data-restore', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else 
+        {
+            throw new \Yii\web\ForbiddenHttpException;
+        }
+    }
+
+
+
+    public function actionRestore($id)
+    {
+        if(Yii::$app->user->can('Admin'))
+        {
+            $model = ModuleBerita::findDeleted($id)->one();
+            if($model->restoreWithRelated())
+            {
+                Yii::$app->session->setFlash('success','Data berhasil direstore');
+            } else 
+            {
+                Yii::$app->session->setFlash('error','Data gagal direstore');
+            }
+            return $this->redirect(['index']);
+        } else 
+        {
+            throw new \Yii\web\ForbiddenHttpException;
+        }
+    }
+
     /**
      * Displays a single ModuleBerita model.
      * @param integer $id
@@ -269,24 +311,14 @@ class BeritaController extends Controller
             /**
              * check gambar ada atau tidak
              */
-            if($model->gambar != ""){
-                
-                // $path = Yii::$app->basePath."/web/uploaded/berita/".$model->gambar; // set path
+            if($model->deleteWithRelated()){
 
-                // if(file_exists($path)){
-                //     unlink($path);
-                // }
-
-                $model->deleteWithRelated();
                 Yii::$app->session->setFlash('success','Data berhasil dihapus');
-                return $this->redirect(['index']);
 
             } else { // jika gambar tidak ada maka
-
-                $model->deleteWithRelated();
-                Yii::$app->session->setFlash('success','Data berhasil dihapus');
-                return $this->redirect(['index']);
+                Yii::$app->session->setFlash('error','Data gagal dihapus');
             }
+            return $this->redirect(['index']);
         } else { // jika permission ditolak
             throw new ForbiddenHttpException;
         }

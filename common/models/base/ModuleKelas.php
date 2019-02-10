@@ -206,4 +206,12 @@ class ModuleKelas extends \yii\db\ActiveRecord
         $query = new \app\models\ModuleKelasQuery(get_called_class());
         return $query->where(['module_kelas.deleted_by' => 0]);
     }
+
+
+
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleKelasQuery(get_called_class());
+        return $query->where('deleted_by != 0');
+    }
 }

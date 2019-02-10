@@ -175,4 +175,12 @@ class ModuleJadwal extends \yii\db\ActiveRecord
         $query = new \app\models\ModuleJadwalQuery(get_called_class());
         return $query->where(['module_jadwal.deleted_by' => 0]);
     }
+
+
+
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleJadwalQuery(get_called_class());
+        return $query->where('deleted_by != 0 ');
+    }
 }
