@@ -25,7 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
             //     'attribute' => 'kategori0.id',
             //     'label' => 'Kategori',
             // ],
-            'link',
+            [
+                'attribute' => 'link',
+                'format' => 'html',
+                'value' => function($model){
+                    return '<span style="overflow: auto; word-wrap: break-word;">'.$model->link.'</span>';
+                }
+            ],
             'judul',
             'tahun',
             'uploaded_by',
@@ -46,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ];
         echo DetailView::widget([
             'model' => $model,
-            'attributes' => $gridColumn
+            'attributes' => $gridColumn,
         ]);
     ?>
         </div>
