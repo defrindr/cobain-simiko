@@ -53,7 +53,11 @@ yii\bootstrap\Modal::end();
                         'attribute' => 'berita_kategori_id',
                         'label' => 'Berita Kategori',
                         'value' => function($model){
-                            return $model->beritaKategori->nama;
+                            if($model->beritaKategori != null){
+                                return $model->beritaKategori->nama;
+                            } else {
+                                return "Data Kategori Terhapus";
+                            }
                         },
                         'filterType' => GridView::FILTER_SELECT2,
                         'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBeritaKategori::find()->asArray()->all(), 'id', 'nama'),

@@ -162,7 +162,7 @@ class ModuleBeritaKategori extends \yii\db\ActiveRecord
     public static function findDeleted()
     {
         $query = new \app\models\ModuleBeritaKategoriQuery(get_called_class());
-        return $query->where(['deleted_by != 0']);
+        return $query->where('deleted_by != 0');
     }
 
 }
