@@ -81,7 +81,7 @@ use common\models\ModuleJurusan;
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function searchRestore($params)
     {
         $query = ModuleJurusan::findDeleted();
 

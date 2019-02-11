@@ -9,7 +9,7 @@ use kartik\export\ExportMenu;
 use kartik\grid\GridView;use yii\helpers\Url;
 
 
-$this->title = 'Module Jurusan';
+$this->title = 'Jurusan';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -18,70 +18,74 @@ $search = "$('.search-button').click(function(){
 $this->registerJs($search);
 
 yii\bootstrap\Modal::begin([
-'headerOptions' => ['id' => 'modalHeader'],
-'id' => 'modal',
-'size' => 'modal-lg',
-/*'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]*/
-]);
-echo "<div id='modalContent'></div>";
-yii\bootstrap\Modal::end();
+    'headerOptions' => ['id' => 'modalHeader'],
+    'id' => 'modal',
+    'size' => 'modal-lg',
+    /*'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]*/
+    ]);
+    echo "<div id='modalContent'></div>";
+    yii\bootstrap\Modal::end();
 
 ?>
 <div class="module-jurusan-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Module Jurusan', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Advance Search', '#', ['class' => 'btn btn-info search-button']) ?>
-    </p>
-    <div class="search-form" style="display:none">
-        <?=  $this->render('_search', ['model' => $searchModel]); ?>
-    </div>
-    <?php 
-    $gridColumn = [
-        ['class' => 'yii\grid\SerialColumn'],
-        ['attribute' => 'id', 'visible' => false],
-        'nama',
-        'kepala_jurusan',
-        ['attribute' => 'lock', 'visible' => false],
-        [
-            'class' => 'yii\grid\ActionColumn',
-        ],
-    ]; 
-    ?>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => $gridColumn,
-        'pjax' => true,
-        'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-jurusan']],
-        'panel' => [
-            'type' => GridView::TYPE_PRIMARY,
-            'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
-        ],
-        'export' => false,
-        // your toolbar can include the additional full export menu
-        'toolbar' => [
-            '{export}',
-            ExportMenu::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => $gridColumn,
-                'target' => ExportMenu::TARGET_BLANK,
-                'fontAwesome' => true,
-                'dropdownOptions' => [
-                    'label' => 'Full',
-                    'class' => 'btn btn-default',
-                    'itemsBefore' => [
-                        '<li class="dropdown-header">Export All Data</li>',
+    <div class="box box-danger">
+        <div class="box-header">
+            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <p>
+                <?php if(Yii::$app->user->can('jurusan.create')){ ?>
+                <?= Html::button('Tambah',['value' => Url::to(['jurusan/create']),'title' => 'Tambah', 'class' => 'showModalButton btn btn-success']); ?>
+                <?php } ?>
+                <?php if(Yii::$app->user->can('Admin')){ ?>
+                <?= Html::button('Restore data',['value' => Url::to(['jurusan/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning', 'style' => ['margin'=> '2px 2px 2px 0']]); ?>
+            <?php } ?>
+            </p>
+            <div class="search-form" style="display:none">
+                <?=  $this->render('_search', ['model' => $searchModel]); ?>
+            </div>
+        </div>
+        <!-- end box header -->
+        <div class="box-body">
+            <?php 
+            $gridColumn = [
+                ['class' => 'yii\grid\SerialColumn'],
+                ['attribute' => 'id', 'visible' => false],
+                'nama',
+                'kepala_jurusan',
+                ['attribute' => 'lock', 'visible' => false],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'template' => '{update} {delete}',
+                    'visibleButtons' => [
+                        'update' => function($model){
+                            return Yii::$app->user->can('jurusan.update', ['post' => $model]);
+                        },
+                        'delete' => function($model){
+                            return Yii::$app->user->can('jurusan.delete', ['post' => $model]);
+                        },
+                    ],
+                    'buttons' => [
+                        'update' => function($url,$model){
+                            $id = $model->id;
+                            return Html::button('<i class="glyphicon glyphicon-pencil"></i>',[
+                                'value' => Url::to(['jurusan/update','id'=>$id]),
+                                'title' => 'Update '.$model->nama,
+                                'class' => 'showModalButton btn btn-actionColumn'
+                            ]);
+                        },
                     ],
                 ],
-                'exportConfig' => [
-                    ExportMenu::FORMAT_PDF => false
-                ]
-            ]) ,
-        ],
-    ]); ?>
+            ]; 
+            ?>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => $gridColumn,
+                'pjax' => true,
+                'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-jurusan']],
+                'panel' => false,
+            ]); ?>
+        </div>
+        <!-- end box body -->
+    </div>
 
 </div>

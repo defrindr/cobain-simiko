@@ -64,7 +64,7 @@ yii\bootstrap\Modal::end();
                                 ]
                             );
                         },
-                    ]                    
+                    ]
                 ],
             ]; 
             ?>

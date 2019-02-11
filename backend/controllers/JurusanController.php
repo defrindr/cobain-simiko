@@ -7,6 +7,7 @@ use common\models\ModuleJurusan;
 use common\models\ModuleJurusanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 
 /**
@@ -51,10 +52,30 @@ class JurusanController extends Controller
         $searchModel = new ModuleJurusanSearch();
         $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-        return $this->renderAjax('index', [
+        return $this->renderAjax('data-restore', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+
+    /**
+     * Restore data
+     */
+    public function actionRestore($id)
+    {
+        if(Yii::$app->user->can('Admin'))
+        {
+            $model = ModuleJurusan::findDeleted($id)->one();
+            if($model->restoreWithRelated())
+            {
+                Yii::$app->session->setFlash('success','Data berhasil direstore');
+            } else 
+            {
+                Yii::$app->session->setFlash('error','Data gagal direstore');
+            }
+            return $this->redirect(['index']);
+        }
     }
 
 
@@ -64,17 +85,17 @@ class JurusanController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        $model = $this->findModel($id);
-        $providerModuleKelas = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->moduleKelas,
-        ]);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'providerModuleKelas' => $providerModuleKelas,
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     $providerModuleKelas = new \yii\data\ArrayDataProvider([
+    //         'allModels' => $model->moduleKelas,
+    //     ]);
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //         'providerModuleKelas' => $providerModuleKelas,
+    //     ]);
+    // }
 
     /**
      * Creates a new ModuleJurusan model.
@@ -83,14 +104,27 @@ class JurusanController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ModuleJurusan();
+        if(Yii::$app->user->can('jurusan.create'))
+        {
+            $model = new ModuleJurusan();
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->saveAll())
+                {
+                    Yii::$app->session->setFlash('success','Data berhasil disimpan');
+                } else 
+                {
+                    Yii::$app->session->setFlash('success','Data gagal disimpan');
+                }
+                return $this->redirect(['index']);
+            } else {
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                ]);
+            }
+        } else 
+        {
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -102,14 +136,27 @@ class JurusanController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can('jurusan.update'))
+        {
+            $model = $this->findModel($id);
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->saveAll())
+                {
+                    Yii::$app->session->setFlash('success','Data berhasil disimpan');
+                } else 
+                {
+                    Yii::$app->session->setFlash('success','Data gagal disimpan');
+                }
+                return $this->redirect(['index']);
+            } else {
+                return $this->renderAjax('update', [
+                    'model' => $model,
+                ]);
+            }
+        } else 
+        {
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -121,7 +168,20 @@ class JurusanController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
+        if(Yii::$app->user->can('jurusan.delete'))
+        {
+            if($this->findModel($id)->deleteWithRelated())
+            {
+                Yii::$app->session->setFlash('success','Data berhasil dihapus');
+            } else 
+            {
+                Yii::$app->session->setFlash('success','Data gagal dihapus');
+            }
+        } else 
+        {
+            throw new ForbiddenHttpException;
+            
+        }
 
         return $this->redirect(['index']);
     }
