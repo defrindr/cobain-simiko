@@ -1,68 +1,60 @@
-/* Form Module */
-.form-module {
-  position: relative;
-  background: transparent;
-  max-width: 300px;
-  width: 100%;
-  border-top: 5px solid #333;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-  margin: 100px auto;
+.fullHeight{
+  height: 100vh;
 }
-.form-module .form {
-  padding: 40px;
-}
-.form-module .form:nth-child(2) {
-  display: block;
-}
-.form-module h2 {
-  margin: 0 0 20px;
-  color: #33b5e5;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1;
+.leftCol{
+  height: 100%;
+  background: #DFE9DD;
+  padding: 10% auto;
 }
 .formInput{
-  outline: none;
-  display: block;
-  width: 100%;
+  font-size: 18px;
+  padding: 5px;
   border-width: 0 0 1px 0;
-  margin: 0 0 20px;
-  color: #000;
-  background: transparent;
-  padding: 10px 15px;
-  box-sizing: border-box;
-  font-wieght: 400;
-  transition: 0.3s ease;
-}
-.formInput:hover {
-  border-width:0 0  1px 0;
   border-style: solid;
-  border-color: #000;
-  color: green;
+  border-color: #DFE9DD;
+  background: transparent;
+  color: #fff;
 }
-.form-module button {
-  cursor: pointer;
-  background: #33b5e5;
-  width: 100%;
-  border: 0;
-  padding: 10px 15px;
-  color: #ffffff;
-  transition: 0.3s ease;
+.formInput:focus{
+  background: #78A7AE;
+  opacity: 0.5;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #19252D;
+  color: #19252D;
 }
-.form-module button:hover {
-  background: #178ab4;
-  border-radius: 9px;
+.rightCol{
+  padding: 10%;
+  height: 100%;
+  background: #285E71;
 }
-/*.form-module .cta {
-  background: #f2f2f2;
-  width: 100%;
-  padding: 15px 40px;
-  box-sizing: border-box;
-  color: #666666;
-  font-size: 12px;
-  text-align: center;
+.btn-login{
+  border:0;
+  padding: 8px 12px;
+  background: #19252D;
+  color: #fff;
+  font-size: 14px;
 }
-.form-module .cta a {
-  color: #333333;
-  text-decoration: none;
-}*/
+.btn-login:focus{
+  color:#fff;
+}
+.btn-login:hover{
+  color: #fff;
+  border-radius: 10px;
+  background: #78A7AE;
+}
+.text-white{
+  color: #fff
+}
+.formInput::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #19252D;
+  opacity: 1; /* Firefox */
+}
+
+.formInput:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #19252D;
+}
+
+.formInput::-ms-input-placeholder { /* Microsoft Edge */
+  color: #19252D;
+}

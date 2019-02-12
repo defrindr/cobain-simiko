@@ -19,7 +19,7 @@ backend\assets\AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 
-<body class="login-page">
+<body class="container-fluid">
 
 <?php $this->beginBody() ?>
 
