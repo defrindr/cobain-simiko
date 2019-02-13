@@ -34,9 +34,10 @@ yii\bootstrap\Modal::end();
     <div class="box box-danger">
         <div class="box-header">
             <p>
+                <?php if(Yii::$app->user->can('Admin')) { ?>
                 <?= Html::button('Tambah',['value' => Url::to(['galeri/create']),'title' => 'Tambah', 'class' => 'showModalButton btn btn-success']); ?>
+                
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
-                <?php if(Yii::$app->user->can('Admin')){ ?>
 
                 <?= Html::button('Restore data',['value' => Url::to(['galeri/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning', 'style' => ['margin'=> '2px 2px 2px 0']]); ?>
                 <?php } ?>
@@ -96,7 +97,7 @@ yii\bootstrap\Modal::end();
                             return Html::button('<i class="glyphicon glyphicon-pencil"></i>',
                                 [
                                     'value' => Url::to(['galeri/update','id' => $id]),
-                                    'title' => 'View', 'class'=> 'showModalButton btn btn-actionColumn',
+                                    'title' => 'Update', 'class'=> 'showModalButton btn btn-actionColumn',
                                 ]
                                 );
                         },

@@ -74,7 +74,7 @@ class BeritaController extends Controller
     {
         if(Yii::$app->user->can('Admin'))
         {
-            $model = ModuleBerita::findDeleted($id)->one();
+            $model = ModuleBerita::findDeleted()->where('id='.$id)->one();
             if($model->restoreWithRelated())
             {
                 Yii::$app->session->setFlash('success','Data berhasil direstore');

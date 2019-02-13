@@ -63,7 +63,7 @@ class GaleriKategoriController extends Controller
     public function actionRestore($id){
         if(Yii::$app->user->can('Admin'))
         {
-            $model = ModuleGaleriKategori::findDeleted($id)->one();
+            $model = ModuleGaleriKategori::findDeleted()->where('id='.$id)->one();
             if($model->restoreWithRelated())
             {
                 Yii::$app->session->setFlash('success','Data berhasil direstore');

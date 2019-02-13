@@ -66,7 +66,9 @@ class JurusanController extends Controller
     {
         if(Yii::$app->user->can('Admin'))
         {
-            $model = ModuleJurusan::findDeleted($id)->one();
+            $model = ModuleJurusan::findDeleted()->where('id='.$id)->one();
+            var_dump($model);
+            exit();
             if($model->restoreWithRelated())
             {
                 Yii::$app->session->setFlash('success','Data berhasil direstore');
