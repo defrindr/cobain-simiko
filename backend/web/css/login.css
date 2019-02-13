@@ -73,6 +73,8 @@
 
 .imgLogin{
   margin: 20% auto;
+  box-shadow: 2px 2px 20px #285E71;
+  border-radius: 100%;
 }
 
 /*Responsivity*/
@@ -94,7 +96,6 @@
     width: 15%;
     height: 15%;
     box-shadow: 2px 2px 10px #fff;
-    border-radius: 100%;
   }
 }
 @media screen and (max-width: 544px) {
