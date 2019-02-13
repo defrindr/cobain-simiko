@@ -29,7 +29,7 @@
   color: #19252D;
 }
 .rightCol{
-  padding: 10%;
+  padding: 20% 10%;
   height: 100%;
   background: #285E71;
 }
@@ -51,7 +51,7 @@
   box-shadow: 2px 2px 20px #333;
 }
 .checkbox{
-  /*display: block;*/
+  display: block;
   font-size: 15px;
   color: #DFE9DD
 }
@@ -72,28 +72,63 @@
 }
 
 .imgLogin{
-  margin: 10% auto;
+  margin: 20% auto;
 }
 
 /*Responsivity*/
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 767px) {
   .leftCol{
-    height: 50%;
+    height: 45%;
     background: #285E71;
     padding: 10% auto;
     color: #DFE9DD;
   }
   .rightCol{
     padding: 10%;
-    height: 30%;
+    height: 55%;
     background: #285E71;
   }
   .imgLogin{
-    margin: 5% auto;
+    margin: 3% auto;
+    width: 15%;
+    height: 15%;
+    box-shadow: 2px 2px 10px #fff;
+    border-radius: 100%;
+  }
+}
+@media screen and (max-width: 544px) {
+  .leftCol{
+    height: 50%;
+  }
+  .rightCol{
+    height: 50%;
+  }
+  .imgLogin{
+    width: 24%;
+    height: 24%;
+  }
+  .checkbox{
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 380px) {
+  .leftCol{
+    height: 50%;
+  }
+  .rightCol{
+    height: 50%;
+  }
+  .imgLogin{
     width: 40%;
     height: 40%;
-    box-shadow: 2px 2px 26px #fff;
-    border-radius: 100%;
+  }
+  .checkbox{
+    font-size: 9px;
+  }
+}
+@media screen and (max-width: 330px) {
+  .btn-login{
+    border-radius: 1000px;
   }
 }

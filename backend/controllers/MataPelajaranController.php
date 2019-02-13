@@ -52,10 +52,27 @@ class MataPelajaranController extends Controller
         $searchModel = new ModuleMataPelajaranSearch();
         $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-        return $this->renderAjax('index', [
+        return $this->renderAjax('data-restore', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionRestore($id)
+    {
+        $model = ModuleMataPelajaran::findDeleted()->where('id='.$id)->one();
+        if (Yii::$app->user->can('Admin')) 
+        {
+            if($model->restoreWithRelated()){
+                Yii::$app->session->setFlash('success','Data berhasil dikembalikan');
+            } else 
+            {
+                Yii::$app->session->setFlash('error','Data gagal dikembalikan');
+            }
+            return $this->redirect(['index']);
+        } else {
+            echo "Hey!!! Who are you ?? ";
+        }
     }
 
 
@@ -149,9 +166,20 @@ class MataPelajaranController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
-
-        return $this->redirect(['index']);
+        if (Yii::$app->user->can('mapel.delete')) 
+        {
+            if ($this->findModel($id)->deleteWithRelated()) 
+            {
+                Yii::$aapp->session->setFlash('success','Data berhasil dihapus');
+            } else 
+            {
+                Yii::$aapp->session->setFlash('error','Data gagal dihapus');
+            }
+            return $this->redirect(['index']);
+        } else 
+        {
+            throw new \yii\web\ForbiddenHttpException;
+        }
     }
 
     

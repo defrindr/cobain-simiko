@@ -54,6 +54,14 @@ yii\bootstrap\Modal::end();
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => '{update} {delete}',
+                    'visibleButtons' => [
+                        'update' => function($model){
+                            return Yii::$app->user->can('galeri-kategori.update', ['post' => $model]);
+                        },
+                        'delete' => function($model){
+                            return Yii::$app->user->can('galeri-kategori.delete', ['post' => $model]);
+                        },
+                    ],
                     'buttons' => [
                         'update' => function($url,$model){
                             $id = $model->id;
@@ -72,6 +80,7 @@ yii\bootstrap\Modal::end();
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => $gridColumn,
+                'responsiveWrap' => false,
                 'pjax' => true,
                 'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-galeri-kategori']],
                 'panel' => false,

@@ -62,6 +62,7 @@ $this->title = 'Berita restore';
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => $gridColumn,
+        'responsiveWrap' => false,
         'pjax' => true,
         'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-berita']],
         'panel' => false,

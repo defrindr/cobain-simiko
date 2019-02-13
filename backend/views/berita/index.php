@@ -83,6 +83,7 @@ yii\bootstrap\Modal::end();
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
+                'responsiveWrap' => false,
                 'columns' => $gridColumn,
                 'pjax' => true,
                 'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-berita']],

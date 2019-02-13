@@ -12,20 +12,15 @@ use yii\helpers\Url;
 
 $this->title = 'Mata Pelajaran';
 $this->params['breadcrumbs'][] = $this->title;
-$search = "$('.search-button').click(function(){
-	$('.search-form').toggle(1000);
-	return false;
-});";
-$this->registerJs($search);
 
 yii\bootstrap\Modal::begin([
-'headerOptions' => ['id' => 'modalHeader'],
-'id' => 'modal',
-'size' => 'modal-lg',
-/*'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]*/
-]);
-echo "<div id='modalContent'></div>";
-yii\bootstrap\Modal::end();
+    'headerOptions' => ['id' => 'modalHeader'],
+    'id' => 'modal',
+    'size' => 'modal-lg',
+    // 'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]
+    ]);
+    echo "<div id='modalContent'></div>";
+    yii\bootstrap\Modal::end();
 
 ?>
 <div class="module-mata-pelajaran-index">
@@ -33,13 +28,12 @@ yii\bootstrap\Modal::end();
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="box box-danger">
         <div class="box-header">
+            <?php if(Yii::$app->user->can('Admin')) { ?>
             <p>
                 <?= Html::button('Tambah', ['value' => Url::to(['/mata-pelajaran/create']), 'title' => 'Tambah', 'class' => 'btn btn-success showModalButton']) ?>
-                <?= Html::a('Cari', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?= Html::button('Restore data', ['value' => Url::to(['/mata-pelajaran/data-restore']), 'title' => 'Restore data', 'class' => 'btn btn-warning showModalButton']) ?>
             </p>
-            <div class="search-form" style="display:none">
-                <?=  $this->render('_search', ['model' => $searchModel]); ?>
-            </div>
+            <?php } ?>
         </div>
         <div class="box-body">
             <?php 
@@ -50,6 +44,21 @@ yii\bootstrap\Modal::end();
                 ['attribute' => 'lock', 'visible' => false],
                 [
                     'class' => 'yii\grid\ActionColumn',
+                    'template' => '{update} {delete}',
+                    'visibleButtons' => [
+                        'update' => function($model){
+                            return Yii::$app->user->can('mapel.update', ['post' => $model]);
+                        },
+                        'delete' => function($model){
+                            return Yii::$app->user->can('mapel.delete', ['post' => $model]);
+                        },
+                    ],
+                    'buttons' => [
+                        'update' => function($url,$model){
+                            $id = $model->id;
+                            return Html::button('<i class="glyphicon glyphicon-pencil"></i>', [ 'value' => Url::to(['/mata-pelajaran/update','id'=>$id]), 'title' => 'Update : '.$model->nama_mapel , 'class' => 'btn btn-actionColumn showModalButton']);
+                        }
+                    ]
                 ],
             ]; 
             ?>
@@ -57,6 +66,7 @@ yii\bootstrap\Modal::end();
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => $gridColumn,
+                'responsiveWrap' => false,
                 'pjax' => true,
                 'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-mata-pelajaran']],
                 'panel' => false,

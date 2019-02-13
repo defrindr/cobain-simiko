@@ -80,6 +80,14 @@ yii\bootstrap\Modal::end();
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'template' => '{view} {update} {delete}',
+                    'visibleButtons' => [
+                        'update' => function($model){
+                            return Yii::$app->user->can('galeri.update', ['post' => $model]);
+                        },
+                        'delete' => function($model){
+                            return Yii::$app->user->can('galeri.delete', ['post' => $model]);
+                        },
+                    ],
                     'headerOptions' => ['width' => '20%','class' => 'activity-view-link'],
                     'contentOptions' => ['class' => 'padding-left-5px text-wrap'],
                     'buttons' => [

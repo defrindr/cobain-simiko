@@ -178,4 +178,9 @@ class ModuleMataPelajaran extends \yii\db\ActiveRecord
         $query = new \app\models\ModuleMataPelajaranQuery(get_called_class());
         return $query->where(['module_mata_pelajaran.deleted_by' => 0]);
     }
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleMataPelajaranQuery(get_called_class());
+        return $query->where('deleted_by != 0');
+    }
 }

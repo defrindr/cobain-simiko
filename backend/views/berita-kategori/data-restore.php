@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => $searchModel,
             'columns' => $gridColumn,
             'pjax' => true,
+            'responsiveWrap' => false,
             'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-berita-kategori']],
             'panel' => false,
             'responsiveWrap' => false,

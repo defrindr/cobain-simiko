@@ -53,6 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
         echo DetailView::widget([
             'model' => $model,
             'attributes' => $gridColumn,
+            // 'options' => [
+            //     'style' => 'overflow-x:auto'
+            // ]
         ]);
     ?>
         </div>
@@ -67,7 +70,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ];
         echo DetailView::widget([
             'model' => $model->kategori0,
-            'attributes' => $gridColumnModuleGaleriKategori    ]);
+            'attributes' => $gridColumnModuleGaleriKategori
+        ]);
         ?>
 
     <div class="row">
