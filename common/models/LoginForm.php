@@ -70,7 +70,7 @@ class LoginForm extends Model
     {
         if ($this->validate() && (User::isAdmin($this->username) or User::isGuru($this->username)))
         {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 1 : 0);
         } else
         {
             return false;

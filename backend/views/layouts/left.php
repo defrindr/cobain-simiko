@@ -70,6 +70,7 @@ $siswa = (Yii::$app->user->identity->role == 30);
                         'url' => ['/jurusan'],
                         'icon' => 'dashboard',
                     ],
+                    ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
                         'label' => 'Some tools',

@@ -57,7 +57,7 @@ yii\bootstrap\Modal::end();
                     'buttons' => [
                         'update' => function($url,$model){
                             $id = $model->id;
-                            return Html::button('<i class="glyphicon glyphicon-eye-open"></i>',
+                            return Html::button('<i class="glyphicon glyphicon-pencil"></i>',
                                 [
                                     'value' => Url::to(['berita-kategori/update','id' => $id]),
                                     'title' => 'Update ', 'class'=> 'showModalButton btn btn-actionColumn',

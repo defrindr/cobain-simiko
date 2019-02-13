@@ -17,18 +17,16 @@ $fieldOptions2 = [
     'options' => ['class' => 'form-group has-feedback'],
     'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback text-white'></span>"
 ];
+$checkboxTemplate = '<div class="switch">{beginLabel}{input}{labelTitle}<span class="lever"></span>{endLabel}{error}{hint}</div>';
 ?>
-
   <div class="row fullHeight">
-
     <div class="col-sm-4 leftCol">
         <center>
-            <h1><b>L</b>ogin Page</h1>
+            <h2><b>L</b>ogin Page</h2>
             SMK Negeri 1 Jenangan
-            <!-- <img src="https://upload.wikimedia.org/wikipedia/id/2/21/LogoSMKN1Jenpo.jpeg" class="img img-responsive"> -->
+            <img src="<?=yii\helpers\Url::base().'/assets/logo/smk.png'?>" class="img img-responsive imgLogin">
         </center>
     </div>
-
     <div class="col-sm-8 rightCol">
       <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
 
@@ -44,7 +42,9 @@ $fieldOptions2 = [
 
         <div class="row">
             <div class="col-xs-8">
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                <?= $form->field($model, 'rememberMe',['options'=>['class'=>'form-group checkbox']])
+                ->label('Ingat saya')
+                ->checkbox(['template'=>$checkboxTemplate]) ?>
             </div>
             <div class="col-xs-4">
                 <?= Html::submitButton('Sign in', ['class' => 'btn btn-login btn-block btn-flat', 'name' => 'login-button']) ?>

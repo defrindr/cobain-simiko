@@ -19,7 +19,7 @@ backend\assets\AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 
-<body class="container-fluid">
+<body class="container-fluid green">
 
 <?php $this->beginBody() ?>
 

@@ -6,6 +6,10 @@
   background: #DFE9DD;
   padding: 10% auto;
 }
+.green{
+  background: #285E71
+}
+
 .formInput{
   font-size: 18px;
   padding: 5px;
@@ -15,6 +19,7 @@
   background: transparent;
   color: #fff;
 }
+
 .formInput:focus{
   background: #78A7AE;
   opacity: 0.5;
@@ -43,6 +48,12 @@
   color: #fff;
   border: 0 !important;
   background: #19252D;
+  box-shadow: 2px 2px 20px #333;
+}
+.checkbox{
+  display: block;
+  font-size: 18px;
+  color: #DFE9DD
 }
 .text-white{
   color: #fff
@@ -58,4 +69,31 @@
 
 .formInput::-ms-input-placeholder { /* Microsoft Edge */
   color: #19252D;
+}
+
+.imgLogin{
+  margin: 10% auto;
+}
+
+/*Responsivity*/
+
+@media screen and (max-width: 600px) {
+  .leftCol{
+    height: 50%;
+    background: #285E71;
+    padding: 10% auto;
+    color: #DFE9DD;
+  }
+  .rightCol{
+    padding: 10%;
+    height: 30%;
+    background: #285E71;
+  }
+  .imgLogin{
+    margin: 5% auto;
+    width: 40%;
+    height: 40%;
+    box-shadow: 2px 2px 26px #fff;
+    border-radius: 100%;
+  }
 }
