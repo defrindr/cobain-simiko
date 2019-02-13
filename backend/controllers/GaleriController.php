@@ -73,10 +73,9 @@ class GaleriController extends Controller
     public function actionRestore($id)
     {
         if(Yii::$app->user->can('Admin')){
-            $model = ModuleGaleri::findDeleted($id)->where('id='.$id)->all();
-            var_dump($model);
-            exit();
-            if($model->restoreWithRelated()){
+            $model = ModuleGaleri::findDeleted($id)->where('id='.$id)->one();
+            $model->deleted_by = 0;
+            if($model->save()){
                 Yii::$app->session->setFlash('success','Data berhasil direstore');
             } else {
                 Yii::$app->session->setFlash('error','Data gagal direstore');

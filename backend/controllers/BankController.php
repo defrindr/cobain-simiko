@@ -73,7 +73,7 @@ class BankController extends Controller
 
     public function actionRestore($id){
         if(Yii::$app->user->can('Admin')){
-            $model = ModuleBank::findDeleted()->->where('id='.$id)->one();
+            $model = ModuleBank::findDeleted()->where('id='.$id)->one();
             if($model->restoreWithRelated()){
                 Yii::$app->session->setFlash('success','Data berhasil direstore');
             } else {
