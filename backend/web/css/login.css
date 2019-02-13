@@ -29,9 +29,10 @@
   background: #285E71;
 }
 .btn-login{
-  border:0;
+  border:2px solid #fff !important;
   padding: 8px 12px;
-  background: #19252D;
+  border-radius: 12px !important;
+  background: transparent;
   color: #fff;
   font-size: 14px;
 }
@@ -40,8 +41,8 @@
 }
 .btn-login:hover{
   color: #fff;
-  border-radius: 10px;
-  background: #78A7AE;
+  border: 0 !important;
+  background: #19252D;
 }
 .text-white{
   color: #fff
