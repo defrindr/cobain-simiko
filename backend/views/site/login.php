@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\checkbox\CheckboxX;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -42,9 +43,7 @@ $checkboxTemplate = '<div class="switch">{beginLabel}{input}{labelTitle}<span cl
 
         <div class="row">
             <div class="col-xs-8">
-                <?= $form->field($model, 'rememberMe',['options'=>['class'=>'form-group checkbox']])
-                ->label('Ingat saya')
-                ->checkbox(['template'=>$checkboxTemplate]) ?>
+                <?= $form->field($model, 'rememberMe',['options'=>['class'=>'form-group checkbox']])->widget(CheckboxX::classname(), []); ?>
             </div>
             <div class="col-xs-4">
                 <?= Html::submitButton('Sign in', ['class' => 'btn btn-login btn-block btn-flat', 'name' => 'login-button']) ?>

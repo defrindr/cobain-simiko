@@ -6,10 +6,11 @@
 
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
-use kartik\grid\GridView;use yii\helpers\Url;
+use kartik\grid\GridView;
+use yii\helpers\Url;
 
 
-$this->title = 'Module Mata Pelajaran';
+$this->title = 'Mata Pelajaran';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -29,58 +30,40 @@ yii\bootstrap\Modal::end();
 ?>
 <div class="module-mata-pelajaran-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Module Mata Pelajaran', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Advance Search', '#', ['class' => 'btn btn-info search-button']) ?>
-    </p>
-    <div class="search-form" style="display:none">
-        <?=  $this->render('_search', ['model' => $searchModel]); ?>
-    </div>
-    <?php 
-    $gridColumn = [
-        ['class' => 'yii\grid\SerialColumn'],
-        ['attribute' => 'id', 'visible' => false],
-        'nama_mapel',
-        ['attribute' => 'lock', 'visible' => false],
-        [
-            'class' => 'yii\grid\ActionColumn',
-        ],
-    ]; 
-    ?>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => $gridColumn,
-        'pjax' => true,
-        'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-mata-pelajaran']],
-        'panel' => [
-            'type' => GridView::TYPE_PRIMARY,
-            'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
-        ],
-        'export' => false,
-        // your toolbar can include the additional full export menu
-        'toolbar' => [
-            '{export}',
-            ExportMenu::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => $gridColumn,
-                'target' => ExportMenu::TARGET_BLANK,
-                'fontAwesome' => true,
-                'dropdownOptions' => [
-                    'label' => 'Full',
-                    'class' => 'btn btn-default',
-                    'itemsBefore' => [
-                        '<li class="dropdown-header">Export All Data</li>',
-                    ],
+    <div class="box box-danger">
+        <div class="box-header">
+            <p>
+                <?= Html::button('Tambah', ['value' => Url::to(['/mata-pelajaran/create']), 'title' => 'Tambah', 'class' => 'btn btn-success showModalButton']) ?>
+                <?= Html::a('Cari', '#', ['class' => 'btn btn-info search-button']) ?>
+            </p>
+            <div class="search-form" style="display:none">
+                <?=  $this->render('_search', ['model' => $searchModel]); ?>
+            </div>
+        </div>
+        <div class="box-body">
+            <?php 
+            $gridColumn = [
+                ['class' => 'yii\grid\SerialColumn'],
+                ['attribute' => 'id', 'visible' => false],
+                'nama_mapel',
+                ['attribute' => 'lock', 'visible' => false],
+                [
+                    'class' => 'yii\grid\ActionColumn',
                 ],
-                'exportConfig' => [
-                    ExportMenu::FORMAT_PDF => false
-                ]
-            ]) ,
-        ],
-    ]); ?>
+            ]; 
+            ?>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => $gridColumn,
+                'pjax' => true,
+                'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-mata-pelajaran']],
+                'panel' => false,
+            ]); ?>
+        </div>
+    </div>
+
+
 
 </div>

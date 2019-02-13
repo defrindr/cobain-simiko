@@ -7,6 +7,7 @@ use common\models\ModuleMataPelajaran;
 use common\models\ModuleMataPelajaranSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 
 /**
@@ -64,25 +65,25 @@ class MataPelajaranController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        $model = $this->findModel($id);
-        $providerModuleGuru = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->moduleGurus,
-        ]);
-        $providerModuleJadwal = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->moduleJadwals,
-        ]);
-        $providerModuleMateriKategori = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->moduleMateriKategoris,
-        ]);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'providerModuleGuru' => $providerModuleGuru,
-            'providerModuleJadwal' => $providerModuleJadwal,
-            'providerModuleMateriKategori' => $providerModuleMateriKategori,
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     $providerModuleGuru = new \yii\data\ArrayDataProvider([
+    //         'allModels' => $model->moduleGurus,
+    //     ]);
+    //     $providerModuleJadwal = new \yii\data\ArrayDataProvider([
+    //         'allModels' => $model->moduleJadwals,
+    //     ]);
+    //     $providerModuleMateriKategori = new \yii\data\ArrayDataProvider([
+    //         'allModels' => $model->moduleMateriKategoris,
+    //     ]);
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //         'providerModuleGuru' => $providerModuleGuru,
+    //         'providerModuleJadwal' => $providerModuleJadwal,
+    //         'providerModuleMateriKategori' => $providerModuleMateriKategori,
+    //     ]);
+    // }
 
     /**
      * Creates a new ModuleMataPelajaran model.
@@ -92,13 +93,22 @@ class MataPelajaranController extends Controller
     public function actionCreate()
     {
         $model = new ModuleMataPelajaran();
-
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(Yii::$app->user->can('mapel.create')){
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->saveAll()){
+                    Yii::$app->session->setFlash('success','Data berhasil ditambahkan');
+                } else {
+                    Yii::$app->session->setFlash('error','Data gagal ditambahkan');
+                }
+                return $this->redirect(['index']);
+            } else {
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            // throw new ForbiddenHttpException;
+            echo "Anda tidak mempunyai hak akses";
         }
     }
 
@@ -111,14 +121,24 @@ class MataPelajaranController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(Yii::$app->user->can('mapel.update')){
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->saveAll()){
+                    Yii::$app->session->setFlash('success','Data berhasil ditambahkan');
+                } else {
+                    Yii::$app->session->setFlash('error','Data gagal ditambahkan');
+                }
+                return $this->redirect(['index']);
+            } else {
+                return $this->renderAjax('update', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            // throw new ForbiddenHttpException;
+            echo "Anda tidak mempunyai hak akses";
         }
+
     }
 
     /**

@@ -64,9 +64,9 @@ class BankController extends Controller
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
-        } else 
-        {
-            throw new \Yii\web\ForbiddenHttpException;
+        } else {
+            // throw new ForbiddenHttpException;
+            echo "Anda tidak mempunyai hak akses";
         }
     }
 
@@ -167,9 +167,9 @@ class BankController extends Controller
                 ]);
             }
             
-        } else { // if user not 'Admin'
-            throw new ForbiddenHttpException;
-            
+        } else {
+            // throw new ForbiddenHttpException;
+            echo "Anda tidak mempunyai hak akses";
         }
     }
 
@@ -263,9 +263,9 @@ class BankController extends Controller
                     'model' => $model,
                 ]);
             }
-        } else { // if user not 'Admin'
-            throw new ForbiddenHttpException;
-            
+        } else {
+            // throw new ForbiddenHttpException;
+            echo "Anda tidak mempunyai hak akses";
         }
     }
 

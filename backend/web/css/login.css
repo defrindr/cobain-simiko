@@ -8,7 +8,7 @@
 }
 .green{
   background: #285E71
-}
+} 
 
 .formInput{
   font-size: 18px;
@@ -51,8 +51,8 @@
   box-shadow: 2px 2px 20px #333;
 }
 .checkbox{
-  display: block;
-  font-size: 18px;
+  /*display: block;*/
+  font-size: 15px;
   color: #DFE9DD
 }
 .text-white{
