@@ -56,6 +56,9 @@ $siswa = (Yii::$app->user->identity->role == 30);
                          ],
                      ],
                     ['label' => 'User Manage', 'url' => ['/user-manage'], 'icon' => 'dashboard'],
+                    ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard'],
+                    ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard'],
+                    ['label' => 'Guru', 'url' => ['/guru'], 'icon' => 'dashboard'],
                     ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard', 'visible' => $admin],
                     [
                         'label' => 'Galeri', 

@@ -39,7 +39,7 @@ use common\models\ModuleUser;
      *
      * @return ActiveDataProvider
      */
-    public function searchRestore($params)
+    public function search($params)
     {
         $query = ModuleUser::find();
 
@@ -82,7 +82,7 @@ use common\models\ModuleUser;
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function searchRestore($params)
     {
         $query = ModuleUser::findDeleted();
 

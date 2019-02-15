@@ -191,6 +191,12 @@ class UserManageController extends Controller
         $providerModuleMateriKomentar = new \yii\data\ArrayDataProvider([
             'allModels' => $model->moduleMateriKomentars,
         ]);
+        if($model->role == 20){
+            $modelProfile = ModuleGuru::find($id)->one();
+        } elseif ($model->role == 30) {
+            $modelProfile = ModuleSiswa::find($id)->one();
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
             'providerModuleMateriKomentar' => $providerModuleMateriKomentar,

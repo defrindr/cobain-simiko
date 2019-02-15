@@ -10,13 +10,30 @@ $this->title = "User Manage";
 <div class="module-user-manage">
 	<div class="box box-danger">
 		<div class="box-header">
-			
+			<?=
+			Html::button('<span class="glypicon glyphicon-plus" style="font-size:18px"></span> Add User',[
+				'value' => Url::to('#'),
+				'class' => 'btn btn-flat btn-success'
+			]);
+			?>
+			<?=
+			Html::button('<span class="glypicon glyphicon-plus" style="font-size:18px"></span> Upload User',[
+				'value' => Url::to('#'),
+				'class' => 'btn btn-flat btn-success'
+			]);
+			?>
 		</div>
 		<div class="box-body">
 			<?php 
 			$gridColumn = [
 				['class' => 'yii\grid\SerialColumn'],
-				'username',
+				[
+					'attribute' => 'username',
+					'format' => 'raw',
+					'value' => function($model){
+						return '<a href="'.Url::to(['view','id'=>$model->id]).'">'.$model->username.'</a>';
+					}
+				],
 				[
 					'attribute' => 'role',
 					'value' => function($model){
