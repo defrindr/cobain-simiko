@@ -7,10 +7,15 @@ use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
 
 /**
- * This is the base model class for table "module_siswa".
+ * This is the base model class for table "profile".
  *
  * @property integer $user_id
- * @property integer $kelas_id
+ * @property string $nama
+ * @property integer $tgl_lahir
+ * @property string $tempat_lahir
+ * @property string $bio
+ * @property string $no_telp
+ * @property string $avatar
  * @property integer $created_by
  * @property integer $created_at
  * @property integer $updated_by
@@ -20,10 +25,8 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $lock
  *
  * @property \common\models\User $user
- * @property \common\models\ModuleKelas $kelas
- * @property \common\models\ModuleSpp[] $moduleSpps
  */
-class ModuleSiswa extends \yii\db\ActiveRecord
+class ModuleProfile extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
 
@@ -49,9 +52,7 @@ class ModuleSiswa extends \yii\db\ActiveRecord
     public function relationNames()
     {
         return [
-            'user',
-            'kelas',
-            'moduleSpps'
+            'user'
         ];
     }
 
@@ -61,9 +62,14 @@ class ModuleSiswa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'kelas_id'], 'required'],
-            [['user_id', 'kelas_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['user_id', 'nama', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'deleted_at', 'lock'], 'required'],
+            [['user_id', 'tgl_lahir', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['bio'], 'string'],
             [['deleted_at'], 'safe'],
+            [['nama'], 'string', 'max' => 100],
+            [['tempat_lahir'], 'string', 'max' => 70],
+            [['no_telp'], 'string', 'max' => 20],
+            [['avatar'], 'string', 'max' => 255],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];
@@ -74,7 +80,7 @@ class ModuleSiswa extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'module_siswa';
+        return 'profile';
     }
 
     /**
@@ -95,7 +101,12 @@ class ModuleSiswa extends \yii\db\ActiveRecord
     {
         return [
             'user_id' => 'User ID',
-            'kelas_id' => 'Kelas ID',
+            'nama' => 'Nama',
+            'tgl_lahir' => 'Tgl Lahir',
+            'tempat_lahir' => 'Tempat Lahir',
+            'bio' => 'Bio',
+            'no_telp' => 'No Telp',
+            'avatar' => 'Avatar',
             'lock' => 'Lock',
         ];
     }
@@ -106,22 +117,6 @@ class ModuleSiswa extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(\common\models\User::className(), ['id' => 'user_id']);
-    }
-        
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getKelas()
-    {
-        return $this->hasOne(\common\models\ModuleKelas::className(), ['id' => 'kelas_id']);
-    }
-        
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getModuleSpps()
-    {
-        return $this->hasMany(\common\models\ModuleSpp::className(), ['siswa_id' => 'user_id']);
     }
     
     /**
@@ -168,23 +163,23 @@ class ModuleSiswa extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \app\models\ModuleSiswaQuery the active query used by this AR class.
+     * @return \app\models\ModuleProfileQuery the active query used by this AR class.
      */
     public static function find()
     {
-        $query = new \app\models\ModuleSiswaQuery(get_called_class());
-        return $query->where(['module_siswa.deleted_by' => 0]);
+        $query = new \app\models\ModuleProfileQuery(get_called_class());
+        return $query->where(['profile.deleted_by' => 0]);
     }
 
 
 
         /**
      * @inheritdoc
-     * @return \app\models\ModuleSiswaQuery the active query used by this AR class.
+     * @return \app\models\ModuleProfileQuery the active query used by this AR class.
      */
     public static function findDeleted()
     {
-        $query = new \app\models\ModuleSiswaQuery(get_called_class());
-        return $query->where('module_siswa.deleted_by != 0');
+        $query = new \app\models\ModuleProfileQuery(get_called_class());
+        return $query->where('profile.deleted_by != 0');
     }
 }

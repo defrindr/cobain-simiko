@@ -95,12 +95,7 @@ class GuruController extends Controller
     {
         $model = new ModuleGuru();
 
-        if ($model->loadAll(Yii::$app->request->post())) {
-            if($model->saveAll()){
-                Yii::$app->session->setFlash('success','Data berhasil ditambahkan');
-            }else {
-                Yii::$app->session->setFlash('error','Data gagal ditambahkan');
-            }
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->user_id]);
         } else {
             return $this->render('create', [

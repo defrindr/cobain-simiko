@@ -31,31 +31,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'nama')->textInput(['maxlength' => true, 'placeholder' => 'Nama']) ?>
-
-    <?= $form->field($model, 'tempat_lahir')->textInput(['maxlength' => true, 'placeholder' => 'Tempat Lahir']) ?>
-
-    <?= $form->field($model, 'tanggal_lahir')->widget(\kartik\datecontrol\DateControl::classname(), [
-        'type' => \kartik\datecontrol\DateControl::FORMAT_DATETIME,
-        'saveFormat' => 'php:Y-m-d H:i:s',
-        'ajaxConversion' => true,
-        'options' => [
-            'pluginOptions' => [
-                'placeholder' => 'Choose Tanggal Lahir',
-                'autoclose' => true,
-            ]
-        ],
-    ]); ?>
-
-    <?php /* echo $form->field($model, 'avatar')->textInput(['maxlength' => true, 'placeholder' => 'Avatar']) */ ?>
-
-    <?php /* echo $form->field($model, 'no_telp')->textInput(['maxlength' => true, 'placeholder' => 'No Telp']) */ ?>
-
-    <?php /* echo $form->field($model, 'nama_wali')->textInput(['maxlength' => true, 'placeholder' => 'Nama Wali']) */ ?>
-
-    <?php /* echo $form->field($model, 'no_telp_wali')->textInput(['maxlength' => true, 'placeholder' => 'No Telp Wali']) */ ?>
-
-    <?php /* echo $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); */ ?>
+    <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

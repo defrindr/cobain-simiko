@@ -28,7 +28,7 @@ yii\bootstrap\Modal::end();
 
 ?>
 <div class="module-guru-index">
-    <div class="box box-danger">
+    <div class="box-box-danger">
         <div class="box-header">
                             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             
@@ -57,7 +57,6 @@ yii\bootstrap\Modal::end();
                 ],
                 'filterInputOptions' => ['placeholder' => 'User', 'id' => 'grid-module-guru-search-user_id']
             ],
-                                'nama',
                                 [
                 'attribute' => 'mata_pelajaran_id',
                 'label' => 'Mata Pelajaran',
@@ -71,7 +70,6 @@ yii\bootstrap\Modal::end();
                 ],
                 'filterInputOptions' => ['placeholder' => 'Module mata pelajaran', 'id' => 'grid-module-guru-search-mata_pelajaran_id']
             ],
-                                'avatar',
                                 ['attribute' => 'lock', 'visible' => false],
                                 [
                         'class' => 'yii\grid\ActionColumn',
@@ -84,7 +82,31 @@ yii\bootstrap\Modal::end();
         'columns' => $gridColumn,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-guru']],
-                    'panel' => false
+                    'panel' => [
+                        'type' => GridView::TYPE_PRIMARY,
+                        'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
+                    ],
+                                'export' => false,
+                                // your toolbar can include the additional full export menu
+                    'toolbar' => [
+                        '{export}',
+                        ExportMenu::widget([
+                            'dataProvider' => $dataProvider,
+                            'columns' => $gridColumn,
+                            'target' => ExportMenu::TARGET_BLANK,
+                            'fontAwesome' => true,
+                            'dropdownOptions' => [
+                                'label' => 'Full',
+                                'class' => 'btn btn-default',
+                                'itemsBefore' => [
+                                    '<li class="dropdown-header">Export All Data</li>',
+                                ],
+                            ],
+                                        'exportConfig' => [
+                                ExportMenu::FORMAT_PDF => false
+                            ]
+                                    ]) ,
+                    ],
                 ]); ?>
                         
         </div>

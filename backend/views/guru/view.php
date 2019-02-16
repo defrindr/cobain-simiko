@@ -38,12 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'user.username',
             'label' => 'User',
         ],
-        'nama',
         [
             'attribute' => 'mataPelajaran.id',
             'label' => 'Mata Pelajaran',
         ],
-        'avatar',
         ['attribute' => 'lock', 'visible' => false],
     ];
     echo DetailView::widget([

@@ -28,7 +28,7 @@ yii\bootstrap\Modal::end();
 
 ?>
 <div class="module-siswa-index">
-    <div class="box box-danger">
+    <div class="box-box-danger">
         <div class="box-header">
                             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             
@@ -70,13 +70,6 @@ yii\bootstrap\Modal::end();
                 ],
                 'filterInputOptions' => ['placeholder' => 'Module kelas', 'id' => 'grid-module-siswa-search-kelas_id']
             ],
-                                'nama',
-                                'tempat_lahir',
-                                'tanggal_lahir',
-                                'avatar',
-                                'no_telp',
-                                'nama_wali',
-                                'no_telp_wali',
                                 ['attribute' => 'lock', 'visible' => false],
                                 [
                         'class' => 'yii\grid\ActionColumn',
@@ -89,9 +82,33 @@ yii\bootstrap\Modal::end();
         'columns' => $gridColumn,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-siswa']],
-                    'panel' => false,
-                    ]);
-                    ?>
+                    'panel' => [
+                        'type' => GridView::TYPE_PRIMARY,
+                        'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
+                    ],
+                                'export' => false,
+                                // your toolbar can include the additional full export menu
+                    'toolbar' => [
+                        '{export}',
+                        ExportMenu::widget([
+                            'dataProvider' => $dataProvider,
+                            'columns' => $gridColumn,
+                            'target' => ExportMenu::TARGET_BLANK,
+                            'fontAwesome' => true,
+                            'dropdownOptions' => [
+                                'label' => 'Full',
+                                'class' => 'btn btn-default',
+                                'itemsBefore' => [
+                                    '<li class="dropdown-header">Export All Data</li>',
+                                ],
+                            ],
+                                        'exportConfig' => [
+                                ExportMenu::FORMAT_PDF => false
+                            ]
+                                    ]) ,
+                    ],
+                ]); ?>
+                        
         </div>
     </div>
 

@@ -42,13 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'kelas.id',
             'label' => 'Kelas',
         ],
-        'nama',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'avatar',
-        'no_telp',
-        'nama_wali',
-        'no_telp_wali',
         ['attribute' => 'lock', 'visible' => false],
     ];
     echo DetailView::widget([

@@ -19,7 +19,7 @@ use common\models\ModuleSiswa;
     {
         return [
             [['user_id', 'kelas_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
-            [['nama', 'tempat_lahir', 'tanggal_lahir', 'avatar', 'no_telp', 'nama_wali', 'no_telp_wali', 'deleted_at'], 'safe'],
+            [['deleted_at'], 'safe'],
         ];
     }
 
@@ -58,7 +58,6 @@ use common\models\ModuleSiswa;
         $query->andFilterWhere([
             'user_id' => $this->user_id,
             'kelas_id' => $this->kelas_id,
-            'tanggal_lahir' => $this->tanggal_lahir,
             'created_by' => $this->created_by,
             'created_at' => $this->created_at,
             'updated_by' => $this->updated_by,
@@ -67,13 +66,6 @@ use common\models\ModuleSiswa;
             'deleted_at' => $this->deleted_at,
             'lock' => $this->lock,
         ]);
-
-        $query->andFilterWhere(['like', 'nama', $this->nama])
-            ->andFilterWhere(['like', 'tempat_lahir', $this->tempat_lahir])
-            ->andFilterWhere(['like', 'avatar', $this->avatar])
-            ->andFilterWhere(['like', 'no_telp', $this->no_telp])
-            ->andFilterWhere(['like', 'nama_wali', $this->nama_wali])
-            ->andFilterWhere(['like', 'no_telp_wali', $this->no_telp_wali]);
 
         return $dataProvider;
     }
@@ -106,7 +98,6 @@ use common\models\ModuleSiswa;
         $query->andFilterWhere([
             'user_id' => $this->user_id,
             'kelas_id' => $this->kelas_id,
-            'tanggal_lahir' => $this->tanggal_lahir,
             'created_by' => $this->created_by,
             'created_at' => $this->created_at,
             'updated_by' => $this->updated_by,
@@ -115,13 +106,6 @@ use common\models\ModuleSiswa;
             'deleted_at' => $this->deleted_at,
             'lock' => $this->lock,
         ]);
-
-        $query->andFilterWhere(['like', 'nama', $this->nama])
-            ->andFilterWhere(['like', 'tempat_lahir', $this->tempat_lahir])
-            ->andFilterWhere(['like', 'avatar', $this->avatar])
-            ->andFilterWhere(['like', 'no_telp', $this->no_telp])
-            ->andFilterWhere(['like', 'nama_wali', $this->nama_wali])
-            ->andFilterWhere(['like', 'no_telp_wali', $this->no_telp_wali]);
 
         return $dataProvider;
     }

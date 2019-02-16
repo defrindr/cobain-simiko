@@ -17,11 +17,9 @@ class ModuleGuru extends BaseModuleGuru
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['user_id', 'nama', 'mata_pelajaran_id', 'avatar'], 'required'],
+            [['user_id', 'mata_pelajaran_id'], 'required'],
             [['user_id', 'mata_pelajaran_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
-            [['nama'], 'string', 'max' => 100],
-            [['avatar'], 'string', 'max' => 45],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);

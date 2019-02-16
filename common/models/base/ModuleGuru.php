@@ -10,9 +10,7 @@ use yii\behaviors\BlameableBehavior;
  * This is the base model class for table "module_guru".
  *
  * @property integer $user_id
- * @property string $nama
  * @property integer $mata_pelajaran_id
- * @property string $avatar
  * @property integer $created_at
  * @property integer $created_by
  * @property integer $updated_at
@@ -63,11 +61,9 @@ class ModuleGuru extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'nama', 'mata_pelajaran_id', 'avatar'], 'required'],
+            [['user_id', 'mata_pelajaran_id'], 'required'],
             [['user_id', 'mata_pelajaran_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
-            [['nama'], 'string', 'max' => 100],
-            [['avatar'], 'string', 'max' => 45],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];
@@ -99,9 +95,7 @@ class ModuleGuru extends \yii\db\ActiveRecord
     {
         return [
             'user_id' => 'User ID',
-            'nama' => 'Nama',
             'mata_pelajaran_id' => 'Mata Pelajaran ID',
-            'avatar' => 'Avatar',
             'lock' => 'Lock',
         ];
     }
@@ -141,7 +135,6 @@ class ModuleGuru extends \yii\db\ActiveRecord
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => 'updated_at',
-                'value' => time(),
             ],
             'blameable' => [
                 'class' => BlameableBehavior::className(),
@@ -184,9 +177,14 @@ class ModuleGuru extends \yii\db\ActiveRecord
     }
 
 
+
+        /**
+     * @inheritdoc
+     * @return \app\models\ModuleGuruQuery the active query used by this AR class.
+     */
     public static function findDeleted()
     {
         $query = new \app\models\ModuleGuruQuery(get_called_class());
-        return $query->where('deleted_by != 0');
+        return $query->where('module_guru.deleted_by != 0');
     }
 }

@@ -19,7 +19,7 @@ use common\models\ModuleGuru;
     {
         return [
             [['user_id', 'mata_pelajaran_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_by', 'lock'], 'integer'],
-            [['nama', 'avatar', 'deleted_at'], 'safe'],
+            [['deleted_at'], 'safe'],
         ];
     }
 
@@ -67,9 +67,6 @@ use common\models\ModuleGuru;
             'lock' => $this->lock,
         ]);
 
-        $query->andFilterWhere(['like', 'nama', $this->nama])
-            ->andFilterWhere(['like', 'avatar', $this->avatar]);
-
         return $dataProvider;
     }
 
@@ -109,9 +106,6 @@ use common\models\ModuleGuru;
             'deleted_by' => $this->deleted_by,
             'lock' => $this->lock,
         ]);
-
-        $query->andFilterWhere(['like', 'nama', $this->nama])
-            ->andFilterWhere(['like', 'avatar', $this->avatar]);
 
         return $dataProvider;
     }

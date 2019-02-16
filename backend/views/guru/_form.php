@@ -24,37 +24,60 @@ use yii\widgets\ActiveForm;
 
     <div class="box box-danger">
         <div class="box-header">
-            <?= $form->errorSummary($model); ?>
+            
         </div>
         <div class="box-body">
-            <?= $form->field($model, 'user_id')->widget(\kartik\widgets\Select2::classname(), [
-                'data' => \yii\helpers\ArrayHelper::map(\common\models\User::find()->orderBy('id')->asArray()->all(), 'id', 'username'),
-                'options' => ['placeholder' => 'Choose User'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]); ?>
-
-            <?= $form->field($model, 'nama')->textInput(['maxlength' => true, 'placeholder' => 'Nama']) ?>
-
-            <?= $form->field($model, 'mata_pelajaran_id')->widget(\kartik\widgets\Select2::classname(), [
-                'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMataPelajaran::find()->orderBy('id')->asArray()->all(), 'id', 'nama_mapel'),
-                'options' => ['placeholder' => 'Choose Module mata pelajaran'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]); ?>
-
-            <?= $form->field($model, 'avatar')->textInput(['maxlength' => true, 'placeholder' => 'Avatar']) ?>
-
-            <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-
-            <div class="form-group">
-                <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-                <?= Html::a(Yii::t('app', 'Batal'), Yii::$app->request->referrer , ['class'=> 'btn btn-danger']) ?>
-            </div>
-
+            
         </div>
+    </div>
+
+
+
+
+
+    <?= $form->errorSummary($model); ?>
+
+    <?= $form->field($model, 'user_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\User::find()->orderBy('id')->asArray()->all(), 'id', 'username'),
+        'options' => ['placeholder' => 'Choose User'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'mata_pelajaran_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMataPelajaran::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
+        'options' => ['placeholder' => 'Choose Module mata pelajaran'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
+
+    <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+
+    <?php
+    $forms = [
+        [
+            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('ModuleKelas'),
+            'content' => $this->render('_formModuleKelas', [
+                'row' => \yii\helpers\ArrayHelper::toArray($model->moduleKelas),
+            ]),
+        ],
+    ];
+    echo kartik\tabs\TabsX::widget([
+        'items' => $forms,
+        'position' => kartik\tabs\TabsX::POS_ABOVE,
+        'encodeLabels' => false,
+        'pluginOptions' => [
+            'bordered' => true,
+            'sideways' => true,
+            'enableCache' => false,
+        ],
+    ]);
+    ?>
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Batal'), Yii::$app->request->referrer , ['class'=> 'btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
