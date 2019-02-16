@@ -20,6 +20,7 @@ class ModuleSiswa extends BaseModuleSiswa
             [['user_id', 'kelas_id'], 'required'],
             [['user_id', 'kelas_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['tanggal_lahir', 'deleted_at'], 'safe'],
+            [['user_id'], 'unique'],
             [['nama', 'tempat_lahir', 'avatar', 'nama_wali'], 'string', 'max' => 45],
             [['no_telp', 'no_telp_wali'], 'string', 'max' => 15],
             [['lock'], 'default', 'value' => '0'],

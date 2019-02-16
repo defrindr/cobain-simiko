@@ -25,6 +25,10 @@ if (Yii::$app->controller->action->id === 'login') {
     backend\assets\AdminLteAsset::register($this);
 
     $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
+
+    if (!Yii::$app->user->id) {
+        \backend\controllers\SiteController::redirect(['/site/login']);
+    } else {
     ?>
     <?php $this->beginPage() ?>
     <!DOCTYPE html>
@@ -62,4 +66,5 @@ if (Yii::$app->controller->action->id === 'login') {
     </body>
     </html>
     <?php $this->endPage() ?>
-<?php } ?>
+<?php } 
+} ?>

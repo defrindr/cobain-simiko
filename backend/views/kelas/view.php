@@ -32,22 +32,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php 
                         $gridColumn = [
                             ['attribute' => 'id', 'visible' => false],
-                            [
-                                'attribute' => 'jurusan.id',
-                                'label' => 'Jurusan',
-                                'value' => function($model){
-                                    return $model->getJurusan()->one()->nama;
-                                }
-                            ],
-                            [
-                                'attribute' => 'guru.user_id',
-                                'label' => 'Wali kelas',
-                                'value' => function($model){
-                                    return $model->getGuru()->one()->nama;
-                                }
-                            ],
-                            'kelas',
+                            // [
+                            //     'attribute' => 'jurusan.id',
+                            //     'label' => 'Jurusan',
+                            //     'value' => function($model){
+                            //         return $model->getJurusan()->one()->nama;
+                            //     }
+                            // ],
+                            // [
+                            //     'attribute' => 'guru.user_id',
+                            //     'label' => 'Wali kelas',
+                            //     'value' => function($model){
+                            //         return $model->getGuru()->one()->nama;
+                            //     }
+                            // ],
                             'grade',
+                            'kelas',
                             'tahun',
                             ['attribute' => 'lock', 'visible' => false],
                         ];
@@ -63,18 +63,16 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- end column -->
         <div class="col-md-6">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-xs-6">
                     <div class="box box-danger">
                         <div class="box-header">
-                            <h4>Data Wali Kelas</h4>
+                            <h4>Wali Kelas</h4>
                         </div>
                         <!-- end header box -->
                         <div class="box-body">
                                 <?php 
                                 $gridColumnModuleGuru = [
-                                    'user_id',
                                     'nama',
-                                    'mata_pelajaran_id',
                                     'avatar',
                                     ['attribute' => 'lock', 'visible' => false],
                                 ];
@@ -89,10 +87,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <!-- end column -->
 
-                <div class="col-sm-6">
+                <div class="col-xs-6">
                     <div class="box box-danger">
                         <div class="box-header">
-                            <h4>Data Jurusan</h4>
+                            <h4>Jurusan</h4>
                         </div>
                         <!-- end header box -->
                         <div class="box-body">
@@ -126,7 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-12">
             <div class="box box-danger">
                 <div class="box-header">
-                    <h4>Daftar Murid</h4>
+                    <h4>Siswa kelas <?= $model->grade.' '.$model->getJurusan()->one()->nama.' '.$model->kelas ?></h4>
                 </div>
                 <!-- end box header -->
                 <div class="box-body">
