@@ -62,7 +62,7 @@ class ModuleProfile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'nama', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'deleted_at', 'lock'], 'required'],
+            [['user_id', 'nama'], 'required'],
             [['user_id', 'tgl_lahir', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['bio'], 'string'],
             [['deleted_at'], 'safe'],

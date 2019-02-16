@@ -57,6 +57,7 @@ class BeritaController extends Controller
         {
             $searchModel = new ModuleBeritaSearch();
             $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+            $query = ModuleBerita::findDeleted()->innerJoinWith('module_berita_kategori','berita_kategori_id = module_berita_kategori.id')->where('module_berita_kategori.deleted != 0');
 
             return $this->renderAjax('data-restore', [
                 'searchModel' => $searchModel,
@@ -64,7 +65,8 @@ class BeritaController extends Controller
             ]);
         } else 
         {
-            throw new \Yii\web\ForbiddenHttpException;
+            echo "Forbidden access";
+            // throw new \Yii\web\ForbiddenHttpException;
         }
     }
 
@@ -85,6 +87,7 @@ class BeritaController extends Controller
             return $this->redirect(['index']);
         } else 
         {
+            // echo "Forbidden access";
             throw new \Yii\web\ForbiddenHttpException;
         }
     }

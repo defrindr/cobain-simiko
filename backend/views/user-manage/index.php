@@ -26,7 +26,7 @@ $this->title = "User Manage";
 		<div class="box-body">
 			<?php 
 			$gridColumn = [
-				['class' => 'yii\grid\SerialColumn'],
+				// ['class' => 'yii\grid\SerialColumn'],
 				[
 					'attribute' => 'username',
 					'format' => 'raw',
@@ -34,6 +34,7 @@ $this->title = "User Manage";
 						return '<a href="'.Url::to(['view','id'=>$model->id]).'">'.$model->username.'</a>';
 					}
 				],
+				'email',
 				[
 					'attribute' => 'role',
 					'value' => function($model){
@@ -54,7 +55,15 @@ $this->title = "User Manage";
 				],
 				[
 					'class' => 'yii\grid\ActionColumn',
-					'template' => '{changeStatus}',
+					'template' => '
+					<div class="row">
+						<div class="col-xs-12 col-sm-6">
+							{changeStatus}
+						</div>
+						<div class="col-sm-6">
+							{view}
+						</div>
+					</div>',
 					'buttons' => [
 						'changeStatus' => function($url,$model){
 							if($model->status == 10){
@@ -92,7 +101,7 @@ $this->title = "User Manage";
 			<?= GridView::widget([
 				'dataProvider' => $dataProvider,
 				'dataProvider' => $dataProvider,
-				'filterModel' => $searchModel,
+				// 'filterModel' => $searchModel,
 				'columns' => $gridColumn,
 				'responsiveWrap' => false,
 				'pjax' => true,

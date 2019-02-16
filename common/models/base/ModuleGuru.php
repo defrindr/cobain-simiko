@@ -107,6 +107,18 @@ class ModuleGuru extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\common\models\ModuleMataPelajaran::className(), ['id' => 'mata_pelajaran_id']);
     }
+
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(\common\models\ModuleProfile::className(), ['user_id' => 'user_id']);
+    }
+
+
         
     /**
      * @return \yii\db\ActiveQuery

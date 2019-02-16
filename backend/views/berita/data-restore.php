@@ -15,13 +15,17 @@ $this->title = 'Berita restore';
     <div class="container-fluid">
     <?php 
     $gridColumn = [
-        ['class' => 'yii\grid\SerialColumn'],
+        // ['class' => 'yii\grid\SerialColumn'],
         ['attribute' => 'id', 'visible' => false],
         [
                 'attribute' => 'berita_kategori_id',
                 'label' => 'Berita Kategori',
                 'value' => function($model){
-                    return $model->beritaKategori->nama;
+                    if(strlen($model->beritaKategori->nama) > 1){
+                        return $model->beritaKategori->nama;
+                    } else {
+                        return "Kategori Berita Deleted";
+                    }
                 },
                 'filterType' => GridView::FILTER_SELECT2,
                 'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBeritaKategori::find()->asArray()->all(), 'id', 'nama'),
@@ -37,22 +41,31 @@ $this->title = 'Berita restore';
                 return StringHelper::truncateWords($dataProvider->isi,5,'...',null,false);
             }
         ],
-        'gambar',
+        // 'gambar',
         ['attribute' => 'lock', 'visible' => false],
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{restore}',
             'buttons' => [
                 'restore' => function($url,$model){
-                    $id = $model->id;
-                    return Html::a('Restore', ['restore', 'id' => $model->id], [
-                        'class' => 'btn btn-info',
-                            'data' => [
-                                'confirm' => 'Anda yakin ingin merestore data ini ?',
-                                'method' => 'post',
-                            ],
-                        ]
-                    );
+                    if($model->getBeritaKategori()->one()->deleted_by !== null){
+
+                        $id = $model->id;
+                        return Html::a('Restore', ['restore', 'id' => $model->id], [
+                            'class' => 'btn btn-info',
+                                'data' => [
+                                    'confirm' => 'Anda yakin ingin merestore data ini ?',
+                                    'method' => 'post',
+                                ],
+                            ]
+                        );
+                    } else {
+                        return Html::button('Restore', [
+                            'value' => '#',
+                            'class' => 'btn btn-disable',
+                            ]
+                        );
+                    }
                 },
             ],
         ],
@@ -62,6 +75,11 @@ $this->title = 'Berita restore';
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => $gridColumn,
+        'rowOptions' => function($model){
+            if(!($model->getBeritaKategori()->one()->deleted_by !== null)) {
+                return ['style'=>'display:none'];
+            }
+        },
         'responsiveWrap' => false,
         'pjax' => true,
         'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-berita']],

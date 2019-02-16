@@ -54,7 +54,7 @@ use yii\widgets\ActiveForm;
             ]); ?>
 
             <?= $form->field($model, 'guru_id')->widget(\kartik\widgets\Select2::classname(), [
-                'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->orderBy('user_id')->asArray()->all(), 'user_id', 'nama'),
+                'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->innerJoinWith(['profile'])->orderBy('profile.user_id')->asArray()->all(), 'user_id', 'profile.nama'),
                 'options' => ['placeholder' => 'Choose Module guru'],
                 'pluginOptions' => [
                     'allowClear' => true

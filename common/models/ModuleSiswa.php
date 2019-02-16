@@ -20,6 +20,7 @@ class ModuleSiswa extends BaseModuleSiswa
             [['user_id', 'kelas_id'], 'required'],
             [['user_id', 'kelas_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
+            [['user_id'],'unique'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);

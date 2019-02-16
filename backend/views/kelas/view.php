@@ -70,10 +70,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <!-- end header box -->
                         <div class="box-body">
-                                <?php 
+                              <?php 
                                 $gridColumnModuleGuru = [
-                                    'nama',
-                                    'avatar',
+                                    [
+                                        'attribute'=>'nama',
+                                        'value' => function($model){
+                                            return $model->getProfile()->one()->nama;
+                                        }
+                                    ],
+                                    // 'avatar',
                                     ['attribute' => 'lock', 'visible' => false],
                                 ];
                                 echo DetailView::widget([
@@ -128,21 +133,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <!-- end box header -->
                 <div class="box-body">
-                    <?php
+                   <?php
                     if($providerModuleSiswa->totalCount){
                         $gridColumnModuleSiswa = [
                             ['class' => 'yii\grid\SerialColumn'],
-                                [
-                                    'attribute' => 'user.username',
-                                    'label' => 'User'
-                                ],
-                                            'nama',
-                                'tempat_lahir',
-                                'tanggal_lahir',
-                                'avatar',
-                                'no_telp',
-                                'nama_wali',
-                                'no_telp_wali',
+                                // [
+                                //     'attribute' => 'user.username',
+                                //     'label' => 'User'
+                                // ],
+                                ['attribute'=>'nama','value'=>function($model){return $model->profile->nama;}],
+                                // 'tempat_lahir',
+                                // 'tanggal_lahir',
+                                // 'avatar',
+                                // 'no_telp',
+                                // 'nama_wali',
+                                // 'no_telp_wali',
                                 ['attribute' => 'lock', 'visible' => false],
                         ];
                         echo Gridview::widget([

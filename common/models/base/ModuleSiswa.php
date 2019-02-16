@@ -64,6 +64,7 @@ class ModuleSiswa extends \yii\db\ActiveRecord
             [['user_id', 'kelas_id'], 'required'],
             [['user_id', 'kelas_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
+            [['user_id'],'unique'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];
@@ -115,6 +116,19 @@ class ModuleSiswa extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\common\models\ModuleKelas::className(), ['id' => 'kelas_id']);
     }
+
+
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(\common\models\ModuleProfile::className(), ['user_id' => 'user_id']);
+    }
+
+
         
     /**
      * @return \yii\db\ActiveQuery

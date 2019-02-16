@@ -3,6 +3,7 @@
 namespace common\models\base;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the base model class for table "user".
@@ -22,6 +23,7 @@ use Yii;
  * @property \common\models\ModuleGuru $moduleGuru
  * @property \common\models\ModuleMateriKomentar[] $moduleMateriKomentars
  * @property \common\models\ModuleSiswa $moduleSiswa
+ * @property \common\models\Profile $profile
  */
 class ModuleUser extends \yii\db\ActiveRecord
 {
@@ -37,7 +39,8 @@ class ModuleUser extends \yii\db\ActiveRecord
         return [
             'moduleGuru',
             'moduleMateriKomentars',
-            'moduleSiswa'
+            'moduleSiswa',
+            'profile'
         ];
     }
 
@@ -106,7 +109,30 @@ class ModuleUser extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\common\models\ModuleSiswa::className(), ['user_id' => 'id']);
     }
+        
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(\common\models\ModuleProfile::className(), ['user_id' => 'id']);
+    }
     
+    /**
+     * @inheritdoc
+     * @return array mixed
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+            ],
+        ];
+    }
+
 
     /**
      * @inheritdoc
