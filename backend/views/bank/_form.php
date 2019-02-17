@@ -21,32 +21,29 @@ use kartik\widgets\FileInput;
 <div class="module-bank-form">
 
     <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
-    <div class="box box-danger">
-        <div class="box-header">
-            <?= $form->errorSummary($model); ?>
-        </div>
-        <div class="box-body">
-            <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-            <?= $form->field($model, 'no_rekening')->textInput(['maxlength' => true, 'placeholder' => 'No Rekening']) ?>
+    <div class="container-fluid">
+        <?= $form->errorSummary($model); ?>
 
-            <?= $form->field($model, 'nama_bank')->textInput(['maxlength' => true, 'placeholder' => 'Nama Bank']) ?>
+        <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-            <?= $form->field($model, 'atas_nama')->textInput(['maxlength' => true, 'placeholder' => 'Atas Nama']) ?>
+        <?= $form->field($model, 'no_rekening')->textInput(['maxlength' => true, 'placeholder' => 'No Rekening']) ?>
 
-            <?= $form->field($model, 'gambar',['template'=>'{input}'])->textInput(['style' => 'display:none','maxlength' => true, 'placeholder' => 'Gambar']) ?>
+        <?= $form->field($model, 'nama_bank')->textInput(['maxlength' => true, 'placeholder' => 'Nama Bank']) ?>
 
-            <?= $form->field($model, 'image')->widget(FileInput::classname(), [
-                'options' => ['accept' => 'image/*'],
-                ]);?>
+        <?= $form->field($model, 'atas_nama')->textInput(['maxlength' => true, 'placeholder' => 'Atas Nama']) ?>
 
-            <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+        <?= $form->field($model, 'gambar',['template'=>'{input}'])->textInput(['style' => 'display:none','maxlength' => true, 'placeholder' => 'Gambar']) ?>
 
-            <div class="form-group">
-                <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-                <?= Html::a(Yii::t('app', 'Batal'), Yii::$app->request->referrer , ['class'=> 'btn btn-danger']) ?>
-            </div>
-        </div>
+        <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+            'options' => ['accept' => 'image/*'],
+            ]);?>
+
+        <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+             <?= Html::a(Yii::t('app', 'Batal'), Yii::$app->request->referrer , ['class'=> 'btn btn-danger']) ?>
+         </div>
     </div>
     <?php ActiveForm::end(); ?>
 

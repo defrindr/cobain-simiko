@@ -30,8 +30,7 @@ yii\bootstrap\Modal::end();
 <div class="module-profile-index">
     <div class="box-box-danger">
         <div class="box-header">
-                            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-            
+            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
                 <p>
                     <?= Html::a('Create Module Profile', ['create'], ['class' => 'btn btn-success']) ?>
                                 <?= Html::a('Advance Search', '#', ['class' => 'btn btn-info search-button']) ?>

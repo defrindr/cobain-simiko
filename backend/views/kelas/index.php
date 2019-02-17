@@ -33,7 +33,7 @@ yii\bootstrap\Modal::end();
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
                 <p>
                     <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
-                    <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                    <?php //echo Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']); ?>
                 </p>
                 <div class="search-form" style="display:none">
                     <?=  $this->render('_search', ['model' => $searchModel]); ?>
@@ -49,7 +49,7 @@ yii\bootstrap\Modal::end();
                                     'attribute' => 'jurusan_id',
                                     'label' => 'Jurusan',
                                     'value' => function($model){
-                                        return $model->jurusan->id;
+                                        return $model->jurusan->nama;
                                     },
                                     'filterType' => GridView::FILTER_SELECT2,
                                     'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleJurusan::find()->asArray()->all(), 'id', 'nama'),
@@ -62,10 +62,10 @@ yii\bootstrap\Modal::end();
                                     'attribute' => 'guru_id',
                                     'label' => 'Guru',
                                     'value' => function($model){
-                                        return $model->guru->user_id;
+                                        return $model->guru->profile->nama;
                                     },
                                     'filterType' => GridView::FILTER_SELECT2,
-                                    'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->asArray()->all(), 'user_id', 'username'),
+                                    'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->innerJoinWith(['user','profile'])->where(['user.role'=>20])->asArray()->all(), 'user_id', 'profile.nama'),
                                     'filterWidgetOptions' => [
                                         'pluginOptions' => ['allowClear' => true],
                                     ],

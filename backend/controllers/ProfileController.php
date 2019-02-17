@@ -32,12 +32,10 @@ class ProfileController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ModuleProfileSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        $id =\Yii::$app->user->id;
+        $model = $this->findModel($id);
+        return $this->render('view', [
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -85,13 +83,13 @@ class ProfileController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        $model = $this->findModel($id);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Creates a new ModuleProfile model.

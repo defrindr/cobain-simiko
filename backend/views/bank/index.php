@@ -36,7 +36,7 @@ yii\bootstrap\Modal::end();
     <div class="box box-danger">
         <div class="box-header">
             <p>
-                <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::button('Tambah', ['value'=>'create', 'title' => 'Tambah '.$this->title , 'class' => 'btn btn-success showModalButton']) ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
                 <?php if(Yii::$app->user->can('Admin')){ ?>
 
@@ -55,10 +55,27 @@ yii\bootstrap\Modal::end();
                 'no_rekening',
                 'nama_bank',
                 'atas_nama',
-                'gambar',
+                [
+                    'attribute' => 'gambar',
+                    'format' => 'raw',
+                    'value' => function($model){
+                        return Html::img(Url::base().'/uploaded/bank/'.$model->gambar,['style' => ['max-height'=>'120px','max-width' => '120px'] ,'class' => 'img img-responsive']);
+                    }
+                ],
                 ['attribute' => 'lock', 'visible' => false],
                 [
                     'class' => 'yii\grid\ActionColumn',
+                    'template' => '{update} {delete}',
+                    'buttons' => [
+                        'update' => function($url,$model){
+                            return Html::button('<i class="glyphicon glyphicon-pencil"></i>',
+                                [
+                                    'value' =>  Url::to(['bank/update','id'=>$model->id]),
+                                    'class'=>'btn-actionColumn showModalButton'
+                                ]
+                            );
+                        }
+                    ]
                 ],
             ]; 
             ?>
