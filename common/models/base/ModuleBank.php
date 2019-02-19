@@ -64,6 +64,7 @@ class ModuleBank extends \yii\db\ActiveRecord
             [['no_rekening', 'nama_bank', 'atas_nama'], 'required'],
             [['created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
+            [['no_rekening'], 'unique'],
             [['no_rekening', 'atas_nama'], 'string', 'max' => 45],
             [['gambar'], 'string' , 'max' => 200],
             [['nama_bank'], 'string', 'max' => 30],

@@ -46,26 +46,6 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
-            <?php
-            $forms = [
-                [
-                    'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('ModuleSpp'),
-                    'content' => $this->render('_formModuleSpp', [
-                        'row' => \yii\helpers\ArrayHelper::toArray($model->moduleSpps),
-                    ]),
-                ],
-            ];
-            echo kartik\tabs\TabsX::widget([
-                'items' => $forms,
-                'position' => kartik\tabs\TabsX::POS_ABOVE,
-                'encodeLabels' => false,
-                'pluginOptions' => [
-                    'bordered' => true,
-                    'sideways' => true,
-                    'enableCache' => false,
-                ],
-            ]);
-            ?>
             <div class="form-group">
                 <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
                 <?= Html::a(Yii::t('app', 'Batal'), Yii::$app->request->referrer , ['class'=> 'btn btn-danger']) ?>
@@ -73,10 +53,6 @@ use yii\widgets\ActiveForm;
             
         </div>
     </div>
-
-
-
-
 
     <?php ActiveForm::end(); ?>
 

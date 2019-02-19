@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleProfile */
@@ -11,18 +12,12 @@ use yii\widgets\ActiveForm;
 
 <div class="module-profile-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
 
 
-    <div class="box box-danger">
-        <div class="box-header">
+    <div class="container-fluid">
             <?= $form->errorSummary($model); ?>
-        </div>
-        <div class="box-body">
-
             <?php
-
-
 
             if($model->scenario == "create")
             {
@@ -46,7 +41,9 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'no_telp')->textInput(['maxlength' => true, 'placeholder' => 'No Telp']) ?>
 
-            <?= $form->field($model, 'avatar')->textInput(['maxlength' => true, 'placeholder' => 'Avatar']) ?>
+            <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+                'options' => ['accept' => 'image/*'],
+                ]);?>
 
             <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
@@ -54,8 +51,6 @@ use yii\widgets\ActiveForm;
                 <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
                 <?= Html::a(Yii::t('app', 'Batal'), Yii::$app->request->referrer , ['class'=> 'btn btn-danger']) ?>
             </div>
-            
-        </div>
     </div>
 
 

@@ -3,13 +3,24 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\grid\GridView;
-use yii\helpers\Url;    
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleProfile */
 
 $this->title = "Profil Saya";
 $this->params['breadcrumbs'][] = ['label' => 'Profil saya', 'url' => ['index']];
+
+yii\bootstrap\Modal::begin([
+'headerOptions' => ['id' => 'modalHeader'],
+'id' => 'modal',
+'size' => 'modal-lg',
+/*'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]*/
+]);
+echo "<div id='modalContent'></div>";
+yii\bootstrap\Modal::end();
+
+
 ?>
 <div class="module-profile-view">
     
@@ -18,7 +29,12 @@ $this->params['breadcrumbs'][] = ['label' => 'Profil saya', 'url' => ['index']];
 
             <div class="box box-danger">
                 <div class="box-header">
-                    <?php echo Html::a('Update', ['update', 'id' => $model->user_id], ['class' => 'btn btn-primary']); ?>
+                    <?php echo Html::button('Ubah ', [
+                        'value' => Url::to(['update', 'id' => $model->user_id]) ,
+                         'class' => 'btn btn-primary showModalButton',
+                         'title' => 'Ubah Profile'
+                     ]); 
+                     ?>
                     <?php echo "\n"; // echo Html::a('Delete', ['delete', 'id' => $model->user_id], ['class' => 'btn btn-danger','data' => ['confirm' => 'Are you sure you want to delete this item?','method' => 'post',],]);?>
                 </div>
                 <div class="box-body">
@@ -61,14 +77,25 @@ $this->params['breadcrumbs'][] = ['label' => 'Profil saya', 'url' => ['index']];
                     <h4>Photo Thumbnail</h4>
                 </div>
                 <div class="box-body">
-                    <?php 
-                    if(file_exists(Url::to(['@webroot/uploaded/img-profil/']))) {
-                        echo Html::img('@webroot',['class'=>'img img-responsive']);
-                    } else {
-                        echo "Directori tidak ditemukan";
-                    }
-
-                     ?>
+                    <center>
+                        <?php 
+                        if($model->avatar == ""){
+                            echo "Avatar kosong";
+                        } else {
+                            if(file_exists(Yii::$app->basePath.'/web/uploaded/img-profil')) 
+                            {
+                                if(file_exists(Yii::$app->basePath.'/web/uploaded/img-profil/'.$model->avatar))
+                                {
+                                    echo Html::img(Url::to(['/uploaded/img-profil/'.$model->avatar]),['class'=>'img img-responsive']);
+                                } else {
+                                     echo "Gambar tidak ditemukan";
+                                }
+                            } else {
+                                echo "Directori tidak ditemukan";
+                            }
+                        }
+                         ?>
+                    </center>
                 </div>
                 <!-- end box body -->
             </div>

@@ -32,13 +32,17 @@ class UserManageController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ModuleUserSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if(Yii::$app->user->can('Admin')){
+            $searchModel = new ModuleUserSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            throw new NotFoundHttpException;
+        }
     }
 
 

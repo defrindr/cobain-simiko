@@ -32,13 +32,17 @@ class SiswaController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ModuleSiswaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if(Yii::$app->user->can('siswa.index')){
+            $searchModel = new ModuleSiswaSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }else {
+            throw new NotFoundHttpException;
+        }
     }
 
 
@@ -48,22 +52,31 @@ class SiswaController extends Controller
      */
     public function actionDataRestore()
     {
-        $searchModel = new ModuleSiswaSearch();
-        $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+        if(Yii::$app->user->can('siswa.index')){
+            $searchModel = new ModuleSiswaSearch();
+            $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-        return $this->renderAjax('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->renderAjax('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }else {
+            throw new NotFoundHttpException;
+        }
     }
 
     public function actionRestore($id){
-        $model = ModuleSiswa::findDeleted($id)->one();
-        if($model->restoreWithRelated()){
-            Yii::$app->session->setFlash('success','Data berhasil direstore');
+        if(Yii::$app->user->can('siswa.data-restore')){
+            $model = ModuleSiswa::findDeleted($id)->one();
+            if($model->restoreWithRelated()){
+                Yii::$app->session->setFlash('success','Data berhasil direstore');
+            } else {
+                Yii::$app->session->setFlash('success','Data gagal direstore');
+            } return $this->redirect(['index']);
         } else {
-            Yii::$app->session->setFlash('success','Data gagal direstore');
-        } return $this->redirect(['index']);
+            throw new NotFoundHttpException;
+            
+        }
     }
 
 
@@ -76,14 +89,18 @@ class SiswaController extends Controller
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $providerModuleSpp = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->moduleSpps,
-        ]);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'providerModuleSpp' => $providerModuleSpp,
-        ]);
+        if(Yii::$app->user->can('siswa.view')){
+            $model = $this->findModel($id);
+            $providerModuleSpp = new \yii\data\ArrayDataProvider([
+                'allModels' => $model->moduleSpps,
+            ]);
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+                'providerModuleSpp' => $providerModuleSpp,
+            ]);
+        } else {
+            throw new NotFoundHttpException;
+        }
     }
 
     /**
@@ -93,14 +110,20 @@ class SiswaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ModuleSiswa();
+        if(Yii::$app->user->can('siswa.create')){
+            $model = new ModuleSiswa();
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->user_id]);
+            if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+                return $this->redirect(['view', 'id' => $model->user_id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+            
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            throw new NotFoundHttpException;
+            
         }
     }
 
@@ -112,14 +135,20 @@ class SiswaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can('siswa.update')){
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->user_id]);
+            $model = $this->findModel($id);
+
+            if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+                return $this->redirect(['view', 'id' => $model->user_id]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            throw new NotFoundHttpException;
+            
         }
     }
 
@@ -131,9 +160,16 @@ class SiswaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
-
-        return $this->redirect(['index']);
+        if(Yii::$app->user->can('siswa.delete')){
+            if($this->findModel($id)->deleteWithRelated()){
+                Yii::$app->session->setFlash('success','Siswa berhasil dihapus');
+                return $this->redirect(['index']);
+            }
+            
+        } else {
+            throw new NotFoundHttpException;
+            
+        }
     }
 
     

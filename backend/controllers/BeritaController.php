@@ -222,6 +222,7 @@ class BeritaController extends Controller
              * 
              */
             if ($model->loadAll(Yii::$app->request->post())) {
+                
                 $transaction = $model->getDb()->beginTransaction(); // set transaction
                 $model->scenario = "update"; // set scenario
 
@@ -269,11 +270,11 @@ class BeritaController extends Controller
                          * check return bool value $model->saveAll()
                          */
                         if($model->saveAll()){
-                            $model->commit(); // commit $model
+                            $transaction->commit(); // commit $model
                             Yii::$app->session->setFlash('success','Data berita berhasil diubah');
                             return $this->redirect(['view','id'=>$model->id]);
                         } else { // jika saveAll() gagal maka
-                            $model->rollback(); //rollback $model
+                            $transaction->rollback(); //rollback $model
                             Yii::$app->session->setFlash('error','Data berita gagal diubah');
                             return $this->redirect(['view','id'=>$model->id]);
                         }

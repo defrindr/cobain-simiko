@@ -30,8 +30,11 @@ class ModuleProfile extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
 
+
+
     private $_rt_softdelete;
     private $_rt_softrestore;
+    public $image;
 
     public function __construct(){
         parent::__construct();
@@ -70,6 +73,7 @@ class ModuleProfile extends \yii\db\ActiveRecord
             [['tempat_lahir'], 'string', 'max' => 70],
             [['no_telp'], 'string', 'max' => 20],
             [['avatar'], 'string', 'max' => 255],
+            [['image'],'file', 'skipOnEmpty' => true, 'extensions'=>'jpg,jpeg,gif,png', 'maxSize' => 1024*1024*2],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];

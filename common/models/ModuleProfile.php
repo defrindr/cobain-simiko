@@ -25,6 +25,7 @@ class ModuleProfile extends BaseModuleProfile
             [['tempat_lahir'], 'string', 'max' => 70],
             [['no_telp'], 'string', 'max' => 20],
             [['avatar'], 'string', 'max' => 255],
+            [['image'],'file', 'skipOnEmpty' => true, 'extensions'=>'jpg,jpeg,gif,png', 'maxSize' => 1024*1024*2],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);

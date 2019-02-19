@@ -6,6 +6,7 @@ use Yii;
 use common\models\ModuleProfile;
 use common\models\ModuleProfileSearch;
 use yii\web\Controller;
+use yii\web\UploadedFile;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -39,15 +40,17 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function actionAdmin()
+    public function actionAll()
     {
-        $searchModel = new ModuleProfileSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if(Yii::$app->user->can('Admin')){
+            $searchModel = new ModuleProfileSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
 
@@ -77,38 +80,6 @@ class ProfileController extends Controller
 
 
 
-
-    /**
-     * Displays a single ModuleProfile model.
-     * @param integer $id
-     * @return mixed
-     */
-    // public function actionView($id)
-    // {
-    //     $model = $this->findModel($id);
-    //     return $this->render('view', [
-    //         'model' => $this->findModel($id),
-    //     ]);
-    // }
-
-    /**
-     * Creates a new ModuleProfile model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new ModuleProfile();
-
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->user_id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
     /**
      * Updates an existing ModuleProfile model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -118,11 +89,73 @@ class ProfileController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+            /**
+             *
+             * Load request data dan
+             * Check request method (kalau tidak salah :v)
+             * 
+             */
+            if ($model->loadAll(Yii::$app->request->post())) {
+                $transaction = $model->getDb()->beginTransaction(); // set transaction
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->user_id]);
-        } else {
-            return $this->render('update', [
+                $this->checkDir();
+
+                /**
+                 *  Check $model->validate()
+                 */
+                if($model->validate()){
+                    /**
+                     * Check $model->image
+                     */
+                    if(UploadedFile::getInstance($model,'image') != ""){ //jika gambar diupdate
+                        $oldImage = $model->avatar;
+                        $fileName = Yii::$app->user->identity->username."_".time().".".UploadedFile::getInstance($model,'image')->extension; //generate name file
+                        $model->avatar = $fileName;
+                        /**
+                         * Jika data berhasil disave
+                         */
+                        if($model->saveAll()){
+                            /**
+                             * Check file gambar
+                             * Jika file masih ada maka hapus file
+                             */
+                            if($oldImage != ""){
+                                if(file_exists(Yii::$app->basePath."/web/uploaded/img-profil/".$oldImage)){
+                                    unlink(Yii::$app->basePath."/web/uploaded/img-profil/".$oldImage);
+                                }
+                            }
+                            UploadedFile::getInstance($model,'image')->saveAs(Yii::$app->basePath."/web/uploaded/img-profil/".$fileName); //save image
+                            $transaction->commit(); // commit $model
+                            Yii::$app->session->setFlash('success','Profil berhasil diubah');
+                            return $this->redirect(['index']);
+                        } else { // jika saveAll() gagal maka
+                            $transaction->rollback(); //rollback $model
+                            Yii::$app->session->setFlash('error','Profil gagal diubah');
+                            return $this->redirect(['index']);
+                        }
+
+
+                    } else { // jika gambar tidak diupdate
+                        /**
+                         * check return bool value $model->saveAll()
+                         */
+                        if($model->saveAll()){
+                            $transaction->commit(); // commit $model
+                            Yii::$app->session->setFlash('success','Profil berhasil diubah');
+                            return $this->redirect(['index']);
+                        } else { // jika saveAll() gagal maka
+                            $transaction->rollback(); //rollback $model
+                            Yii::$app->session->setFlash('error','Profil gagal diubah');
+                            return $this->redirect(['index']);
+                        }
+                    }
+                } else { // jika gagal validate
+                    Yii::$app->session->setFlash('Error','Error validation data');
+                    return $this->redirect(['index']);
+                }
+
+            }  else {
+            return $this->renderAjax('update', [
                 'model' => $model,
             ]);
         }
@@ -157,4 +190,48 @@ class ProfileController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    protected function checkDir(){
+        if (!file_exists(Yii::$app->basePath.'/web/uploaded/')) {
+            mkdir(Yii::$app->basePath.'/web/uploaded/');
+        }
+        if (!file_exists(Yii::$app->basePath.'/web/uploaded/img-profil/')) {
+            mkdir(Yii::$app->basePath.'/web/uploaded/img-profil/');
+        }
+    }
+
+
+
+
+    /**
+     * Displays a single ModuleProfile model.
+     * @param integer $id
+     * @return mixed
+     */
+    // public function actionView($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
+
+    /**
+     * Creates a new ModuleProfile model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    // public function actionCreate()
+    // {
+    //     $model = new ModuleProfile();
+
+    //     if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+    //         return $this->redirect(['view', 'id' => $model->user_id]);
+    //     } else {
+    //         return $this->render('create', [
+    //             'model' => $model,
+    //         ]);
+    //     }
+    // }
+
 }

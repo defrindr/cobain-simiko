@@ -64,6 +64,7 @@ class ModuleGuru extends \yii\db\ActiveRecord
             [['user_id', 'mata_pelajaran_id'], 'required'],
             [['user_id', 'mata_pelajaran_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
+            [['user_id'], 'unique', 'message' => '{attribute} is duplicated'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];

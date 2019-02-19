@@ -25,9 +25,6 @@ $admin = (Yii::$app->user->identity->role == 10);
             <ul class="nav navbar-nav">
 
                 <!-- User Account: style can be found in dropdown.less -->
-                <?php 
-                    if($admin){
-                 ?>
                  <li>
                     <?= Html::a(
                         'Profile',
@@ -35,7 +32,6 @@ $admin = (Yii::$app->user->identity->role == 10);
                         ['class' => 'btn btn-flat', 'style' => 'border:0']
                     ) ?>
                  </li>
-                 <?php } ?>
                 <li>
                     <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                 </li>
