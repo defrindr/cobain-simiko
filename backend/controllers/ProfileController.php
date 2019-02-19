@@ -97,6 +97,7 @@ class ProfileController extends Controller
              */
             if ($model->loadAll(Yii::$app->request->post())) {
                 $transaction = $model->getDb()->beginTransaction(); // set transaction
+                $model->tgl_lahir = strtotime($model->tgl_lahir);
 
                 $this->checkDir();
 

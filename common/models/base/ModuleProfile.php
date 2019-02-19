@@ -66,9 +66,9 @@ class ModuleProfile extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'nama'], 'required'],
-            [['user_id', 'tgl_lahir', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['user_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['bio'], 'string'],
-            [['deleted_at'], 'safe'],
+            [['deleted_at','tgl_lahir'], 'safe'],
             [['nama'], 'string', 'max' => 100],
             [['tempat_lahir'], 'string', 'max' => 70],
             [['no_telp'], 'string', 'max' => 20],

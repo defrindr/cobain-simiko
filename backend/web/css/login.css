@@ -9,7 +9,9 @@
 .green{
   background: #285E71
 } 
-
+.errorValLogin{
+  color:#fff !important;
+}
 .formInput{
   font-size: 18px;
   padding: 5px;

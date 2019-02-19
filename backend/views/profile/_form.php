@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\FileInput;
+use \kartik\widgets\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleProfile */
@@ -12,7 +13,7 @@ use kartik\widgets\FileInput;
 
 <div class="module-profile-form">
 
-    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data'],'fieldConfig' => ['template' => '{label}{input}']]); ?>
 
 
     <div class="container-fluid">
@@ -32,8 +33,15 @@ use kartik\widgets\FileInput;
              ?>
 
             <?= $form->field($model, 'nama')->textInput(['maxlength' => true, 'placeholder' => 'Nama']) ?>
-
-            <?= $form->field($model, 'tgl_lahir')->textInput(['placeholder' => 'Tgl Lahir']) ?>
+    
+            <?php $model->tgl_lahir = date('d M Y',$model->tgl_lahir);
+            echo $form->field($model, 'tgl_lahir')->widget(DatePicker::classname(),[
+                    'options' => ['placeholder' => 'Tanggal lahir'],
+                    'pluginOptions' => [
+                        'autoclose'=>true,
+                        'format' => 'dd-M-yyyy'
+                    ]
+                ]); ?>
 
             <?= $form->field($model, 'tempat_lahir')->textInput(['maxlength' => true, 'placeholder' => 'Tempat Lahir']) ?>
 

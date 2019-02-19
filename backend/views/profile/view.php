@@ -45,7 +45,17 @@ yii\bootstrap\Modal::end();
                                 'label' => 'User',
                             ],
                             'nama',
-                            'tgl_lahir',
+                            [
+                                'attribute' => 'tgl_lahir',
+                                'value' => function($model){
+                                    if(!empty($model->tgl_lahir)){
+                                        return date('d M Y',$model->tgl_lahir);
+                                    }else {
+                                        return "";
+                                    }
+                                    
+                                }
+                            ],
                             'tempat_lahir',
                             'bio:ntext',
                             'no_telp',

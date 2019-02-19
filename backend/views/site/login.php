@@ -29,7 +29,7 @@ $checkboxTemplate = '<div class="switch">{beginLabel}{input}{labelTitle}<span cl
         </center>
     </div>
     <div class="col-sm-8 rightCol">
-      <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
+      <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false, 'errorCssClass' => 'error']); ?>
 
         <?= $form
             ->field($model, 'username', $fieldOptions1)

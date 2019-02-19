@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed6c1bf29fd5c6fd77ce6982dbbc57d2",
+    "content-hash": "9b16005ea5bb81e5746fd897ae5efc1b",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -52,16 +52,16 @@
         },
         {
             "name": "bower-asset/bootstrap",
-            "version": "v3.4.0",
+            "version": "v3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "4c547f2175b9a05aa43551f6927da83fe249ce42"
+                "reference": "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/4c547f2175b9a05aa43551f6927da83fe249ce42",
-                "reference": "4c547f2175b9a05aa43551f6927da83fe249ce42",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/68b0d231a13201eb14acd3dc84e51543d16e5f7e",
+                "reference": "68b0d231a13201eb14acd3dc84e51543d16e5f7e",
                 "shasum": null
             },
             "require": {
@@ -679,6 +679,117 @@
                 "icon"
             ],
             "time": "2016-10-24T15:52:54+00:00"
+        },
+        {
+            "name": "giggsey/libphonenumber-for-php",
+            "version": "7.7.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/libphonenumber-for-php.git",
+                "reference": "7137cef7f295d225aec2a290f6829c1c71a1ffb0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/7137cef7f295d225aec2a290f6829c1c71a1ffb0",
+                "reference": "7137cef7f295d225aec2a290f6829c1c71a1ffb0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "giggsey/locale": "^1.0",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "pear/pear-core-minimal": "^1.9",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "dev-master",
+                "phing/phing": "^2.7",
+                "phpunit/phpunit": "^4.8|^5.0",
+                "satooshi/php-coveralls": "^1.0",
+                "symfony/console": "^2.8|^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "libphonenumber": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "http://giggsey.com/"
+                }
+            ],
+            "description": "PHP Port of Google's libphonenumber",
+            "homepage": "https://github.com/giggsey/libphonenumber-for-php",
+            "keywords": [
+                "geocoding",
+                "geolocation",
+                "libphonenumber",
+                "mobile",
+                "phonenumber",
+                "validation"
+            ],
+            "time": "2016-11-23T15:39:02+00:00"
+        },
+        {
+            "name": "giggsey/locale",
+            "version": "1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/Locale.git",
+                "reference": "da6845720b5d104d319d7e84576f54e44dd9e4f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/Locale/zipball/da6845720b5d104d319d7e84576f54e44dd9e4f5",
+                "reference": "da6845720b5d104d319d7e84576f54e44dd9e4f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "pear/pear-core-minimal": "^1.9",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "^0.5",
+                "phing/phing": "~2.7",
+                "phpunit/phpunit": "^4.8|^5.0",
+                "satooshi/php-coveralls": "^1.0",
+                "symfony/console": "^2.8|^3.0|^4.0",
+                "symfony/filesystem": "^2.8|^3.0|^4.0",
+                "symfony/finder": "^2.8|^3.0|^4.0",
+                "symfony/process": "^2.8|^3.0|^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Giggsey\\Locale\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "http://giggsey.com/"
+                }
+            ],
+            "description": "Locale functions required by libphonenumber-for-php",
+            "time": "2018-10-18T07:17:52+00:00"
         },
         {
             "name": "hscstudio/yii2-export",
@@ -1921,16 +2032,16 @@
         },
         {
             "name": "kartik-v/yii2-widget-datepicker",
-            "version": "v1.4.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datepicker.git",
-                "reference": "aadeb08fe0199a62bb26940cdccafc2c169edc69"
+                "reference": "ac89cc2371afd1574eb064245758ccfb6b852dd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/aadeb08fe0199a62bb26940cdccafc2c169edc69",
-                "reference": "aadeb08fe0199a62bb26940cdccafc2c169edc69",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/ac89cc2371afd1574eb064245758ccfb6b852dd0",
+                "reference": "ac89cc2371afd1574eb064245758ccfb6b852dd0",
                 "shasum": ""
             },
             "require": {
@@ -1971,7 +2082,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2018-10-09T11:34:49+00:00"
+            "time": "2018-11-05T12:32:36+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-datetimepicker",
@@ -3246,16 +3357,16 @@
         },
         {
             "name": "mpdf/mpdf",
-            "version": "v7.1.8",
+            "version": "v7.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpdf/mpdf.git",
-                "reference": "5a124ed382cf9241597c7ba12f98a756daa7f8df"
+                "reference": "a0fc1215d2306aa3b4ba6e97bd6ebe4bab6a88fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/5a124ed382cf9241597c7ba12f98a756daa7f8df",
-                "reference": "5a124ed382cf9241597c7ba12f98a756daa7f8df",
+                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/a0fc1215d2306aa3b4ba6e97bd6ebe4bab6a88fb",
+                "reference": "a0fc1215d2306aa3b4ba6e97bd6ebe4bab6a88fb",
                 "shasum": ""
             },
             "require": {
@@ -3310,7 +3421,7 @@
                 "php",
                 "utf-8"
             ],
-            "time": "2019-01-08T11:38:17+00:00"
+            "time": "2019-02-06T13:32:19+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -3811,6 +3922,52 @@
                 "mailer"
             ],
             "time": "2018-09-11T07:12:52+00:00"
+        },
+        {
+            "name": "udokmeci/yii2-phone-validator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/udokmeci/yii2-phone-validator.git",
+                "reference": "9b855e78d83385b481c88004d458972dc210aa40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/udokmeci/yii2-phone-validator/zipball/9b855e78d83385b481c88004d458972dc210aa40",
+                "reference": "9b855e78d83385b481c88004d458972dc210aa40",
+                "shasum": ""
+            },
+            "require": {
+                "giggsey/libphonenumber-for-php": "~7.0",
+                "php": ">=5.3.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "validator",
+            "autoload": {
+                "psr-0": {
+                    "udokmeci\\yii2PhoneValidator": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Uğur DÖKMECİ",
+                    "email": "ugurdokmeci@gmail.com",
+                    "homepage": "https://github.com/udokmeci/yii2-phone-validator",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Yii2 Phone validator wrapper on top of PhoneNumberUtil library also used by Android devices",
+            "homepage": "https://github.com/udokmeci/yii2-beanstalk",
+            "keywords": [
+                "phone number",
+                "phone number validator",
+                "yii2"
+            ],
+            "time": "2016-09-16T16:18:28+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -5278,6 +5435,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2018-08-09T05:50:03+00:00"
         },
         {
@@ -6770,6 +6928,8 @@
         "kartik-v/bootstrap-fileinput": 20,
         "kartik-v/yii2-checkbox-x": 20,
         "kartik-v/yii2-widget-switchinput": 20,
+        "kartik-v/yii2-widget-datepicker": 20,
+        "udokmeci/yii2-phone-validator": 20,
         "mdmsoft/yii2-admin": 20
     },
     "prefer-stable": false,
