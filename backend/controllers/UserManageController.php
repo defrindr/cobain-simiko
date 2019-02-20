@@ -4,6 +4,10 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\ModuleUser;
+use common\models\ModuleGuru;
+use common\models\ModuleSiswa;
+use backend\models\addSiswaForm;
+use common\models\User;
 use common\models\ModuleUserSearch;
 use common\models\ModuleProfile;
 use common\models\ModuleProfileSearch;
@@ -48,12 +52,60 @@ class UserManageController extends Controller
     }
 
     public function actionCreate() {
-        $model = new ModuleUser();
-        $modelProfile = new ModuleProfile();
-        if($model->loadAll(Yii::$app->request->post())){
-            $model->save();
+
+        $model = new addSiswaForm();
+
+        if($model->load(Yii::$app->request->post()))
+        {
+
+            $modelUser = new User();
+            $modelProfile = new ModuleProfile();
+            $transaction = Yii::$app->db->beginTransaction();
+            try
+            {
+                $modelUser->username = $model->username;
+                $modelUser->email = $model->email;
+                $modelUser->setPassword($model->password);
+                $modelUser->generateAuthKey();
+                $modelUser->role =30;
+                if($modelUser->save())
+                {
+                    $modelProfile->user_id = $modelUser->id;
+                    $modelProfile->nama = $model->nama;
+                    $modelProfile->created_by = Yii::$app->user->id;
+                    $modelProfile->updated_by = Yii::$app->user->id;
+                    $modelProfile->deleted_by = 0;
+                    $modelProfile->created_at = time();
+                    $modelProfile->updated_at = time();
+                    $modelProfile->deleted_at = date('Y-m-d H:i:s');
+                    $modelProfile->lock = 0;
+
+                    if($modelProfile->save())
+                    {
+                        $transaction->commit();
+                        Yii::$app->session->setFlash('success','User berhasil ditambahkan');
+                        return $this->redirect(['index']);
+                    } else {
+                        $transaction->rollback();
+                        Yii::$app->session->setFlash('error','User gagal ditambahkan');
+                        return $this->redirect(['index']);
+                    }
+
+
+                } else 
+                {
+                    $transaction->rollback();
+                    Yii::$app->session->setFlash('error','User gagal ditambahkan');
+                    return $this->redirect(['index']);
+                }
+            } catch(Exception $e)
+            {
+                $transaction->rollback();
+                Yii::$app->session->setFlash('error',$e);
+                return $this->redirect(['index']);
+            }
         } else {
-            return $this->renderAjax('create',['model'=>$model,'modelProfile'=>$modelProfile]);
+            return $this->renderAjax('create',['model'=>$model]);
         }
 
     }

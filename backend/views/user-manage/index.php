@@ -6,20 +6,32 @@ use yii\helpers\Url;
 
 $this->title = "User Manage";
 
+
+yii\bootstrap\Modal::begin([
+'headerOptions' => ['id' => 'modalHeader'],
+'id' => 'modal',
+'size' => 'modal-lg',
+/*'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]*/
+]);
+echo "<div id='modalContent'></div>";
+yii\bootstrap\Modal::end();
+
+
 ?>
 <div class="module-user-manage">
 	<div class="box box-danger">
 		<div class="box-header">
 			<?=
 			Html::button('<span class="glypicon glyphicon-plus" style="font-size:18px"></span> Add User',[
-				'value' => Url::to('#'),
-				'class' => 'btn btn-flat btn-success'
+				'value' => Url::to(['create']),
+				'title'=>'Tambah user',
+				'class' => 'btn btn-success showModalButton'
 			]);
 			?>
 			<?=
 			Html::button('<span class="glypicon glyphicon-plus" style="font-size:18px"></span> Upload User',[
 				'value' => Url::to('#'),
-				'class' => 'btn btn-flat btn-success'
+				'class' => 'btn showModalButton btn-success'
 			]);
 			?>
 		</div>
