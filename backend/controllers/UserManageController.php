@@ -5,6 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\ModuleUser;
 use common\models\ModuleUserSearch;
+use common\models\ModuleProfile;
+use common\models\ModuleProfileSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -43,6 +45,16 @@ class UserManageController extends Controller
         } else {
             throw new NotFoundHttpException;
         }
+    }
+
+    public function actionCreate{
+        $model = ModuleUser();
+        if(Yii::loadAll(Yii::$app->request->post())){
+            $model->save();
+        } else {
+            return $this->renderAjax('create',['model'=>$model]);
+        }
+
     }
 
 

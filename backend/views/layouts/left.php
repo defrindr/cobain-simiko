@@ -30,7 +30,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                 } else {
                     echo $directoryAsset.'/img/user2-160x160.jpg';
                 }
-                ?>" class="img-circle" alt="User Image" style="width: 30px;height: 30px"/>
+                ?>" class="img-circle" alt="User Image" style="max-width: 55px;max-height: 55px"/>
             </div>
             <div class="pull-left info">
                 <p><?= Yii::$app->user->identity->username ?></p>
