@@ -1,4 +1,6 @@
 <?php
+use common\models\ModuleProfile;
+use yii\helpers\Url;
 
 $admin = true;
 $guru = true;
@@ -7,6 +9,7 @@ $admin = (Yii::$app->user->identity->role == 10);
 $guru = (Yii::$app->user->identity->role == 20);
 $siswa = (Yii::$app->user->identity->role == 30);
 
+$user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
 
 ?>
 
@@ -17,7 +20,17 @@ $siswa = (Yii::$app->user->identity->role == 30);
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                <img src="<?php
+                if(isset($user->avatar)&& ($user->avatar != "")){
+                    if(file_exists(Yii::$app->basePath."/web/uploaded/img-profil/".$user->avatar)){
+                        echo Url::base()."/uploaded/img-profil/".$user->avatar;
+                    } else {
+                        echo $directoryAsset.'/img/user2-160x160.jpg';
+                    }
+                } else {
+                    echo $directoryAsset.'/img/user2-160x160.jpg';
+                }
+                ?>" class="img-circle" alt="User Image" style="width: 45px;height: 45px"/>
             </div>
             <div class="pull-left info">
                 <p><?= Yii::$app->user->identity->username ?></p>
@@ -26,7 +39,7 @@ $siswa = (Yii::$app->user->identity->role == 30);
             </div>
         </div>
 
-        <!-- search form -->
+        <!-- search form
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
                 <input type="text" name="q" class="form-control" placeholder="Search..."/>
@@ -36,39 +49,47 @@ $siswa = (Yii::$app->user->identity->role == 30);
               </span>
             </div>
         </form>
-        <!-- /.search form -->
+         /.search form -->
 
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
+                    ['label' => 'Side Menu', 'options' => ['class' => 'header']],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     [
-                        'label' => 'berita',
-                         'icon' => 'dashboard',
-                         'url' => '#',
-                         'visible' => $admin,
-                         'items' => [
-                            ['label' => 'Berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
-                            ['label' => 'Berita-kategori', 'url' => ['/berita-kategori'], 'icon' => 'dashboard'],
-                         ],
-                     ],
-                    ['label' => 'User Manage', 'url' => ['/user-manage'], 'icon' => 'dashboard', 'visible' => $admin],
-                    ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard', 'visible' => $admin],
-                    ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard', 'visible' => $admin],
-                    ['label' => 'Guru', 'url' => ['/guru'], 'icon' => 'dashboard', 'visible' => $admin],
-                    ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard', 'visible' => $admin],
-                    [
-                        'label' => 'Galeri', 
-                        'url' => '#', 
-                        'icon' => 'dashboard',
+                        'label' => 'Admin fitur', 
+                        'icon'=>'dashboard', 
+                        'url'=>'#',
+                        'visible' => $admin,
                         'items' => [
-                            ['label' => 'Galeri', 'icon'=> 'dashboard', 'url' => ['/galeri']],
-                            ['label' => 'Galeri Kategori', 'icon' => 'dashboard', 'url'=> ['/galeri-kategori']],
-                        ],
+                            [
+                                'label' => 'berita',
+                                 'icon' => 'dashboard',
+                                 'url' => '#',
+                                 'items' => [
+                                    ['label' => 'Berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
+                                    ['label' => 'Berita-kategori', 'url' => ['/berita-kategori'], 'icon' => 'dashboard'],
+                                 ],
+                             ],
+                            ['label' => 'User Manage', 'url' => ['/user-manage'], 'icon' => 'dashboard'],
+                            ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard'],
+                            ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard'],
+                            ['label' => 'Profile Manage', 'url' => ['/profile/all'], 'icon' => 'dashboard'],
+                            [
+                                'label' => 'Galeri', 
+                                'url' => '#', 
+                                'icon' => 'dashboard',
+                                'items' => [
+                                    ['label' => 'Galeri', 'icon'=> 'dashboard', 'url' => ['/galeri']],
+                                    ['label' => 'Galeri Kategori', 'icon' => 'dashboard', 'url'=> ['/galeri-kategori']],
+                                ],
+                            ],
+                        ]
                     ],
+                    ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard'],
+                    ['label' => 'Guru', 'url' => ['/guru'], 'icon' => 'dashboard'],
                     [
                         'label' => 'Jurusan',
                         'url' => ['/jurusan'],

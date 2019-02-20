@@ -27,8 +27,10 @@ yii\bootstrap\Modal::end();
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             
             <p>
-                <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
-                <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?php if(Yii::$app->user->can('Admin')){ ?>
+                    <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?php } ?>
             </p>
             <div class="search-form" style="display:none">
                 <?=  $this->render('_search', ['model' => $searchModel]); ?>

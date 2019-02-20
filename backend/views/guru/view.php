@@ -60,49 +60,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 
-    <div class="box box-danger">
-        <div class="box-header">
-        </div>
-        <div class="box-body">
-            <?php 
-                $gridColumn = [
-                    [
-                        'attribute' => 'user.username',
-                        'label' => 'Nama',
-                        'value' => function($model){
-                            return $model->profile->nama;
-                        }
-                    ],
-                    [
-                        'attribute' => 'email',
-                        'label' => 'Email',
-                        'value' => function($model) {
-                            return $model->user->email;
-                        }
-                    ],
-                    [
-                        'attribute' => 'mataPelajaran.id',
-                        'label' => 'Mata Pelajaran',
-                        'value' => function($model){
-                            return $model->mataPelajaran->nama_mapel;
-                        }
-                    ],
-                    ['attribute' => 'lock', 'visible' => false],
-                ];
-                echo DetailView::widget([
-                    'model' => $model,
-                    'attributes' => $gridColumn
-                ]);
-            ?>
-        </div>
-    </div>
-
-
-
-
-
-
-
 
 
 
@@ -115,17 +72,20 @@ $this->params['breadcrumbs'][] = $this->title;
             echo '
 <div class="box box-danger">
     <div class="box-header">
-        <h4>Wali kelas</h4>
+        <h4>Kelas</h4>
     </div>
     <div class="box-body">';
             $gridColumnModuleKelas = [
                 ['class' => 'yii\grid\SerialColumn'],
                     ['attribute' => 'id', 'visible' => false],
+                    'kelas',
                     [
                         'attribute' => 'jurusan.id',
-                        'label' => 'Jurusan'
+                        'label' => 'Jurusan',
+                        'value' => function($model){
+                            return $model->jurusan->nama;
+                        }
                     ],
-                                'kelas',
                     'grade',
                     'tahun',
                     ['attribute' => 'lock', 'visible' => false],

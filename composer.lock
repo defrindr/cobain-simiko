@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b16005ea5bb81e5746fd897ae5efc1b",
+    "content-hash": "86f71f91c37ed8ee73a9b90452e40307",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -51,6 +51,51 @@
             "time": "2018-07-15T18:48:11+00:00"
         },
         {
+            "name": "borales/yii2-phone-input",
+            "version": "0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Borales/yii2-phone-input.git",
+                "reference": "3df49ca980d7ed164296a1974c50d860b78f5f2f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Borales/yii2-phone-input/zipball/3df49ca980d7ed164296a1974c50d860b78f5f2f",
+                "reference": "3df49ca980d7ed164296a1974c50d860b78f5f2f",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/intl-tel-input": "^12",
+                "giggsey/libphonenumber-for-php": "^8",
+                "yiisoft/yii2": ">=2.0.1"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "borales\\extensions\\phoneInput\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Borales (Alexandr Bordun)",
+                    "email": "bordun.alexandr@gmail.com"
+                }
+            ],
+            "description": "Yii2 International telephone numbers - Asset Bundle, Behavior, Validator, Widget",
+            "homepage": "https://github.com/Borales/yii2-phone-input",
+            "keywords": [
+                "international telephone numbers",
+                "intl-tel-input",
+                "libphonenumber",
+                "yii2"
+            ],
+            "time": "2018-06-17T11:29:34+00:00"
+        },
+        {
             "name": "bower-asset/bootstrap",
             "version": "v3.4.1",
             "source": {
@@ -93,6 +138,25 @@
             "license": [
                 "http://opensource.org/licenses/mit-license.php"
             ]
+        },
+        {
+            "name": "bower-asset/intl-tel-input",
+            "version": "v12.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jackocnr/intl-tel-input.git",
+                "reference": "2afde58af3d7db953ba505946a5aac3c3176ed0b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jackocnr/intl-tel-input/zipball/2afde58af3d7db953ba505946a5aac3c3176ed0b",
+                "reference": "2afde58af3d7db953ba505946a5aac3c3176ed0b",
+                "shasum": null
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.7"
+            },
+            "type": "bower-asset"
         },
         {
             "name": "bower-asset/jquery",
@@ -682,42 +746,48 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "7.7.5",
+            "version": "8.10.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "7137cef7f295d225aec2a290f6829c1c71a1ffb0"
+                "reference": "667a1fe292561b7c64c4fc457a9f1ecc41d67185"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/7137cef7f295d225aec2a290f6829c1c71a1ffb0",
-                "reference": "7137cef7f295d225aec2a290f6829c1c71a1ffb0",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/667a1fe292561b7c64c4fc457a9f1ecc41d67185",
+                "reference": "667a1fe292561b7c64c4fc457a9f1ecc41d67185",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "giggsey/locale": "^1.0",
+                "giggsey/locale": "^1.2",
                 "php": ">=5.3.2"
             },
             "require-dev": {
                 "pear/pear-core-minimal": "^1.9",
                 "pear/pear_exception": "^1.0",
-                "pear/versioncontrol_git": "dev-master",
+                "pear/versioncontrol_git": "^0.5",
                 "phing/phing": "^2.7",
-                "phpunit/phpunit": "^4.8|^5.0",
-                "satooshi/php-coveralls": "^1.0",
+                "php-coveralls/php-coveralls": "^1.0|^2.0",
+                "phpunit/phpunit": "^4.8.36|^5.0",
                 "symfony/console": "^2.8|^3.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.x-dev"
+                    "dev-master": "8.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "libphonenumber": "src/"
-                }
+                "psr-4": {
+                    "libphonenumber\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "/src/data/",
+                    "/src/carrier/data/",
+                    "/src/geocoding/data/",
+                    "/src/timezone/data/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -727,7 +797,7 @@
                 {
                     "name": "Joshua Gigg",
                     "email": "giggsey@gmail.com",
-                    "homepage": "http://giggsey.com/"
+                    "homepage": "https://giggsey.com/"
                 }
             ],
             "description": "PHP Port of Google's libphonenumber",
@@ -740,7 +810,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2016-11-23T15:39:02+00:00"
+            "time": "2019-02-08T08:31:08+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -3924,52 +3994,6 @@
             "time": "2018-09-11T07:12:52+00:00"
         },
         {
-            "name": "udokmeci/yii2-phone-validator",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/udokmeci/yii2-phone-validator.git",
-                "reference": "9b855e78d83385b481c88004d458972dc210aa40"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/udokmeci/yii2-phone-validator/zipball/9b855e78d83385b481c88004d458972dc210aa40",
-                "reference": "9b855e78d83385b481c88004d458972dc210aa40",
-                "shasum": ""
-            },
-            "require": {
-                "giggsey/libphonenumber-for-php": "~7.0",
-                "php": ">=5.3.0",
-                "yiisoft/yii2": "*"
-            },
-            "type": "validator",
-            "autoload": {
-                "psr-0": {
-                    "udokmeci\\yii2PhoneValidator": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Uğur DÖKMECİ",
-                    "email": "ugurdokmeci@gmail.com",
-                    "homepage": "https://github.com/udokmeci/yii2-phone-validator",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Yii2 Phone validator wrapper on top of PhoneNumberUtil library also used by Android devices",
-            "homepage": "https://github.com/udokmeci/yii2-beanstalk",
-            "keywords": [
-                "phone number",
-                "phone number validator",
-                "yii2"
-            ],
-            "time": "2016-09-16T16:18:28+00:00"
-        },
-        {
             "name": "yiisoft/yii2",
             "version": "2.0.16",
             "source": {
@@ -6929,7 +6953,6 @@
         "kartik-v/yii2-checkbox-x": 20,
         "kartik-v/yii2-widget-switchinput": 20,
         "kartik-v/yii2-widget-datepicker": 20,
-        "udokmeci/yii2-phone-validator": 20,
         "mdmsoft/yii2-admin": 20
     },
     "prefer-stable": false,

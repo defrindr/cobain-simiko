@@ -89,6 +89,10 @@ class ProfileController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        $model->scenario = "update";
+        if(Yii::$app->user->id == $id){
+
             /**
              *
              * Load request data dan
@@ -160,6 +164,8 @@ class ProfileController extends Controller
                 'model' => $model,
             ]);
         }
+            
+        }
     }
 
     /**
@@ -222,17 +228,17 @@ class ProfileController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    // public function actionCreate()
-    // {
-    //     $model = new ModuleProfile();
-
-    //     if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-    //         return $this->redirect(['view', 'id' => $model->user_id]);
-    //     } else {
-    //         return $this->render('create', [
-    //             'model' => $model,
-    //         ]);
-    //     }
-    // }
+    public function actionCreate()
+    {
+        $model = new ModuleProfile();
+        $model->scenario = "create";
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+            return $this->redirect(['all']);
+        } else {
+            return $this->renderAjax('create', [
+                'model' => $model,
+            ]);
+        }
+    }
 
 }

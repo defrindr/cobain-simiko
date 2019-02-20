@@ -23,7 +23,7 @@ use \kartik\widgets\DatePicker;
             if($model->scenario == "create")
             {
                 echo $form->field($model, 'user_id')->widget(\kartik\widgets\Select2::classname(), [
-                        'data' => \yii\helpers\ArrayHelper::map(\common\models\User::find()->orderBy('id')->asArray()->all(), 'id', 'username'),
+                        'data' => \yii\helpers\ArrayHelper::map(\common\models\User::find()->where('id not in (select user_id from profile)')->orderBy('id')->asArray()->all(), 'id', 'username'),
                         'options' => ['placeholder' => 'Choose User'],
                         'pluginOptions' => [
                             'allowClear' => true
@@ -34,7 +34,11 @@ use \kartik\widgets\DatePicker;
 
             <?= $form->field($model, 'nama')->textInput(['maxlength' => true, 'placeholder' => 'Nama']) ?>
     
-            <?php $model->tgl_lahir = date('d M Y',$model->tgl_lahir);
+            <?php 
+            if(!empty($model->tgl_lahir)){
+                $model->tgl_lahir = date('d M Y',$model->tgl_lahir);
+            }
+            
             echo $form->field($model, 'tgl_lahir')->widget(DatePicker::classname(),[
                     'options' => ['placeholder' => 'Tanggal lahir'],
                     'pluginOptions' => [

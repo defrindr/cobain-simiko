@@ -48,22 +48,33 @@ class GuruController extends Controller
      */
     public function actionDataRestore()
     {
-        $searchModel = new ModuleGuruSearch();
-        $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+        if(Yii::$app->user->can('guru.data-restore')){
+            $searchModel = new ModuleGuruSearch();
+            $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-        return $this->renderAjax('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->renderAjax('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+
+        } else {
+            throw new \yii\web\NotFoundHttpException;
+        }
     }
 
     public function actionRestore($id){
-        $model = ModuleGuru::findDeleted($id)->one();
-        if($model->restoreWithRelated()){
-            Yii::$app->session->setFlash('success','Data berhasil direstore');
+        if(Yii::$app->user->can('guru.restore')){
+            $model = ModuleGuru::findDeleted($id)->one();
+            if($model->restoreWithRelated()){
+                Yii::$app->session->setFlash('success','Data berhasil direstore');
+            } else {
+                Yii::$app->session->setFlash('success','Data gagal direstore');
+            } return $this->redirect(['index']);
+
         } else {
-            Yii::$app->session->setFlash('success','Data gagal direstore');
-        } return $this->redirect(['index']);
+            throw new \yii\web\NotFoundHttpException;
+        }
+
     }
 
 
@@ -76,11 +87,12 @@ class GuruController extends Controller
      */
     public function actionView($id)
     {
+
         $model = $this->findModel($id);
         $providerModuleKelas = new \yii\data\ArrayDataProvider([
             'allModels' => $model->moduleKelas,
         ]);
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
             'providerModuleKelas' => $providerModuleKelas,
         ]);
@@ -93,15 +105,21 @@ class GuruController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ModuleGuru();
+        if(Yii::$app->user->can('guru.create')){
+            $model = new ModuleGuru();
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->user_id]);
+            if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+                return $this->redirect(['view', 'id' => $model->user_id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            throw new \yii\web\NotFoundHttpException;
         }
+
     }
 
     /**
@@ -112,15 +130,22 @@ class GuruController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(Yii::$app->user->can('guru.update')){
+            $model = $this->findModel($id);
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->user_id]);
+            if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+                return $this->redirect(['view', 'id' => $model->user_id]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            throw new \yii\web\NotFoundHttpException;
         }
+
+
     }
 
     /**
@@ -131,9 +156,15 @@ class GuruController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
+        if(Yii::$app->user->can('guru.data-restore')){
+            $this->findModel($id)->deleteWithRelated();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+
+        } else {
+            throw new \yii\web\NotFoundHttpException;
+        }
+
     }
 
     

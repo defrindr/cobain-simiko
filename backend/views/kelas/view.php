@@ -158,6 +158,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'export' => false,
                             'columns' => $gridColumnModuleSiswa
                         ]);
+                    } else {
+                        echo "Belum ada siswa";
                     }
                     ?>
                 </div>
