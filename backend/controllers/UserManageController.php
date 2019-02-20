@@ -47,12 +47,13 @@ class UserManageController extends Controller
         }
     }
 
-    public function actionCreate{
-        $model = ModuleUser();
-        if(Yii::loadAll(Yii::$app->request->post())){
+    public function actionCreate() {
+        $model = new ModuleUser();
+        $modelProfile = new ModuleProfile();
+        if($model->loadAll(Yii::$app->request->post())){
             $model->save();
         } else {
-            return $this->renderAjax('create',['model'=>$model]);
+            return $this->renderAjax('create',['model'=>$model,'modelProfile'=>$modelProfile]);
         }
 
     }
@@ -224,18 +225,18 @@ class UserManageController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
-        $model = new ModuleUser();
+    // public function actionCreate()
+    // {
+    //     $model = new ModuleUser();
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
+    //     if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+    //         return $this->redirect(['view', 'id' => $model->id]);
+    //     } else {
+    //         return $this->render('create', [
+    //             'model' => $model,
+    //         ]);
+    //     }
+    // }
 
     /**
      * Updates an existing ModuleUser model.

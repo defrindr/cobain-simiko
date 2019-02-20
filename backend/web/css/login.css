@@ -7,7 +7,7 @@
   padding: 10% auto;
 }
 .green{
-  background: #9ADF79
+  background: #316767
 } 
 .errorValLogin{
   color:#fff !important;
@@ -33,7 +33,7 @@
 .rightCol{
   padding: 20% 10%;
   height: 100%;
-  background: #9ADF79;
+  background: #316767;
 }
 .btn-login{
   border:2px solid #fff !important;
@@ -75,7 +75,7 @@
 
 .imgLogin{
   margin: 20% auto;
-  box-shadow: 2px 2px 20px #9ADF79;
+  box-shadow: 2px 2px 20px #316767;
   border-radius: 100%;
 }
 
@@ -84,7 +84,7 @@
 @media screen and (max-width: 767px) {
   .leftCol{
     height: 45%;
-    background: #9ADF79;
+    background: #316767;
     padding: 10% auto;
     color: #DFE9DD;
   }

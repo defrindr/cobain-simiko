@@ -8,6 +8,9 @@ use yii\widgets\ActiveForm;
 	<?php $form = ActiveForm::begin([]); ?>
 	<div class="container-fluid">
 		<?= $form->field($model,'id')->textInput(['style'=>'display:none']) ?>
-		<?= $form->
+		<?= $form->field($model,'username')->textInput()?>
+		<?= $form->field($model,'email')->textInput()?>
+		<?= $form->field($modelProfile,'nama')->textInput()?>
+		<?= $form->field($model,'password')->textInput()?>
 	</div>
 </div>
