@@ -5,6 +5,7 @@ namespace common\models\base;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;
+use borales\extensions\phoneInput\PhoneInputValidator;
 
 /**
  * This is the base model class for table "profile".
@@ -73,6 +74,7 @@ class ModuleProfile extends \yii\db\ActiveRecord
             [['nama'], 'string', 'max' => 100],
             [['tempat_lahir'], 'string', 'max' => 70],
             [['no_telp'], 'string', 'max' => 20],
+            ['no_telp', PhoneInputValidator::classname()],
             // [['no_telp'], 'udokmeci\yii2PhoneValidator\PhoneValidator', 'countryAttribute'=>'id'],
             [['avatar'], 'string', 'max' => 255],
             [['image'],'file', 'skipOnEmpty' => true, 'extensions'=>'jpg,jpeg,gif,png', 'maxSize' => 1024*1024*2, 'on'=> ['update','create']],

@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use borales\extensions\phoneInput\PhoneInputValidator;  
 use \common\models\base\ModuleProfile as BaseModuleProfile;
 
 /**
@@ -25,7 +26,7 @@ class ModuleProfile extends BaseModuleProfile
             [['nama'], 'string', 'max' => 100],
             [['tempat_lahir'], 'string', 'max' => 70],
             [['no_telp'], 'string', 'max' => 20],
-            // [['no_telp'], 'udokmeci\yii2PhoneValidator\PhoneValidator', 'countryAttribute'=>'id'],
+            ['no_telp', PhoneInputValidator::classname()],
             [['avatar'], 'string', 'max' => 255],
             [['image'],'file', 'skipOnEmpty' => true, 'extensions'=>'jpg,jpeg,gif,png', 'maxSize' => 1024*1024*2, 'on'=> ['update','create']],
             [['lock'], 'default', 'value' => '0'],

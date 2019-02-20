@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\FileInput;
 use \kartik\widgets\DatePicker;
+use borales\extensions\phoneInput\PhoneInput;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleProfile */
@@ -51,7 +52,11 @@ use \kartik\widgets\DatePicker;
 
             <?= $form->field($model, 'bio')->textarea(['rows' => 6]) ?>
 
-            <?= $form->field($model, 'no_telp')->textInput(['maxlength' => true, 'placeholder' => 'No Telp']) ?>
+            <?= $form->field($model, 'no_telp',['template' => '{label} <br>{input}'])->widget(PhoneInput::className(), [
+                'jsOptions' => [
+                    'onlyCountries' => ['id'],
+                ]
+                ]); ?>
 
             <?= $form->field($model, 'image')->widget(FileInput::classname(), [
                 'options' => ['accept' => 'image/*'],

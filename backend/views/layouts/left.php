@@ -30,7 +30,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                 } else {
                     echo $directoryAsset.'/img/user2-160x160.jpg';
                 }
-                ?>" class="img-circle" alt="User Image" style="width: 45px;height: 45px"/>
+                ?>" class="img-circle" alt="User Image" style="width: 30px;height: 30px"/>
             </div>
             <div class="pull-left info">
                 <p><?= Yii::$app->user->identity->username ?></p>
@@ -39,7 +39,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
             </div>
         </div>
 
-        <!-- search form
+        <!-- search form -->
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
                 <input type="text" name="q" class="form-control" placeholder="Search..."/>
@@ -49,7 +49,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
               </span>
             </div>
         </form>
-         /.search form -->
+         <!-- /.search form -->
 
         <?= dmstr\widgets\Menu::widget(
             [
@@ -76,6 +76,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                             ['label' => 'User Manage', 'url' => ['/user-manage'], 'icon' => 'dashboard'],
                             ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard'],
                             ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard'],
+                            ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard'],
                             ['label' => 'Profile Manage', 'url' => ['/profile/all'], 'icon' => 'dashboard'],
                             [
                                 'label' => 'Galeri', 
@@ -88,7 +89,6 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                             ],
                         ]
                     ],
-                    ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard'],
                     ['label' => 'Guru', 'url' => ['/guru'], 'icon' => 'dashboard'],
                     [
                         'label' => 'Jurusan',
