@@ -84,7 +84,7 @@ use common\models\ModuleBerita;
      */
     public function searchRestore($params)
     {
-        $query = ModuleBerita::findDeleted();
+        $query = $query = ModuleBerita::findDeleted()->innerJoinWith('beritaKategori','berita_kategori_id = module_berita_kategori.id')->where('module_berita.deleted_by != 0');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

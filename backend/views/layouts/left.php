@@ -64,29 +64,19 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                         'url'=>'#',
                         'visible' => $admin,
                         'items' => [
-                            [
-                                'label' => 'berita',
-                                 'icon' => 'dashboard',
-                                 'url' => '#',
-                                 'items' => [
-                                    ['label' => 'Berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
-                                    ['label' => 'Berita-kategori', 'url' => ['/berita-kategori'], 'icon' => 'dashboard'],
-                                 ],
-                             ],
+                            ['label' => 'berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
+
                             ['label' => 'User Manage', 'url' => ['/user-manage'], 'icon' => 'dashboard'],
+
                             ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard'],
+
                             ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard'],
+
                             ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard'],
+
                             ['label' => 'Profile Manage', 'url' => ['/profile/all'], 'icon' => 'dashboard'],
-                            [
-                                'label' => 'Galeri', 
-                                'url' => '#', 
-                                'icon' => 'dashboard',
-                                'items' => [
-                                    ['label' => 'Galeri', 'icon'=> 'dashboard', 'url' => ['/galeri']],
-                                    ['label' => 'Galeri Kategori', 'icon' => 'dashboard', 'url'=> ['/galeri-kategori']],
-                                ],
-                            ],
+                            
+                            ['label' => 'Galeri', 'url' => ['/galeri'], 'icon' => 'dashboard'],
                         ]
                     ],
                     ['label' => 'Guru', 'url' => ['/guru'], 'icon' => 'dashboard'],

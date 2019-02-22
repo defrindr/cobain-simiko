@@ -39,13 +39,7 @@ yii\bootstrap\Modal::end();
 			<?php 
 			$gridColumn = [
 				// ['class' => 'yii\grid\SerialColumn'],
-				[
-					'attribute' => 'username',
-					'format' => 'raw',
-					'value' => function($model){
-						return '<a href="'.Url::to(['view','id'=>$model->id]).'">'.$model->username.'</a>';
-					}
-				],
+				'username',
 				'email',
 				[
 					'attribute' => 'role',
@@ -103,8 +97,16 @@ yii\bootstrap\Modal::end();
 											'method'=> 'post'
 										],
 									]
-									);
+								);
 							}
+						},
+						'view' => function($url,$model){
+							return Html::button('View',
+								[
+									'value' => Url::to(['view','id'=>$model->id]),
+									'class' => 'btn btn-flat btn-primary btn-block showModalButton'
+								]
+							);
 						}
 					]
 				]

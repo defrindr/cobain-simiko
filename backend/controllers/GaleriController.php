@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\ModuleGaleri;
+use common\models\ModuleGaleriKategori;
+use common\models\ModuleGaleriKategoriSearch;
 use common\models\ModuleGaleriSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -16,6 +18,9 @@ use yii\web\UploadedFile;
  */
 class GaleriController extends Controller
 {
+    /**
+     * Set behaviors
+     */
     public function behaviors()
     {
         return [
@@ -28,25 +33,34 @@ class GaleriController extends Controller
         ];
     }
 
+
     /**
-     * Lists all ModuleGaleri models.
-     * @return mixed
+     * Membuat fungsi action Index
      */
     public function actionIndex()
     {
+        $searchModelKategori = new ModuleGaleriKategoriSearch();
         $searchModel = new ModuleGaleriSearch();
+        $dataProviderKategori = $searchModelKategori->search(Yii::$app->request->queryParams);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+
+        return $this->render('index',[
             'searchModel' => $searchModel,
+            'searchModelKategori' => $searchModelKategori,
+            'dataProviderKategori' => $dataProviderKategori,
             'dataProvider' => $dataProvider,
         ]);
     }
 
 
+
+
+
+
+
     /**
-     * [actionDataRestore description]
-     * @return [type] [description]
+     * membuat fungsi action data restore & data restore kategori
      */
     public function actionDataRestore()
     {
@@ -54,21 +68,41 @@ class GaleriController extends Controller
             $searchModel = new ModuleGaleriSearch();
             $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-            return $this->renderAjax('data-restore', [
+            return $this->renderAjax('data_restore', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
         } else 
         {
-            throw new \Yii\web\ForbiddenHttpException;
+            Yii::$app->session->setFlash('error','Access Denied');
+            return $this->redirect(['index']);
+        }
+    }
+
+    public function actionDataRestoreKategori(){
+        if(Yii::$app->user->can('Admin'))
+        {
+            $searchModel = new ModuleGaleriKategoriSearch();
+            $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+
+            return $this->renderAjax('data_restore_kategori', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else 
+        {
+            Yii::$app->session->setFlash('error','Access Denied');
+            return $this->redirect(['index']);
         }
     }
 
 
+
+
+
+
     /**
-     * [actionRestored description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
+     * membuat action restore dan restore kategori
      */
     public function actionRestore($id)
     {
@@ -83,9 +117,43 @@ class GaleriController extends Controller
             return $this->redirect(['index']);
         } else 
         {
-            throw new \Yii\web\ForbiddenHttpException;
+            Yii::$app->session->setFlash('error','Access Denied');
+            return $this->redirect(['index']);
         }
     }
+
+    public function actionRestoreKategori($id){
+        if(Yii::$app->user->can('Admin'))
+        {
+            $model = ModuleGaleriKategori::findDeleted()->where('id='.$id)->one();
+            if($model->restoreWithRelated())
+            {
+                Yii::$app->session->setFlash('success','Data berhasil direstore');
+            } else 
+            {
+                Yii::$app->session->setFlash('error','Data gagal direstore');
+            }
+            return $this->redirect(['index']);
+        } else 
+        {
+            Yii::$app->session->setFlash('error','Access Denied');
+            return $this->redirect(['index']);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Displays a single ModuleGaleri model.
@@ -100,10 +168,17 @@ class GaleriController extends Controller
         ]);
     }
 
+
+
+
+
+
+
+
+
+
     /**
-     * Creates a new ModuleGaleri model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * membuat action create dan create kategori
      */
     public function actionCreate()
     {
@@ -113,8 +188,6 @@ class GaleriController extends Controller
             if ($model->loadAll(Yii::$app->request->post())) {
                 $model->images = UploadedFile::getInstances($model,'images');
                 $this->checkDir();
-
-
                 /**
                  *
                  * Check validaion
@@ -161,25 +234,55 @@ class GaleriController extends Controller
                 ]);
             }
         } else {
-            throw new ForbiddenHttpException;
-            
+            Yii::$app->session->setFlash('error','akses ditolak');
+            return $this->redirect(['index']);
         }
     }
 
+    public function actionCreateKategori()
+    {
+        if(Yii::$app->user->can('galeri-kategori.create')){
+            $model = new ModuleGaleriKategori();
+
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->save()){
+                    Yii::$app->session->setFlash("success","Data berhasil disimpan");
+                } else {
+                    Yii::$app->session->setFlash("error","Data gagal disimpan");
+                }
+                return $this->redirect(['index']);
+            } else {
+                return $this->renderAjax('create_kategori', [
+                    'model' => $model,
+                ]);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
-     * Updates an existing ModuleGaleri model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     *  membuat action update dan update kategori
      */
     public function actionUpdate($id)
     {
         if(Yii::$app->user->can("galeri.update")){
             $model = $this->findModel($id);
             $model->scenario = "update";
-
             if ($model->loadAll(Yii::$app->request->post())) {
-
                 $transaction = $model->getDb()->beginTransaction();
                 /**
                  * check validate
@@ -202,8 +305,6 @@ class GaleriController extends Controller
                             $transaction->rollback();
                             Yii::$app->session->setFlash('error','Data gagal diubah');
                         }
-
-
                     } else { // jika gambar kosong
                         if($model->saveAll()){
                             $transaction->commit();
@@ -212,31 +313,56 @@ class GaleriController extends Controller
                             $transaction->rollback();
                             Yii::$app->session->setFlash('error','Data gagal diubah');
                         }
-
                     }
-
                     return $this->redirect(['index']);
-
                 } else { //jika validate gagal
                     Yii::$app->session->setFlash('error','Validation error');
                     return $this->redirect(['index']);
                 }
-
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
-                return $this->renderAjax('update', [
+                
+            return $this->renderAjax('update',['model'=>$model]);
+            }
+        } else {
+            Yii::$app->session->setFlash('error','akses ditolak');
+            return $this->redirect(['index']);
+        }
+    }
+
+    public function actionUpdateKategori($id)
+    {
+        if(Yii::$app->user->can('galeri-kategori.update')){
+            $model = $this->findModelKategori($id);
+
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->save()){
+                    Yii::$app->session->setFlash("success","Kategori galeri berhasil diubah");
+                } else {
+                    Yii::$app->session->setFlash("error","Kategori galeri gagal diubah");
+                }
+                return $this->redirect(['index']);
+            } else {
+                return $this->renderAjax('update_kategori', [
                     'model' => $model,
                 ]);
             }
-
-
-
-
-
         } else {
-            throw new ForbiddenHttpException;
+            Yii::$app->session->setFlash('error','akses ditolak');
+            return $this->redirect(['index']);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Deletes an existing ModuleGaleri model.
@@ -247,12 +373,32 @@ class GaleriController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->deleteWithRelated();
-
         return $this->redirect(['index']);
+    }
+
+    public function actionDeleteKategori($id)
+    {
+        if(Yii::$app->user->can("galeri-kategori.delete")){
+           if($this->findModelKategori($id)->deleteWithRelated()){
+                Yii::$app->session->setFlash("success","Data berhasil dihapus");
+            } else {
+                Yii::$app->session->setFlash("error","Data gagal dihapus");
+            }
+
+            return $this->redirect(['index']);
+        } else {
+            throw new ForbiddenHttpException;
+        }
     }
 
 
 
+
+
+
+    /**
+     * membuat action untuk mengecheck apakah directori ada atau tidak
+     */
     public function checkDir(){
         if(!file_exists(Yii::$app->basePath."/web/uploaded/")){
             mkdir(Yii::$app->basePath."/web/uploaded/");
@@ -262,12 +408,15 @@ class GaleriController extends Controller
         }
     }
 
-    
+
+
+
+
     /**
-     * Finds the ModuleGaleri model based on its primary key value.
+     * Finds the ModuleGaleri & ModuleGaleriKategori model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ModuleGaleri the loaded model
+     * @return ModuleGaleri & ModuleGaleriKategori the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
@@ -275,7 +424,16 @@ class GaleriController extends Controller
         if (($model = ModuleGaleri::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Halaman tidak ditemukan.');
+        }
+    }
+
+    protected function findModelKategori($id)
+    {
+        if (($model = ModuleGaleriKategori::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('Halaman tidak ditemukan.');
         }
     }
 }

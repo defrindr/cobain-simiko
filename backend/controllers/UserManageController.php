@@ -266,7 +266,7 @@ class UserManageController extends Controller
             $modelProfile = ModuleSiswa::find($id)->one();
         }
 
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
             'providerModuleMateriKomentar' => $providerModuleMateriKomentar,
         ]);

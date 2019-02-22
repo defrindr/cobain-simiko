@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'filterInputOptions' => ['placeholder' => 'Module galeri kategori', 'id' => 'grid-module-galeri-search-kategori']
                 ],
-            'link',
             'judul',
             'tahun',
             [
@@ -46,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'lock', 'visible' => false],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{restore}',
+                'template' => '{restore} {del-permanent}',
                 'headerOptions' => ['width' => '20%','class' => 'activity-view-link'],
                 'contentOptions' => ['class' => 'padding-left-5px text-wrap'],
                 'buttons' => [
@@ -61,6 +60,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]
                         );
                     },
+                    'del-permanent' => function($url,$model){
+                        return html::a('Delete permanent',['del-permanent','id'=>$model->id],[
+                            'class' => 'btn btn-danger',
+                            'data' => [
+                                'confirm' => 'Yakin ingin menghapus Permanent item ini ?',
+                                'method' => 'post'
+                            ]
+                        ]);
+                    }
                 ],
             ],
         ]; 

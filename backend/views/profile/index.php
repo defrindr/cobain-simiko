@@ -28,22 +28,9 @@ yii\bootstrap\Modal::end();
 
 ?>
 <div class="module-profile-index">
-    <div class="box box-danger">
+    <div class="box box-success">
         <div class="box-header">
-            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-                <p>
-                    <?= Html::button('Tambah', 
-                    [
-                        'value' => 'create',
-                        'title' => 'Tambah',
-                        'class' => 'btn btn-success showModalButton'
-                    ]); ?>
-                    <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
-                </p>
-                    <div class="search-form" style="display:none">
-                    <?=  $this->render('_search', ['model' => $searchModel]); ?>
-                </div>
-                        </div>
+        </div>
         <div class="box-body">
             <?php 
                 $gridColumn = [
@@ -64,12 +51,19 @@ yii\bootstrap\Modal::end();
                     'nama',
                     'tgl_lahir',
                     'tempat_lahir',
-                    'bio:ntext',
-                    'no_telp',
-                    'avatar',
                     ['attribute' => 'lock', 'visible' => false],
                     [
                         'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view}',
+                        'buttons' => [
+                            'view' => function($url,$model){
+                                return Html::button('<i class="glyphicon glyphicon-eye-open"></i>',[
+                                    'value' => Url::to(['view-modal','id'=>$model->user_id]),
+                                    'title' => $model->nama,
+                                    'class' => 'btn btn-actionColumn showModalButton'
+                                ]);
+                            }
+                        ]
                     ],
                 ]; 
                 ?>

@@ -75,11 +75,6 @@ $this->title = 'Berita restore';
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => $gridColumn,
-        'rowOptions' => function($model){
-            if(!($model->getBeritaKategori()->one()->deleted_by !== null)) {
-                return ['style'=>'display:none'];
-            }
-        },
         'responsiveWrap' => false,
         'pjax' => true,
         'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-berita']],

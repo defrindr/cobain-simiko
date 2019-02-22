@@ -9,7 +9,7 @@ use kartik\export\ExportMenu;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 
-$this->title = 'Galeri Kategori';
+$this->title = 'Kategori Galeri';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -29,11 +29,16 @@ $this->registerJs($search);
                 ['attribute' => 'lock', 'visible' => false],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{restore}',
+                    'template' => '{restore} {del-permanent}',
+                    'visibleButtons' => [
+                        'del-permanent' => function($model){
+                            return Yii::$app->user->can('Admin',['post'=>$model]);
+                        }
+                    ],
                     'buttons' => [
                         'restore' => function($url,$model){
                             $id = $model->id;
-                            return Html::a('Restore', ['restore', 'id' => $model->id], [
+                            return Html::a('Restore', ['restore-kategori', 'id' => $model->id], [
                                 'class' => 'btn btn-info',
                                     'data' => [
                                         'confirm' => 'Anda yakin ingin merestore data ini ?',
@@ -42,6 +47,15 @@ $this->registerJs($search);
                                 ]
                             );
                         },
+                        'del-permanent' => function($url,$model){
+                            return Html::a('Delete Permanent',['del-permanent','id'=>$model->id],[
+                                'class'=>'btn btn-danger',
+                                'data' => [
+                                    'confirm' => 'Yakin ingin menghapus Permanent item ini ?',
+                                    'method'=>'post'
+                                ]
+                            ]);
+                        }
                     ],
                 ],
             ]; 

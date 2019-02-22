@@ -57,7 +57,7 @@ class BeritaController extends Controller
         {
             $searchModel = new ModuleBeritaSearch();
             $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
-            $query = ModuleBerita::findDeleted()->innerJoinWith('module_berita_kategori','berita_kategori_id = module_berita_kategori.id')->where('module_berita_kategori.deleted != 0');
+            // $query = ModuleBerita::findDeleted()->innerJoinWith('module_berita_kategori','berita_kategori_id = module_berita_kategori.id')->where('module_berita_kategori.deleted != 0');
 
             return $this->renderAjax('data-restore', [
                 'searchModel' => $searchModel,

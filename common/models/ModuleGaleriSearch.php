@@ -81,7 +81,7 @@ use common\models\ModuleGaleri;
      */
     public function searchRestore($params)
     {
-        $query = ModuleGaleri::findDeleted();
+        $query = ModuleGaleri::findDeleted()->innerJoinWith('kategori0','module_galeri.kategori = module_galeri_kategori.id')->where('module_galeri.deleted_by != 0');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

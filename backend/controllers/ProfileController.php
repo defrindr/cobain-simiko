@@ -215,30 +215,30 @@ class ProfileController extends Controller
      * @param integer $id
      * @return mixed
      */
-    // public function actionView($id)
-    // {
-    //     $model = $this->findModel($id);
-    //     return $this->render('view', [
-    //         'model' => $this->findModel($id),
-    //     ]);
-    // }
+    public function actionViewModal($id)
+    {
+        $model = $this->findModel($id);
+        return $this->renderAjax('_view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
 
     /**
      * Creates a new ModuleProfile model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
-        $model = new ModuleProfile();
-        $model->scenario = "create";
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['all']);
-        } else {
-            return $this->renderAjax('create', [
-                'model' => $model,
-            ]);
-        }
-    }
+    // public function actionCreate()
+    // {
+    //     $model = new ModuleProfile();
+    //     $model->scenario = "create";
+    //     if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+    //         return $this->redirect(['all']);
+    //     } else {
+    //         return $this->renderAjax('create', [
+    //             'model' => $model,
+    //         ]);
+    //     }
+    // }
 
 }
