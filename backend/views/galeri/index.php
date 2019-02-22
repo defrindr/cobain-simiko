@@ -1,17 +1,13 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ModuleGaleriSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
 use yii\helpers\Url;
-
 $this->title = 'Galeri';
 $this->params['breadcrumbs'][] = $this->title;
-
 yii\bootstrap\Modal::begin([
 'headerOptions' => ['id' => 'modalHeader'],
 'id' => 'modal',
@@ -20,7 +16,6 @@ yii\bootstrap\Modal::begin([
 ]);
 echo "<div id='modalContent'></div>";
 yii\bootstrap\Modal::end();
-
 ?>
 <div class="module-galeri-index">
     <div class="row">

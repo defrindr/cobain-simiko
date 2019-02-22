@@ -4,7 +4,7 @@ use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 $this->title = "Detail User : ".$model->username;
-$this->params['breadcrumbs'][] = ['label' => 'User Manage', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Galeri', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
  ?>
 <div class="module-user-manage">

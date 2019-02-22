@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\FileInput;
-use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleGaleri */
 /* @var $form yii\widgets\ActiveForm */
@@ -19,10 +18,6 @@ use yii\helpers\Url;
         ]); ?>
 
     <?= $form->errorSummary($model); ?>
-
-    <?php if($model->scenario == "update"){ ?>
-        <?= Html::img(Url::base()."/uploaded/galeri/".$model->link,['style'=>'width:200px;height:200px']) ?>
-    <?php } ?>
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
@@ -54,7 +49,22 @@ use yii\helpers\Url;
             'showUpload' => false
             ],
         ]);?>
-    <?php } ?>
+    <?php }elseif ($model->Scenario == "update") {
+     ?>
+    <?= $form->field($model, 'images')->widget(FileInput::classname(), [
+        'options' => [
+            'accept' => 'image/*',
+            'multiple' => false,
+            ],
+        'pluginOptions' => [
+            'showPreview' => true,
+            'showCaption' => true,
+            'showRemove' => true,
+            'showUpload' => false
+            ],
+        ]);?>
+    <?php }
+         ?>
     <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
     <div class="form-group">

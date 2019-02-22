@@ -1,16 +1,13 @@
 <?php
 use common\models\ModuleProfile;
 use yii\helpers\Url;
-
 $admin = true;
 $guru = true;
 $siswa = true;
 $admin = (Yii::$app->user->identity->role == 10);
 $guru = (Yii::$app->user->identity->role == 20);
 $siswa = (Yii::$app->user->identity->role == 30);
-
 $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
-
 ?>
 
 <aside class="main-sidebar">
@@ -65,15 +62,10 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                         'visible' => $admin,
                         'items' => [
                             ['label' => 'berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
-
                             ['label' => 'User Manage', 'url' => ['/user-manage'], 'icon' => 'dashboard'],
-
                             ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard'],
-
                             ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard'],
-
                             ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard'],
-
                             ['label' => 'Profile Manage', 'url' => ['/profile/all'], 'icon' => 'dashboard'],
                             
                             ['label' => 'Galeri', 'url' => ['/galeri'], 'icon' => 'dashboard'],

@@ -8,7 +8,6 @@ use yii\helpers\Html;
 use kartik\export\ExportMenu;
 use kartik\grid\GridView;
 use yii\helpers\StringHelper;
-
 $this->title = 'Berita restore';
 ?>
 <div class="module-berita-index">
@@ -49,7 +48,6 @@ $this->title = 'Berita restore';
             'buttons' => [
                 'restore' => function($url,$model){
                     if($model->getBeritaKategori()->one()->deleted_by !== null){
-
                         $id = $model->id;
                         return Html::a('Restore', ['restore', 'id' => $model->id], [
                             'class' => 'btn btn-info',
