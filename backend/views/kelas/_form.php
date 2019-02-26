@@ -15,7 +15,7 @@ use \kartik\widgets\Select2;
     <?php $form = ActiveForm::begin(); ?>
 
 
-    <div class="box box-danger">
+    <div class="box box-success">
         <div class="box-header">
             <?= $form->errorSummary($model); ?>
         </div>

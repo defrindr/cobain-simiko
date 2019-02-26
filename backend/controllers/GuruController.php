@@ -92,7 +92,7 @@ class GuruController extends Controller
         $providerModuleKelas = new \yii\data\ArrayDataProvider([
             'allModels' => $model->moduleKelas,
         ]);
-        return $this->renderAjax('view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
             'providerModuleKelas' => $providerModuleKelas,
         ]);

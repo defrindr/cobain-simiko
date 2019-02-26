@@ -30,7 +30,7 @@ yii\bootstrap\Modal::end();
 ?>
 <div class="module-berita-index">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <div class="box box-danger">
+    <div class="box box-success">
         <div class="box-header">
             <p>
                 <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>

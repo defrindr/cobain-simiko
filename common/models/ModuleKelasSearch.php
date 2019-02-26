@@ -69,8 +69,8 @@ use common\models\ModuleKelas;
         ]);
 
         $query->andFilterWhere(['like', 'kelas', $this->kelas])
-            ->andFilterWhere(['like', 'grade', $this->grade])
-            ->andFilterWhere(['like', 'tahun', $this->tahun]);
+            ->andFilterWhere(['like', 'grade', $this->kelas])
+            ->andFilterWhere(['like', 'tahun', $this->kelas]);
 
         return $dataProvider;
     }
@@ -114,8 +114,8 @@ use common\models\ModuleKelas;
         ]);
 
         $query->andFilterWhere(['like', 'kelas', $this->kelas])
-            ->andFilterWhere(['like', 'grade', $this->grade])
-            ->andFilterWhere(['like', 'tahun', $this->tahun]);
+            ->andFilterWhere(['like', 'kelas', $this->grade])
+            ->andFilterWhere(['like', 'kelas', $this->tahun]);
 
         return $dataProvider;
     }

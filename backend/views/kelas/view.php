@@ -3,19 +3,22 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\grid\GridView;
-
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleKelas */
 
 $this->title = $model->grade.' '.$model->getJurusan()->one()->nama.' '.$model->kelas;
-$this->params['breadcrumbs'][] = ['label' => 'Module Kelas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Kelas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+
 ?>
 <div class="module-kelas-view">
 
     <div class="row">
-        <div class="col-md-6">
-            <div class="box box-danger">
+        <div class="col-md-12">
+            <div class="box box-success">
                 <div class="box-header">
                     <?= Html::a('Ubah', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                     <?= Html::a('Hapus', ['delete', 'id' => $model->id], [
@@ -46,9 +49,33 @@ $this->params['breadcrumbs'][] = $this->title;
                             //         return $model->getGuru()->one()->nama;
                             //     }
                             // ],
-                            'grade',
-                            'kelas',
-                            'tahun',
+                            [
+                                'attribute' => 'kelas',
+                                'value' => function($model){
+                                    return $model->grade.' '.$model->getJurusan()->one()->nama.' '.$model->kelas;
+                                }
+                            ],
+                            [
+                                'attribute'=>'nama',
+                                'label' => 'Nama Wali Kelas',
+                                'format'=>'raw',
+                                'value' => function($model){
+                                    return '<a href="'.Url::to(['/guru/view/'.$model->guru->user_id]).'">'.$model->guru->getProfile()->one()->nama.'</a>';
+                                }
+                            ],
+                            // [
+                            //     'attribute' => 'jml_siswa',
+                            //     'value' => function($model){
+                            //         return $model->moduleSiswas;
+                            //     }
+                            // ],
+                            [
+                                'attribute'=>'kepala_jurusan',
+                                'value' => function($model){
+                                    return $model->jurusan->kepala_jurusan;
+                                }
+                            ],
+                            ['attribute'=>'tahun','label'=>'Tahun Ajaran'],
                             ['attribute' => 'lock', 'visible' => false],
                         ];
                         echo DetailView::widget([
@@ -57,68 +84,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     ?>
                 </div>
+                <!-- end box body -->
             </div>
-            <!-- end box-danger -->
-        </div>
-        <!-- end column -->
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="box box-danger">
-                        <div class="box-header">
-                            <h4>Wali Kelas</h4>
-                        </div>
-                        <!-- end header box -->
-                        <div class="box-body">
-                              <?php 
-                                $gridColumnModuleGuru = [
-                                    [
-                                        'attribute'=>'nama',
-                                        'value' => function($model){
-                                            return $model->getProfile()->one()->nama;
-                                        }
-                                    ],
-                                    // 'avatar',
-                                    ['attribute' => 'lock', 'visible' => false],
-                                ];
-                                echo DetailView::widget([
-                                    'model' => $model->guru,
-                                    'attributes' => $gridColumnModuleGuru    ]);
-                                ?>
-                        </div>
-                        <!-- end box body -->
-                    </div>
-                    <!-- end box -->
-                </div>
-                <!-- end column -->
-
-                <div class="col-xs-6">
-                    <div class="box box-danger">
-                        <div class="box-header">
-                            <h4>Jurusan</h4>
-                        </div>
-                        <!-- end header box -->
-                        <div class="box-body">
-                            <?php 
-                            $gridColumnModuleJurusan = [
-                                ['attribute' => 'id', 'visible' => false],
-                                'nama',
-                                'kepala_jurusan',
-                                ['attribute' => 'lock', 'visible' => false],
-                            ];
-                            echo DetailView::widget([
-                                'model' => $model->jurusan,
-                                'attributes' => $gridColumnModuleJurusan    ]);
-                            ?>
-                        </div>
-                        <!-- end box body -->
-                    </div>
-                    <!-- end box -->
-                </div>
-                <!-- end column -->
-
-            </div>
-            <!-- end row -->
+            <!-- end box -->
         </div>
         <!-- end colmn -->
     </div>
@@ -127,7 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="box box-danger">
+            <div class="box box-success">
                 <div class="box-header">
                     <h4>Siswa kelas <?= $model->grade.' '.$model->getJurusan()->one()->nama.' '.$model->kelas ?></h4>
                 </div>

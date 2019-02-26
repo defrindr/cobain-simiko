@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="module-user-manage">
 	<div class="row">
 		<div class="col-sm-6">
-			<div class="box box-danger">
+			<div class="box box-success">
 				<div class="box-header">
 					
 				</div>
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		</div>
 		<!-- end col -->
 		<div class="col-sm-6">
-			<div class="box box-danger">
+			<div class="box box-success">
 				<div class="box-header">
 					
 				</div>

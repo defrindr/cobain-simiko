@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="module-berita-view">
     <div class="row">
         <div class="col-sm-8">
-            <div class="box box-danger">
+            <div class="box box-success">
                 <div class="box-header">
                 <?= Html::a('Ubah', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                 <?= Html::a('Hapus', ['delete', 'id' => $model->id], [
@@ -53,6 +53,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'attribute'=>'gambar',
                                 'label' => 'Link gambar'
                             ],
+                            [
+                                'attribute' => 'kategori',
+                                'value' => function($model){
+                                    return $model->beritaKategori->nama;
+                                }
+                            ],
                             ['attribute' => 'lock', 'visible' => false],
                         ];
                         echo DetailView::widget([
@@ -64,32 +70,8 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="row">
                 <div class="col-sm-12">
-                    <div class="box box-danger">
-                        <div class="box-header">
-                            <h4>Kategori</h4>
-                        </div>
-                        <div class="box-body">
-                            <?php 
-                            $gridColumnModuleBeritaKategori = [
-                                ['attribute' => 'id', 'visible' => false],
-                                'nama',
-                                ['attribute' => 'lock', 'visible' => false],
-                            ];
-                            echo DetailView::widget([
-                                'model' => $model->beritaKategori,
-                                'attributes' => $gridColumnModuleBeritaKategori    ]);
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <!-- end col 12 -->
-            </div>
-            <!-- end row -->
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="box box-danger">
+                    <div class="box box-success">
                         <div class="box-header">
                             <h4>Gambar</h4>
                         </div>

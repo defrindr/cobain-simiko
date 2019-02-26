@@ -13,7 +13,7 @@ use kartik\widgets\FileInput;
 <div class="module-berita-form">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data']]); ?>
-    <div class="box box-danger">
+    <div class="box box-success">
         <div class="box-header">
             <?= $form->errorSummary($model); ?>
         </div>

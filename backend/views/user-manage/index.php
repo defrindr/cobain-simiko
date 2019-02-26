@@ -19,7 +19,7 @@ yii\bootstrap\Modal::end();
 
 ?>
 <div class="module-user-manage">
-	<div class="box box-danger">
+	<div class="box box-success">
 		<div class="box-header">
 			<?=
 			Html::button('<span class="glypicon glyphicon-plus" style="font-size:18px"></span> Add User',[
