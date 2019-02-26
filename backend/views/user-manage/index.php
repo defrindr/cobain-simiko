@@ -67,20 +67,12 @@ yii\bootstrap\Modal::end();
 				],
 				[
 					'class' => 'yii\grid\ActionColumn',
-					'template' => '
-					<div class="row">
-						<div class="col-xs-12 col-sm-6">
-							{changeStatus}
-						</div>
-						<div class="col-sm-6">
-							{view}
-						</div>
-					</div>',
+					'template' => '{changeStatus}',
 					'buttons' => [
 						'changeStatus' => function($url,$model){
 							if($model->status == 10){
 								return Html::a(
-									'deactive',
+									'Block',
 									['user-manage/deactivate','id' => $model->id],
 									[
 										'title' => 'Deactive '.$model->username ,
