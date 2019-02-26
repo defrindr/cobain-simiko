@@ -141,23 +141,21 @@ class BankController extends Controller
                         if($model->image->saveAs($path)){
                             $transaction->commit();
                             Yii::$app->session->setFlash('success','Data berhasil disimpan');
-                            return $this->redirect(['view', 'id' => $model->id]);
+                            return $this->redirect(['index']);
                         } else { // jika save image gagal
                             $transaction->rollback();
                             Yii::$app->session->setFlash('error','Data gagal disimpan');
-                            return $this->renderAjax('create',['model'=>$model]);
+                            return $this->redirect(['index']);
                         }
                     } else { //jika save gagal
                         $transaction->rollback();
                         Yii::$app->session->setFlash('error','Data gagal disimpan');
-                        return $this->renderAjax('create',['model'=>$model]);
+                        return $this->redirect(['index']);
                     }
 
                 } else { // if wrong validate
                     Yii::$app->session->setFlash('error','Validation error');
-                    return $this->renderAjax('create', [
-                        'model' => $model,
-                    ]);
+                    return $this->redirect(['index']);
                 }
 
 
@@ -219,16 +217,16 @@ class BankController extends Controller
                                 }
                                 $transaction->commit();
                                 Yii::$app->session->setFlash('success','Data berhasil diubah');
-                                return $this->redirect(['view', 'id' => $model->id]);
+                                return $this->redirect(['index']);
                             } else { // jika save image gagal
                                 $transaction->rollback();
                                 Yii::$app->session->setFlash('error','Data gagal diubah');
-                                return $this->renderAjax('update',['model'=>$model]);
+                                return $this->redirect(['index']);
                             }
                         } else { //jika save gagal
                             $transaction->rollback();
                             Yii::$app->session->setFlash('error','Data gagal diubah');
-                            return $this->renderAjax('update',['model'=>$model]);
+                            return $this->redirect(['index']);
                         }
 
 
@@ -239,22 +237,20 @@ class BankController extends Controller
 
                                 Yii::$app->session->setFlash('success','Data berhasil diubah');
 
-                                return $this->redirect(['view', 'id' => $model->id]);
+                                return $this->redirect(['index']);
                             } else { // Jika model gagal disave
                                 $transaction->rollback();
 
                                 Yii::$app->session->setFlash('error','Data gagal diubah');
 
-                                return $this->renderAjax('update',['model'=>$model]);
+                                return $this->redirect(['index']);
                             }
 
                     }
 
                 } else { // Jika validate gagal
                     Yii::$app->session->setFlash('error','Validation error');
-                    return $this->renderAjax('create', [
-                        'model' => $model,
-                    ]);
+                    return $this->redirect(['index']);
                 }
 
 

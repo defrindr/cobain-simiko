@@ -11,7 +11,7 @@ use kartik\grid\GridView;
 $this->title = 'Bank restore';
 ?>
 <div class="module-bank-index">
-
+    <div class="container-fluid">
          <?php 
         $gridColumn = [
             ['class' => 'yii\grid\SerialColumn'],
@@ -49,5 +49,7 @@ $this->title = 'Bank restore';
             'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-bank']],
             'panel' => false,
         ]); ?>
+        
+    </div>
 
 </div>

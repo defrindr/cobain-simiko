@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use \kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleKelasSearch */
@@ -35,7 +36,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'kelas')->textInput(['maxlength' => true, 'placeholder' => 'Kelas']) ?>
 
-    <?= $form->field($model, 'grade')->textInput(['maxlength' => true, 'placeholder' => 'Grade']) ?>
+    <?= $form->field($model, 'grade')->widget(Select2::classname(),[
+                'data' => ['X'=>'X','XI'=>'XI','XII'=>'XII'],
+                'options' => ['placeholder' => 'Grade'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ]
+            ]); ?>
 
     <?php /* echo $form->field($model, 'tahun')->textInput(['maxlength' => true, 'placeholder' => 'Tahun']) */ ?>
 

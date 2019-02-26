@@ -24,7 +24,7 @@ $this->registerJs($search);
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
                 <p>
                     <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
-                    <?php //echo Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']); ?>
+                    <?php echo Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']); ?>
                 </p>
                 <div class="search-form" style="display:none">
                     <?=  $this->render('_search', ['model' => $searchModel]); ?>
@@ -73,7 +73,7 @@ $this->registerJs($search);
                 ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    'filterModel' => $searchModel,
+                    // 'filterModel' => $searchModel,
                     'columns' => $gridColumn,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-kelas']],

@@ -33,10 +33,10 @@ yii\bootstrap\Modal::end();
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <div class="box box-danger">
+    <div class="box box-success">
         <div class="box-header">
             <p>
-                <?= Html::button('Tambah', ['value'=>'create', 'title' => 'Tambah '.$this->title , 'class' => 'btn btn-success showModalButton']) ?>
+                <?= Html::button('Tambah', ['value'=>Url::to(['/bank/create']), 'title' => 'Tambah '.$this->title , 'class' => 'btn btn-success showModalButton']) ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
                 <?php if(Yii::$app->user->can('Admin')){ ?>
 
@@ -70,6 +70,7 @@ yii\bootstrap\Modal::end();
                         'update' => function($url,$model){
                             return Html::button('<i class="glyphicon glyphicon-pencil"></i>',
                                 [
+                                    'title' => 'Bank '.$model->nama_bank,
                                     'value' =>  Url::to(['bank/update','id'=>$model->id]),
                                     'class'=>'btn-actionColumn showModalButton'
                                 ]
