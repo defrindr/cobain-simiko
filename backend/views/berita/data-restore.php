@@ -44,7 +44,7 @@ $this->title = 'Berita restore';
         ['attribute' => 'lock', 'visible' => false],
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{restore}',
+            'template' => '{restore} {permDeleteKategori}',
             'buttons' => [
                 'restore' => function($url,$model){
                     if($model->getBeritaKategori()->one()->deleted_by !== null){
@@ -64,6 +64,17 @@ $this->title = 'Berita restore';
                             ]
                         );
                     }
+                },
+                'permDeleteKategori' => function($url,$model){
+                    $id = $model->id;
+                    return Html::a('Hard Delete', ['d-permanent', 'id' => $model->id], [
+                        'class' => 'btn btn-danger',
+                            'data' => [
+                                'confirm' => 'Anda yakin ingin menghapus permanen data ini ?',
+                                'method' => 'post',
+                            ],
+                        ]
+                    );
                 },
             ],
         ],
