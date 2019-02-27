@@ -67,7 +67,7 @@ yii\bootstrap\Modal::end();
 				],
 				[
 					'class' => 'yii\grid\ActionColumn',
-					'template' => '{changeStatus}',
+					'template' => 'changeStatus',
 					'buttons' => [
 						'changeStatus' => function($url,$model){
 							if($model->status == 10){

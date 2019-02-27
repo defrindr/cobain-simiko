@@ -28,7 +28,7 @@ yii\bootstrap\Modal::end();
 
 ?>
 <div class="module-profile-index">
-    <div class="box box-danger">
+    <div class="box box-success">
         <div class="box-header">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
                 <p>
@@ -41,7 +41,7 @@ yii\bootstrap\Modal::end();
                     <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
                 </p>
                     <div class="search-form" style="display:none">
-                    <?=  $this->render('_search', ['model' => $searchModel]); ?>
+                    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
                 </div>
                         </div>
         <div class="box-body">

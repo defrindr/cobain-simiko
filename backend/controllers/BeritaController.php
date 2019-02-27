@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\ModuleBerita;
+use common\models\ModuleBeritaKategori;
+use common\models\ModuleBeritaKategoriSearch;
 use common\models\ModuleBeritaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -39,16 +41,27 @@ class BeritaController extends Controller
     public function actionIndex()
     {
         $searchModel = new ModuleBeritaSearch();
+        $searchModelKategori = new ModuleBeritaKategoriSearch();
+
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProviderKategori = $searchModelKategori->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'searchModelKategori' => $searchModelKategori,
+            'dataProviderKategori' => $dataProviderKategori,
         ]);
     }
 
 
-
+    /**
+     *
+     *
+     * Index Restore Data
+     *
+     * 
+     */
 
 
     public function actionDataRestore()
@@ -71,6 +84,38 @@ class BeritaController extends Controller
     }
 
 
+    public function actionDataRestoreKategori()
+    { 
+        if(Yii::$app->user->can('Admin'))
+        {
+            $searchModel = new ModuleBeritaKategoriSearch();
+            $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+
+            return $this->renderAjax('data-restore', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else 
+        {
+            throw new \Yii\web\ForbiddenHttpException;
+        }
+    }
+
+
+
+
+
+
+
+    /**
+     *
+     * Action Restore
+     * Berita & Berita Kategori
+     * 
+     */
+
+
+
 
     public function actionRestore($id)
     {
@@ -91,6 +136,39 @@ class BeritaController extends Controller
             throw new \Yii\web\ForbiddenHttpException;
         }
     }
+
+
+    public function actionRestoreKategori($id)
+    {
+        if(Yii::$app->user->can('Admin'))
+        {
+            $model = ModuleBeritaKategori::findDeleted()->where('id='.$id)->one();
+            if($model->restoreWithRelated())
+            {
+                Yii::$app->session->setFlash('success','Data berhasil direstore');
+            } else 
+            {
+                Yii::$app->session->setFlash('error','Data gagal direstore');
+            }
+            return $this->redirect(['index']);
+        } else 
+        {
+            throw new \Yii\web\ForbiddenHttpException;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Displays a single ModuleBerita model.

@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 		<?= $form->field($model,'nama')->textInput() ?>
 		<?= $form->field($model,'username')->textInput() ?>
 		<?= $form->field($model,'email')->textInput() ?>
-		<?= $form->field($model,'password')->textInput() ?>
+		<?= $form->field($model,'password')->passwordInput() ?>
 		<div class="form-group">
 			<?= Html::submitButton('Tambah', ['class' => 'btn btn-success']) ?>
 		</div>
