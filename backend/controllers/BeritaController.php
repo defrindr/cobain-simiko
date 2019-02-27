@@ -521,8 +521,10 @@ class BeritaController extends Controller
     public function actionDPermanent($id){
         if(Yii::$app->user->can('Admin')){
             $model = ModuleBerita::findDeleted()->where('id='.$id)->one();
+            $img = $model->gambar;
             if($model->delete()){
                 Yii::$app->session->setFlash('success','Data berhasil dihapus secara permanen');
+                unlink(Yii::$app->basePath."/web/uploaded/berita/".$img);
             }else {
                 Yii::$app->session->setFlash('error','Data gagal dihapus secara permanen');
             }
