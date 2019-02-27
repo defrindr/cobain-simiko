@@ -32,14 +32,14 @@ yii\bootstrap\Modal::end();
     <div class="row">
         <div class="div col-sm-4">
             
-            <div class="box box-danger">
+            <div class="box box-success">
                 <div class="box-header">
                     <p>
-                        <?= Html::button('Tambah',['value' => Url::to(['berita-kategori/create']),'title' => 'Tambah', 'class' => 'showModalButton btn btn-success']); ?>
+                        <?= Html::button('Tambah',['value' => Url::to(['berita/create-kategori']),'title' => 'Tambah', 'class' => 'showModalButton btn btn-success']); ?>
                         <?php // echo Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
                         <?php if(Yii::$app->user->can('Admin')){ ?>
 
-                        <?= Html::button('Restore data',['value' => Url::to(['/berita-kategori/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning', 'style' => ['margin'=> '2px 2px 2px 0']]); ?>
+                        <?= Html::button('Restore data',['value' => Url::to(['/berita/data-restore-kategori']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning', 'style' => ['margin'=> '2px 2px 2px 0']]); ?>
                         <?php } ?>
                     </p>
                     <div class="search-form" style="display:none">
@@ -62,12 +62,17 @@ yii\bootstrap\Modal::end();
                                     $id = $model->id;
                                     return Html::button('<i class="glyphicon glyphicon-pencil"></i>',
                                         [
-                                            'value' => Url::to(['berita-kategori/update','id' => $id]),
+                                            'value' => Url::to(['berita/update-kategori','id' => $id]),
                                             'title' => 'Ubah '.$model->nama,
                                              'class'=> 'showModalButton btn btn-actionColumn',
                                         ]
                                     );
                                 },
+                                'delete' => function($url,$model){
+                                    return Html::a('<i class="glyphicon glyphicon-trash"></i>',
+                                        ['delete-kategori','id'=>$model->id]
+                                    );
+                                }
                             ]
                         ],
                     ]; 

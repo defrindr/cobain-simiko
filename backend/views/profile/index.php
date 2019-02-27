@@ -31,19 +31,10 @@ yii\bootstrap\Modal::end();
     <div class="box box-success">
         <div class="box-header">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-                <p>
-                    <?= Html::button('Tambah', 
-                    [
-                        'value' => 'create',
-                        'title' => 'Tambah',
-                        'class' => 'btn btn-success showModalButton'
-                    ]); ?>
-                    <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
-                </p>
-                    <div class="search-form" style="display:none">
+            <div class="search-form" style="display:none">
                     <?php echo $this->render('_search', ['model' => $searchModel]); ?>
-                </div>
-                        </div>
+            </div>
+        </div>
         <div class="box-body">
             <?php 
                 $gridColumn = [
@@ -70,6 +61,7 @@ yii\bootstrap\Modal::end();
                     ['attribute' => 'lock', 'visible' => false],
                     [
                         'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view}'
                     ],
                 ]; 
                 ?>

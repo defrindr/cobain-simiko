@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="module-berita-kategori-update">
 
-    <?= $this->render('_form', [
+    <?= $this->render('_form_kategori', [
         'model' => $model,
     ]) ?>
 

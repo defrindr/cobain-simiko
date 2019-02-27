@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'lock', 'visible' => false],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{restore}',
+                'template' => '{restore} {permDeleteKategori}',
                 'buttons' => [
                     'restore' => function($url,$model){
                         $id = $model->id;
@@ -30,6 +30,17 @@ $this->params['breadcrumbs'][] = $this->title;
                             'class' => 'btn btn-info',
                                 'data' => [
                                     'confirm' => 'Anda yakin ingin merestore data ini ?',
+                                    'method' => 'post',
+                                ],
+                            ]
+                        );
+                    },
+                    'permDeleteKategori' => function($url,$model){
+                        $id = $model->id;
+                        return Html::a('Hard Delete', ['d-permanent-kategori', 'id' => $model->id], [
+                            'class' => 'btn btn-info',
+                                'data' => [
+                                    'confirm' => 'Anda yakin ingin menghapus permanen data ini ?',
                                     'method' => 'post',
                                 ],
                             ]

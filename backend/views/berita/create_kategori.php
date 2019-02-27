@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-berita-kategori-create">
 
-    <?= $this->render('_form', [
+    <?= $this->render('_form_kategori', [
         'model' => $model,
     ]) ?>
 

@@ -91,7 +91,7 @@ class BeritaController extends Controller
             $searchModel = new ModuleBeritaKategoriSearch();
             $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-            return $this->renderAjax('data-restore', [
+            return $this->renderAjax('data_restore_kategori', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
@@ -182,6 +182,13 @@ class BeritaController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+
+
+
+
+
+
+
 
     /**
      * Creates a new ModuleBerita model.
@@ -275,6 +282,47 @@ class BeritaController extends Controller
             throw new ForbiddenHttpException;
         }
     }
+    public function actionCreateKategori()
+    {
+        /**
+         * Hanya user dengan role admin
+         * yang dapat menambahkan berita
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('berita-kategori.create')){
+            $model = new ModuleBeritaKategori();
+
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->saveAll()){
+                    Yii::$app->session->setFlash('success','Data berhasil disimpan');
+                    return $this->redirect(['index']);
+                } else {
+                    Yii::$app->session->setFlash('error','Data gagal disimpan');
+                    return $this->redirect(['index']);
+                }
+            } else {
+                return $this->renderAjax('create_kategori', [
+                    'model' => $model,
+                ]);
+            }
+        } else {
+            throw new  ForbiddenHttpException;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Updates an existing ModuleBerita model.
@@ -373,6 +421,46 @@ class BeritaController extends Controller
             throw new ForbiddenHttpException;
         }
     }
+    public function actionUpdateKategori($id)
+    {
+        /**
+         * Hanya user dengan role admin
+         * yang dapat mengubah berita
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('berita-kategori.update')){
+            $model = $this->findModelKategori($id);
+
+            if ($model->loadAll(Yii::$app->request->post())) {
+                if($model->saveAll()){
+                    Yii::$app->session->setFlash('success','Data berhasil diubah');
+                    return $this->redirect(['index']);
+                } else {
+                    Yii::$app->session->setFlash('error','Data gagal diubah');
+                    return $this->redirect(['index']);
+                }
+            } else {
+                return $this->renderAjax('update_kategori', [
+                    'model' => $model,
+                ]);
+            }
+        }else{
+            throw new  ForbiddenHttpException;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Deletes an existing ModuleBerita model.
@@ -405,6 +493,85 @@ class BeritaController extends Controller
             throw new ForbiddenHttpException;
         }
     }
+    public function actionDeleteKategori($id)
+    {
+        /**
+         * Hanya user dengan role admin
+         * yang dapat menghapus berita
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('berita-kategori.delete')){
+            if($this->findModelKategori($id)->deleteWithRelated()){
+                Yii::$app->session->setFlash('success','Data berhasil dihapus');
+            } else {
+                Yii::$app->session->setFlash('gagal','Data gagal dihapus');
+            }
+            return $this->redirect(['index']);
+        } else {
+            throw new ForbiddenHttpException;
+        }
+    }
+
+
+
+
+
+
+    public function actionDPermanent($id){
+        if(Yii::$app->user->can('Admin')){
+            $model = ModuleBerita::findDeleted()->where('id='.$id)->one();
+            if($model->delete()){
+                Yii::$app->session->setFlash('success','Data berhasil dihapus secara permanen');
+            }else {
+                Yii::$app->session->setFlash('error','Data gagal dihapus secara permanen');
+            }
+            return $this->redirect(['index']);
+        }else{
+            throw new ForbiddenHttpException;
+
+        }
+    }
+    public function actionDPermanentKategori($id){
+        if(Yii::$app->user->can('Admin')){
+            $model = ModuleBeritaKategori::findDeleted()->where('id='.$id)->one();
+            if($model->delete()){
+                Yii::$app->session->setFlash('success','Data berhasil dihapus secara permanen');
+            }else {
+                Yii::$app->session->setFlash('error','Data gagal dihapus secara permanen');
+            }
+            return $this->redirect(['index']);
+        }else{
+            throw new ForbiddenHttpException;
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**
@@ -488,6 +655,15 @@ class BeritaController extends Controller
     protected function findModel($id)
     {
         if (($model = ModuleBerita::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    protected function findModelKategori($id)
+    {
+        if (($model = ModuleBeritaKategori::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
