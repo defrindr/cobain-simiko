@@ -189,7 +189,7 @@ if($providerModuleJadwal->totalCount){
     $gridColumnModuleJadwal = [
         ['class' => 'yii\grid\SerialColumn'],
             ['attribute' => 'id', 'visible' => false],
-                        [
+            [
                 'attribute' => 'kodeMapel.id',
                 'label' => 'Kode Mapel'
             ],
@@ -229,6 +229,12 @@ if($providerModuleJadwal->totalCount){
 
 <?php
 if($providerModuleMateri->totalCount){
+    echo '
+<div class="box box-success">
+    <div class="box-header">
+    </div>
+    <div class="box-body">
+    ';
     $gridColumnModuleMateri = [
         ['class' => 'yii\grid\SerialColumn'],
             ['attribute' => 'id', 'visible' => false],
@@ -245,12 +251,13 @@ if($providerModuleMateri->totalCount){
         'dataProvider' => $providerModuleMateri,
         'pjax' => true,
         'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-materi']],
-        'panel' => [
-            'type' => GridView::TYPE_PRIMARY,
-            'heading' => '<span class="glyphicon glyphicon-book"></span> ' . Html::encode('Module Materi'),
-        ],
+        'panel' => false,
         'export' => false,
         'columns' => $gridColumnModuleMateri
     ]);
+    echo '
+    </div>
+</div>
+    ';
 }
 ?>

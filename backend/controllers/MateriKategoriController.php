@@ -95,10 +95,15 @@ class MateriKategoriController extends Controller
     {
         $model = new ModuleMateriKategori();
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->loadAll(Yii::$app->request->post())) {
+            if($model->saveAll()){
+                Yii::$app->session->setFlash('success','Data berhasil ditambahkan');
+            } else {
+                Yii::$app->session->setFlash('error','Data gagal ditambahkan');
+            }
+            return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }

@@ -3,6 +3,13 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+
+
+// var_dump(\yii\helpers\ArrayHelper::map(\common\models\ModuleMateriKategori::find()->orderBy('id')->asArray()->all(), 'id','nama','mata_pelajaran_id'));
+// exit();
+
+
+
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleMateri */
 /* @var $form yii\widgets\ActiveForm */
@@ -31,6 +38,25 @@ use yii\widgets\ActiveForm;
         'isNewRecord' => ($model->isNewRecord) ? 1 : 0
     ]
 ]);
+
+$list_kelas = [];
+
+$modelKelas = \common\models\ModuleKelas::find()->orderBy('id')->all();
+foreach ($modelKelas as $kelas) {
+    $list_kelas += [$kelas->id=>$kelas->grade." ".$kelas->jurusan->nama." ".$kelas->kelas];
+}
+
+$list_bab = [];
+$modelBab = \common\models\ModuleMateriKategori::find()->orderBy('id')->all();
+foreach ($modelBab as $bab) {
+    $list_bab += [$bab->mataPelajaran->nama_mapel=>[$bab->id => $bab->nama]];
+}
+
+// var_dump($bab);
+// exit();
+
+$guru = \common\models\ModuleGuru::find()->where('user_id='.Yii::$app->user->id)->one();
+
 ?>
 
 <div class="module-materi-form">
@@ -40,10 +66,80 @@ use yii\widgets\ActiveForm;
 
     <div class="box box-success">
         <div class="box-header">
+            <?= $form->errorSummary($model); ?>
             
         </div>
         <!-- end header box -->
         <div class="box-body">
+            <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+
+            <?= $form->field($model, 'kelas_id')->label('Kelas')->widget(\kartik\widgets\Select2::classname(), [
+                'data' =>$list_kelas,
+                'options' => ['placeholder' => 'Choose Module kelas'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]); ?>
+
+            <?php 
+            if(Yii::$app->user->identity->role == 20) { ?>
+                <?= $form->field($model, 'materi_kategori_id')->label('Bab Materi')->widget(\kartik\widgets\Select2::classname(), [
+                    'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateriKategori::find()->where('mata_pelajaran_id='.$guru->mata_pelajaran_id)->orderBy('id')->asArray()->all(), 'id','nama'),
+                    'options' => ['placeholder' => 'Pilih Bab Materi'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]); ?>
+
+            <?php } elseif (Yii::$app->user->can('Admin')) { ?>
+                <?= $form->field($model, 'materi_kategori_id')->label('Bab Materi')->widget(\kartik\widgets\Select2::classname(), [
+                    'data' => $list_bab,
+                    'options' => ['placeholder' => 'Pilih Bab Materi'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]); ?>
+                
+            <?php } ?>
+
+            <?= $form->field($model, 'judul')->textInput(['maxlength' => true, 'placeholder' => 'Judul']) ?>
+
+            <?= $form->field($model, 'gambar')->textInput(['maxlength' => true, 'placeholder' => 'Gambar']) ?>
+
+            <?= $form->field($model, 'isi')->textarea(['rows' => 6]) ?>
+
+            <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
+
+            <?php
+            $forms = [
+                [
+                    'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('ModuleMateriFile'),
+                    'content' => $this->render('_formModuleMateriFile', [
+                        'row' => \yii\helpers\ArrayHelper::toArray($model->moduleMateriFiles),
+                    ]),
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('ModuleMateriSoal'),
+                    'content' => $this->render('_formModuleMateriSoal', [
+                        'row' => \yii\helpers\ArrayHelper::toArray($model->moduleMateriSoals),
+                    ]),
+                ],
+            ];
+            echo kartik\tabs\TabsX::widget([
+                'items' => $forms,
+                'position' => kartik\tabs\TabsX::POS_ABOVE,
+                'encodeLabels' => false,
+                'pluginOptions' => [
+                    'bordered' => true,
+                    'sideways' => true,
+                    'enableCache' => false,
+                ],
+            ]);
+            ?>
+            <div class="form-group">
+                <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                <?= Html::a(Yii::t('app', 'Batal'), Yii::$app->request->referrer , ['class'=> 'btn btn-danger']) ?>
+            </div>
             
         </div>
         <!-- end body box -->
@@ -53,70 +149,6 @@ use yii\widgets\ActiveForm;
 
 
 
-    <?= $form->errorSummary($model); ?>
-
-    <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-
-    <?= $form->field($model, 'kelas_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleKelas::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
-        'options' => ['placeholder' => 'Choose Module kelas'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
-
-    <?= $form->field($model, 'materi_kategori_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateriKategori::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
-        'options' => ['placeholder' => 'Choose Module materi kategori'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
-
-    <?= $form->field($model, 'judul')->textInput(['maxlength' => true, 'placeholder' => 'Judul']) ?>
-
-    <?= $form->field($model, 'gambar')->textInput(['maxlength' => true, 'placeholder' => 'Gambar']) ?>
-
-    <?= $form->field($model, 'isi')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-
-    <?php
-    $forms = [
-        [
-            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('ModuleMateriFile'),
-            'content' => $this->render('_formModuleMateriFile', [
-                'row' => \yii\helpers\ArrayHelper::toArray($model->moduleMateriFiles),
-            ]),
-        ],
-        [
-            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('ModuleMateriKomentar'),
-            'content' => $this->render('_formModuleMateriKomentar', [
-                'row' => \yii\helpers\ArrayHelper::toArray($model->moduleMateriKomentars),
-            ]),
-        ],
-        [
-            'label' => '<i class="glyphicon glyphicon-book"></i> ' . Html::encode('ModuleMateriSoal'),
-            'content' => $this->render('_formModuleMateriSoal', [
-                'row' => \yii\helpers\ArrayHelper::toArray($model->moduleMateriSoals),
-            ]),
-        ],
-    ];
-    echo kartik\tabs\TabsX::widget([
-        'items' => $forms,
-        'position' => kartik\tabs\TabsX::POS_ABOVE,
-        'encodeLabels' => false,
-        'pluginOptions' => [
-            'bordered' => true,
-            'sideways' => true,
-            'enableCache' => false,
-        ],
-    ]);
-    ?>
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Ubah', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Batal'), Yii::$app->request->referrer , ['class'=> 'btn btn-danger']) ?>
-    </div>
 
     <?php ActiveForm::end(); ?>
 

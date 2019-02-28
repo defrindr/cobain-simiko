@@ -6,7 +6,8 @@
 
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
-use kartik\grid\GridView;use yii\helpers\Url;
+use kartik\grid\GridView;
+use yii\helpers\Url;
 
 
 $this->title = 'Module Materi';
@@ -26,72 +27,81 @@ yii\bootstrap\Modal::begin([
 echo "<div id='modalContent'></div>";
 yii\bootstrap\Modal::end();
 
+$list_kelas = [];
+
+$modelKelas = \common\models\ModuleKelas::find()->orderBy('id')->all();
+foreach ($modelKelas as $kelas) {
+    $list_kelas += [$kelas->id=>$kelas->grade." ".$kelas->jurusan->nama." ".$kelas->kelas];
+}
+
+$list_bab = [];
+$modelBab = \common\models\ModuleMateriKategori::find()->orderBy('id')->all();
+foreach ($modelBab as $bab) {
+    $list_bab += [$bab->mataPelajaran->nama_mapel=>[$bab->id => $bab->nama]];
+}
+
 ?>
 <div class="module-materi-index">
     <div class="box box-success">
         <div class="box-header">
-                            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-            
-                <p>
-                    <?= Html::a('Tambah Module Materi', ['create'], ['class' => 'btn btn-success']) ?>
-                                <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
-                            </p>
-                            <div class="search-form" style="display:none">
-                    <?=  $this->render('_search', ['model' => $searchModel]); ?>
-                </div>
-                        </div>
+            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <p>
+                <?= Html::a('Tambah Materi', ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+            </p>
+            <div class="search-form" style="display:none">
+                <?=  $this->render('_search', ['model' => $searchModel]); ?>
+            </div>
+        </div>
         <div class="box-body">
-                        <?php 
+            <?php 
                 $gridColumn = [
                     ['class' => 'yii\grid\SerialColumn'],
-                                            ['attribute' => 'id', 'visible' => false],
-                                [
-                'attribute' => 'kelas_id',
-                'label' => 'Kelas',
-                'value' => function($model){                   
-                    return $model->kelas->id;                   
-                },
-                'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleKelas::find()->asArray()->all(), 'id', 'id'),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => ['allowClear' => true],
-                ],
-                'filterInputOptions' => ['placeholder' => 'Module kelas', 'id' => 'grid-module-materi-search-kelas_id']
-            ],
-                                [
-                'attribute' => 'materi_kategori_id',
-                'label' => 'Materi Kategori',
-                'value' => function($model){                   
-                    return $model->materiKategori->id;                   
-                },
-                'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateriKategori::find()->asArray()->all(), 'id', 'id'),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => ['allowClear' => true],
-                ],
-                'filterInputOptions' => ['placeholder' => 'Module materi kategori', 'id' => 'grid-module-materi-search-materi_kategori_id']
-            ],
-                                'judul',
-                                'gambar',
-                                'isi:ntext',
-                                ['attribute' => 'lock', 'visible' => false],
-                                [
+                    ['attribute' => 'id', 'visible' => false],
+                    [
+                        'attribute' => 'kelas_id',
+                        'label' => 'Kelas',
+                        'value' => function($model){
+                            return $model->kelas->grade." ".$model->kelas->jurusan->nama." ".$model->kelas->kelas;
+                        },
+                        'filterType' => GridView::FILTER_SELECT2,
+                        'filter' => $list_kelas,
+                        'filterWidgetOptions' => [
+                            'pluginOptions' => ['allowClear' => true],
+                        ],
+                        'filterInputOptions' => ['placeholder' => 'Module kelas', 'id' => 'grid-module-materi-search-kelas_id']
+                    ],
+                    [
+                        'attribute' => 'materi_kategori_id',
+                        'label' => 'Materi Kategori',
+                        'value' => function($model){
+                            return $model->materiKategori->nama;
+                        },
+                        'filterType' => GridView::FILTER_SELECT2,
+                        'filter' => $list_bab,
+                        'filterWidgetOptions' => [
+                            'pluginOptions' => ['allowClear' => true],
+                        ],
+                        'filterInputOptions' => ['placeholder' => 'Module materi kategori', 'id' => 'grid-module-materi-search-materi_kategori_id']
+                    ],
+                    'judul',
+                    'gambar',
+                    // 'isi:ntext',
+                    ['attribute' => 'lock', 'visible' => false],
+                    [
                         'class' => 'yii\grid\ActionColumn',
-                                ],
+                    ],
                 ]; 
-                            ?>
+                ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
-        'columns' => $gridColumn,
+                    'columns' => $gridColumn,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-materi']],
-                    'panel' => [
-                        'type' => GridView::TYPE_PRIMARY,
-                        'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
-                    ],
-                                'export' => false,
-                                // your toolbar can include the additional full export menu
+                    'panel' => false,
+                    'export' => false,
+                    // your toolbar can include the additional full export menu
                     'toolbar' => [
                         '{export}',
                         ExportMenu::widget([
@@ -106,10 +116,10 @@ yii\bootstrap\Modal::end();
                                     '<li class="dropdown-header">Export All Data</li>',
                                 ],
                             ],
-                                        'exportConfig' => [
+                            'exportConfig' => [
                                 ExportMenu::FORMAT_PDF => false
                             ]
-                                    ]) ,
+                        ]) ,
                     ],
                 ]); ?>
                         

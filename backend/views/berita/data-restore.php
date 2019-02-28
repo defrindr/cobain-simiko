@@ -75,7 +75,7 @@ $this->title = 'Berita restore';
                             ],
                         ]
                     );
-                },
+                }
             ],
         ],
     ]; 

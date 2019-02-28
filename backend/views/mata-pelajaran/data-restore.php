@@ -22,7 +22,7 @@ $this->title = 'Mata Pelajaran';
                 ['attribute' => 'lock', 'visible' => false],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'template' => '{restore}',
+                    'template' => '{restore} {permDeleteMapel}',
                     'buttons' => [
                         'restore' => function($url,$model){
                             return Html::a('Restore', ['restore', 'id' => $model->id], [
@@ -32,6 +32,17 @@ $this->title = 'Mata Pelajaran';
                                     'method' => 'post',
                                 ],
                             ]);
+                        },
+                        'permDeleteMapel' => function($url,$model){
+                            $id = $model->id;
+                            return Html::a('Hard Delete', ['d-permanent', 'id' => $model->id], [
+                                'class' => 'btn btn-danger',
+                                    'data' => [
+                                        'confirm' => 'Anda yakin ingin menghapus permanen data ini ?',
+                                        'method' => 'post',
+                                    ],
+                                ]
+                            );
                         },
                     ]
                 ],

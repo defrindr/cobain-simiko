@@ -170,7 +170,7 @@ class MataPelajaranController extends Controller
         {
             if ($this->findModel($id)->deleteWithRelated()) 
             {
-                Yii::$aapp->session->setFlash('success','Data berhasil dihapus');
+                Yii::$app->session->setFlash('success','Data berhasil dihapus');
             } else 
             {
                 Yii::$aapp->session->setFlash('error','Data gagal dihapus');
@@ -181,6 +181,28 @@ class MataPelajaranController extends Controller
             throw new \yii\web\ForbiddenHttpException;
         }
     }
+    public function actionDPermanent($id){
+        /**
+         * Action to hard delete
+         */
+        if(Yii::$app->user->can('Admin')){
+            $model = ModuleMataPelajaran::findDeleted()->where('id='.$id)->one();
+            if($model->delete()){
+                Yii::$app->session->setFlash('success','Data berhasil dihapus secara permanent');
+            }else {
+                Yii::$app->session->setFlash('error','Data gagal dihapus secara permanent');
+            }
+            return $this->redirect(['index']);
+        } else {
+            throw new ForbiddenHttpException;
+        }
+    }
+
+
+
+
+
+
 
     
     /**

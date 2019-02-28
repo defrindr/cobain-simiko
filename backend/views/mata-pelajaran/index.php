@@ -26,7 +26,7 @@ yii\bootstrap\Modal::begin([
 <div class="module-mata-pelajaran-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <div class="box box-danger">
+    <div class="box box-success">
         <div class="box-header">
             <?php if(Yii::$app->user->can('Admin')) { ?>
             <p>
