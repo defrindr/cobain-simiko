@@ -22,15 +22,16 @@ yii\bootstrap\Modal::end();
 	<div class="box box-success">
 		<div class="box-header">
 			<?=
-			Html::button('<span class="glypicon glyphicon-plus" style="font-size:18px"></span> Add User',[
-				'value' => Url::to(['create']),
+			Html::button('<span class="glypicon glyphicon-plus" style="font-size:18px"></span> Add siswa',[
+				'value' => Url::to(['create-siswa']),
 				'title'=>'Tambah user',
 				'class' => 'btn btn-success showModalButton'
 			]);
 			?>
 			<?=
-			Html::button('<span class="glypicon glyphicon-plus" style="font-size:18px"></span> Upload User',[
-				'value' => Url::to('#'),
+			Html::button('<span class="glypicon glyphicon-plus" style="font-size:18px"></span> Add guru',[
+				'value' => Url::to(['create-guru']),
+				'title' => 'Tambah Guru',
 				'class' => 'btn showModalButton btn-success'
 			]);
 			?>
@@ -67,7 +68,7 @@ yii\bootstrap\Modal::end();
 				],
 				[
 					'class' => 'yii\grid\ActionColumn',
-					'template' => 'changeStatus',
+					'template' => '{changeStatus}',
 					'buttons' => [
 						'changeStatus' => function($url,$model){
 							if($model->status == 10){

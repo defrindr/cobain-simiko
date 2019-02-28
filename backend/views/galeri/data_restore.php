@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         );
                     },
                     'del-permanent' => function($url,$model){
-                        return html::a('Delete permanent',['del-permanent','id'=>$model->id],[
+                        return html::a('Delete permanent',['d-permanent','id'=>$model->id],[
                             'class' => 'btn btn-danger',
                             'data' => [
                                 'confirm' => 'Yakin ingin menghapus Permanent item ini ?',

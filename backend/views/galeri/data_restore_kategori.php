@@ -48,7 +48,7 @@ $this->registerJs($search);
                             );
                         },
                         'del-permanent' => function($url,$model){
-                            return Html::a('Delete Permanent',['del-permanent','id'=>$model->id],[
+                            return Html::a('Delete Permanent',['d-permanent-kategori','id'=>$model->id],[
                                 'class'=>'btn btn-danger',
                                 'data' => [
                                     'confirm' => 'Yakin ingin menghapus Permanent item ini ?',

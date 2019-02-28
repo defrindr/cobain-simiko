@@ -524,7 +524,9 @@ class BeritaController extends Controller
             $img = $model->gambar;
             if($model->delete()){
                 Yii::$app->session->setFlash('success','Data berhasil dihapus secara permanen');
-                unlink(Yii::$app->basePath."/web/uploaded/berita/".$img);
+                if(!empty($img)){
+                    unlink(Yii::$app->basePath."/web/uploaded/berita/".$img);
+                }
             }else {
                 Yii::$app->session->setFlash('error','Data gagal dihapus secara permanen');
             }

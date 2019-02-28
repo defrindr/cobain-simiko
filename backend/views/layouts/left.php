@@ -65,6 +65,20 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                         'url' => ['/jurusan'],
                         'icon' => 'dashboard',
                     ],
+                    [
+                        'label' => 'Materi Fitur',
+                        'icon'=>'dashboard', 
+                        'url'=>'#',
+                        'items' => [
+                            ['label' => 'Materi', 'url' => ['/materi'], 'icon' => 'dashboard'],
+                            ['label' => 'Materi File', 'url' => ['/materi-file'], 'icon' => 'dashboard'],
+                            ['label' => 'Materi Komentar', 'url' => ['/materi-komentar'], 'icon' => 'dashboard'],
+                            ['label' => 'Materi Kategori', 'url' => ['/materi-kategori'], 'icon' => 'dashboard'],
+                            ['label' => 'Materi Soal', 'url' => ['/materi-soal'], 'icon' => 'dashboard'],
+                            ['label' => 'Materi Soal File', 'url' => ['/materi-soal-file'], 'icon' => 'dashboard'],
+                            ['label' => 'Materi Jawaban', 'url' => ['/materi-soal-jawaban'], 'icon' => 'dashboard'],
+                        ],
+                    ],
                     ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [

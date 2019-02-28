@@ -392,6 +392,54 @@ class GaleriController extends Controller
     }
 
 
+    public function actionDPermanent($id){
+        if(Yii::$app->user->can('Admin')){
+            $model = ModuleGaleri::findDeleted()->where('id='.$id)->one();
+            $img = $model->link;
+            if($model->delete()){
+                Yii::$app->session->setFlash('success','Data berhasil dihapus secara permanen');
+                if(file_exists(Yii::$app->basePath."/web/uploaded/galeri/".$img)){
+                    unlink(Yii::$app->basePath."/web/uploaded/galeri/".$img);
+                }
+            }else {
+                Yii::$app->session->setFlash('error','Data gagal dihapus secara permanen');
+            }
+            return $this->redirect(['index']);
+        }else{
+            throw new ForbiddenHttpException;
+
+        }
+    }
+
+
+    public function actionDPermanentKategori($id){
+        if(Yii::$app->user->can('Admin')){
+            $modelKategori = ModuleGaleriKategori::findDeleted()->where('id='.$id)->one();
+            $modelGaleri = ModuleGaleri::findDeleted()->where('Kategori='.$id)->all();
+            foreach($modelGaleri as $model){
+                print_r($model->link);
+            }
+            exit();
+            // if($model->delete()){
+            //     Yii::$app->session->setFlash('success','Data berhasil dihapus secara permanen');
+            // }else {
+            //     Yii::$app->session->setFlash('error','Data gagal dihapus secara permanen');
+            // }
+            return $this->redirect(['index']);
+        }else{
+            throw new ForbiddenHttpException;
+
+        }
+    }
+
+
+
+
+
+
+
+
+
 
 
 

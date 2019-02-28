@@ -290,6 +290,26 @@ class BankController extends Controller
             
         }
     }
+    public function actionDPermanent($id){
+        /**
+         * Action to hard delete
+         */
+        if(Yii::$app->user->can('Admin')){
+            $model = ModuleBank::findDeleted()->where('id='.$id)->one();
+            $img = $model->gambar;
+            if($model->delete()){
+                Yii::$app->session->setFlash('success','Data berhasil dihapus secara permanent');
+                if(!empty($img)){
+                    unlink(Yii::$app->basePath."/web/uploaded/bank/".$img);
+                }
+            }else {
+                Yii::$app->session->setFlash('error','Data gagal dihapus secara permanent');
+            }
+            return $this->redirect(['index']);
+        } else {
+            throw new ForbiddenHttpException;
+        }
+    }
 
     
     /**

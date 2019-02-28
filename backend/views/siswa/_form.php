@@ -15,6 +15,18 @@ use yii\widgets\ActiveForm;
         'isNewRecord' => ($model->isNewRecord) ? 1 : 0
     ]
 ]);
+
+
+// $modelkelas = \common\models\ModuleKelas::find()->orderBy('jurusan_id')->all();
+
+// $list_kelas= array(
+//     $modelkelas->id=>$model->grade
+// );
+
+
+// var_dump($list_kelas);
+// exit();
+
 ?>
 
 <div class="module-siswa-form">
@@ -29,7 +41,7 @@ use yii\widgets\ActiveForm;
         <div class="box-body">
 
             <?= $form->field($model, 'user_id')->widget(\kartik\widgets\Select2::classname(), [
-                'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleUser::find()->innerJoinWith(['profile'])->where(['role'=>30])->orderBy('profile.user_id')->asArray()->all(), 'id', 'profile.nama'),
+                'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleUser::find()->innerJoinWith(['profile'])->where(['role'=>30])->orderBy('profile.nama')->asArray()->all(), 'id', 'profile.nama'),
                 'options' => ['placeholder' => 'pilih  User'],
                 'pluginOptions' => [
                     'allowClear' => true
