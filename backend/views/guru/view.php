@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-guru-view">
 
-    <div class="box box-danger">
+    <div class="box box-success">
         <div class="box-header">
             <?= Html::a('Update', ['update', 'id' => $model->user_id], ['class' => 'btn btn-primary']) ?>
             <?= Html::a('Delete', ['delete', 'id' => $model->user_id], [
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         if($providerModuleKelas->totalCount){
             echo '
-<div class="box box-danger">
+<div class="box box-success">
     <div class="box-header">
         <h4>Kelas</h4>
     </div>
@@ -78,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $gridColumnModuleKelas = [
                 ['class' => 'yii\grid\SerialColumn'],
                     ['attribute' => 'id', 'visible' => false],
-                    'kelas',
+                    'grade',
                     [
                         'attribute' => 'jurusan.id',
                         'label' => 'Jurusan',
@@ -86,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return $model->jurusan->nama;
                         }
                     ],
-                    'grade',
+                    'kelas',
                     'tahun',
                     ['attribute' => 'lock', 'visible' => false],
             ];

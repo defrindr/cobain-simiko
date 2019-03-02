@@ -85,6 +85,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                             ],
                         ],
                     ],
+                    ['label' => 'Menu SPP', 'icon'=> 'dashboard','url'=>['/spp']],
                     ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [

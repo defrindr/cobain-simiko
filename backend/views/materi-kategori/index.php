@@ -65,6 +65,7 @@ yii\bootstrap\Modal::end();
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'columns' => $gridColumn,
+                    'responsiveWrap' => false,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-materi-kategori']],
                     'panel' => false,

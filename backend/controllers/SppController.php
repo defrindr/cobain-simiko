@@ -155,11 +155,16 @@ class SppController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionPdf($id) {
-        $model = $this->findModel($id);
+    public function actionPdf() {
+        $model = ModuleSpp::find()->all();
+        // $model = $this->findModel($id);
+        // 
+        $searchModel = new ModuleSppSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $content = $this->renderAjax('_pdf', [
-            'model' => $model,
+            // 'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
 
         $pdf = new \kartik\mpdf\Pdf([
@@ -168,7 +173,7 @@ class SppController extends Controller
             'orientation' => \kartik\mpdf\Pdf::ORIENT_PORTRAIT,
             'destination' => \kartik\mpdf\Pdf::DEST_BROWSER,
             'content' => $content,
-            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
             'cssInline' => '.kv-heading-1{font-size:18px}',
             'options' => ['title' => \Yii::$app->name],
             'methods' => [

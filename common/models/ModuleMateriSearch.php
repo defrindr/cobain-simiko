@@ -41,7 +41,11 @@ use common\models\ModuleMateri;
      */
     public function search($params)
     {
-        $query = ModuleMateri::find();
+        if(Yii::$app->user->identity->role==20){
+            $query = ModuleMateri::find()->where('created_by='.Yii::$app->user->id);
+        }else{
+            $query = ModuleMateri::find();
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

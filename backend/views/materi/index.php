@@ -97,6 +97,7 @@ foreach ($modelBab as $bab) {
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
                     'columns' => $gridColumn,
+                    'responsiveWrap' => false,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-materi']],
                     'panel' => false,

@@ -62,6 +62,8 @@ class UserManageController extends Controller
             $modelUser = new User();
             $modelProfile = new ModuleProfile();
             $modelSiswa = new ModuleSiswa();
+            $auth = Yii::$app->authManager;
+            $roled = $auth->getRole('Siswa');
             $transaction = Yii::$app->db->beginTransaction();
             try
             {
@@ -72,6 +74,7 @@ class UserManageController extends Controller
                 $modelUser->role =30;
                 if($modelUser->save())
                 {
+                    $auth->assign($roled,$modelUser->id);
                     $modelProfile->user_id = $modelUser->id;
                     $modelProfile->nama = $model->nama;
                     $modelProfile->created_by = Yii::$app->user->id;

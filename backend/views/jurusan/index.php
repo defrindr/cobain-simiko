@@ -28,7 +28,7 @@ yii\bootstrap\Modal::begin([
 
 ?>
 <div class="module-jurusan-index">
-    <div class="box box-danger">
+    <div class="box box-success">
         <div class="box-header">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             <p>

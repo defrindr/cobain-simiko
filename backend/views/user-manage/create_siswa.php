@@ -2,6 +2,13 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+
+$list_kelas = [];
+
+$modelKelas = \common\models\ModuleKelas::find()->orderBy('id')->all();
+foreach ($modelKelas as $kelas) {
+    $list_kelas += [$kelas->id=>$kelas->grade." ".$kelas->jurusan->nama." ".$kelas->kelas];
+}
 ?>
 
 <div class="module-user-manage-form">
@@ -11,7 +18,7 @@ use yii\widgets\ActiveForm;
 		<?= $form->field($model,'nama')->textInput() ?>
 
 		<?= $form->field($model, 'abstract')->label('Kelas')->widget(\kartik\widgets\Select2::classname(), [
-			'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleKelas::find()->orderBy('id')->asArray()->all(), 'id', 'grade'),
+			'data' => $list_kelas,
 			'options' => ['placeholder' => 'Choose Module kelas'],
 			'pluginOptions' => [
 			'allowClear' => true

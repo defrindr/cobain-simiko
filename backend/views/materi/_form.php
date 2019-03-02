@@ -46,13 +46,33 @@ foreach ($modelKelas as $kelas) {
     $list_kelas += [$kelas->id=>$kelas->grade." ".$kelas->jurusan->nama." ".$kelas->kelas];
 }
 
+
 $list_bab = [];
 $modelBab = \common\models\ModuleMateriKategori::find()->orderBy('id')->all();
 foreach ($modelBab as $bab) {
-    $list_bab += [$bab->mataPelajaran->nama_mapel=>[$bab->id => $bab->nama]];
+    $list_bab += [$bab->id => $bab->nama];
 }
 
-// var_dump($bab);
+// $a=[
+//     1=>[
+//         'a'=>'A',
+//         'b'=>'B'
+//     ],
+//     2=>[
+//         'c'=>'C'
+//     ]
+// ];
+// $b=[
+//     1=>[
+//         'k'=>'K',
+//         'a'=>'A'
+//     ],
+//     2=>[
+//         'd'=>'D'
+//     ]
+// ];
+// $c=$b+$a;
+// var_dump($c);
 // exit();
 
 $guru = \common\models\ModuleGuru::find()->where('user_id='.Yii::$app->user->id)->one();
