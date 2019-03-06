@@ -8,14 +8,14 @@ use kartik\grid\GridView;
 /* @var $model common\models\ModuleSpp */
 
 $this->title = "Daftar Pembayar SPP Bulan";
-$this->params['breadcrumbs'][] = ['label' => 'Module Spp', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'SPP', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-spp-view">
 
     <div class="row">
         <div class="col-sm-9">
-            <h2><?= 'Module Spp'.' '. Html::encode($this->title) ?></h2>
+            <h2><?= Html::encode($this->title) ?></h2>
         </div>
     </div>
 

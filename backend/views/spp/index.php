@@ -100,10 +100,7 @@ yii\bootstrap\Modal::end();
                     'responsiveWrap' => false,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-spp']],
-                    'panel' => [
-                        'type' => GridView::TYPE_PRIMARY,
-                        'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
-                    ],
+                    'panel' => false,
                     // your toolbar can include the additional full export menu
                     'toolbar' => [
                         '{export}',

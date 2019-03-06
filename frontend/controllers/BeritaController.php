@@ -1,18 +1,18 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use Yii;
-use common\models\ModuleMateriFile;
-use common\models\ModuleMateriFileSearch;
+use common\models\ModuleBerita;
+use common\models\ModuleBeritaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * MateriFileController implements the CRUD actions for ModuleMateriFile model.
+ * BeritaController implements the CRUD actions for ModuleBerita model.
  */
-class MateriFileController extends Controller
+class BeritaController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class MateriFileController extends Controller
     }
 
     /**
-     * Lists all ModuleMateriFile models.
+     * Lists all ModuleBerita models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ModuleMateriFileSearch();
+        $searchModel = new ModuleBeritaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -43,12 +43,12 @@ class MateriFileController extends Controller
 
 
     /**
-     * Lists all ModuleMateriFile models.
+     * Lists all ModuleBerita models.
      * @return mixed
      */
     public function actionDataRestore()
     {
-        $searchModel = new ModuleMateriFileSearch();
+        $searchModel = new ModuleBeritaSearch();
         $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
         return $this->renderAjax('index', [
@@ -58,7 +58,7 @@ class MateriFileController extends Controller
     }
 
     public function actionRestore($id){
-        $model = ModuleMateriFile::findDeleted($id)->one();
+        $model = ModuleBerita::findDeleted($id)->one();
         if($model->restoreWithRelated()){
             Yii::$app->session->setFlash('success','Data berhasil direstore');
         } else {
@@ -70,7 +70,7 @@ class MateriFileController extends Controller
 
 
     /**
-     * Displays a single ModuleMateriFile model.
+     * Displays a single ModuleBerita model.
      * @param integer $id
      * @return mixed
      */
@@ -83,13 +83,13 @@ class MateriFileController extends Controller
     }
 
     /**
-     * Creates a new ModuleMateriFile model.
+     * Creates a new ModuleBerita model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ModuleMateriFile();
+        $model = new ModuleBerita();
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -101,7 +101,7 @@ class MateriFileController extends Controller
     }
 
     /**
-     * Updates an existing ModuleMateriFile model.
+     * Updates an existing ModuleBerita model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -120,7 +120,7 @@ class MateriFileController extends Controller
     }
 
     /**
-     * Deletes an existing ModuleMateriFile model.
+     * Deletes an existing ModuleBerita model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -134,15 +134,15 @@ class MateriFileController extends Controller
 
     
     /**
-     * Finds the ModuleMateriFile model based on its primary key value.
+     * Finds the ModuleBerita model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ModuleMateriFile the loaded model
+     * @return ModuleBerita the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ModuleMateriFile::findOne($id)) !== null) {
+        if (($model = ModuleBerita::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

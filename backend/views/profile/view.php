@@ -21,6 +21,15 @@ echo "<div id='modalContent'></div>";
 yii\bootstrap\Modal::end();
 
 
+if(Yii::$app->user->identity->role == 30){
+    $anu = [
+        'attribute' => 'Kelas',
+        'value' => function($model){
+            return $model->siswa->kelas->grade." ".$model->siswa->kelas->jurusan->nama." ".$model->siswa->kelas->kelas;
+        }
+    ];
+}
+
 ?>
 <div class="module-profile-view">
     
@@ -65,6 +74,13 @@ yii\bootstrap\Modal::end();
                                 'value' => function($model){
                                     $model = $model->user;
                                     return $model->email;
+                                }
+                            ],
+                            
+                            [
+                                'attribute' => 'Login Terakhir',
+                                'value' => function($model){
+                                    return date('Y-m-d H:i:s',$model->user->last_login);
                                 }
                             ],
                             ['attribute' => 'lock', 'visible' => false],

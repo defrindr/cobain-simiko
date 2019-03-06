@@ -11,12 +11,12 @@ $this->title = 'Sign In';
 
 $fieldOptions1 = [
     'options' => ['class' => 'form-group has-feedback'],
-    'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback text-white'></span>"
+    'inputTemplate' => "<span class='glyphicon glyphicon-envelope form-control-feedback text-white'></span>{input}"
 ];
 
 $fieldOptions2 = [
     'options' => ['class' => 'form-group has-feedback'],
-    'inputTemplate' => "{input}<span class='glyphicon glyphicon-lock form-control-feedback text-white'></span>"
+    'inputTemplate' => "<span class='glyphicon glyphicon-lock form-control-feedback text-white'></span>{input}"
 ];
 $checkboxTemplate = '<div class="switch">{beginLabel}{input}{labelTitle}<span class="lever"></span>{endLabel}{error}{hint}</div>';
 ?>
@@ -29,7 +29,7 @@ $checkboxTemplate = '<div class="switch">{beginLabel}{input}{labelTitle}<span cl
         </center>
     </div>
     <div class="col-sm-8 rightCol">
-      <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false, 'errorCssClass' => 'error']); ?>
+      <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false, 'fieldConfig' => ['errorOptions' => ['encode' => false, 'class' => 'help-block']]]); ?>
 
         <?= $form
             ->field($model, 'username', $fieldOptions1)

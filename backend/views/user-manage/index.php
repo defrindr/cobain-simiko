@@ -67,6 +67,16 @@ yii\bootstrap\Modal::end();
 					}
 				],
 				[
+					'attribute'=>'last_login',
+					'value' => function($model){
+						if ((!empty($model->last_login)) and ($model->last_login !=0)) {
+							return date('Y-M-d H:i:s',$model->last_login); 
+						}else{ 
+							return "Never";
+						}
+					}
+				],
+				[
 					'class' => 'yii\grid\ActionColumn',
 					'template' => '{changeStatus}',
 					'buttons' => [

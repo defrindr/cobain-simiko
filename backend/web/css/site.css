@@ -6,7 +6,6 @@ body {
     background: #9BDFAA;
     display: flex;
 }
-
 .text-wrap{
     white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
     white-space: -pre-wrap;      /* Opera 4-6 */

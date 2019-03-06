@@ -7,7 +7,10 @@ use common\models\ModuleMateri;
 use common\models\ModuleMateriSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use yii\helpers\Url;
 
 /**
  * MateriController implements the CRUD actions for ModuleMateri model.
@@ -76,22 +79,54 @@ class MateriController extends Controller
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $providerModuleMateriFile = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->moduleMateriFiles,
-        ]);
-        $providerModuleMateriKomentar = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->moduleMateriKomentars,
-        ]);
-        $providerModuleMateriSoal = new \yii\data\ArrayDataProvider([
-            'allModels' => $model->moduleMateriSoals,
-        ]);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'providerModuleMateriFile' => $providerModuleMateriFile,
-            'providerModuleMateriKomentar' => $providerModuleMateriKomentar,
-            'providerModuleMateriSoal' => $providerModuleMateriSoal,
-        ]);
+        if(Yii::$app->user->can('Admin') or ($model->created_by == Yii::$app->user->id))
+        {
+            $model = $this->findModel($id);
+            $modelKomentar = new \common\models\ModuleMateriKomentar();
+            $providerModuleMateriFile = new \yii\data\ArrayDataProvider([
+                'allModels' => $model->moduleMateriFiles,
+            ]);
+            $providerModuleMateriKomentar = new \yii\data\ArrayDataProvider([
+                'allModels' => $model->moduleMateriKomentars,
+            ]);
+            $providerModuleMateriSoal = new \yii\data\ArrayDataProvider([
+                'allModels' => $model->moduleMateriSoals,
+            ]);
+
+            if($modelKomentar->loadAll(Yii::$app->request->post())){
+                $modelKomentar->user_id = Yii::$app->user->id;
+                $modelKomentar->materi_id = $model->id;
+                if($modelKomentar->save()){
+                    Yii::$app->session->setFlash('success','Komentar berhasil ditambahkan');
+                }else {
+                    Yii::$app->session->setFlash('error','Komentar gagal ditambahkan');
+                }
+                return $this->render('view', [
+                    'model' => $this->findModel($id),
+                    'modelKomentar' => $modelKomentar,
+                    'providerModuleMateriFile' => $providerModuleMateriFile,
+                    'providerModuleMateriKomentar' => $providerModuleMateriKomentar,
+                    'providerModuleMateriSoal' => $providerModuleMateriSoal,
+                ]);
+            }else{
+                return $this->render('view', [
+                    'model' => $this->findModel($id),
+                    'modelKomentar' => $modelKomentar,
+                    'providerModuleMateriFile' => $providerModuleMateriFile,
+                    'providerModuleMateriKomentar' => $providerModuleMateriKomentar,
+                    'providerModuleMateriSoal' => $providerModuleMateriSoal,
+                ]);
+
+            }
+
+        } else 
+        {
+            throw new ForbiddenHttpException;
+            
+        }
+    }
+    public function actionKomentar(){
+        
     }
 
     /**
@@ -101,14 +136,89 @@ class MateriController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ModuleMateri();
+        /**
+         * Hanya user dengan role admin/guru
+         * yang dapat menambahkan materi
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('materi.create')) {
+            $model = new ModuleMateri();
+            $model->image = UploadedFile::getInstance($model,'image'); //get image
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->loadAll(Yii::$app->request->post())) {
+                $transaction = $model->getDb()->beginTransaction(); //set transaction
+                $model->scenario = "create"; //set scenario
+
+                if ($model->image != "") {
+                    $fileName = "materi"."_".random_int(0, 100).time().".".$model->image->extension; //generate name file
+                    $model->gambar = $fileName; //set value field gambar
+
+                    $this->checkDir(); //called func checkDIr()
+
+                    /**
+                     *
+                     *  check $model->validate()
+                     * 
+                     */
+                    if($model->validate()) // check validate
+                    {
+                        $path = Url::to("@backend/web/uploaded/materi/").$fileName;
+                        if($model->save()){
+                            if($model->image->saveAs($path)){
+                                $transaction->commit();
+                                Yii::$app->session->setFlash('success','Data berhasil disimpan');
+                                return $this->redirect(['view', 'id' => $model->id]);
+                            } else {
+                                $transaction->rollback();
+                                Yii::$app->session->setFlash('error','Data gagal disimpan');
+                                return $this->render('create',['model'=>$model]);
+                            }
+                        } else {
+                            $transaction->rollback();
+                            Yii::$app->session->setFlash('error','Data gagal disimpan');
+                            return $this->render('create',['model'=>$model]);
+                        }
+                    } else{ //if wrong validate
+                        Yii::$app->session->setFlash('error','Error validate data');
+                        return $this->render('create',['model'=>$model]);
+                    }
+                } else { // jika image kosong
+                    /**
+                     * 
+                     * check $model->validate()
+                     * return boolean value
+                     * 
+                     */
+                    if($model->validate())
+                    {
+                        /**
+                         *
+                         * check apakah $model->saveAll() berhasil atau gagal
+                         * return boolean value
+                         *
+                         */
+                        if($model->saveAll()){
+                            $transaction->commit();
+                            Yii::$app->session->setFlash('success','Data berhasil disimpan');
+                            return $this->redirect(['view', 'id' => $model->id]);
+                        } else {
+                            $transaction->rollback();
+                            Yii::$app->session->setFlash('error','Error create data');
+                            return $this->render('create',['model'=>$model]);
+                        }
+                    } else {
+                        Yii::$app->session->setFlash('error','Error validate data');
+                        return $this->render('create',['model'=>$model]);
+                    }
+                }
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -120,14 +230,93 @@ class MateriController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        /**
+         * Hanya user dengan role admin
+         * yang dapat mengubah Materi
+         * 
+         * //referensi https://yiiframework.com
+         */
+        if(Yii::$app->user->can('materi.update')){
+            $model = $this->findModel($id);
+            $model->image = UploadedFile::getInstance($model,'image'); // set $model->image
+            /**
+             *
+             * Load request data dan
+             * Check request method (kalau tidak salah :v)
+             * 
+             */
+            if ($model->loadAll(Yii::$app->request->post())) {
+                
+                $transaction = $model->getDb()->beginTransaction(); // set transaction
+                $model->scenario = "update"; // set scenario
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+                $this->checkDir();
+
+                /**
+                 *  Check $model->validate()
+                 */
+                if($model->validate()){
+                    /**
+                     * Check $model->image
+                     */
+                    if($model->image != ""){ //jika gambar diupdate
+                        $oldImage = $model->gambar;
+                        $fileName = "materi_".random_int(0, 100)."_".time().".".$model->image->extension; //generate name file
+                        $model->gambar = $fileName;
+                        /**
+                         * Jika data berhasil disave
+                         */
+                        if($model->saveAll()){
+                            /**
+                             * Check file gambar
+                             * Jika file masih ada maka hapus file
+                             */
+                            if($oldImage != ""){
+                                if(file_exists(Url::to("@backend/web/uploaded/materi/").$oldImage)){
+                                    unlink(Url::to("@backend/web/uploaded/materi/").$oldImage);
+                                }
+                            }
+                            $model->image->saveAs(Url::to("@backend/web/uploaded/materi/").$fileName); //save image
+                            $transaction->commit(); // commit $model
+                            Yii::$app->session->setFlash('success','Data Materi berhasil diubah');
+                            return $this->redirect(['view','id'=>$model->id]);
+                        } else { // jika saveAll() gagal maka
+                            $transaction->rollback(); //rollback $model
+                            Yii::$app->session->setFlash('error','Data Materi gagal diubah');
+                            return $this->render('update', [
+                                'model' => $model,
+                            ]);
+                        }
+
+
+                    } else { // jika gambar tidak diupdate
+                        /**
+                         * check return bool value $model->saveAll()
+                         */
+                        if($model->saveAll()){
+                            $transaction->commit(); // commit $model
+                            Yii::$app->session->setFlash('success','Data Materi berhasil diubah');
+                            return $this->redirect(['view','id'=>$model->id]);
+                        } else { // jika saveAll() gagal maka
+                            $transaction->rollback(); //rollback $model
+                            Yii::$app->session->setFlash('error','Data Materi gagal diubah');
+                            return $this->redirect(['view','id'=>$model->id]);
+                        }
+                    }
+                } else { // jika gagal validate
+                    Yii::$app->session->setFlash('Error','Error validation data');
+                    return $this->render('update', [
+                        'model' => $model,
+                    ]);
+                }
+
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -220,4 +409,26 @@ class MateriController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+    /**
+     * Check dir exist or not
+     * if dir is not exist
+     * create dir
+     *
+     * reference http://youtube.com
+     * no return value
+     */
+    public function checkDir(){
+
+        if(!file_exists(Url::to('@webroot'))) {
+            mkdir(Url::to('@webroot/uploaded'),0777,true);
+        }
+        if(!file_exists(Url::to("@webroot/uploaded/materi"))){
+            mkdir(Url::to("@webroot/web/uploaded/materi"),0777,true);
+        }
+    }
+
+
+
 }

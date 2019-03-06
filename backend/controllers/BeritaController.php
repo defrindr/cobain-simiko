@@ -212,7 +212,7 @@ class BeritaController extends Controller
                 $model->scenario = "create"; //set scenario
 
                 if ($model->image != "") {
-                    $fileName = md5("berita_")."_".random_int(0, 100)."_".time().".".$model->image->extension; //generate name file
+                    $fileName = md5("berita")."_".random_int(0, 100)."_".time().".".$model->image->extension; //generate name file
                     $model->gambar = $fileName; //set value field gambar
 
                     $this->checkDir(); //called func checkDIr()
@@ -224,7 +224,7 @@ class BeritaController extends Controller
                      */
                     if($model->validate()) // check validate
                     {
-                        $path = Yii::$app->basePath."/web/uploaded/berita/".$fileName;
+                        $path = Url::to("@frontend/web/uploaded/berita/").$fileName;
                         if($model->save()){
                             if($model->image->saveAs($path)){
                                 $transaction->commit();
@@ -374,11 +374,11 @@ class BeritaController extends Controller
                              * Jika file masih ada maka hapus file
                              */
                             if($oldImage != ""){
-                                if(file_exists(Yii::$app->basePath."/web/uploaded/berita/".$oldImage)){
-                                    unlink(Yii::$app->basePath."/web/uploaded/berita/".$oldImage);
+                                if(file_exists(Url::to("@frontend/web/uploaded/berita/").$oldImage)){
+                                    unlink(Url::to("@frontend/web/uploaded/berita/").$oldImage);
                                 }
                             }
-                            $model->image->saveAs(Yii::$app->basePath."/web/uploaded/berita/".$fileName); //save image
+                            $model->image->saveAs(Url::to("@frontend/web/uploaded/berita/").$fileName); //save image
                             $transaction->commit(); // commit $model
                             Yii::$app->session->setFlash('success','Data berita berhasil diubah');
                             return $this->redirect(['view','id'=>$model->id]);
@@ -525,7 +525,7 @@ class BeritaController extends Controller
             if($model->delete()){
                 Yii::$app->session->setFlash('success','Data berhasil dihapus secara permanen');
                 if(!empty($img)){
-                    unlink(Yii::$app->basePath."/web/uploaded/berita/".$img);
+                    unlink(Url::to("@frontend/web/uploaded/berita/").$img);
                 }
             }else {
                 Yii::$app->session->setFlash('error','Data gagal dihapus secara permanen');
@@ -611,7 +611,7 @@ class BeritaController extends Controller
                  * Check apakah $model berhasil disave
                  */
                 if($model->saveAll()){
-                    unlink(Yii::$app->basePath."/web/uploaded/berita/".$image); //hapus gambar
+                    unlink(Url::to("@frontend/web/uploaded/berita/").$image); //hapus gambar
                     $transaction->commit(); // commit $model
                     Yii::$app->session->setFlash('success','Gambar berhasil dihapus'); //set flash message
                     return $this->redirect(['view','id'=>$model->id]); // return
@@ -640,11 +640,11 @@ class BeritaController extends Controller
      */
     public function checkDir(){
 
-        if(!file_exists(Url::to('@webroot'))) {
-            mkdir(Url::to('@webroot/uploaded'),0777,true);
+        if(!file_exists(Url::to('@frontend/web/uploaded'))) {
+            mkdir(Url::to('@frontend/web//uploaded'),0777,true);
         }
-        if(!file_exists(Url::to(Yii::$app->basePath."/web/uploaded/berita"))){
-            mkdir(Url::to(Yii::$app->basePath."/web/uploaded/berita"),0777,true);
+        if(!file_exists(Url::to("@frontend/web/uploaded/berita"))){
+            mkdir(Url::to("@frontend/web/uploaded/berita"),0777,true);
         }
     }
 

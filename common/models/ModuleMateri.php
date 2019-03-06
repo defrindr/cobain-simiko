@@ -21,7 +21,8 @@ class ModuleMateri extends BaseModuleMateri
             [['kelas_id', 'materi_kategori_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['isi'], 'string'],
             [['deleted_at'], 'safe'],
-            [['judul', 'gambar'], 'string', 'max' => 45],
+            ['judul', 'string', 'max' => 45],
+            ['image', 'file' , 'extensions'=>'png,gif,jpg,jpeg', 'maxSize'=>1024*1024*2,'on'=>['create','update']],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);

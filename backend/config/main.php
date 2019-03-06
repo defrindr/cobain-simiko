@@ -1,20 +1,25 @@
 <?php
+// $anu = \backend\controllers\SiteController();
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
     require __DIR__ . '/params.php',
     require __DIR__ . '/params-local.php'
 );
+$list_skin = ['skin-blue-light','skin-green-light','skin-purple-light'];
+$ran_skin = $list_skin[random_int(0, 2)];
+
 
 return [
     'id' => 'app-backend',
+    'timeZone' => 'Asia/Jakarta',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => [
       'admin',
       'log',
     ],
-    'name' => 'Manajemen Sekolah',
+    'name' => 'SMKN 1 Jenangan Ponorogo',
     'modules' => [
       'admin' => [
             'class' => 'mdm\admin\Module',
@@ -28,7 +33,10 @@ return [
             ],
             'menus' => [
                 'assignment' => [
-                    'label' => 'Grand Access' // change label
+                    'label' => 'User Akses' // change label
+                ],
+                'role' =>  [
+                    'label' => 'Hak Akses'
                 ],
             ]
       ],
@@ -98,7 +106,8 @@ return [
         'assetManager' => [
         'bundles' => [
             'dmstr\web\AdminLteAsset' => [
-                'skin' => 'skin-green-light',
+                // 'skin' => 'skin-green-light',
+                'skin' => $ran_skin,
                 ],
             ],
         ],
@@ -108,7 +117,7 @@ return [
         'allowActions' => [
             'site/*',
             'admin/*',
-            // '*',
+            '*',
             // The actions listed here will be allowed to everyone including guests.
             // So, 'admin/*' should not appear here in the production, of course.
             // But in the earlier stages of your development, you may probably want to

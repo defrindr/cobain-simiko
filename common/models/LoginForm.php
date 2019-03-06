@@ -11,7 +11,7 @@ class LoginForm extends Model
 {
     public $username;
     public $password;
-    public $rememberMe = true;
+    public $rememberMe = false;
 
     private $_user;
 
@@ -56,7 +56,7 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 1 : 0);
         }
         
         return false;
@@ -66,16 +66,16 @@ class LoginForm extends Model
      * [loginBack description]
      * @return [type] [description]
      */
-    public function loginBack()
-    {
-        if ($this->validate() && (User::isAdmin($this->username) or User::isGuru($this->username)))
-        {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 1 : 0);
-        } else
-        {
-            return false;
-        }
-    }
+    // public function loginBack()
+    // {
+    //     if ($this->validate() && (User::isAdmin($this->username) or User::isGuru($this->username)))
+    //     {
+    //         return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 1 : 0);
+    //     } else
+    //     {
+    //         return false;
+    //     }
+    // }
 
     /**
      * Finds user by [[username]]

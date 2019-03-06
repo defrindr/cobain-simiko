@@ -10,6 +10,8 @@ use kartik\grid\GridView;
 use yii\helpers\Url;
 
 
+// var_dump("@frontend");
+
 $this->title = 'Module Materi';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
@@ -46,11 +48,13 @@ foreach ($modelBab as $bab) {
         <div class="box-header">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             <p>
+                <?php if(Yii::$app->user->identity->role == 10 or Yii::$app->user->identity->role == 20){ ?>
                 <?= Html::a('Tambah Materi', ['create'], ['class' => 'btn btn-success']) ?>
+                <?php } ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
             </p>
             <div class="search-form" style="display:none">
-                <?=  $this->render('_search', ['model' => $searchModel]); ?>
+                <?=  $this->render('_search_siswa', ['model' => $searchModel]); ?>
             </div>
         </div>
         <div class="box-body">
@@ -95,7 +99,7 @@ foreach ($modelBab as $bab) {
                 ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    'filterModel' => $searchModel,
+                    // 'filterModel' => $searchModel,
                     'columns' => $gridColumn,
                     'responsiveWrap' => false,
                     'pjax' => true,

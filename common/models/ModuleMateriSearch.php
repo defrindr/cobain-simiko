@@ -43,6 +43,8 @@ use common\models\ModuleMateri;
     {
         if(Yii::$app->user->identity->role==20){
             $query = ModuleMateri::find()->where('created_by='.Yii::$app->user->id);
+        }else if(Yii::$app->user->identity->role == 30){
+            $query = ModuleMateri::find()->where('kelas_id='.\common\models\ModuleSiswa::find()->where('user_id='.Yii::$app->user->id)->one()->kelas_id);
         }else{
             $query = ModuleMateri::find();
         }

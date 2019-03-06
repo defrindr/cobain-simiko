@@ -27,6 +27,8 @@ class ModuleMateriFile extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
 
+    public $file;
+
     private $_rt_softdelete;
     private $_rt_softrestore;
 
@@ -59,10 +61,11 @@ class ModuleMateriFile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['materi_id', 'nama_file', 'link_file'], 'required'],
+            [['materi_id', 'nama_file', 'file'], 'required'],
             [['materi_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
-            [['nama_file', 'link_file'], 'string', 'max' => 45],
+            ['file','file','extensions'=>'pdf,xlsx,docs'],
+            ['nama_file', 'string', 'max' => 45],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];

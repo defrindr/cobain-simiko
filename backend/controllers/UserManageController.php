@@ -52,6 +52,71 @@ class UserManageController extends Controller
         }
     }
 
+    public function actionCreateAdmin(){
+        if(Yii::$app->user->can('tambah-admin')){
+            $model = new addUserForm();
+
+            if($model->load(Yii::$app->request->post()))
+            {
+
+                $modelUser = new User();
+                $modelProfile = new ModuleProfile();
+                $auth = Yii::$app->authManager;
+                $roled = $auth->getRole('Admin');
+                $transaction = Yii::$app->db->beginTransaction();
+                try
+                {
+                    $modelUser->username = $model->username;
+                    $modelUser->email = $model->email;
+                    $modelUser->setPassword($model->password);
+                    $modelUser->generateAuthKey();
+                    $modelUser->role =10;
+                    $modelUser->last_login = 0;
+                    if($modelUser->save())
+                    {
+                        $auth->assign($roled,$modelUser->id);
+                        $modelProfile->user_id = $modelUser->id;
+                        $modelProfile->nama = $model->nama;
+                        $modelProfile->created_by = Yii::$app->user->id;
+                        $modelProfile->updated_by = Yii::$app->user->id;
+                        $modelProfile->deleted_by = 0;
+                        $modelProfile->created_at = time();
+                        $modelProfile->updated_at = time();
+                        $modelProfile->deleted_at = date('Y-m-d H:i:s');
+                        $modelProfile->lock = 0;
+
+                        if($modelProfile->save())
+                        {
+                            $transaction->commit();
+                            Yii::$app->session->setFlash('success','User berhasil ditambahkan');
+                            return $this->redirect(['index']);
+                        } else {
+                            $transaction->rollback();
+                            Yii::$app->session->setFlash('error','Error saat menambahkan data profile');
+                            return $this->redirect(['index']);
+                        }
+
+
+                    } else 
+                    {
+                        $transaction->rollback();
+                        Yii::$app->session->setFlash('error','Error saat menambahkan user');
+                        return $this->redirect(['index']);
+                    }
+                } catch(Exception $e)
+                {
+                    $transaction->rollback();
+                    Yii::$app->session->setFlash('error','User gagal ditambahkan');
+                    return $this->redirect(['index']);
+                }
+            } else {
+                return $this->renderAjax('create_admin',['model'=>$model]);
+            }
+        } else {
+            throw new ForbiddenHttpException;
+        }
+    }
+
     public function actionCreateSiswa() {
 
         $model = new addUserForm();
@@ -72,6 +137,7 @@ class UserManageController extends Controller
                 $modelUser->setPassword($model->password);
                 $modelUser->generateAuthKey();
                 $modelUser->role =30;
+                $modelUser->last_login = 0;
                 if($modelUser->save())
                 {
                     $auth->assign($roled,$modelUser->id);
@@ -152,6 +218,7 @@ class UserManageController extends Controller
                     $modelUser->setPassword($model->password);
                     $modelUser->generateAuthKey();
                     $modelUser->role =20;
+                    $modelUser->last_login = 0;
                     if($modelUser->save())
                     {
                         $auth->assign($roled, $modelUser->id);

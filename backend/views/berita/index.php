@@ -10,6 +10,8 @@ use kartik\grid\GridView;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
 
+
+// var_dump(Yii::$app->front)
 $this->title = 'Berita';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){

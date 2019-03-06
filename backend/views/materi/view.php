@@ -3,17 +3,23 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\grid\GridView;
+use yii\helpers\Url;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleMateri */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Module Materi', 'url' => ['index']];
+$this->title = $model->judul;
+$this->params['breadcrumbs'][] = ['label'=>'Materi','url'=>['/materi']];
+$this->params['breadcrumbs'][] = ['label' => $model->materiKategori->mataPelajaran->nama_mapel, 'url'=> '#'];
+$this->params['breadcrumbs'][] = ['label' => $model->materiKategori->nama, 'url' => '#'];
 $this->params['breadcrumbs'][] = $this->title;
+$ModuleProfile = \common\models\ModuleProfile::find()->where('user_id='.Yii::$app->user->id)->one();
+$nama = $ModuleProfile->nama;
 ?>
 <div class="module-materi-view">
 
-    <div class="row">
+<!--     <div class="row">
         <div class="col-sm-9">
             <h2><?= 'Module Materi'.' '. Html::encode($this->title) ?></h2>
         </div>
@@ -29,9 +35,63 @@ $this->params['breadcrumbs'][] = $this->title;
             ])
             ?>
         </div>
+    </div> -->
+    <div class="box" style="border: 0;padding:12px 20px">
+        <p>
+            <div class="row">
+                <div class="col-xs-3">
+                    <i class="glyphicon glyphicon-user"></i> <?= $nama ?>
+                    <br>
+                    <i class="glyphicon glyphicon-time"></i> <?php echo  date("l F o",$model->created_at) ?>
+                </div>
+                <div class="col-xs-8">
+                    
+                </div>
+                <div class="col-xs-1">
+                    <i class="glyphicon glyphicon-comment"></i> <?= $providerModuleMateriKomentar->totalCount ?>
+                </div>
+            </div>
+        </p>
+        <center>
+            <?= Html::img(Url::base()."/uploaded/materi/".$model->gambar,['class'=>'img img-responsive']) ?>
+        </center>
+        <p style="min-height: 100px;padding:20px 10px 10px">
+            <?= $model->isi?>
+        </p>
     </div>
+    <div class="box" style="border: 0;padding:12px;position: relative;">
+        <h3>Komentar</h3>
+        <hr>
+        <?php if($providerModuleMateriKomentar->totalCount == 0){
+            echo "Belum ada komentar.";
+        }else {
+            $moduleKomentar = \common\models\ModuleMateriKomentar::find()->where('materi_id='.$model->id)->all();
+            foreach ($moduleKomentar as $komentar) {
+                // $photo = \common\models\ModuleProfile::find()->where('user_id='.$komentar->user_id)->one();
+             ?>
+                <div style="border: 1px solid #aaa;border-radius:10px;margin: 4px 0;padding: 20px">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <?= Html::img(Url::base()."/uploaded/img-profil/".$komentar->profile->avatar,['class'=>'img img-circle','style'=>'width:50px;height:50px']) ?>
+                            <span style="font-size: 18px;margin-left: 20px"><?= $komentar->profile->nama ?></span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span style="font-size: 14px"><b><?= $komentar->subject ?></b></span>
+                            <br/>
+                            <?= $komentar->komentar ?>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="row">
+            <?php }
+        } ?>
+    </div>
+        <?=  $this->render('_formKomentar', ['model' => $modelKomentar]); ?>
+
+<!--     <div class="row">
 <?php 
     $gridColumn = [
         ['attribute' => 'id', 'visible' => false],
@@ -45,7 +105,13 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'judul',
         'gambar',
-        'isi:ntext',
+        [
+            'attribute'=>'isi',
+            'format' => 'raw',
+            'value' => function($model){
+                return htmlentities($model->isi);
+            }
+        ],
         ['attribute' => 'lock', 'visible' => false],
     ];
     echo DetailView::widget([
@@ -165,7 +231,7 @@ if($providerModuleMateriSoal->totalCount){
         'columns' => $gridColumnModuleMateriSoal
     ]);
 }
-?>
+?> -->
 
     </div>
 </div>

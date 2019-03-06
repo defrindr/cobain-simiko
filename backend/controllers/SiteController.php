@@ -12,6 +12,7 @@ use common\models\LoginForm;
  */
 class SiteController extends Controller
 {
+    public $rand_num;
     /**
      * {@inheritdoc}
      */
@@ -76,6 +77,9 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()/*loginBack()*/) {
+            $user = \common\models\ModuleUser::find()->where('id='.Yii::$app->user->id)->one();
+            $user->last_login = time();
+            $user->save();
             return $this->goBack();
         } else {
             $model->password = '';

@@ -126,6 +126,10 @@ class ModuleProfile extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\common\models\User::className(), ['id' => 'user_id']);
     }
+    public function getSiswa()
+    {
+        return $this->hasOne(\common\models\ModuleSiswa::className(), ['user_id' => 'user_id']);
+    }
     
     /**
      * @inheritdoc

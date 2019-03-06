@@ -203,7 +203,7 @@ class GaleriController extends Controller
                         $upload->link = $fileName;
                         $upload->tahun = $model->tahun;
                         $upload->images = $image;
-                        $path = Yii::$app->basePath."/web/uploaded/galeri/".$fileName;
+                        $path = Url::to("@frontend")."/web/uploaded/galeri/".$fileName;
 
                         if($upload->saveAll()){
                             if($image->saveAs($path)){
@@ -296,9 +296,9 @@ class GaleriController extends Controller
                         $model->link = $fileName; // set model link image
                         if($model->saveAll()){
                             $transaction->commit();
-                            $model->images->saveAs(Yii::$app->basePath."/web/uploaded/galeri/".$fileName);
-                            if(file_exists(Yii::$app->basePath."/web/uploaded/galeri/".$oldImages)){
-                                unlink(Yii::$app->basePath."/web/uploaded/galeri/".$oldImages);
+                            $model->images->saveAs(Url::to("@frontend")."/web/uploaded/galeri/".$fileName);
+                            if(file_exists(Url::to("@frontend")."/web/uploaded/galeri/".$oldImages)){
+                                unlink(Url::to("@frontend")."/web/uploaded/galeri/".$oldImages);
                             }
                             Yii::$app->session->setFlash('success','Data berhasil diubah');
                         } else { //gagal save All
@@ -398,8 +398,8 @@ class GaleriController extends Controller
             $img = $model->link;
             if($model->delete()){
                 Yii::$app->session->setFlash('success','Data berhasil dihapus secara permanen');
-                if(file_exists(Yii::$app->basePath."/web/uploaded/galeri/".$img)){
-                    unlink(Yii::$app->basePath."/web/uploaded/galeri/".$img);
+                if(file_exists(Url::to("@frontend")."/web/uploaded/galeri/".$img)){
+                    unlink(Url::to("@frontend")."/web/uploaded/galeri/".$img);
                 }
             }else {
                 Yii::$app->session->setFlash('error','Data gagal dihapus secara permanen');
@@ -448,11 +448,11 @@ class GaleriController extends Controller
      * membuat action untuk mengecheck apakah directori ada atau tidak
      */
     public function checkDir(){
-        if(!file_exists(Yii::$app->basePath."/web/uploaded/")){
-            mkdir(Yii::$app->basePath."/web/uploaded/");
+        if(!file_exists(Url::to("@frontend")."/web/uploaded/")){
+            mkdir(Url::to("@frontend")."/web/uploaded/");
         }
-        if(!file_exists(Yii::$app->basePath."/web/uploaded/galeri/")){
-            mkdir(Yii::$app->basePath."/web/uploaded/galeri/");
+        if(!file_exists(Url::to("@frontend")."/web/uploaded/galeri/")){
+            mkdir(Url::to("@frontend")."/web/uploaded/galeri/");
         }
     }
 

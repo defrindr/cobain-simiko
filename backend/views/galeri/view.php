@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleGaleri */
@@ -44,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'Size',
                 'value' => function($model){
-                    list($w ,$h) = getimagesize(Yii::$app->basePath."/web/uploaded/galeri/".$model->link);
+                    list($w ,$h) = getimagesize(Url::to("@frontend")."/web/uploaded/galeri/".$model->link);
                     return $w." x ".$h;
                 }
             ],
@@ -77,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <h4>Preview Image</h4>
     </div>
-    <?= Html::img(\yii\helpers\Url::base()."/uploaded/galeri/".$model->link,['class'=>'img img-responsive','style'=>'margin:auto auto']) ?>
+    <?= Html::img(str_replace("/administrator","",Url::home())."/uploaded/galeri/".$model->link,['class'=>'img img-responsive','style'=>'margin:auto auto']) ?>
 
     </div>
 </div>

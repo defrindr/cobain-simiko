@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					$grid = [
 						'id',
 						'username',
-						'role'
+						'role',
 					];
 					echo DetailView::widget([
 						'model' => $model,

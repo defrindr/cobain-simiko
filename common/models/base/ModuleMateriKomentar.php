@@ -115,6 +115,10 @@ class ModuleMateriKomentar extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\common\models\ModuleMateri::className(), ['id' => 'materi_id']);
     }
+    public function getProfile()
+    {
+        return $this->hasOne(\common\models\ModuleProfile::className(), ['user_id' => 'user_id']);
+    }
         
     /**
      * @return \yii\db\ActiveQuery
