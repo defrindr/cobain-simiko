@@ -25,7 +25,7 @@ yii\bootstrap\Modal::end();
 	<div class="row">
 		<?php foreach ($models as $model) {
 		?>
-		<div class="col-sm-3 col-md-2 col-xs-6">
+		<div class="col-sm-4 col-md-3 col-xs-12 col-lg-2">
 			<div class="card showModalButton" style="border: 1px solid #999;border-radius:4px;margin-bottom: 10px;padding: 4px">
 				<?= Html::img(Url::base()."/uploaded/galeri/".$model->link, ['class'=>'img img-responsive','style' => 'cursor:pointer;height:200px;width:400px','alt' => $model->judul, 'onClick' => 'prevImages(this);']) ?>
 				<p>
