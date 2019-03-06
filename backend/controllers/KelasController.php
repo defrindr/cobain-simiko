@@ -103,8 +103,15 @@ class KelasController extends Controller
     {
         $model = new ModuleKelas();
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->loadAll(Yii::$app->request->post())) {
+            $check = \common\models\ModuleKelas::find()->where('kelas="'.$model->kelas.'" and jurusan_id='.$model->jurusan_id.' and tahun='.$model->tahun.' and grade="'.$model->grade.'"')->all();
+            if(count($check) < 1){
+                $model->saveAll();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else {
+                Yii::$app->session->setFlash('error','Data already exist.');
+                return $this->render('create',['model'=>$model]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,

@@ -72,7 +72,8 @@ class ModuleMateri extends \yii\db\ActiveRecord
         return [
             [['kelas_id', 'materi_kategori_id', 'judul', 'isi'], 'required'],
             [['kelas_id', 'materi_kategori_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
-            [['isi'], 'string'],
+            ['isi', 'string'],
+            ['isi', 'filter', 'filter'=>function($value){ return \yii\helpers\HtmlPurifier::process($value);}],
             [['deleted_at'], 'safe'],
             [['judul'], 'string', 'max' => 45],
             ['image', 'file' , 'extensions'=>'png,gif,jpg,jpeg', 'maxSize'=>1024*1024*2],

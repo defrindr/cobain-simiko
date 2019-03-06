@@ -72,8 +72,9 @@ class ModuleKelas extends \yii\db\ActiveRecord
             [['jurusan_id', 'guru_id', 'kelas', 'grade', 'tahun'], 'required'],
             [['jurusan_id', 'guru_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
-            [['kelas', 'grade'], 'string', 'max' => 3],
-            ['kelas','match','pattern'=>'/A{1}/i','message'=>'Kelas hanya bisa berisi 1 character huruf'],
+            ['kelas', 'string', 'max' => 1],
+            ['grade', 'string', 'max' => 3],
+            // ['kelas','match','pattern'=>'/A-Z+{1}/im','message'=>'Kelas hanya bisa berisi 1 character huruf'],
             [['tahun'], 'string', 'max' => 45],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']

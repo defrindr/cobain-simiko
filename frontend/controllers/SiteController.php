@@ -76,6 +76,16 @@ class SiteController extends Controller
     }
 
     /**
+     * Displaying galeri image
+     * @return model :v
+     */
+    public function actionGaleri()
+    {
+        $models = \common\models\ModuleGaleri::find()->all();
+        return $this->render('galeri',['models'=>$models]);
+    }
+
+    /**
      * Logs in a user.
      *
      * @return mixed

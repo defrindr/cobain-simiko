@@ -79,50 +79,41 @@ class MateriController extends Controller
      */
     public function actionView($id)
     {
-        if(Yii::$app->user->can('Admin') or ($model->created_by == Yii::$app->user->id))
-        {
-            $model = $this->findModel($id);
-            $modelKomentar = new \common\models\ModuleMateriKomentar();
-            $providerModuleMateriFile = new \yii\data\ArrayDataProvider([
-                'allModels' => $model->moduleMateriFiles,
-            ]);
-            $providerModuleMateriKomentar = new \yii\data\ArrayDataProvider([
-                'allModels' => $model->moduleMateriKomentars,
-            ]);
-            $providerModuleMateriSoal = new \yii\data\ArrayDataProvider([
-                'allModels' => $model->moduleMateriSoals,
-            ]);
-
-            if($modelKomentar->loadAll(Yii::$app->request->post())){
-                $modelKomentar->user_id = Yii::$app->user->id;
-                $modelKomentar->materi_id = $model->id;
-                if($modelKomentar->save()){
-                    Yii::$app->session->setFlash('success','Komentar berhasil ditambahkan');
-                }else {
-                    Yii::$app->session->setFlash('error','Komentar gagal ditambahkan');
-                }
-                return $this->render('view', [
-                    'model' => $this->findModel($id),
-                    'modelKomentar' => $modelKomentar,
-                    'providerModuleMateriFile' => $providerModuleMateriFile,
-                    'providerModuleMateriKomentar' => $providerModuleMateriKomentar,
-                    'providerModuleMateriSoal' => $providerModuleMateriSoal,
-                ]);
-            }else{
-                return $this->render('view', [
-                    'model' => $this->findModel($id),
-                    'modelKomentar' => $modelKomentar,
-                    'providerModuleMateriFile' => $providerModuleMateriFile,
-                    'providerModuleMateriKomentar' => $providerModuleMateriKomentar,
-                    'providerModuleMateriSoal' => $providerModuleMateriSoal,
-                ]);
-
+        $model = $this->findModel($id);
+        $modelKomentar = new \common\models\ModuleMateriKomentar();
+        $providerModuleMateriFile = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->moduleMateriFiles,
+        ]);
+        $providerModuleMateriKomentar = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->moduleMateriKomentars,
+        ]);
+        $providerModuleMateriSoal = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->moduleMateriSoals,
+        ]);
+        if($modelKomentar->loadAll(Yii::$app->request->post())){
+            $modelKomentar->user_id = Yii::$app->user->id;
+            $modelKomentar->materi_id = $model->id;
+            if($modelKomentar->save()){
+                Yii::$app->session->setFlash('success','Komentar berhasil ditambahkan');
+            }else {
+                Yii::$app->session->setFlash('error','Komentar gagal ditambahkan');
             }
-
-        } else 
-        {
-            throw new ForbiddenHttpException;
-            
+            return $this->redirect(['view','id'=>$model->id]);
+            // return $this->render('view', [
+            //     'model' => $this->findModel($id),
+            //     'modelKomentar' => $modelKomentar,
+            //     'providerModuleMateriFile' => $providerModuleMateriFile,
+            //     'providerModuleMateriKomentar' => $providerModuleMateriKomentar,
+            //     'providerModuleMateriSoal' => $providerModuleMateriSoal,
+            // ]);
+        }else{
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+                'modelKomentar' => $modelKomentar,
+                'providerModuleMateriFile' => $providerModuleMateriFile,
+                'providerModuleMateriKomentar' => $providerModuleMateriKomentar,
+                'providerModuleMateriSoal' => $providerModuleMateriSoal,
+            ]);
         }
     }
     public function actionKomentar(){

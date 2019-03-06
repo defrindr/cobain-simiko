@@ -38,6 +38,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
+        ['label' => 'Galeri', 'url' => ['/site/galeri']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
@@ -68,12 +69,20 @@ AppAsset::register($this);
         <?= $content ?>
     </div>
 </div>
-
-<footer class="footer">
+<div class="footer" id="toHide">
+    <div class="container">
+        <center>
+            <span onclick="showHide()" style="cursor: pointer;">
+                Click Me
+            </span>
+        </center>
+    </div>
+</div>
+<footer class="footer hidden" id="toShow">
     <div class="container">
         <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><?= 'Powered by <a href="#">./GreyXploiter</a>' ?></p>
     </div>
 </footer>
 
