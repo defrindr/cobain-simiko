@@ -9,9 +9,29 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use yii\bootstrap\Carousel;
+use \yii\helpers\Url;
 
 AppAsset::register($this);
+
+
+// var_dump();
+// exit();
+
+$carousel = [
+    [
+        'content' => '',
+        'caption' => '<h1>SMKN 2 Jenangan</h1><br><p>Merupakan sebuah Sekolah  Menengah Atas yang berlokasi di jln. Niken Gandini , Jenangan Ponorogo .</p><a href="<span id="more-info"></span>" <a class="btn btn-caption">More Info</a>',
+        'options' => ['style' => 'background-image:url('.\yii\helpers\Url::to("@web/uploaded/base/head.png").')'],
+    ],
+    [
+        'content' => '',
+        'caption' => '<h1>SMKN 1 Jenangan</h1><br><p>Merupakan sebuah Sekolah  Menengah Atas yang berlokasi di jln. Niken Gandini , Jenangan Ponorogo .</p><a href="<span id="more-info"></span>" <a class="btn btn-caption">More Info</a>',
+        'options' => ['style' => 'background-image:url('.\yii\helpers\Url::to("@web/uploaded/base/head2.png").')'],
+    ]
+];
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -25,42 +45,36 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+<header>
+    <?= $this->render('_header'); ?>
+</header>
 
+<?php if(Url::to()==Url::base() or Url::to() == Url::base().'/site/index'){ ?>
+
+<section class="slider">
+    <?=  \yii\bootstrap\Carousel::widget([
+        'id'=>'myCarousel',
+        'controls' => false,
+        'items' => $carousel,
+    ]); ?>
+</section>
+
+<?php }else { ?>
+
+    <div class="header-green"></div>
+
+<?php } ?>
 <div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Galeri', 'url' => ['/site/galeri']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
-
+    <?php if(!(Url::to()==Url::base() or Url::to() == Url::base().'/site/index')){ ?>
+    <div class="container content">
+        <h3><?= Html::encode($this->title) ?></h3>
+        <?= Breadcrumbs::widget([
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        ]) ?>
+        <?= Alert::widget() ?>
+        <?= $content ?>
+    </div>
+    <?php }else{ ?>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -68,21 +82,21 @@ AppAsset::register($this);
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
+    <?php } ?>
 </div>
-<div class="footer" id="toHide">
-    <div class="container">
-        <center>
-            <span onclick="showHide()" style="cursor: pointer;">
-                Click Me
-            </span>
-        </center>
+<footer id="toShow">
+    <div class="container-fluid" style="background: #316767">
+        aaa
     </div>
-</div>
-<footer class="footer hidden" id="toShow">
-    <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= 'Powered by <a href="#">./GreyXploiter</a>' ?></p>
+    <div class="container-fluid footer">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                &copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <p class="copyright"><?= /*'Powered by <a href="#">Smkn 1 Jenangan</a>.'.*/'Themes <a href="#">Luxury</a> by <a href="#">Defri Indra</a>' ?></p>
+            </div>
+        </div>
     </div>
 </footer>
 

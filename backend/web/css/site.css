@@ -6,6 +6,16 @@ body {
     background: #9BDFAA;
     display: flex;
 }
+/*.navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
+    background: #000;
+    position: absolute;
+    right: 0;
+    left: auto;
+}*/
+.error-style {
+    padding: 8px;
+    background: #fff;
+}
 .text-wrap{
     white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
     white-space: -pre-wrap;      /* Opera 4-6 */
