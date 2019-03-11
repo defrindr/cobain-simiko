@@ -8,6 +8,12 @@ use common\models\ModuleSppSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
+use yii\web\UploadedFile;
+use yii\helpers\Url;
+
+
+
 
 /**
  * SppController implements the CRUD actions for ModuleSpp model.
@@ -103,17 +109,34 @@ class SppController extends Controller
     public function actionCreate()
     {
         $model = new ModuleSpp();
-
-        if ($model->loadAll(Yii::$app->request->post())) {
-            $model->status = 0;
-            if($model->saveAll()){
-                Yii::$app->session->setFlash('success','Berhasil mengirim pengajuan');
+        if(Yii::$app->user->can('create.spp')){
+            if ($model->loadAll(Yii::$app->request->post())) {
+                $model->image = UploadedFile::getInstance($model,'image');
+                $model->siswa_id = Yii::$app->user->id;
+                $model->status = 0;
+                $model->total = $model->spp+$model->tabungan_prakerin+$model->tabungan_study_tour;
+                $img_name = Yii::$app->user->id."_".time()."_".random_int(0,100)."_".$model->tahun.".".$model->image->extension;
+                $model->bukti_bayar = $img_name;
+                $this->checkDir();
+                if($model->validate()){
+                    if($model->saveAll()){
+                        $model->image->saveAs(Url::to('@backend/web/uploaded/spp/'.$img_name));
+                        Yii::$app->session->setFlash('success','Berhasil mengirim pengajuan');
+                    }else {
+                        Yii::$app->session->setFlash('error','Gagal mengirim pengajuan');
+                    }
+                } else {
+                    Yii::$app->session->setFlash('error','Error Validasi');
+                }
+                return $this->redirect(['index']);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
             }
-            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
+            
         }
     }
 
@@ -136,6 +159,22 @@ class SppController extends Controller
         }
     }
 
+    public function approve($id){
+        $model->findModel($id);
+
+        if(Yii::$app->user->can('spp.approve')){
+            $model->status = 1;
+            if($model->save()){
+                Yii::$app->session->setFlash('success','Data telah divalidasi');
+            } else {
+                Yii::$app->session->setFlash('error','Status data gagal diubah');
+            }
+            return $this->redirect(['index']);
+        }else{
+            throw new ForbiddenHttpException;
+        }
+    }
+
     /**
      * Deletes an existing ModuleSpp model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -144,7 +183,16 @@ class SppController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
+        $model = ModuleSpp::find()->where('id='.$id)->one();
+        if((($model->created_by == Yii::$app->user->id) or Yii::$app->user->can('Admin'))){
+            if(file_exists(Url::to('@backend/web/uploaded/spp/'.$model->bukti_bayar))){
+                unlink(Url::to('@backend/web/uploaded/spp/'.$model->bukti_bayar));
+            }
+            $this->findModel($id)->delete();
+            Yii::$app->session->setFlash('success','Berhasil dihapus');
+        }else {
+            throw new ForbiddenHttpException;
+        }
 
         return $this->redirect(['index']);
     }
@@ -201,4 +249,20 @@ class SppController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /**
+     * membuat action untuk mengecheck apakah directori ada atau tidak
+     */
+    public function checkDir(){
+        if(!file_exists(Url::to("@backend")."/web/uploaded/")){
+            mkdir(Url::to("@backend")."/web/uploaded/");
+        }
+        if(!file_exists(Url::to("@backend")."/web/uploaded/spp/")){
+            mkdir(Url::to("@backend")."/web/uploaded/spp/");
+        }
+    }
+
+
+
+
 }

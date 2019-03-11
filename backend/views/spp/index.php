@@ -9,7 +9,7 @@ use kartik\export\ExportMenu;
 use kartik\grid\GridView;use yii\helpers\Url;
 
 
-$this->title = 'Module Spp';
+$this->title = 'Pembayaran SPP';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -26,13 +26,23 @@ yii\bootstrap\Modal::begin([
 echo "<div id='modalContent'></div>";
 yii\bootstrap\Modal::end();
 
+$siswa = \common\models\ModuleSiswa::find()->all();
+$list_siswa = [];
+foreach ($siswa as $people) {
+   $list_siswa =  array_merge_recursive($list_siswa,[$people->user_id=>$people->profile->nama]);
+}
+var_dump($list_siswa);
+exit();
+
 ?>
 <div class="module-spp-index">
     <div class="box box-success">
         <div class="box-header">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             <p>
+                <?php if(Yii::$app->user->can('create.spp')){ ?>
                 <?= Html::a('Tambah Module Spp', ['create'], ['class' => 'btn btn-success']) ?>
+                <?php } ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
                 <?php
                  if(Yii::$app->user->can('spp-manage')) {
@@ -57,10 +67,10 @@ yii\bootstrap\Modal::end();
                         'attribute' => 'siswa_id',
                         'label' => 'Siswa',
                         'value' => function($model){
-                            return $model->siswa->user_id;
+                            return $model->siswa->profile->nama;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleSiswa::find()->asArray()->all(), 'user_id', 'user_id'),
+                        'filter' => $list_siswa,
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
@@ -86,7 +96,17 @@ yii\bootstrap\Modal::end();
                     'tabungan_prakerin',
                     'tabungan_study_tour',
                     'total',
-                    'status',
+                    [
+                        'attribute' => 'status',
+                        'label' => 'Status',
+                        'value' => function($model){
+                            if($model->status==1){
+                                return "Sudah Divalidasi";
+                            }else {
+                                return "Belum divalidasi";
+                            }
+                        }
+                    ],
                     ['attribute' => 'lock', 'visible' => false],
                     [
                         'class' => 'yii\grid\ActionColumn',

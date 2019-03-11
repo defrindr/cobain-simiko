@@ -35,6 +35,8 @@ class ModuleSpp extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
 
+    public $image;
+
     private $_rt_softdelete;
     private $_rt_softrestore;
 
@@ -71,6 +73,7 @@ class ModuleSpp extends \yii\db\ActiveRecord
             [['siswa_id', 'bank_id', 'bulan', 'tahun', 'bukti_bayar', 'status'], 'required'],
             [['siswa_id', 'bank_id', 'spp', 'tabungan_prakerin', 'tabungan_study_tour', 'total', 'created_by', 'status', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['tahun', 'deleted_at'], 'safe'],
+            ['image','file','extensions'=>'jpg,png,jpeg,gif','maxSize'=>1024*1024*2],
             [['bulan'], 'string', 'max' => 45],
             [['bukti_bayar'], 'string', 'max' => 250],
             [['lock'], 'default', 'value' => '0'],
@@ -185,5 +188,10 @@ class ModuleSpp extends \yii\db\ActiveRecord
     {
         $query = new \app\models\ModuleSppQuery(get_called_class());
         return $query->where(['module_spp.deleted_by' => 0]);
+    }
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleSppQuery(get_called_class());
+        return $query->where('module_spp.deleted_by != 0');
     }
 }

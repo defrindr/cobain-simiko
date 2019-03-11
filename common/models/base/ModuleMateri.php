@@ -209,4 +209,9 @@ class ModuleMateri extends \yii\db\ActiveRecord
         $query = new \app\models\ModuleMateriQuery(get_called_class());
         return $query->where(['module_materi.deleted_by' => 0]);
     }
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleMateriQuery(get_called_class());
+        return $query->where('module_materi.deleted_by!=0');
+    }
 }

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleSpp */
@@ -21,6 +22,9 @@ $list_bulan = array(
     "November" => "November",
     "Desember" => "Desember"
 );
+$list_extra = [10000=>'10000',15000=>'15000',20000=>'20000',25000=>'25000',30000=>'30000'];
+
+$list_spp = [150000=>'150000',175000=>'175000'];
 
 ?>
 
@@ -37,14 +41,6 @@ $list_bulan = array(
         <div class="box-body">
 
             <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
-
-            <?= $form->field($model, 'siswa_id')->widget(\kartik\widgets\Select2::classname(), [
-                'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleSiswa::find()->innerJoinWith(['profile'])->orderBy('profile.nama')->asArray()->all(), 'user_id', 'profile.nama'),
-                'options' => ['placeholder' => 'Nama Siswa'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]); ?>
 
             <?= $form->field($model, 'bank_id')->widget(\kartik\widgets\Select2::classname(), [
                 'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBank::find()->orderBy('nama_bank')->asArray()->all(), 'id', 'nama_bank'),
@@ -64,13 +60,43 @@ $list_bulan = array(
 
             <?= $form->field($model, 'tahun')->textInput(['maxlength' => true, 'placeholder' => 'Tahun']) ?>
 
-            <?= $form->field($model, 'bukti_bayar')->textInput(['maxlength' => true, 'placeholder' => 'Bukti Bayar']) ?>
+            <?= $form->field($model, 'image')->widget(FileInput::classname(),[
+                'options' => [
+                    'accept' => 'image/*',
+                    'multiple' => true,
+                    ],
+                'pluginOptions' => [
+                    'showPreview' => true,
+                    'showCaption' => true,
+                    'showRemove' => true,
+                    'showUpload' => false
+                    ],
+            ]) ?>
 
-            <?= $form->field($model, 'spp')->textInput(['placeholder' => 'Spp']) ?>
+            <?= $form->field($model, 'spp')->widget(\kartik\widgets\Select2::classname(), [
+                'data' => $list_spp,
+                'options' => ['placeholder'=>'Tabungan Study Tour'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]) ?>
 
-            <?= $form->field($model, 'tabungan_prakerin')->textInput(['placeholder' => 'Tabungan Prakerin']) ?>
+            <?= $form->field($model, 'tabungan_prakerin')->widget(\kartik\widgets\Select2::classname(), [
+                'data' => $list_extra,
+                'options' => ['placeholder'=>'Tabungan Prakerin'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]) ?>
 
-            <?= $form->field($model, 'tabungan_study_tour')->textInput(['placeholder' => 'Tabungan Study Tour']) ?>
+
+            <?= $form->field($model, 'tabungan_study_tour')->widget(\kartik\widgets\Select2::classname(), [
+                'data' => $list_extra,
+                'options' => ['placeholder'=>'Tabungan Study Tour'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]) ?>
 
             <?php // $form->field($model, 'total')->textInput(['placeholder' => 'Total']) ?>
 

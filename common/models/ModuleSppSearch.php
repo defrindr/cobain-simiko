@@ -41,7 +41,12 @@ use common\models\ModuleSpp;
      */
     public function search($params)
     {
-        $query = ModuleSpp::find();
+        if(Yii::$app->user->identity->role == 30){
+            $query = ModuleSpp::findDeleted()->where('siswa_id='.Yii::$app->user->id);
+        }else{
+            $query = ModuleSpp::find();
+        }
+        
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

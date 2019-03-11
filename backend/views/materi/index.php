@@ -12,7 +12,7 @@ use yii\helpers\Url;
 
 // var_dump("@frontend");
 
-$this->title = 'Module Materi';
+$this->title = 'Materi';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -52,6 +52,7 @@ foreach ($modelBab as $bab) {
                 <?= Html::a('Tambah Materi', ['create'], ['class' => 'btn btn-success']) ?>
                 <?php } ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?= Html::button('Restore data',['value' => Url::to(['/materi/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning', 'style' => ['margin'=> '2px 2px 2px 0']]); ?>
             </p>
             <div class="search-form" style="display:none">
                 <?=  $this->render('_search_siswa', ['model' => $searchModel]); ?>

@@ -54,7 +54,7 @@ class MateriController extends Controller
         $searchModel = new ModuleMateriSearch();
         $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-        return $this->renderAjax('index', [
+        return $this->renderAjax('data_restore', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

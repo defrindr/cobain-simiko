@@ -61,7 +61,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if(Yii::$app->user->identity->role==30){
+            $model = \common\models\ModuleSiswa::find()->where('user_id='.Yii::$app->user->id)->one()->kelas->moduleMateris;
+            return $this->render('index_siswa',['model'=>$model]);
+            
+        }else{
+            return $this->render('index');
+        }
     }
 
     /**

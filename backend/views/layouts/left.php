@@ -69,6 +69,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                         'label' => 'Materi Fitur',
                         'icon'=>'dashboard', 
                         'url'=>'#',
+                        'visible'=> ($admin or $guru),
                         'items' => [
                             ['label' => 'Materi', 'url' => ['/materi'], 'icon' => 'dashboard'],
                             ['label' => 'Materi File', 'url' => ['/materi-file'], 'icon' => 'dashboard'],
@@ -87,33 +88,6 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                     ],
                     ['label' => 'Menu SPP', 'icon'=> 'dashboard','url'=>['/spp']],
                     ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
-                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    [
-                        'label' => 'Some tools',
-                        'icon' => 'share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
-                            [
-                                'label' => 'Level One',
-                                'icon' => 'circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-                                    [
-                                        'label' => 'Level Two',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
                 ],
             ]
         ) ?>
