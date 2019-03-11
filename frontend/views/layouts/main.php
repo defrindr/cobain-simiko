@@ -15,19 +15,19 @@ use \yii\helpers\Url;
 AppAsset::register($this);
 
 
-// var_dump();
+// var_dump(Url::to());
 // exit();
 
 $carousel = [
     [
         'content' => '',
         'caption' => '<h1>SMKN 2 Jenangan</h1><br><p>Merupakan sebuah Sekolah  Menengah Atas yang berlokasi di jln. Niken Gandini , Jenangan Ponorogo .</p><a href="<span id="more-info"></span>" <a class="btn btn-caption">More Info</a>',
-        'options' => ['style' => 'background-image:url('.\yii\helpers\Url::to("@web/uploaded/base/head.png").')'],
+        'options' => ['class'=>'slide','style' => 'background-image:url('.\yii\helpers\Url::to("@web/uploaded/base/head.png").')'],
     ],
     [
         'content' => '',
         'caption' => '<h1>SMKN 1 Jenangan</h1><br><p>Merupakan sebuah Sekolah  Menengah Atas yang berlokasi di jln. Niken Gandini , Jenangan Ponorogo .</p><a href="<span id="more-info"></span>" <a class="btn btn-caption">More Info</a>',
-        'options' => ['style' => 'background-image:url('.\yii\helpers\Url::to("@web/uploaded/base/head2.png").')'],
+        'options' => ['class'=>'slide','style' => 'background-image:url('.\yii\helpers\Url::to("@web/uploaded/base/head2.png").')'],
     ]
 ];
 ?>
@@ -49,12 +49,12 @@ $carousel = [
     <?= $this->render('_header'); ?>
 </header>
 
-<?php if(Url::to()==Url::base() or Url::to() == Url::base().'/site/index'){ ?>
+<?php if(Url::to()==Url::base()."/" or Url::to() == Url::base().'/site/index'){ ?>
 
 <section class="slider">
     <?=  \yii\bootstrap\Carousel::widget([
         'id'=>'myCarousel',
-        'controls' => false,
+        // 'controls' => false,
         'items' => $carousel,
     ]); ?>
 </section>
@@ -65,7 +65,7 @@ $carousel = [
 
 <?php } ?>
 <div class="wrap">
-    <?php if(!(Url::to()==Url::base() or Url::to() == Url::base().'/site/index')){ ?>
+    <?php if(!(Url::to()==Url::base()."/" or Url::to() == Url::base().'/site/index')){ ?>
     <div class="container content">
         <h3><?= Html::encode($this->title) ?></h3>
         <?= Breadcrumbs::widget([

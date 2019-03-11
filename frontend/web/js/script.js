@@ -23,6 +23,8 @@ function prevImages(anu){
 
 }
 
+
+
 // $(function(){
 // 	$(document).on('click', '.showModalButton', function(){
 // 		if ($('#modal').data('bs.modal').isShown) {

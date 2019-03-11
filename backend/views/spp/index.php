@@ -29,10 +29,11 @@ yii\bootstrap\Modal::end();
 $siswa = \common\models\ModuleSiswa::find()->all();
 $list_siswa = [];
 foreach ($siswa as $people) {
-   $list_siswa =  array_merge_recursive($list_siswa,[$people->user_id=>$people->profile->nama]);
+    $tmp = array($people->user_id=>$people->profile->nama);
+   $list_siswa+=$tmp;
 }
-var_dump($list_siswa);
-exit();
+// var_dump($list_siswa);
+// exit();
 
 ?>
 <div class="module-spp-index">
@@ -40,8 +41,8 @@ exit();
         <div class="box-header">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             <p>
-                <?php if(Yii::$app->user->can('create.spp')){ ?>
-                <?= Html::a('Tambah Module Spp', ['create'], ['class' => 'btn btn-success']) ?>
+                <?php if(Yii::$app->user->can('spp.create')){ ?>
+                <?= Html::a('Tambah Spp', ['create'], ['class' => 'btn btn-success']) ?>
                 <?php } ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
                 <?php
@@ -83,7 +84,7 @@ exit();
                             return $model->bank->id;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBank::find()->asArray()->all(), 'id', 'id'),
+                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBank::find()->asArray()->all(), 'id', 'nama_bank'),
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
@@ -115,7 +116,7 @@ exit();
                 ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    'filterModel' => $searchModel,
+                    // 'filterModel' => $searchModel,
                     'columns' => $gridColumn,
                     'responsiveWrap' => false,
                     'pjax' => true,

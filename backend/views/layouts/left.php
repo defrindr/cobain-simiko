@@ -41,8 +41,8 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Side Menu', 'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
+                    // ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                    // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     [
                         'label' => 'Admin fitur', 
                         'icon'=>'dashboard', 
@@ -86,7 +86,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                             ],
                         ],
                     ],
-                    ['label' => 'Menu SPP', 'icon'=> 'dashboard','url'=>['/spp']],
+                    ['label' => 'Pembayaran SPP', 'icon'=> 'dashboard','url'=>['/spp']],
                     ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
                 ],
             ]

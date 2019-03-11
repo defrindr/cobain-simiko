@@ -109,7 +109,7 @@ class SppController extends Controller
     public function actionCreate()
     {
         $model = new ModuleSpp();
-        if(Yii::$app->user->can('create.spp')){
+        if(Yii::$app->user->can('spp.create')){
             if ($model->loadAll(Yii::$app->request->post())) {
                 $model->image = UploadedFile::getInstance($model,'image');
                 $model->siswa_id = Yii::$app->user->id;
@@ -119,11 +119,16 @@ class SppController extends Controller
                 $model->bukti_bayar = $img_name;
                 $this->checkDir();
                 if($model->validate()){
-                    if($model->saveAll()){
-                        $model->image->saveAs(Url::to('@backend/web/uploaded/spp/'.$img_name));
-                        Yii::$app->session->setFlash('success','Berhasil mengirim pengajuan');
-                    }else {
-                        Yii::$app->session->setFlash('error','Gagal mengirim pengajuan');
+                    if(is_null(ModuleSpp::find()->where('bulan="'.$model->bulan.'" and tahun="'.$model->tahun.'"'))){
+                        if($model->saveAll()){
+                            $model->image->saveAs(Url::to('@backend/web/uploaded/spp/'.$img_name));
+                            Yii::$app->session->setFlash('success','Berhasil mengirim pengajuan');
+                        }else {
+                            Yii::$app->session->setFlash('error','Gagal mengirim pengajuan');
+                        }
+                        
+                    } else {
+                        Yii::$app->session->setFlash('warning','Data sudah ada !');
                     }
                 } else {
                     Yii::$app->session->setFlash('error','Error Validasi');
