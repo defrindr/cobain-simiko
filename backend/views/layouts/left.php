@@ -44,19 +44,18 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                     // ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     [
-                        'label' => 'Admin fitur', 
+                        'label' => 'Admin Menu', 
                         'icon'=>'dashboard', 
                         'url'=>'#',
                         'visible' => $admin,
                         'items' => [
-                            ['label' => 'berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
-                            ['label' => 'User Manage', 'url' => ['/user-manage'], 'icon' => 'dashboard'],
-                            ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard'],
                             ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard'],
-                            ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard'],
-                            ['label' => 'Profile Manage', 'url' => ['/profile/all'], 'icon' => 'dashboard'],
-                            
+                            ['label' => 'berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
                             ['label' => 'Galeri', 'url' => ['/galeri'], 'icon' => 'dashboard'],
+                            ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard'],
+                            ['label' => 'Profile Manage', 'url' => ['/profile/all'], 'icon' => 'dashboard'],
+                            ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard'],
+                            ['label' => 'User Manage', 'url' => ['/user-manage'], 'icon' => 'dashboard'],
                         ]
                     ],
                     ['label' => 'Guru', 'url' => ['/guru'], 'icon' => 'dashboard'],
@@ -65,6 +64,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                         'url' => ['/jurusan'],
                         'icon' => 'dashboard',
                     ],
+                    ['label'=>'Jadwal','url'=> ['/jadwal'], 'icon'=>'calendar'],
                     [
                         'label' => 'Materi Fitur',
                         'icon'=>'dashboard', 
@@ -86,8 +86,8 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                             ],
                         ],
                     ],
-                    ['label' => 'Pembayaran SPP', 'icon'=> 'dashboard','url'=>['/spp']],
                     ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
+                    ['label' => 'Pembayaran SPP', 'icon'=> 'dashboard','url'=>['/spp']],
                 ],
             ]
         ) ?>

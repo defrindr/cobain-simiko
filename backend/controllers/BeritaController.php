@@ -518,7 +518,7 @@ class BeritaController extends Controller
 
 
 
-    public function actionDPermanent($id){
+    public function actionDpermanent($id){
         if(Yii::$app->user->can('Admin')){
             $model = ModuleBerita::findDeleted()->where('id='.$id)->one();
             $img = $model->gambar;
@@ -536,7 +536,7 @@ class BeritaController extends Controller
 
         }
     }
-    public function actionDPermanentKategori($id){
+    public function actionDpermanentKategori($id){
         if(Yii::$app->user->can('Admin')){
             $model = ModuleBeritaKategori::findDeleted()->where('id='.$id)->one();
             if($model->delete()){

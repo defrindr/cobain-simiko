@@ -11,7 +11,7 @@ use yii\behaviors\BlameableBehavior;
  *
  * @property integer $id
  * @property integer $kelas_id
- * @property integer $kode_mapel
+ * @property integer $kode_guru
  * @property string $jam_mulai
  * @property string $jam_selesai
  * @property string $hari
@@ -23,8 +23,8 @@ use yii\behaviors\BlameableBehavior;
  * @property string $deleted_at
  * @property integer $lock
  *
+ * @property \common\models\ModuleGuru $kodeGuru
  * @property \common\models\ModuleKelas $kelas
- * @property \common\models\ModuleMataPelajaran $kodeMapel
  */
 class ModuleJadwal extends \yii\db\ActiveRecord
 {
@@ -52,8 +52,8 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     public function relationNames()
     {
         return [
-            'kelas',
-            'kodeMapel'
+            'kodeGuru',
+            'kelas'
         ];
     }
 
@@ -63,11 +63,11 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['kelas_id', 'kode_mapel', 'jam_mulai', 'jam_selesai', 'hari'], 'required'],
-            [['kelas_id', 'kode_mapel', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['kelas_id', 'kode_guru', 'jam_mulai', 'jam_selesai', 'hari'], 'required'],
+            [['kelas_id', 'kode_guru', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
             [['jam_mulai', 'jam_selesai', 'hari'], 'string', 'max' => 45],
-            [['lock'], 'default', 'value' => '0'],
+            [['lock'], 'default', 'value' => 0],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];
     }
@@ -81,17 +81,6 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     }
 
     /**
-     *
-     * @return string
-     * overwrite function optimisticLock
-     * return string name of field are used to stored optimistic lock
-     *
-     */
-    public function optimisticLock() {
-        return 'lock';
-    }
-
-    /**
      * @inheritdoc
      */
     public function attributeLabels()
@@ -99,7 +88,7 @@ class ModuleJadwal extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'kelas_id' => 'Kelas ID',
-            'kode_mapel' => 'Kode Mapel',
+            'kode_guru' => 'Kode Guru',
             'jam_mulai' => 'Jam Mulai',
             'jam_selesai' => 'Jam Selesai',
             'hari' => 'Hari',
@@ -110,17 +99,17 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getKelas()
+    public function getKodeGuru()
     {
-        return $this->hasOne(\common\models\ModuleKelas::className(), ['id' => 'kelas_id']);
+        return $this->hasOne(\common\models\ModuleGuru::className(), ['id' => 'kode_guru']);
     }
         
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getKodeMapel()
+    public function getKelas()
     {
-        return $this->hasOne(\common\models\ModuleMataPelajaran::className(), ['id' => 'kode_mapel']);
+        return $this->hasOne(\common\models\ModuleKelas::className(), ['id' => 'kelas_id']);
     }
     
     /**
@@ -134,7 +123,6 @@ class ModuleJadwal extends \yii\db\ActiveRecord
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => 'updated_at',
-                'value' => time(),
             ],
             'blameable' => [
                 'class' => BlameableBehavior::className(),
@@ -178,9 +166,13 @@ class ModuleJadwal extends \yii\db\ActiveRecord
 
 
 
+        /**
+     * @inheritdoc
+     * @return \app\models\ModuleJadwalQuery the active query used by this AR class.
+     */
     public static function findDeleted()
     {
         $query = new \app\models\ModuleJadwalQuery(get_called_class());
-        return $query->where('deleted_by != 0 ');
+        return $query->where('module_jadwal.deleted_by != 0');
     }
 }

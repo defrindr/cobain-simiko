@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
 /**
  * JadwalController implements the CRUD actions for ModuleJadwal model.
  */
@@ -90,9 +91,25 @@ class JadwalController extends Controller
     public function actionCreate()
     {
         $model = new ModuleJadwal();
-
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->loadAll(Yii::$app->request->post())) {
+            /**
+             * Check apakah jadwal berbenturan atau tidak
+             * return array
+             */
+            $data_guru = \common\models\ModuleJadwal::find()->where('kode_guru=\''.$model->kode_guru.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'')->all();
+            $data_kelas = \common\models\ModuleJadwal::find()->where('kelas_id=\''.$model->kelas_id.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'')->all();
+            if( $data_guru == [] and $data_kelas == []){
+                if($model->saveAll()){
+                    yii::$app->session->setFlash('success','Jadwal berhasil Disave');
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    yii::$app->session->setFlash('error','Jadwal Gagal Disave');
+                    return $this->redirect(['index']);
+                }
+            }else {
+                yii::$app->session->setFlash('warning','Jadwal berbenturan');
+                return $this->redirect(['index']);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -131,6 +148,38 @@ class JadwalController extends Controller
 
         return $this->redirect(['index']);
     }
+
+
+    /** 
+     *  
+     * Export ModuleJadwal information into PDF format. 
+     * @param integer $id
+     * @return mixed 
+     */ 
+    public function actionPdf($id) { 
+        $model = $this->findModel($id); 
+
+        $content = $this->renderAjax('_pdf', [ 
+            'model' => $model, 
+        ]); 
+
+        $pdf = new \kartik\mpdf\Pdf([ 
+            'mode' => \kartik\mpdf\Pdf::MODE_CORE, 
+            'format' => \kartik\mpdf\Pdf::FORMAT_A4, 
+            'orientation' => \kartik\mpdf\Pdf::ORIENT_PORTRAIT, 
+            'destination' => \kartik\mpdf\Pdf::DEST_BROWSER, 
+            'content' => $content, 
+            // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css', 
+            'cssInline' => '.kv-heading-1{font-size:18px}', 
+            'options' => ['title' => \Yii::$app->name], 
+            'methods' => [ 
+                'SetHeader' => [\Yii::$app->name], 
+                'SetFooter' => ['{PAGENO}'], 
+            ] 
+        ]); 
+
+        return $pdf->render(); 
+    } 
 
     
     /**

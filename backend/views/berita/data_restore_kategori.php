@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                     'permDelete' => function($url,$model){
                         $id = $model->id;
-                        return Html::a('Hard Delete', ['d-permanent-kategori', 'id' => $model->id], [
+                        return Html::a('Hard Delete', ['dpermanent-kategori', 'id' => $model->id], [
                             'class' => 'btn btn-danger',
                                 'data' => [
                                     'confirm' => 'Anda yakin ingin menghapus permanen data ini ?',

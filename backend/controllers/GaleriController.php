@@ -392,7 +392,7 @@ class GaleriController extends Controller
     }
 
 
-    public function actionDPermanent($id){
+    public function actionDpermanent($id){
         if(Yii::$app->user->can('Admin')){
             $model = ModuleGaleri::findDeleted()->where('id='.$id)->one();
             $img = $model->link;
@@ -412,7 +412,7 @@ class GaleriController extends Controller
     }
 
 
-    public function actionDPermanentKategori($id){
+    public function actionDpermanentKategori($id){
         if(Yii::$app->user->can('Admin')){
             $modelKategori = ModuleGaleriKategori::findDeleted()->where('id='.$id)->one();
             $modelGaleri = ModuleGaleri::findDeleted()->where('Kategori='.$id)->all();

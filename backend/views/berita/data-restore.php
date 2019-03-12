@@ -67,7 +67,7 @@ $this->title = 'Berita restore';
                 },
                 'permDeleteKategori' => function($url,$model){
                     $id = $model->id;
-                    return Html::a('Hard Delete', ['d-permanent', 'id' => $model->id], [
+                    return Html::a('Hard Delete', ['dpermanent', 'id' => $model->id], [
                         'class' => 'btn btn-danger',
                             'data' => [
                                 'confirm' => 'Anda yakin ingin menghapus permanen data ini ?',

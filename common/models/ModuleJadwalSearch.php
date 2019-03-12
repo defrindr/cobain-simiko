@@ -18,7 +18,7 @@ use common\models\ModuleJadwal;
     public function rules()
     {
         return [
-            [['id', 'kelas_id', 'kode_mapel', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['id', 'kelas_id', 'kode_guru', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['jam_mulai', 'jam_selesai', 'hari', 'deleted_at'], 'safe'],
         ];
     }
@@ -58,7 +58,7 @@ use common\models\ModuleJadwal;
         $query->andFilterWhere([
             'id' => $this->id,
             'kelas_id' => $this->kelas_id,
-            'kode_mapel' => $this->kode_mapel,
+            'kode_guru' => $this->kode_guru,
             'created_by' => $this->created_by,
             'created_at' => $this->created_at,
             'updated_by' => $this->updated_by,
@@ -103,7 +103,7 @@ use common\models\ModuleJadwal;
         $query->andFilterWhere([
             'id' => $this->id,
             'kelas_id' => $this->kelas_id,
-            'kode_mapel' => $this->kode_mapel,
+            'kode_guru' => $this->kode_guru,
             'created_by' => $this->created_by,
             'created_at' => $this->created_at,
             'updated_by' => $this->updated_by,

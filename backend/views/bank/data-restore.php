@@ -23,7 +23,7 @@ $this->title = 'Bank restore';
             ['attribute' => 'lock', 'visible' => false],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{restore} {d-permanent}',
+                'template' => '{restore} {dpermanent}',
                 'buttons' => [
                     'restore' => function($url,$model){
                         $id = $model->id;
@@ -36,8 +36,8 @@ $this->title = 'Bank restore';
                             ]
                         );
                     },
-                    'd-permanent' => function($url,$model){
-                        return Html::a('Hard Delete',['d-permanent','id'=>$model->id],['class'=>'btn btn-danger']);
+                    'dpermanent' => function($url,$model){
+                        return Html::a('Hard Delete',['dpermanent','id'=>$model->id],['class'=>'btn btn-danger']);
                     }
                 ]
             ],

@@ -84,10 +84,8 @@ $carousel = [
     </div>
     <?php } ?>
 </div>
-<footer id="toShow">
-    <div class="container-fluid" style="background: #316767">
-        aaa
-    </div>
+<footer>
+    <?= $this->render('_banner') ?>
     <div class="container-fluid footer">
         <div class="row">
             <div class="col-md-6 col-sm-6">

@@ -290,7 +290,7 @@ class BankController extends Controller
             
         }
     }
-    public function actionDPermanent($id){
+    public function actionDpermanent($id){
         /**
          * Action to hard delete
          */

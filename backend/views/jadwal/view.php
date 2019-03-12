@@ -8,7 +8,7 @@ use kartik\grid\GridView;
 /* @var $model common\models\ModuleJadwal */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Module Jadwal', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Jadwal', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-jadwal-view">
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'label' => 'Kelas',
         ],
         [
-            'attribute' => 'kodeMapel.id',
+            'attribute' => 'kodeGuru.user_id',
             'label' => 'Kode Mapel',
         ],
         'jam_mulai',
@@ -70,18 +70,5 @@ $this->params['breadcrumbs'][] = $this->title;
     echo DetailView::widget([
         'model' => $model->kelas,
         'attributes' => $gridColumnModuleKelas    ]);
-    ?>
-    <div class="row">
-        <h4>ModuleMataPelajaran<?= ' '. Html::encode($this->title) ?></h4>
-    </div>
-    <?php 
-    $gridColumnModuleMataPelajaran = [
-        ['attribute' => 'id', 'visible' => false],
-        'nama_mapel',
-        ['attribute' => 'lock', 'visible' => false],
-    ];
-    echo DetailView::widget([
-        'model' => $model->kodeMapel,
-        'attributes' => $gridColumnModuleMataPelajaran    ]);
     ?>
 </div>

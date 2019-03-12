@@ -25,9 +25,9 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'kode_mapel')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMataPelajaran::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
-        'options' => ['placeholder' => 'Choose Module mata pelajaran'],
+    <?= $form->field($model, 'kode_guru')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->orderBy('user_id')->asArray()->all(), 'user_id', 'user_id'),
+        'options' => ['placeholder' => 'Choose Module guru'],
         'pluginOptions' => [
             'allowClear' => true
         ],
