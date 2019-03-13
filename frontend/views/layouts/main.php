@@ -84,7 +84,9 @@ $carousel = [
     </div>
     <?php } ?>
 </div>
-<footer>
+
+<?php // $this->render('maps') ?>
+<footer id="foot">
     <?= $this->render('_banner') ?>
     <div class="container-fluid footer">
         <div class="row">

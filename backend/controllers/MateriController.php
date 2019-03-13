@@ -133,7 +133,7 @@ class MateriController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('materi.create')) {
+        if(Yii::$app->user->can('materi')) {
             $model = new ModuleMateri();
             $model->image = UploadedFile::getInstance($model,'image'); //get image
 
@@ -227,8 +227,8 @@ class MateriController extends Controller
          * 
          * //referensi https://yiiframework.com
          */
-        if(Yii::$app->user->can('materi.update')){
-            $model = $this->findModel($id);
+        $model = $this->findModel($id);
+        if(Yii::$app->user->can('materi') and $model->created_by == Yii::$app->user->id){
             $model->image = UploadedFile::getInstance($model,'image'); // set $model->image
             /**
              *
@@ -319,9 +319,12 @@ class MateriController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        if(Yii::$app->user->can('Admin') or $model->created_by == Yii::$app->user->id){
+            $model->deleteWithRelated();
+            return $this->redirect(['index']);
+            
+        }
     }
 
     

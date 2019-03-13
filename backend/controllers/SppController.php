@@ -34,7 +34,7 @@ class SppController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf','validasi','unvalidasi'],
                         'roles' => ['@']
                     ],
                     [
@@ -87,6 +87,47 @@ class SppController extends Controller
 
 
 
+    public function actionValidasi($id)
+    {
+        $model = $this->findModel($id);
+
+        // var_dump($model);
+        // exit();
+
+        if(Yii::$app->user->can('spp.validator')){
+            $model->status = 1;
+            if($model->save()){
+                Yii::$app->session->setFlash('success','Data telah divalidasi');
+            } else {
+                Yii::$app->session->setFlash('error','Status data gagal diubah');
+            }
+            return $this->redirect(['index']);
+        } else {
+            throw new ForbiddenHttpException;
+        }
+    }
+
+    public function actionUnvalidasi($id)
+    {
+        $model = $this->findModel($id);
+
+        // var_dump($model);
+        // exit();
+
+        if(Yii::$app->user->can('spp.validator')){
+            $model->status = 0;
+            if($model->save()){
+                Yii::$app->session->setFlash('success','Status berhasil diubah');
+            } else {
+                Yii::$app->session->setFlash('error','Status gagal diubah');
+            }
+            return $this->redirect(['index']);
+        } else {
+            throw new ForbiddenHttpException;
+        }
+    }
+
+
 
     /**
      * Displays a single ModuleSpp model.
@@ -111,6 +152,7 @@ class SppController extends Controller
         $model = new ModuleSpp();
         if(Yii::$app->user->can('spp.create')){
             if ($model->loadAll(Yii::$app->request->post())) {
+                $model->scenario = "create";
                 $model->image = UploadedFile::getInstance($model,'image');
                 $model->siswa_id = Yii::$app->user->id;
                 $model->status = 0;
@@ -156,6 +198,7 @@ class SppController extends Controller
         $model = $this->findModel($id);
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+            $model->scenario = "update";
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -164,21 +207,6 @@ class SppController extends Controller
         }
     }
 
-    public function approve($id){
-        $model->findModel($id);
-
-        if(Yii::$app->user->can('spp.approve')){
-            $model->status = 1;
-            if($model->save()){
-                Yii::$app->session->setFlash('success','Data telah divalidasi');
-            } else {
-                Yii::$app->session->setFlash('error','Status data gagal diubah');
-            }
-            return $this->redirect(['index']);
-        }else{
-            throw new ForbiddenHttpException;
-        }
-    }
 
     /**
      * Deletes an existing ModuleSpp model.

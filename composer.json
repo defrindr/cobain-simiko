@@ -31,7 +31,10 @@
         "mdmsoft/yii2-admin": "2.x-dev",
         "moonlandsoft/yii2-phpexcel": "*",
         "hscstudio/yii2-export": "1.0.0",
-        "phpoffice/phpspreadsheet": "^1.6"
+        "phpoffice/phpspreadsheet": "^1.6",
+        "2amigos/yii2-google-maps-library": "*",
+        "kartik-v/yii2-tabs-x": "1.2.7",
+        "bower-asset/Font-Awesome": "4.7.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -42,6 +45,10 @@
         "codeception/verify": "~1.0.0"
     },
     "config": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        },
         "process-timeout": 1800,
         "fxp-asset": {
             "enabled": false

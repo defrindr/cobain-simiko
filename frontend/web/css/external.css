@@ -214,14 +214,45 @@ footer
 
 
  */
-
-
-
+.col-sm-4 > .row > .col-xs-6 > span {
+	display: inline-block;
+	margin: 4px;
+}
+.circle {
+	background-color: #333;
+	border : 1px solid transparent;
+	border-radius: 100%;
+	padding: 9px 13px;
+}
+.circle:hover {
+	border : 1px solid #fff;
+}
+@media only screen and (min-width: 1000px){
+	.img-center {
+		margin : 25% auto ;
+	}
+}
+.img-center {
+	margin: auto;
+}
+footer#foot > div.container-fluid.banner > div.row > div.col-sm-4 > .row > .col-xs-6 > li {
+	list-style: none;
+	text-align: left;
+	padding: 4px;
+}
 .banner{
 	background: #316767;
-	border:0;
-	margin:0;
-	color: #bbb;
+	padding: 3%;
+	color: #ddd;
+}
+.banner a{
+	color: #eee;
+}
+.banner-title {
+	color: #fff;
+	border-bottom: 2px solid #fff;
+	font-size: 18px;
+	padding: 2px 4px
 }
 .footer{
 	background: #222;
