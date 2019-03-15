@@ -118,7 +118,7 @@ $guru = \common\models\ModuleGuru::find()->where('user_id='.Yii::$app->user->id)
 
                     <?= $form->field($model, 'judul')->textInput(['maxlength' => true, 'placeholder' => 'Judul']) ?>
 
-                    <?= $form->field($model, 'isi')->textarea(['rows' => 12]) ?>
+                    <?= $form->field($model, 'isi')->widget(\yii\redactor\widgets\Redactor::className()) ?>
 
                     <?= $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 

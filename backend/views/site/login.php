@@ -25,7 +25,7 @@ $checkboxTemplate = '<div class="switch">{beginLabel}{input}{labelTitle}<span cl
         <center>
             <h2><b>L</b>ogin Page</h2>
             SMK Negeri 1 Jenangan
-            <img src="<?=yii\helpers\Url::base().'/assets/logo/smk.png'?>" class="img img-responsive imgLogin">
+            <img src="<?=yii\helpers\Url::base().'/uploaded/base/smk.png'?>" class="img img-responsive imgLogin">
         </center>
     </div>
     <div class="col-sm-8 rightCol">
@@ -46,7 +46,7 @@ $checkboxTemplate = '<div class="switch">{beginLabel}{input}{labelTitle}<span cl
                 <?= $form->field($model, 'rememberMe',['options'=>['class'=>'form-group checkbox']])->widget(CheckboxX::classname(), []); ?>
             </div>
             <div class="col-xs-4">
-                <?= Html::submitButton('Sign in', ['class' => 'btn btn-login btn-block btn-flat', 'name' => 'login-button']) ?>
+                <?= Html::submitButton('<i class="glyphicon glyphicon-log-in"></i>', ['class' => 'btn btn-login btn-block btn-flat', 'name' => 'login-button']) ?>
             </div>
         </div>
         <?php ActiveForm::end(); ?>

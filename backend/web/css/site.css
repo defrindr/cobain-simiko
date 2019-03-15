@@ -6,12 +6,16 @@ body {
     background: #9BDFAA;
     display: flex;
 }
-/*.navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
-    background: #000;
-    position: absolute;
-    right: 0;
-    left: auto;
-}*/
+
+.inner {
+    padding: 5%;
+    margin: auto;
+}
+.icon-lg {
+    font-size: 3em;
+    margin: 40% 50%;
+}
+
 .error-style {
     padding: 8px;
     background: #fff;

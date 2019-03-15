@@ -19,7 +19,7 @@ use common\models\ModuleProfile;
     {
         return [
             [['user_id', 'tgl_lahir', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
-            [['nama', 'tempat_lahir', 'bio', 'no_telp', 'avatar', 'deleted_at'], 'safe'],
+            [['nama', 'tempat_lahir', 'jenis_kelamin', 'bio', 'no_telp', 'avatar', 'deleted_at'], 'safe'],
         ];
     }
 
@@ -114,6 +114,7 @@ use common\models\ModuleProfile;
         ]);
 
         $query->andFilterWhere(['like', 'nama', $this->nama])
+            ->andFilterWhere(['like', 'jenis_kelamin', $this->jenis_kelamin])
             ->andFilterWhere(['like', 'tempat_lahir', $this->tempat_lahir])
             ->andFilterWhere(['like', 'bio', $this->bio])
             ->andFilterWhere(['like', 'no_telp', $this->no_telp])

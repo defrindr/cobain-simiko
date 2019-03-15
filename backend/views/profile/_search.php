@@ -24,6 +24,17 @@ use yii\widgets\ActiveForm;
             ], 
         ]); ?>
 
+        <?= $form->field($model,'jenis_kelamin')->widget(\kartik\widgets\Select2::classname(),[
+            'data' => [
+                'L' => 'Laki-Laki',
+                'P' => 'Perempuan'
+            ],
+            'options' => ['placeholder' => 'Pilih User'], 
+            'pluginOptions' => [ 
+                'allowClear' => true 
+            ], 
+         ]) ?>
+
         <?= $form->field($model, 'nama')->textInput(['maxlength' => true, 'placeholder' => 'Nama']) ?>
 
         <?= $form->field($model, 'tgl_lahir')->textInput(['placeholder' => 'Tgl Lahir']) ?>

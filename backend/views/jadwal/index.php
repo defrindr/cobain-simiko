@@ -27,6 +27,32 @@ yii\bootstrap\Modal::begin([
 echo "<div id='modalContent'></div>";
 yii\bootstrap\Modal::end();
 
+
+/**
+ * List Guru
+ *
+ * Mengambil data semua guru dan meletakkannya dalam array
+ * 
+ * @return array
+ */
+$guru = \common\models\ModuleGuru::find()->all();
+$list_guru = [];
+foreach ($guru as $each) {
+    $list_guru += [$each->id=>$each->profile->nama];
+}
+
+/**
+ * List Kelas
+ *
+ * Mengambil data semua kelas dan meletakkannya dalam array
+ * 
+ * @return array
+ */
+$kelas = \common\models\ModuleKelas::find()->all();
+$list_kelas = [];
+foreach ($kelas as $each) {
+    $list_kelas += [$each->id=>$each->grade." ".$each->jurusan->nama." ".$each->kelas];
+}
 ?>
 <div class="module-jadwal-index">
     <div class="box box-success">
@@ -49,27 +75,27 @@ yii\bootstrap\Modal::end();
                         'attribute' => 'kelas_id',
                         'label' => 'Kelas',
                         'value' => function($model){
-                            return $model->kelas->id;
+                            return $model->kelas->grade." ".$model->kelas->jurusan->nama." ".$model->kelas->kelas;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleKelas::find()->asArray()->all(), 'id', 'id'),
+                        'filter' => $list_kelas,
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
-                        'filterInputOptions' => ['placeholder' => 'Module kelas', 'id' => 'grid-module-jadwal-search-kelas_id']
+                        'filterInputOptions' => ['placeholder' => 'Pilih kelas', 'id' => 'grid-module-jadwal-search-kelas_id']
                     ],
                     [
                         'attribute' => 'kode_guru',
-                        'label' => 'Kode Guru',
+                        'label' => 'Guru',
                         'value' => function($model){
-                            return $model->kodeGuru->id;
+                            return $model->kodeGuru->profile->nama;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->asArray()->all(), 'id', 'id'),
+                        'filter' => $list_guru,
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
-                        'filterInputOptions' => ['placeholder' => 'Module mata pelajaran', 'id' => 'grid-module-jadwal-search-kode_guru']
+                        'filterInputOptions' => ['placeholder' => 'Pilih Guru', 'id' => 'grid-module-jadwal-search-kode_guru']
                     ],
                     'jam_mulai',
                     'jam_selesai',

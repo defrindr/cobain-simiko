@@ -12,6 +12,7 @@ use borales\extensions\phoneInput\PhoneInputValidator;
  *
  * @property integer $user_id
  * @property string $nama
+ * @property  enum $jenis_kelamin 'l' and 'p'
  * @property integer $tgl_lahir
  * @property string $tempat_lahir
  * @property string $bio
@@ -70,6 +71,7 @@ class ModuleProfile extends \yii\db\ActiveRecord
             [['user_id'],'unique','on'=>'create'],
             [['user_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['bio'], 'string'],
+            [['jenis_kelamin'],'in','range' => [ 'L','P']],
             [['deleted_at','tgl_lahir'], 'safe'],
             [['nama'], 'string', 'max' => 100],
             [['tempat_lahir'], 'string', 'max' => 70],
@@ -110,6 +112,7 @@ class ModuleProfile extends \yii\db\ActiveRecord
         return [
             'user_id' => 'User ID',
             'nama' => 'Nama',
+            'jenis_kelamin' => 'Jenis Kelamin',
             'tgl_lahir' => 'Tgl Lahir',
             'tempat_lahir' => 'Tempat Lahir',
             'bio' => 'Bio',

@@ -6,8 +6,9 @@
 
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
-use kartik\grid\GridView;use yii\helpers\Url;
-
+use kartik\grid\GridView;
+use yii\helpers\Url;
+use kartik\tabs\TabsX;
 
 $this->title = 'Pembayaran SPP';
 $this->params['breadcrumbs'][] = $this->title;
@@ -85,6 +86,11 @@ $gridColumn = [
     [
         'class' => 'yii\grid\ActionColumn',
         'template' => '{valid} {view} {update} {delete}',
+        'visibleButtons' => [
+            'valid' => function($model) {
+                return \yii::$app->user->can('spp.validator',['post'=>$model]);
+            }
+        ],
         'buttons' => [
             'valid' => function($url,$model) {
                 if($model->status == 0){
@@ -106,65 +112,34 @@ $gridColumn = [
 ];
 $content1 = GridView::widget([
     'dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
     'columns' => $gridColumn,
     'responsiveWrap' => false,
     'pjax' => true,
     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-spp']],
     'panel' => false,
-    // your toolbar can include the additional full export menu
-    'toolbar' => [
-        '{export}',
-        ExportMenu::widget([
-            'dataProvider' => $dataProvider,
-            'columns' => $gridColumn,
-            'target' => ExportMenu::TARGET_BLANK,
-            'fontAwesome' => true,
-            'dropdownOptions' => [
-                'label' => 'Full',
-                'class' => 'btn btn-default',
-                'itemsBefore' => [
-                    '<li class="dropdown-header">Export All Data</li>',
-                ],
-            ],
-        ]) ,
-    ],
 ]);
 $content2 = GridView::widget([
     'dataProvider' => $dataProvider2,
-    'filterModel' => $searchModel2,
     'columns' => $gridColumn,
     'responsiveWrap' => false,
     'pjax' => true,
     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-spp']],
     'panel' => false,
-    // your toolbar can include the additional full export menu
-    'toolbar' => [
-        '{export}',
-        ExportMenu::widget([
-            'dataProvider' => $dataProvider,
-            'columns' => $gridColumn,
-            'target' => ExportMenu::TARGET_BLANK,
-            'fontAwesome' => true,
-            'dropdownOptions' => [
-                'label' => 'Full',
-                'class' => 'btn btn-default',
-                'itemsBefore' => [
-                    '<li class="dropdown-header">Export All Data</li>',
-                ],
-            ],
-        ]) ,
-    ],
 ]);
 
 
 
 $items = [
     [
-        'label' => ''
+        'label' => 'Belum Divalidasi',
+        'content' => $content1,
+        'encode' => true
     ],
-
-
+    [
+        'label' => 'Sudah Divalidasi',
+        'content' => $content1,
+        'encode' => true
+    ],
 
 ];
 
@@ -194,7 +169,11 @@ $items = [
             </div>
         </div>
         <div class="box-body">
-            
+            <?= TabsX::widget([
+                'items' => $items,
+                'encodeLabels' => false,
+                'position' => TabsX::POS_ABOVE
+            ]) ?>
         </div>
     </div>
 

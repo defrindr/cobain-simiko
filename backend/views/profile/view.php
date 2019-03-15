@@ -65,6 +65,12 @@ if(Yii::$app->user->identity->role == 30){
                                     
                                 }
                             ],
+                            [
+                                'attribute'=>'jenis_kelamin',
+                                'value' => function($model) {
+                                    return ($model->jenis_kelamin=='L') ? "Laki-Laki" : "Perempuan";
+                                }
+                            ],
                             'tempat_lahir',
                             'bio:ntext',
                             'no_telp',

@@ -33,8 +33,21 @@ use borales\extensions\phoneInput\PhoneInput;
             }
              ?>
 
+
+
             <?= $form->field($model, 'nama')->textInput(['maxlength' => true, 'placeholder' => 'Nama']) ?>
     
+             <?= $form->field($model,'jenis_kelamin')->widget(\kartik\widgets\Select2::classname(),[
+                'data' => [
+                    'L' => 'Laki-Laki',
+                    'P' => 'Perempuan'
+                ],
+                'options' => ['placeholder' => 'Pilih User'], 
+                'pluginOptions' => [ 
+                    'allowClear' => true 
+                ], 
+             ]) ?>
+             
             <?php 
             if(!empty($model->tgl_lahir)){
                 $model->tgl_lahir = date('d M Y',$model->tgl_lahir);

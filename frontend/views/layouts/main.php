@@ -13,6 +13,7 @@ use yii\bootstrap\Carousel;
 use \yii\helpers\Url;
 
 AppAsset::register($this);
+\app\assets\fontAwesomeAsset::register($this);
 
 
 // var_dump(Url::to());

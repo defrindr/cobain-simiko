@@ -263,6 +263,9 @@ footer#foot > div.container-fluid.banner > div.row > div.col-sm-4 > .row > .col-
 .footer a {
 	color: #316767;
 }
+.fa-xs {
+  font-size: .75em; 
+}
 @media only screen and (min-width: 768px){
 	/*navigation*/
 	.navbar-inverse {

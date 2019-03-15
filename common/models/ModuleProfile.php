@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-use borales\extensions\phoneInput\PhoneInputValidator;  
+use borales\extensions\phoneInput\PhoneInputValidator;
 use \common\models\base\ModuleProfile as BaseModuleProfile;
 
 /**
@@ -22,6 +22,7 @@ class ModuleProfile extends BaseModuleProfile
             [['user_id'],'unique','on'=>'create'],
             [['user_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['bio'], 'string'],
+            [['jenis_kelamin'],'in','range' => [ 'L','P']],
             [['deleted_at','tgl_lahir'], 'safe'],
             [['nama'], 'string', 'max' => 100],
             [['tempat_lahir'], 'string', 'max' => 70],

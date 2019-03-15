@@ -30,7 +30,8 @@ use kartik\widgets\FileInput;
 
             <?= $form->field($model, 'judul')->textInput(['maxlength' => true, 'placeholder' => 'Judul']) ?>
 
-            <?= $form->field($model, 'isi')->textarea(['rows' => 6]) ?>
+            <?= $form->field($model, 'isi')->widget(\yii\redactor\widgets\Redactor::className()) ?>
+
             <?= $form->field($model, 'image')->widget(FileInput::classname(), [
                 'options' => ['accept' => 'image/*'],
                 ]);?>

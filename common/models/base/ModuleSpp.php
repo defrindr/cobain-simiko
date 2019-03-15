@@ -190,9 +190,4 @@ class ModuleSpp extends \yii\db\ActiveRecord
         $query = new \app\models\ModuleSppQuery(get_called_class());
         return $query->where(['module_spp.deleted_by' => 0]);
     }
-    public static function findDeleted()
-    {
-        $query = new \app\models\ModuleSppQuery(get_called_class());
-        return $query->where('module_spp.deleted_by != 0');
-    }
 }

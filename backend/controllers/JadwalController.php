@@ -33,40 +33,20 @@ class JadwalController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ModuleJadwalSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if(Yii::$app->user->can('jadwal.creator') or Yii::$app->user->can('Admin')){
+            $searchModel = new ModuleJadwalSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else if(Yii::$app->user->identity->role == 20) {
+            $model = ModuleJadwal::find()->where('kode_guru='.Yii::$app->user->id)->all();
+
+            return $this->render('_index',['model'=>$model]);
+        }
     }
-
-
-    /**
-     * Lists all ModuleJadwal models.
-     * @return mixed
-     */
-    public function actionDataRestore()
-    {
-        $searchModel = new ModuleJadwalSearch();
-        $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
-
-        return $this->renderAjax('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionRestore($id){
-        $model = ModuleJadwal::findDeleted($id)->one();
-        if($model->restoreWithRelated()){
-            Yii::$app->session->setFlash('success','Data berhasil direstore');
-        } else {
-            Yii::$app->session->setFlash('success','Data gagal direstore');
-        } return $this->redirect(['index']);
-    }
-
 
 
 
@@ -96,14 +76,34 @@ class JadwalController extends Controller
              * Check apakah jadwal berbenturan atau tidak
              * return array
              */
-            $data_guru = \common\models\ModuleJadwal::find()->where('kode_guru=\''.$model->kode_guru.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'')->all();
-            $data_kelas = \common\models\ModuleJadwal::find()->where('kelas_id=\''.$model->kelas_id.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'')->all();
+            $data_guru = \common\models\ModuleJadwal::find()
+            ->where('kode_guru=\''.$model->kode_guru.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'')
+            ->all();
+
+            $data_kelas = \common\models\ModuleJadwal::find()
+            ->where('kelas_id=\''.$model->kelas_id.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'')
+            ->all();
+
             if( $data_guru == [] and $data_kelas == []){
-                if($model->saveAll()){
-                    yii::$app->session->setFlash('success','Jadwal berhasil Disave');
-                    return $this->redirect(['view', 'id' => $model->id]);
+
+                /**
+                 * Check Jam
+                 *
+                 * jam akan valid apabila jam_selesai lebih besar dari pada jam_mulai
+                 * 
+                 * @var bool
+                 */
+                $valid_jam = (int)$model->jam_selesai > (int)$model->jam_mulai;
+                if($valid_jam){
+                    if($model->saveAll()){
+                        yii::$app->session->setFlash('success','Jadwal berhasil Disave');
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    } else {
+                        yii::$app->session->setFlash('danger','Jadwal Gagal Disave');
+                        return $this->redirect(['index']);
+                    }
                 } else {
-                    yii::$app->session->setFlash('error','Jadwal Gagal Disave');
+                    yii::$app->session->setFlash('error','Jam selesai tidak boleh kurang dari jam jam mulai');
                     return $this->redirect(['index']);
                 }
             }else {
@@ -144,7 +144,7 @@ class JadwalController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }

@@ -5,6 +5,7 @@ use \common\models\ModuleJurusan;
 
 $jurusan = ModuleJurusan::find()->all();
 
+\app\assets\fontAwesomeAsset::register($this);
 // \app\assets\FontAwesomeAsset::register($this);
 ?>
 
@@ -27,12 +28,12 @@ $jurusan = ModuleJurusan::find()->all();
 				</div>
 				<div class="col-xs-6">
 					<h4 class="banner-title">Sosial Media</h4>
-						<span class="circle"><a href ="#facebook" class="fab fa-facebook fa-xs"></a></span>
-						<span class="circle"><a href ="#twitter" class="fab fa-twitter fa-xs"></a></span>
-						<span class="circle"><a href ="#instagram" class="fab fa-instagram fa-xs"></a></span>
-						<span class="circle"><a href ="https://github.com/pringgojs/smtj.git" class="fab fa-github fa-xs"></a></span>
-						<span class="circle"><a href="#youtube" class="fab fa-youtube fa-xs"></a></span>
-						<span class="circle"><a href="https://id.wikipedia.org/wiki/SMK_Negeri_1_Jenangan_Ponorogo" class="fab fa-wikipedia-w fa-xs"></a></span>
+						<span class="circle"><a href ="#facebook" class="fa fa-facebook fa-xs"></a></span>
+						<span class="circle"><a href ="#twitter" class="fa fa-twitter fa-xs"></a></span>
+						<span class="circle"><a href ="#instagram" class="fa fa-instagram fa-xs"></a></span>
+						<span class="circle"><a href ="https://github.com/pringgojs/smtj.git" class="fa fa-github-square fa-xs"></a></span>
+						<span class="circle"><a href="#youtube" class="fa fa-youtube fa-xs"></a></span>
+						<span class="circle"><a href="https://id.wikipedia.org/wiki/SMK_Negeri_1_Jenangan_Ponorogo" class="fa fa-wikipedia-w fa-xs"></a></span>
 				</div>
 			</div>
 		</div>

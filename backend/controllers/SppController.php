@@ -29,19 +29,6 @@ class SppController extends Controller
                     'delete' => ['post'],
                 ],
             ],
-            'access' => [
-                'class' => \yii\filters\AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'pdf','validasi','unvalidasi'],
-                        'roles' => ['@']
-                    ],
-                    [
-                        'allow' => false
-                    ]
-                ]
-            ]
         ];
     }
 
@@ -53,36 +40,15 @@ class SppController extends Controller
     {
         $searchModel = new ModuleSppSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel2 = new ModuleSppSearch();
+        $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'searchModel2' => $searchModel2,
+            'dataProvider2' => $dataProvider2
         ]);
-    }
-
-
-    /**
-     * Lists all ModuleSpp models.
-     * @return mixed
-     */
-    public function actionDataRestore()
-    {
-        $searchModel = new ModuleSppSearch();
-        $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
-
-        return $this->renderAjax('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionRestore($id){
-        $model = ModuleSpp::findDeleted($id)->one();
-        if($model->restoreWithRelated()){
-            Yii::$app->session->setFlash('success','Data berhasil direstore');
-        } else {
-            Yii::$app->session->setFlash('success','Data gagal direstore');
-        } return $this->redirect(['index']);
     }
 
 
@@ -161,7 +127,11 @@ class SppController extends Controller
                 $model->bukti_bayar = $img_name;
                 $this->checkDir();
                 if($model->validate()){
-                    if(is_null(ModuleSpp::find()->where('bulan="'.$model->bulan.'" and tahun="'.$model->tahun.'"'))){
+                    if(ModuleSpp::find()->where([
+                        'bulan'=>$model->bulan,
+                        'tahun'=>$model->tahun,
+                        'siswa_id' => $model->siswa_id
+                    ])->all() == []) {
                         if($model->saveAll()){
                             $model->image->saveAs(Url::to('@backend/web/uploaded/spp/'.$img_name));
                             Yii::$app->session->setFlash('success','Berhasil mengirim pengajuan');
@@ -217,7 +187,7 @@ class SppController extends Controller
     public function actionDelete($id)
     {
         $model = ModuleSpp::find()->where('id='.$id)->one();
-        if((($model->created_by == Yii::$app->user->id) or Yii::$app->user->can('Admin'))){
+        if((($model->created_by == Yii::$app->user->id and $model->status == 0) or Yii::$app->user->can('Admin'))){
             if(file_exists(Url::to('@backend/web/uploaded/spp/'.$model->bukti_bayar))){
                 unlink(Url::to('@backend/web/uploaded/spp/'.$model->bukti_bayar));
             }

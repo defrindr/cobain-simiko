@@ -13,4 +13,12 @@ return [
            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
         ],
     ],
+    'modules' => [
+    'redactor' => [
+        'class' => 'yii\redactor\RedactorModule',
+        'widgetClientOptions' => [
+            'buttonsHide' => ['image','file'],
+        ]
+    ],
+],
 ];

@@ -26,6 +26,11 @@ $list_extra = [10000=>'10000',15000=>'15000',20000=>'20000',25000=>'25000',30000
 
 $list_spp = [150000=>'150000',175000=>'175000'];
 
+$list_tahun = [];
+foreach (range(date('Y'),date('Y')-3) as $each) {
+    $list_tahun += [$each=>$each];
+}
+
 ?>
 
 <div class="module-spp-form">
@@ -50,7 +55,8 @@ $list_spp = [150000=>'150000',175000=>'175000'];
                 ],
             ]); ?>
 
-            <?= $form->field($model, 'bulan')->widget(\kartik\widgets\Select2::classname(), [
+            <?= $form->field($model, 'bulan')
+            ->widget(\kartik\widgets\Select2::classname(), [
                 'data' => $list_bulan,
                 'options' => ['placeholder'=>'Pilih Bulan'],
                 'pluginOptions' => [
@@ -58,9 +64,18 @@ $list_spp = [150000=>'150000',175000=>'175000'];
                 ],
             ]) ?>
 
-            <?= $form->field($model, 'tahun')->textInput(['maxlength' => true, 'placeholder' => 'Tahun']) ?>
+            <?= $form->field($model, 'tahun')
+            ->widget(\kartik\widgets\Select2::classname(), [
+                'data' => $list_tahun,
+                'options' => ['placeholder'=>'Pilih Tahun'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ])
+             ?>
 
-            <?= $form->field($model, 'image')->widget(FileInput::classname(),[
+            <?= $form->field($model, 'image')
+            ->widget(FileInput::classname(),[
                 'options' => [
                     'accept' => 'image/*',
                     'multiple' => true,
@@ -73,7 +88,8 @@ $list_spp = [150000=>'150000',175000=>'175000'];
                     ],
             ]) ?>
 
-            <?= $form->field($model, 'spp')->widget(\kartik\widgets\Select2::classname(), [
+            <?= $form->field($model, 'spp')
+            ->widget(\kartik\widgets\Select2::classname(), [
                 'data' => $list_spp,
                 'options' => ['placeholder'=>'Tabungan Study Tour'],
                 'pluginOptions' => [

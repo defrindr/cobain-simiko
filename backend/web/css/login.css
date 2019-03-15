@@ -9,9 +9,6 @@
 .green{
   background: #316767
 } 
-.errorValLogin{
-  color:#fff !important;
-}
 .formInput{
   font-size: 18px;
   padding: 5px;
@@ -36,10 +33,10 @@
   background: #316767;
 }
 .btn-login{
-  border:2px solid #fff !important;
+  border:2px solid transparent !important;
   padding: 8px 12px;
   border-radius: 12px !important;
-  background: transparent;
+  background: #19252D;
   color: #fff;
   font-size: 14px;
 }
@@ -48,7 +45,7 @@
 }
 .btn-login:hover{
   color: #fff;
-  border: 0 !important;
+  border: 2px solid #fff !important;
   background: #19252D;
   box-shadow: 2px 2px 20px #333;
 }
@@ -76,6 +73,7 @@
 .imgLogin{
   box-shadow: 2px 2px 20px #316767;
   border-radius: 100%;
+  margin: 10% auto;
 }
 
 
