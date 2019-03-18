@@ -22,6 +22,7 @@ class JadwalController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'update' => ['post']
                 ],
             ],
         ];
@@ -55,13 +56,13 @@ class JadwalController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        $model = $this->findModel($id);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Creates a new ModuleJadwal model.
@@ -76,15 +77,19 @@ class JadwalController extends Controller
              * Check apakah jadwal berbenturan atau tidak
              * return array
              */
-            $data_guru = \common\models\ModuleJadwal::find()
-            ->where('kode_guru=\''.$model->kode_guru.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'')
+            $dataGuruQuery = 'kode_guru=\''.$model->kode_guru.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'';
+
+            $dataKelasQuery = 'kelas_id=\''.$model->kelas_id.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'';
+
+            $dataGuru = \common\models\ModuleJadwal::find()
+            ->where($dataGuruQuery)
             ->all();
 
-            $data_kelas = \common\models\ModuleJadwal::find()
-            ->where('kelas_id=\''.$model->kelas_id.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'')
+            $dataKelas = \common\models\ModuleJadwal::find()
+            ->where($dataKelasQuery)
             ->all();
 
-            if( $data_guru == [] and $data_kelas == []){
+            if( $dataGuru == [] and $dataKelas == []){
 
                 /**
                  * Check Jam
@@ -97,19 +102,16 @@ class JadwalController extends Controller
                 if($valid_jam){
                     if($model->saveAll()){
                         yii::$app->session->setFlash('success','Jadwal berhasil Disave');
-                        return $this->redirect(['view', 'id' => $model->id]);
                     } else {
                         yii::$app->session->setFlash('danger','Jadwal Gagal Disave');
-                        return $this->redirect(['index']);
                     }
                 } else {
                     yii::$app->session->setFlash('error','Jam selesai tidak boleh kurang dari jam jam mulai');
-                    return $this->redirect(['index']);
                 }
             }else {
                 yii::$app->session->setFlash('warning','Jadwal berbenturan');
-                return $this->redirect(['index']);
             }
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -127,8 +129,47 @@ class JadwalController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->loadAll(Yii::$app->request->post())) {
+
+            /**
+             * Check apakah jadwal berbenturan atau tidak
+             * return array
+             */
+            $dataGuruQuery = 'kode_guru=\''.$model->kode_guru.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'';
+
+            $dataKelasQuery = 'kelas_id=\''.$model->kelas_id.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'';
+
+            $dataGuru = \common\models\ModuleJadwal::find()
+            ->where($dataGuruQuery)
+            ->all();
+
+            $dataKelas = \common\models\ModuleJadwal::find()
+            ->where($dataKelasQuery)
+            ->all();
+
+            if( $dataGuru == [] and $dataKelas == []){
+
+                /**
+                 * Check Jam
+                 *
+                 * jam akan valid apabila jam_selesai lebih besar dari pada jam_mulai
+                 * 
+                 * @var bool
+                 */
+                $valid_jam = (int)$model->jam_selesai > (int)$model->jam_mulai;
+                if($valid_jam){
+                    if($model->saveAll()){
+                        yii::$app->session->setFlash('success','Jadwal berhasil Disave');
+                    } else {
+                        yii::$app->session->setFlash('danger','Jadwal Gagal Disave');
+                    }
+                } else {
+                    yii::$app->session->setFlash('error','Jam selesai tidak boleh kurang dari jam jam mulai');
+                }
+            }else {
+                yii::$app->session->setFlash('warning','Jadwal berbenturan');
+            }
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,

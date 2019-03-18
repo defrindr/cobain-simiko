@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 13, 2019 at 05:02 AM
+-- Generation Time: Mar 18, 2019 at 08:53 AM
 -- Server version: 10.1.38-MariaDB-0ubuntu0.18.04.1
 -- PHP Version: 7.2.15-0ubuntu0.18.04.1
 
@@ -44,6 +44,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Guru', '12', 1551394325),
 ('Guru', '13', 1551499840),
 ('Guru', '5', 1551505462),
+('Siswa', '14', 1552858636),
 ('Siswa', '7', 1550022660),
 ('Siswa', '8', 1552275815),
 ('spp-manage', '5', 1551505469),
@@ -280,6 +281,10 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('galeri.delete', 2, NULL, NULL, NULL, 1550761321, 1550761321),
 ('galeri.update', 2, NULL, NULL, NULL, 1549750066, 1549750066),
 ('Guru', 1, 'Role for teacher', NULL, NULL, 1549529378, 1549529378),
+('guru.create', 2, NULL, NULL, NULL, 1552725276, 1552725276),
+('guru.delete', 2, NULL, NULL, NULL, 1552726952, 1552726952),
+('guru.restore', 2, 'permission to restore data', NULL, NULL, 1552725353, 1552725353),
+('guru.update', 2, NULL, NULL, NULL, 1552725318, 1552725318),
 ('jurusan.create', 2, 'permission to create new jurusan', NULL, NULL, 1549860859, 1549860859),
 ('jurusan.delete', 2, 'permission to delete data jurusan', NULL, NULL, 1549860914, 1549860914),
 ('jurusan.update', 2, 'permission to update data jurusan', NULL, NULL, 1549860885, 1549860885),
@@ -342,6 +347,10 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Admin', 'galeri.delete'),
 ('Admin', 'galeri.update'),
 ('Admin', 'Guru'),
+('Admin', 'guru.create'),
+('Admin', 'guru.delete'),
+('Admin', 'guru.restore'),
+('Admin', 'guru.update'),
 ('Admin', 'jurusan.create'),
 ('Admin', 'jurusan.delete'),
 ('Admin', 'jurusan.update'),
@@ -357,7 +366,12 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Admin', 'siswa.update'),
 ('Admin', 'siswa.view'),
 ('Admin', 'spp-manage'),
+('Admin', 'spp.create'),
+('Admin', 'spp.delete'),
+('Admin', 'spp.index'),
+('Admin', 'spp.update'),
 ('Admin', 'spp.validator'),
+('Admin', 'spp.view'),
 ('Admin', 'user-manage.activate'),
 ('Admin', 'user-manage.deactivate'),
 ('bank.create', '/bank/create'),
@@ -371,6 +385,11 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('berita-kategori.manage', 'berita-kategori.delete'),
 ('berita-kategori.manage', 'berita-kategori.update'),
 ('Guru', 'materi'),
+('guru.create', '/guru/create'),
+('guru.delete', '/guru/delete'),
+('guru.restore', '/guru/data-restore'),
+('guru.restore', '/guru/restore'),
+('guru.update', '/guru/update'),
 ('materi', '/materi-file/*'),
 ('materi', '/materi-file/create'),
 ('materi', '/materi-file/data-restore'),
@@ -510,7 +529,7 @@ CREATE TABLE `module_bank` (
 
 INSERT INTO `module_bank` (`id`, `no_rekening`, `nama_bank`, `atas_nama`, `gambar`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
 (1, '1000000000', 'aldana123', 'siswa1', '21769537e1133ad50560a5e545675795_41_1549594578.jpg', 0, 0, 4, 1552280190, 0, '2019-03-11 11:56:30', 12),
-(2, '1010101010', 'BNI 2', 'sri astuti', '21769537e1133ad50560a5e545675795_12_1550403000.jpg', 4, 2147483647, 4, 1550403000, 0, '2019-02-10 22:13:00', 6),
+(2, '1010101010', 'BNI 2', 'sri astuti', '21769537e1133ad50560a5e545675795_12_1550403000.jpg', 4, 2147483647, 4, 1552724645, 0, '2019-03-16 15:24:05', 8),
 (3, '110011001001', 'BNI 1', 'Wahyu widodo', '21769537e1133ad50560a5e545675795_47_1551159555.jpg', 4, 2147483647, 4, 1551159555, 0, '2019-02-10 05:01:48', 3),
 (4, '1000020000100', 'BPT', 'rahardian wisma', '21769537e1133ad50560a5e545675795_87_1550402976.jpg', 4, 1549774190, 4, 1550402976, 0, '2019-02-10 11:49:50', 2);
 
@@ -541,7 +560,7 @@ CREATE TABLE `module_berita` (
 
 INSERT INTO `module_berita` (`id`, `berita_kategori_id`, `judul`, `isi`, `gambar`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
 (1, 2, 'Yui - Why me', 'test artikel', 'fcad518f19f91be5958f6e38f4795749_27_1550500361.jpg', 4, 2147483647, 4, 1550500361, 0, '2019-02-17 10:38:19', 16),
-(2, 2, 'YUI - feel my soul', 'Yui - feel my soul\r\n\r\nNakitsu karetetan da toi kakeru basho mo naku\r\nMayoi nagara tsumazuite mo tachi domare nai\r\nKimi ga kureta egao otoshita namida wa\r\nBoku no mune no fukai kizu ni furete kieta\r\n\r\nI feel my soul Take me your way\r\nsou tatta hitotsu wo Kitto daremo ga zutto sagashiteru no\r\n\r\nSore wa guuzen dewa nakute\r\nitsuwari no ai nanka ja nakute\r\nYou’re right, all right\r\nYou’re right, all right Scare little boy\r\n\r\nNando mo kurikaesu douka ikanaide\r\nSasayaku you na kimi no koe wa itoshikute\r\n\r\nI feel my soul Take me your way\r\nmou furimukanai\r\nKitto kono te de ima tashikametai yo\r\n\r\nItsumo tanjun na hodo kurushinde\r\nikite yuku imi wo shiritai kara\r\nYou’re right, all right\r\nYou’re right, all right Scare little boy\r\n\r\nSotto tsubuyaita kimi no kotoba you say it\r\nUgokidase mienai kedo michi wa hirakareteru\r\n\r\nI feel my soul Take me your way\r\nsou mogaki nagara mo\r\nKitto kono mama zutto aruite yukeru\r\n\r\nSore wa guuzen demo nakutte\r\narifureta yume nanka ja nakutte\r\nYou’re right, all right You’re right, all right\r\n\r\nItsumo tanjun na hodo kurushinde\r\nyorokobi no imi wo shiritai kara\r\nYou’re right, all right\r\nYou’re right, all right Scare little boy\r\n\r\nTerjemahan Indonesia\r\n\r\nAku telah lelah menangis Tak ada tempat lagi bagiku untuk bertanya\r\nWalau aku tersandung dan ragu-ragu, aku tak bisa berhenti\r\nSenyum yang kau berikan padaku serta air mata yang mengalir\r\nMenyentuh dan menghapus luka yang dalam di hatiku\r\n\r\nAku merasakan jiwaku, bawa aku ke jalanmu\r\nYa, aku yakin setiap orang selalu mencari satu hal yang berharga\r\n\r\nIni bukanlah kebetulan\r\nJuga bukan cinta yang salah\r\nKau benar, semua benar\r\nKau benar, semua benar Anak kecil yang penakut\r\n\r\nAku mengulangnya berkali-kali, bagaimanapun tanpa berlanjut\r\nSuara bisikanmu sangat menyenangkan\r\n\r\nAku merasakan jiwaku, bawa aku ke jalanmu\r\nAku tak akan berbalik lagi\r\nSekarang, aku pasti akan membuktikannya dengan tanganku ini\r\n\r\nAku sangat menderita karena sesuatu yang mudah\r\nKarena itu aku ingin tahu tentang arti hidupku\r\nKau benar, semua benar\r\nKau benar, semua benar Anak kecil yang penakut\r\n\r\nKata-kata yang kau bisikkan dengan lembut, kau mengatakannya\r\nTak bisa melihat gerakku, tapi jalanku mulai bersinar\r\n\r\nAku rasakan jiwaku, bawa aku ke jalanmu\r\nWalaupun aku berjuang\r\nAku yakin bahwa aku bisa tetap berjalan selamanya seperti diriku\r\n\r\nKau bilang ini bukan kebetulan\r\ndan ini bukan mimpi yang biasa\r\nKau benar, semua benar 2x ah..\r\n\r\nAku sangat menderita dengan hal-hal yang mudah\r\nJadi aku ingin tahu tentang arti kebahagiaan\r\nKau benar, semua benar 2x\r\nAnak kecil yang penakut', 'fcad518f19f91be5958f6e38f4795749_95_1549580907.jpg', 4, 2147483647, 4, 1550399905, 0, '2019-02-17 10:38:25', 15),
+(2, 2, 'YUI - feel my soul', 'Yui - feel my soul\r\n\r\nNakitsu karetetan da toi kakeru basho mo naku\r\nMayoi nagara tsumazuite mo tachi domare nai\r\nKimi ga kureta egao otoshita namida wa\r\nBoku no mune no fukai kizu ni furete kieta\r\n\r\nI feel my soul Take me your way\r\nsou tatta hitotsu wo Kitto daremo ga zutto sagashiteru no\r\n\r\nSore wa guuzen dewa nakute\r\nitsuwari no ai nanka ja nakute\r\nYou’re right, all right\r\nYou’re right, all right Scare little boy\r\n\r\nNando mo kurikaesu douka ikanaide\r\nSasayaku you na kimi no koe wa itoshikute\r\n\r\nI feel my soul Take me your way\r\nmou furimukanai\r\nKitto kono te de ima tashikametai yo\r\n\r\nItsumo tanjun na hodo kurushinde\r\nikite yuku imi wo shiritai kara\r\nYou’re right, all right\r\nYou’re right, all right Scare little boy\r\n\r\nSotto tsubuyaita kimi no kotoba you say it\r\nUgokidase mienai kedo michi wa hirakareteru\r\n\r\nI feel my soul Take me your way\r\nsou mogaki nagara mo\r\nKitto kono mama zutto aruite yukeru\r\n\r\nSore wa guuzen demo nakutte\r\narifureta yume nanka ja nakutte\r\nYou’re right, all right You’re right, all right\r\n\r\nItsumo tanjun na hodo kurushinde\r\nyorokobi no imi wo shiritai kara\r\nYou’re right, all right\r\nYou’re right, all right Scare little boy\r\n\r\nTerjemahan Indonesia\r\n\r\nAku telah lelah menangis Tak ada tempat lagi bagiku untuk bertanya\r\nWalau aku tersandung dan ragu-ragu, aku tak bisa berhenti\r\nSenyum yang kau berikan padaku serta air mata yang mengalir\r\nMenyentuh dan menghapus luka yang dalam di hatiku\r\n\r\nAku merasakan jiwaku, bawa aku ke jalanmu\r\nYa, aku yakin setiap orang selalu mencari satu hal yang berharga\r\n\r\nIni bukanlah kebetulan\r\nJuga bukan cinta yang salah\r\nKau benar, semua benar\r\nKau benar, semua benar Anak kecil yang penakut\r\n\r\nAku mengulangnya berkali-kali, bagaimanapun tanpa berlanjut\r\nSuara bisikanmu sangat menyenangkan\r\n\r\nAku merasakan jiwaku, bawa aku ke jalanmu\r\nAku tak akan berbalik lagi\r\nSekarang, aku pasti akan membuktikannya dengan tanganku ini\r\n\r\nAku sangat menderita karena sesuatu yang mudah\r\nKarena itu aku ingin tahu tentang arti hidupku\r\nKau benar, semua benar\r\nKau benar, semua benar Anak kecil yang penakut\r\n\r\nKata-kata yang kau bisikkan dengan lembut, kau mengatakannya\r\nTak bisa melihat gerakku, tapi jalanku mulai bersinar\r\n\r\nAku rasakan jiwaku, bawa aku ke jalanmu\r\nWalaupun aku berjuang\r\nAku yakin bahwa aku bisa tetap berjalan selamanya seperti diriku\r\n\r\nKau bilang ini bukan kebetulan\r\ndan ini bukan mimpi yang biasa\r\nKau benar, semua benar 2x ah..\r\n\r\nAku sangat menderita dengan hal-hal yang mudah\r\nJadi aku ingin tahu tentang arti kebahagiaan\r\nKau benar, semua benar 2x\r\nAnak kecil yang penakut', 'fcad518f19f91be5958f6e38f4795749_95_1549580907.jpg', 4, 2147483647, 4, 1552794278, 4, '2019-03-17 10:44:38', 16),
 (3, 3, 'Gin tama', 'Gin tama adalah sebuah anime komedi', 'fcad518f19f91be5958f6e38f4795749_61_1549774673.jpeg', 4, 1549773856, 4, 1551255299, 0, '2019-02-27 08:14:59', 12),
 (4, 3, 'Naruto', 'Naruto merupakan sebuah manga karya masashi kishimoto yang diangkat menjadi anime . Naruto merupakan sebuah anime legendaris', 'fcad518f19f91be5958f6e38f4795749_97_1549774340.jpeg', 4, 1549774315, 4, 1551255314, 0, '2019-02-27 08:15:14', 6),
 (5, 2, 'Heartache', 'so this is Heartache ?\r\nso this is Heartache ?', 'fcad518f19f91be5958f6e38f4795749_86_1551580137.png', 4, 1551580137, 4, 1551580137, 0, '2019-03-03 09:28:57', 0);
@@ -678,9 +697,9 @@ CREATE TABLE `module_guru` (
 INSERT INTO `module_guru` (`id`, `user_id`, `mata_pelajaran_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`, `lock`) VALUES
 (1, 5, 4, 1550328256, 4, 1550622794, 7, '2019-02-16 14:44:16', 0, 1),
 (2, 6, 2, 1550328280, 4, 1550328280, 4, '2019-02-16 14:44:40', 0, 0),
-(3, 11, 2, 1551273992, 4, 1551273992, 4, '2019-02-27 06:26:32', 0, 0),
-(4, 12, 7, 1551394325, 4, 1551394325, 4, '2019-02-28 15:52:05', 0, 0),
-(5, 13, 1, 1551499840, 4, 1551499840, 4, '2019-03-01 21:10:40', 0, 0);
+(3, 11, 6, 1551273992, 4, 1552728392, 4, '2019-03-16 09:15:04', 0, 4),
+(4, 12, 7, 1551394325, 4, 1552726865, 4, '2019-02-28 15:52:05', 0, 1),
+(5, 13, 1, 1551499840, 4, 1552726889, 4, '2019-03-01 21:10:40', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -709,9 +728,10 @@ CREATE TABLE `module_jadwal` (
 --
 
 INSERT INTO `module_jadwal` (`id`, `kelas_id`, `kode_guru`, `jam_mulai`, `jam_selesai`, `hari`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
-(1, 3, 2, '07.00', '07.40', 'senin', 4, 1552348462, 4, 1552348462, 0, '2019-03-12 06:54:22', 0),
+(1, 3, 2, '07.00', '08.20', 'senin', 4, 1552348462, 4, 1552730842, 0, '2019-03-12 06:54:22', 0),
 (2, 3, 2, '07.00', '07.40', 'selasa', 4, 1552348696, 4, 1552348696, 0, '2019-03-12 06:58:16', 0),
-(3, 3, 4, '10.40', '15.00', 'sabtu', 4, 1552426138, 4, 1552426138, 0, '2019-03-13 04:28:58', 0);
+(3, 3, 4, '10.40', '15.00', 'sabtu', 4, 1552426138, 4, 1552731148, 0, '2019-03-13 04:28:58', 0),
+(5, 3, 5, '07.40', '11.20', 'senin', 4, 1552730400, 4, 1552731178, 0, '2019-03-16 17:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -737,10 +757,10 @@ CREATE TABLE `module_jurusan` (
 --
 
 INSERT INTO `module_jurusan` (`id`, `nama`, `kepala_jurusan`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
-(1, 'Rekayasa Perangkat Lunak', 'Drs. Bambang', 4, 1549858875, 4, 1550022860, 0, '2019-02-13 01:54:20', 9),
-(2, 'peternak lele', 'Drs. Irvan Dwi', 4, 1549861305, 4, 1550023194, 4, '2019-02-13 01:59:54', 2),
-(3, 'Jadi Direktur', 'Muslihat', 4, 1549862871, 4, 1550023243, 0, '2019-02-13 02:00:43', 8),
-(4, 'Otomasi Industri ', 'No Name', 4, 1550022695, 4, 1550023292, 0, '2019-02-13 02:01:32', 6);
+(1, 'Rekayasa Perangkat Lunak', 'Daryl', 4, 1549858875, 4, 1550022860, 0, '2019-02-13 01:54:20', 9),
+(2, 'peternak lele', 'Michelle', 4, 1549861305, 4, 1550023194, 4, '2019-02-13 01:59:54', 2),
+(3, 'Jadi Direktur', 'Celebrian', 4, 1549862871, 4, 1550023243, 0, '2019-02-13 02:00:43', 8),
+(4, 'Otomasi Industri ', 'Robbert', 4, 1550022695, 4, 1550023292, 0, '2019-02-13 02:01:32', 6);
 
 -- --------------------------------------------------------
 
@@ -769,10 +789,10 @@ CREATE TABLE `module_kelas` (
 --
 
 INSERT INTO `module_kelas` (`id`, `jurusan_id`, `guru_id`, `kelas`, `grade`, `tahun`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
-(3, 4, 5, 'A', 'XI', '2018', 4, 1550329739, 4, 1550329739, 0, '2019-02-20 00:33:14', 0),
-(4, 1, 6, 'A', 'XI', '2019', 4, 1550618539, 4, 1550619477, 0, '2019-02-19 23:37:57', 3),
-(5, 3, 11, 'B', 'XII', '2019', 4, 1551580969, 4, 1551580969, 0, '2019-03-03 09:42:49', 0),
-(6, 3, 13, 'A', 'XII', '2019', 4, 1551842243, 4, 1551842243, 0, '2019-03-06 10:17:23', 0);
+(3, 4, 1, 'A', 'XI', '2018', 4, 1550329739, 4, 1550329739, 0, '2019-02-20 00:33:14', 0),
+(4, 1, 2, 'A', 'XI', '2019', 4, 1550618539, 4, 1550619477, 0, '2019-02-19 23:37:57', 3),
+(5, 3, 3, 'B', 'XII', '2019', 4, 1551580969, 4, 1551580969, 4, '2019-03-16 16:26:32', 0),
+(6, 3, 5, 'A', 'XII', '2019', 4, 1551842243, 4, 1551842243, 4, '2019-03-16 16:01:29', 0);
 
 -- --------------------------------------------------------
 
@@ -832,13 +852,14 @@ CREATE TABLE `module_materi` (
 --
 
 INSERT INTO `module_materi` (`id`, `kelas_id`, `materi_kategori_id`, `judul`, `gambar`, `isi`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
-(1, 4, 4, 'Belajar Menggunakan Pentool', 'materi_63_1551753067.png', 'Cara menggunakan Pen tool di Photoshop dan Illustrator – Salah satu alat yang sangat berguna namun dianggap sulit untuk digunakan di Photoshop adalah Pen tool. Sehingga banyak orang tidak menggunakan Pen Tool ini meskipun dia sudah bertahun-tahun menggunakan Photoshop.\r\n\r\nPen tool memang bisa sangat menakutkan pada awalnya, namun dengan sedikit belajar untuk mengetahui cara penggunaannya lalu diikuti dengan latihan akan lebih memudahkan untuk memahami dan bahkan menguasai cara penggunaan Pen tool.\r\n\r\nPen tool sangat berguna, apalagi untuk orang yang senang menggambar secara digital, misalnya jika Anda ingin membuat bentuk, objek, karakter atau gambar kartun di komputer.\r\n\r\nCara menggunakan Pen tool di Photoshop dan Illustrator tidak jauh berbeda, bahkan bisa dibilang sama. Oleh karena itu informasi pada tulisan kali ini bisa digunakan di dua aplikasi tersebut.\r\n\r\nNah, untuk Anda yang ingin sekali menguasai Pen tool, berikut ada beberapa tutorial yang bisa Anda ikuti.\r\n\r\n1. Photoshop Pen Tool: Panduan Komprehensif\r\npen tool\r\n\r\nTutorial pertama ini mengajarkan dasar-dasar penggunaan Pen tool, mulai dari fungsi dasarnya, kombinasi tombol shortcuts keyboard nya, kursor, hingga fungsi-fungsi lain yang ada di Pen tool, disediakan juga file latihannya.\r\n\r\nPelajari disini ????\r\n\r\n2. Panduan Pen Tool Photoshop\r\nTutorial ini mengajarkan dasar-dasar membuat berbagai bentuk dengan menggunakan Pen tool di Photoshop.\r\n\r\nBaca panduannya disini ????\r\n\r\n3. Membuat seleksi dengan Pen Tool\r\nAda beberapa cara untuk membuat seleksi di Photoshop, namun yang dianggap paling sulit adalah dengan Pen tool, namun artikel tersebut bisa mengajarkan bagaimana cara mudah membuat seleksi dengan Pen tool di Photoshop.\r\n\r\nLihat tutorialnya disini ????\r\n\r\n4. Menjadi master Pen Tool dalam 30 menit\r\npen tool photoshop penguin\r\n\r\nSeperti judulnya, tutorial ini bermaksud untuk mengajarkan bagaimana agar bisa memahami Pen tool dengan waktu yang cukup singkat, 30 menit saja untuk bisa menjadi master Pen tool. Disana dicontohkan bagaimana membuat sebuah karakter penguin dengan menggunakan Pen tool.\r\n\r\nPenasaran, langsung saja pelajari disini ????\r\n\r\n5. Adobe Pen Tool cheatsheet\r\nCheatsheet ini bisa membantu memahami cara cepat menggunakan pen tool di hampir semua produk Adobe, baik itu Photoshop, Illustrator bahkan InDesign. Cheatsheet tersebut bisa Anda print dan tempel di dinding depan komputer Anda agar lebih mudah diingat saat proses belajar menggunakan Pen tool.\r\n\r\nDownload disini ????\r\n\r\n6. Bagaimana menggunakan Pen Tool Photoshop\r\nTutorial ini akan mengekplorasi bagaimana cara menggunakan Pen tool di Photoshop, mulai dari kontrol dasar Pen tool, hingga membuat jalur/path, kurva dan memahami anchor point.\r\n\r\nPelajari disini ????\r\n\r\n7. Belajar menggunakan Tool Pen di Photoshop dan Illustrator\r\nArtikel ini merupakan panduan belajar Pen tool yang ditulis dengan bahasa Indonesia, ditujukan untuk para pemula yang masih awal dengan penggunaan pen tool, diajarkan cara membuat kurva, bahkan ada video tutorialnya.\r\n\r\nPelajari disini ????\r\n\r\n8. Bagaimana menggunakan Pen Tool di Adobe Photoshop\r\npen tool adobe photoshop\r\nPen tool Adobe Photoshop (Image: Design Modo)\r\n\r\nTutorial ini mengajarkan dasar-dasar penggunaan Pen tool, dimana akan diajarkan cara membuat berbagai bentuk yang Anda inginkan. Selain itu tulisan tersebut dilengkapi dengan latihan penggunaan Pen tool.\r\n\r\nBaca tutorialnya disini ????\r\n\r\n9. Photoshop untuk pemula: Pen Tool\r\nTutorial ini mengajarkan cara menggunakan pen tool untuk para pemula dalam menggunakan Photoshop. Tutorial ini bisa dibilagn cukup komplit, mulai dari pemahaman dasar pen tool, membuat kurva, bahkan praktek membuat objek seperti gambar awan, dan bentuk lainnya.\r\n\r\nBaca selengkapnya disini ????\r\n\r\n10. Tips Belajar Pen Tool di Adobe Photoshop\r\nArtikel ini membahas beberapa tips dalam mempelajari cara menggunakan Pen tool yang ada di Photoshop. Mulai dari memahami kegunaannya, hingga membuat kurva dan bezier.\r\n\r\nBaca selengkapnya disini ????\r\n\r\n', 4, 1551342750, 4, 1551753715, 0, '2019-02-28 15:32:30', 3),
+(1, 4, 4, 'Belajar Menggunakan Pentool', 'materi_63_1551753067.png', '<p><strong>Cara menggunakan Pen tool di Photoshop dan Illustrator</strong> – Salah satu alat yang sangat berguna namun dianggap sulit untuk digunakan di Photoshop adalah Pen tool. Sehingga banyak orang tidak menggunakan Pen Tool ini meskipun dia sudah bertahun-tahun menggunakan Photoshop.\n</p><p>Pen tool memang bisa sangat menakutkan pada awalnya, namun dengan sedikit belajar untuk mengetahui cara penggunaannya lalu diikuti dengan latihan akan lebih memudahkan untuk memahami dan bahkan menguasai cara penggunaan Pen tool.\n</p><p>Pen tool sangat berguna, apalagi untuk orang yang senang menggambar secara digital, misalnya jika Anda ingin membuat bentuk, objek, karakter atau gambar kartun di komputer.\n</p><p>Cara menggunakan Pen tool di Photoshop dan Illustrator tidak jauh berbeda, bahkan bisa dibilang sama. Oleh karena itu informasi pada tulisan kali ini bisa digunakan di dua aplikasi tersebut.\n</p><p>Nah, untuk Anda yang ingin sekali menguasai Pen tool, berikut ada beberapa tutorial yang bisa Anda ikuti.</p><hr /><p>1.Photoshop Pen Tool: Panduan Komprehensif</p><p>pen tool\n</p><p>Tutorial pertama ini mengajarkan dasar-dasar penggunaan Pen tool, mulai dari fungsi dasarnya, kombinasi tombol shortcuts keyboard nya, kursor, hingga fungsi-fungsi lain yang ada di Pen tool, disediakan juga file latihannya.\n</p><p>Pelajari disini ???</p><p>2.Panduan Pen Tool Photoshop</p><p>Tutorial ini mengajarkan dasar-dasar membuat berbagai bentuk dengan menggunakan Pen tool di Photoshop.\n</p><p>Baca panduannya disini ????\n</p><p>3. Membuat seleksi dengan Pen Tool\n</p><p>Ada beberapa cara untuk membuat seleksi di Photoshop, namun yang dianggap paling sulit adalah dengan Pen tool, namun artikel tersebut bisa mengajarkan bagaimana cara mudah membuat seleksi dengan Pen tool di Photoshop.\n</p><p>Lihat tutorialnya disini ????\n</p><p>4. Menjadi master Pen Tool dalam 30 menit\n</p><p>pen tool photoshop penguin\n</p><p>Seperti judulnya, tutorial ini bermaksud untuk mengajarkan bagaimana agar bisa memahami Pen tool dengan waktu yang cukup singkat, 30 menit saja untuk bisa menjadi master Pen tool. Disana dicontohkan bagaimana membuat sebuah karakter penguin dengan menggunakan Pen tool.\n</p><p>Penasaran, langsung saja pelajari disini ????\n</p><p>5. Adobe Pen Tool cheatsheet\n</p><p>Cheatsheet ini bisa membantu memahami cara cepat menggunakan pen tool di hampir semua produk Adobe, baik itu Photoshop, Illustrator bahkan InDesign. Cheatsheet tersebut bisa Anda print dan tempel di dinding depan komputer Anda agar lebih mudah diingat saat proses belajar menggunakan Pen tool.\n</p><p>Download disini ????\n</p><p>6. Bagaimana menggunakan Pen Tool Photoshop\n</p><p>Tutorial ini akan mengekplorasi bagaimana cara menggunakan Pen tool di Photoshop, mulai dari kontrol dasar Pen tool, hingga membuat jalur/path, kurva dan memahami anchor point.\n</p><p>Pelajari disini ????\n</p><p>7. Belajar menggunakan Tool Pen di Photoshop dan Illustrator\n</p><p>Artikel ini merupakan panduan belajar Pen tool yang ditulis dengan bahasa Indonesia, ditujukan untuk para pemula yang masih awal dengan penggunaan pen tool, diajarkan cara membuat kurva, bahkan ada video tutorialnya.\n</p><p>Pelajari disini ????\n</p><p>8. Bagaimana menggunakan Pen Tool di Adobe Photoshop\n</p><p>pen tool adobe photoshop\n</p><p>Pen tool Adobe Photoshop (Image: Design Modo)\n</p><p>Tutorial ini mengajarkan dasar-dasar penggunaan Pen tool, dimana akan diajarkan cara membuat berbagai bentuk yang Anda inginkan. Selain itu tulisan tersebut dilengkapi dengan latihan penggunaan Pen tool.\n</p><p>Baca tutorialnya disini ????\n</p><p>9. Photoshop untuk pemula: Pen Tool\n</p><p>Tutorial ini mengajarkan cara menggunakan pen tool untuk para pemula dalam menggunakan Photoshop. Tutorial ini bisa dibilagn cukup komplit, mulai dari pemahaman dasar pen tool, membuat kurva, bahkan praktek membuat objek seperti gambar awan, dan bentuk lainnya.\n</p><p>Baca selengkapnya disini ????\n</p><p>10. Tips Belajar Pen Tool di Adobe Photoshop\n</p><p>Artikel ini membahas beberapa tips dalam mempelajari cara menggunakan Pen tool yang ada di Photoshop. Mulai dari memahami kegunaannya, hingga membuat kurva dan bezier.\n</p><p>Baca selengkapnya disini ????\n</p>', 4, 1551342750, 4, 1552540225, 0, '2019-02-28 15:32:30', 4),
 (2, 4, 3, 'Penerapan Gaya Dalam Kehidupan', '', 'pojok programmer id', 5, 1551345213, 5, 1551345213, 0, '2019-02-28 16:13:33', 0),
 (3, 4, 9, 'Pengenalan Matriks', '', 'test Pengenalan Matriks', 13, 1551499980, 13, 1551499980, 0, '2019-03-02 11:13:00', 0),
-(4, 3, 9, 'Pengenalan Matriks', '', 'test Pengenalan Matriks', 13, 1551500021, 7, 1552185173, 7, '2019-03-10 09:32:53', 1),
+(4, 3, 9, 'Pengenalan Matriks', '', 'test Pengenalan Matriks', 13, 1551500021, 4, 1552785755, 0, '2019-03-17 08:22:35', 2),
 (5, 4, 9, 'Matriks invers', '', 'test Matriks invers', 13, 1551500090, 13, 1551500090, 0, '2019-03-02 11:14:50', 0),
-(8, 6, 3, 'Gaya Gesek', 'materi_541551872777.jpeg', 'Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek ', 5, 1551872777, 5, 1551872777, 0, '2019-03-06 18:46:17', 0),
-(9, 4, 1, '\" onload=\"alert(1);\"', 'materi_2_1552055198.jpg', '<img src=\"../uploaded/materi/materi_541551872777.jpeg\" alt=\"aa\" /><b>Bold test</b>\n<h1>test h1</h1>\n<h2>test h2</h2>\n<h3>test h3</h3>\n<h4>test h4</h4>\n<h5>test h5</h5>\n<h6>test h6</h6>\n<img src=\"http://localhost/sekolah/administrator/uploaded/materi/materi_541551872777.jpeg\" alt=\"aa\" />', 4, 1551882305, 4, 1552055197, 0, '2019-03-06 21:25:05', 5);
+(8, 6, 3, 'Gaya Gesek', 'materi_541551872777.jpeg', 'Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek Gaya Gesek ', 5, 1551872777, 4, 1552870891, 4, '2019-03-18 08:01:31', 1),
+(9, 4, 1, '\" onload=\"alert(1);\"', 'materi_2_1552055198.jpg', '<img src=\"../uploaded/materi/materi_541551872777.jpeg\" alt=\"aa\" /><b>Bold test</b>\n<h1>test h1</h1>\n<h2>test h2</h2>\n<h3>test h3</h3>\n<h4>test h4</h4>\n<h5>test h5</h5>\n<h6>test h6</h6>\n<img src=\"http://localhost/sekolah/administrator/uploaded/materi/materi_541551872777.jpeg\" alt=\"aa\" />', 4, 1551882305, 4, 1552055197, 0, '2019-03-06 21:25:05', 5),
+(10, 5, 9, 'Matriks invers', 'materi_101552539806.png', '<h1>Matrix</h1><p>adalah opo ???</p>', 4, 1552539806, 4, 1552870898, 4, '2019-03-18 08:01:38', 1);
 
 -- --------------------------------------------------------
 
@@ -928,16 +949,17 @@ CREATE TABLE `module_materi_komentar` (
 --
 
 INSERT INTO `module_materi_komentar` (`id`, `user_id`, `materi_id`, `subject`, `komentar`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`, `lock`) VALUES
-(1, 4, 1, 'a', 'a', 0, 1551774527, 4, 1551774527, 4, '2019-03-05 08:28:47', 0, 0),
-(4, 4, 1, 'Wah keren', 'keren banget materinya h3h3', 0, 1551775349, 4, 1551775349, 4, '2019-03-05 08:42:29', 0, 0),
-(5, 5, 8, 'Gaya Gesek', 'Di pelajari lebih lanjut dan dikerjakan soalnya .', 0, 1551873061, 5, 1551873061, 5, '2019-03-06 11:51:01', 0, 0),
-(8, 4, 8, 'Ok', 'Siap pak !!!!', 0, 1551873361, 4, 1551873361, 4, '2019-03-06 11:56:01', 0, 0),
-(12, 4, 9, '<i>Hai</i>', 'test komen italic', 0, 1551882942, 4, 1551882942, 4, '2019-03-08 14:26:37', 4, 0),
-(13, 4, 8, '<i>miring </i>', '<i>ini italic</i>\r\n<b>ini bold</b>\r\n<u>ini underline</u>\r\n', 0, 1551885232, 4, 1551885232, 4, '2019-03-06 15:13:52', 0, 0),
+(4, 4, 1, 'Wah keren', 'keren banget materinya h3h3', 0, 1551775349, 4, 1551775349, 4, '2019-03-14 05:10:25', 0, 0),
+(5, 5, 8, 'Gaya Gesek', 'Di pelajari lebih lanjut dan dikerjakan soalnya .', 0, 1551873061, 5, 1551873061, 5, '2019-03-18 01:01:31', 4, 0),
+(8, 4, 8, 'Ok', 'Siap pak !!!!', 0, 1551873361, 4, 1551873361, 4, '2019-03-18 01:01:31', 4, 0),
+(12, 4, 9, '<i>Hai</i>', 'test komen italic', 0, 1551882942, 4, 1551882942, 4, '2019-03-08 14:26:37', 0, 0),
+(13, 4, 8, '<i>miring </i>', '<i>ini italic</i>\r\n<b>ini bold</b>\r\n<u>ini underline</u>\r\n', 0, 1551885232, 4, 1551885232, 4, '2019-03-18 01:01:31', 4, 0),
 (14, 4, 9, '\"&gt;', '\"&gt;', 0, 1552055394, 4, 1552055394, 4, '2019-03-08 14:29:54', 0, 0),
 (15, 4, 9, 'quot;gt;<s></s>', 'quot;gt;<s></s>', 0, 1552055646, 4, 1552055646, 4, '2019-03-08 14:34:06', 0, 0),
 (16, 4, 3, '.', 'quot;gt;<s></s>', 0, 1552055695, 4, 1552055695, 4, '2019-03-08 14:34:55', 0, 0),
-(17, 8, 1, 'Wah keren', 'Wowowowowo', 0, 1552281902, 8, 1552281902, 8, '2019-03-11 05:25:03', 0, 0);
+(18, 4, 10, 'ha', 'L opo ??', 0, 1552539852, 4, 1552539852, 4, '2019-03-18 01:01:38', 4, 0),
+(20, 4, 4, 'asss', 'asss', 0, 1552785769, 4, 1552785769, 4, '2019-03-17 01:22:49', 0, 0),
+(21, 8, 1, 'Hai', 'Keren', 0, 1552870446, 8, 1552870446, 8, '2019-03-18 00:54:06', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -958,6 +980,13 @@ CREATE TABLE `module_materi_soal` (
   `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `lock` bigint(20) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `module_materi_soal`
+--
+
+INSERT INTO `module_materi_soal` (`id`, `materi_id`, `judul`, `isi`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
+(1, 1, 'latihan 1', '1. buatlah sebuah line art menggunakan pentool', 4, 1552540225, 4, 1552540225, 0, '2019-03-14 12:10:25', 0);
 
 -- --------------------------------------------------------
 
@@ -1024,7 +1053,8 @@ INSERT INTO `module_siswa` (`user_id`, `kelas_id`, `created_by`, `created_at`, `
 (7, 3, 4, 1550331738, 4, 1551224220, 0, '2019-02-26 23:37:00', 1),
 (8, 4, 4, 1551224158, 4, 1551224158, 0, '2019-02-27 06:35:58', 0),
 (9, 4, 4, 1551224127, 4, 1551224127, 0, '2019-02-27 06:35:27', 0),
-(10, 3, 4, 1551272918, 4, 1551272918, 0, '2019-02-27 13:08:38', 0);
+(10, 3, 4, 1551272918, 4, 1551272918, 0, '2019-02-27 13:08:38', 0),
+(14, 3, 4, 1552858636, 4, 1552858636, 0, '2019-03-18 04:37:16', 0);
 
 -- --------------------------------------------------------
 
@@ -1044,7 +1074,7 @@ CREATE TABLE `module_spp` (
   `tabungan_study_tour` bigint(20) DEFAULT NULL,
   `total` bigint(20) DEFAULT NULL,
   `created_by` int(11) NOT NULL DEFAULT '0',
-  `status` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
   `created_at` int(11) NOT NULL DEFAULT '0',
   `updated_by` int(11) NOT NULL DEFAULT '0',
   `updated_at` int(11) NOT NULL DEFAULT '0',
@@ -1059,8 +1089,11 @@ CREATE TABLE `module_spp` (
 
 INSERT INTO `module_spp` (`id`, `siswa_id`, `bank_id`, `bulan`, `tahun`, `bukti_bayar`, `spp`, `tabungan_prakerin`, `tabungan_study_tour`, `total`, `created_by`, `status`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
 (2, 7, 4, 'September', 2019, '1', 150000, 30000, 25000, NULL, 4, 0, 1551525146, 7, 1552190731, 7, '2019-03-10 11:05:31', 1),
-(3, 7, 2, 'Maret', 2019, '7_1552190001_49_2019.jpg', 150000, 30000, 25000, 205000, 7, 0, 1552190001, 7, 1552190001, 0, '2019-03-10 10:53:22', 0),
-(5, 8, 2, 'April', 2019, '8_1552276421_8_2019.jpg', 175000, 30000, 30000, 235000, 8, 0, 1552276421, 8, 1552276421, 0, '2019-03-11 10:53:41', 0);
+(3, 7, 2, 'Maret', 2018, '7_1552190001_49_2019.jpg', 150000, 10000, 25000, 205000, 7, 1, 1552190001, 4, 1552515400, 4, '2019-03-16 15:23:29', 6),
+(5, 8, 2, 'April', 2019, '8_1552276421_8_2019.jpg', 175000, 30000, 30000, 235000, 8, 1, 1552276421, 4, 1552428874, 4, '2019-03-16 15:23:29', 3),
+(6, 8, 1, 'Januari', 2019, '8_1552513111_76_2019.jpg', 150000, 30000, 20000, 200000, 8, 1, 1552513111, 4, 1552533189, 0, '2019-03-14 04:38:31', 1),
+(7, 8, 4, 'Februari', 2018, '8_1552514018_29_2018.png', 175000, 10000, 25000, 210000, 8, 0, 1552514018, 8, 1552514018, 0, '2019-03-14 04:53:38', 0),
+(8, 8, 2, 'Maret', 2019, '8_1552514054_68_2019.jpg', 175000, 20000, 30000, 225000, 8, 0, 1552514054, 8, 1552514054, 4, '2019-03-16 15:23:29', 0);
 
 -- --------------------------------------------------------
 
@@ -1071,6 +1104,7 @@ INSERT INTO `module_spp` (`id`, `siswa_id`, `bank_id`, `bulan`, `tahun`, `bukti_
 CREATE TABLE `profile` (
   `user_id` int(11) NOT NULL,
   `nama` varchar(100) NOT NULL,
+  `jenis_kelamin` enum('L','P') DEFAULT 'L',
   `tgl_lahir` int(11) DEFAULT NULL,
   `tempat_lahir` varchar(70) DEFAULT NULL,
   `bio` text,
@@ -1089,17 +1123,18 @@ CREATE TABLE `profile` (
 -- Dumping data for table `profile`
 --
 
-INSERT INTO `profile` (`user_id`, `nama`, `tgl_lahir`, `tempat_lahir`, `bio`, `no_telp`, `avatar`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
-(4, 'Administrator', 1401901200, 'Ponorogo', 'Try , error , and never give up :v', '+6285604845437', 'admin_1552279194.png', 4, 1550309550, 4, 1552279194, 0, '2019-02-16 16:32:30', 27),
-(5, 'Bima arya nugraha', 12309876, 'ponorogo', '', '', '', 4, 1550328503, 4, 1550328503, 0, '2019-02-16 21:48:23', 0),
-(6, 'Narendra edi darma budi arta', 994291200, 'Ponorogo', 'Dont judge person by cover', '+6286754884930', NULL, 4, 1550615604, 6, 1551275186, 0, '2019-02-20 05:33:24', 1),
-(7, 'Ryan Erlangga', 1502064000, 'Ponorogo', '', '+6276544487', 'siswa_1550622519.jpeg', 4, 1550331594, 7, 1551687916, 0, '2019-02-16 22:39:54', 13),
-(8, 'Daniel', 0, '', '', '', 'siswa2_1552276218.png', 4, 1550616352, 8, 1552276218, 0, '2019-02-20 05:45:52', 1),
-(9, 'Aldi Wahyu Ghanesa putra', 15, 'Ponorogo', 'Why me ??', '6285604845437', NULL, 4, 1550628649, 4, 1550628649, 0, '2019-02-20 09:10:49', 0),
-(10, 'Renaldi Arfi Saputra', NULL, NULL, NULL, NULL, NULL, 4, 1551272918, 4, 1551272918, 0, '2019-02-27 13:08:37', 0),
-(11, 'Arsyad Rifa\'i', NULL, NULL, NULL, NULL, NULL, 4, 1551273991, 4, 1551273991, 0, '2019-02-27 13:26:31', 0),
-(12, 'Sasmita', NULL, NULL, NULL, NULL, NULL, 4, 1551394325, 4, 1551394325, 0, '2019-02-28 22:52:05', 0),
-(13, 'Test Guru Matematika', 0, '', '', '', 'endah_k_1551499909.png', 4, 1551499840, 13, 1551499909, 0, '2019-03-02 04:10:40', 1);
+INSERT INTO `profile` (`user_id`, `nama`, `jenis_kelamin`, `tgl_lahir`, `tempat_lahir`, `bio`, `no_telp`, `avatar`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
+(4, 'Administrator', 'L', 1401901200, 'Ponorogo', 'Try , error , and never give up :v', '+6285604845437', 'admin_1552279194.png', 4, 1550309550, 4, 1552585821, 0, '2019-02-16 16:32:30', 32),
+(5, 'Bima arya nugraha', 'L', 12309876, 'ponorogo', '', '', '', 4, 1550328503, 4, 1550328503, 0, '2019-02-16 21:48:23', 0),
+(6, 'Narendra edi darma budi arta', 'L', 994291200, 'Ponorogo', 'Dont judge person by cover', '+6286754884930', NULL, 4, 1550615604, 6, 1551275186, 0, '2019-02-20 05:33:24', 1),
+(7, 'Ryan Erlangga', 'L', 1502064000, 'Ponorogo', '', '+6276544487', 'siswa_1550622519.jpeg', 4, 1550331594, 7, 1551687916, 0, '2019-02-16 22:39:54', 13),
+(8, 'Daniel', 'L', 0, '', '', '', 'siswa2_1552276218.png', 4, 1550616352, 8, 1552276218, 0, '2019-02-20 05:45:52', 1),
+(9, 'Aldi Wahyu Ghanesa putra', 'L', 15, 'Ponorogo', 'Why me ??', '6285604845437', NULL, 4, 1550628649, 4, 1550628649, 0, '2019-02-20 09:10:49', 0),
+(10, 'Renaldi Arfi Saputra', 'L', NULL, NULL, NULL, NULL, NULL, 4, 1551272918, 4, 1551272918, 0, '2019-02-27 13:08:37', 0),
+(11, 'Arsyad Rifa\'i', 'L', NULL, NULL, NULL, NULL, NULL, 4, 1551273991, 4, 1551273991, 0, '2019-02-27 13:26:31', 0),
+(12, 'Sasmita', 'P', NULL, NULL, NULL, NULL, NULL, 4, 1551394325, 4, 1551394325, 0, '2019-02-28 22:52:05', 0),
+(13, 'Test Guru Matematika', 'P', 0, '', '', '', 'endah_k_1551499909.png', 4, 1551499840, 13, 1551499909, 0, '2019-03-02 04:10:40', 1),
+(14, 'Ahmad Sulkeni', 'L', NULL, NULL, NULL, NULL, NULL, 4, 1552858636, 4, 1552858636, 0, '2019-03-18 04:37:16', 0);
 
 -- --------------------------------------------------------
 
@@ -1127,16 +1162,17 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `role`, `last_login`, `online`, `created_at`, `updated_at`) VALUES
-(4, 'admin', '68r2xcRUUj-MNODNLTd3C-FyqU91ENQF', '$2y$13$tko/61jwvh//UgIKjsRzoe6zqSbYKtOAe1QuHVzzMFShUu/e3A8we', NULL, 'admin@web.id', 10, 10, 1552423460, 0, 1549491206, 1552423460),
-(5, 'guru', 'fwIsNL9Vuu8A_3qHnvPURA6dRFMquctB', '$2y$13$JZlIgBJiTK18lWV9LsHPc.V2apfRtvIEHJqINOy9W2SKlaWszruCu', NULL, 'teach@bout.tech', 10, 20, 1552351678, 0, 1549491248, 1552351678),
+(4, 'admin', '68r2xcRUUj-MNODNLTd3C-FyqU91ENQF', '$2y$13$CX9I6C0VQa6blxgbbPo.cOsMZrsip6xO94/dnYRVnRSjRfJjgrxPG', NULL, 'admin@web.id', 10, 10, 1552873874, 0, 1549491206, 1552873874),
+(5, 'guru', 'fwIsNL9Vuu8A_3qHnvPURA6dRFMquctB', '$2y$13$JZlIgBJiTK18lWV9LsHPc.V2apfRtvIEHJqINOy9W2SKlaWszruCu', NULL, 'teach@bout.tech', 10, 20, 1552508193, 0, 1549491248, 1552508193),
 (6, 'guru2', 'F96ul2asFIcIzE6Y1a9MFcsrLoV7FVuc', '$2y$13$s6S5EAa0viQAmOlPv24OQuMzQCJwdoB8fhYsenzXbwGitc0Rm/QU.', NULL, 'teacher@bout.tech', 10, 20, 0, 0, 1549491290, 1550327675),
 (7, 'siswa', 'HeAz61KeZt8Ds-SeK_0zb55cv6rC0ydU', '$2y$13$.yEydf0wQaVsO2fL9vgBSeQIToK7NFTDvZOxRAuXpFRxeRItjsbXS', 'g6NOJB9m3dIJzbnyWTmhb8M2PpsZgysy_1551502679', 'siswa@info.tech', 10, 30, 1552281097, 0, 1549491316, 1552281097),
-(8, 'siswa2', 'nS0hqnLo5p8uC3dPJG99GhO18QhqaKIk', '$2y$13$FoxjjD07wrv81Noqe8AcI.2f0Gjo6V58Mz8Hltv1Cwd5At7CqpwiK', NULL, 'student2@info.tech', 10, 30, 1552281110, 0, 1549491350, 1552281110),
+(8, 'siswa2', 'nS0hqnLo5p8uC3dPJG99GhO18QhqaKIk', '$2y$13$FoxjjD07wrv81Noqe8AcI.2f0Gjo6V58Mz8Hltv1Cwd5At7CqpwiK', NULL, 'student2@info.tech', 10, 30, 1552871019, 0, 1549491350, 1552871019),
 (9, 'testblockuser', 'HXx8iqAuzBk35GLbWtMtsa4Vdt4ADbuJ', '$2y$13$Uaxap79k/4ESEwv4aZ8JIu9dP/z1W/7jvz6hZ1RsiFtHY2OdO0RuC', NULL, 'testblockuser@tech.in', 0, 30, 0, 0, 1550055721, 1551833729),
 (10, 'renaldi51', 'piKTrMUtSUFe4e7H3PrlyKOQc0fcIrDf', '$2y$13$9t/yUerRsn8KdL8mFpsnauBtYj0EBZ3Wf6VTRNyF08TwRPfJX7h6C', NULL, 'renaldi51@gmail.com', 0, 30, 0, 0, 1551272917, 1551833735),
 (11, 'arsyadC0d', 'Ykysv63DyDvQXc6qaGINpSfT-Om0Nr0z', '$2y$13$nOT71z2L6W0YF.fCgL9/T.RF7dS3KljqM4NR6LlbBVMRUzZ2Td8Mu', NULL, 'arsyadC0d@gmail.com', 10, 20, 0, 0, 1551273991, 1551273991),
 (12, 'sasmita12', 'l8r003CUgwYnIZ-ueqX-IwB5wflHTYVG', '$2y$13$3kfUEeX5fyXAGthN5llUneBqQj7XfI000n52avxTXbRloPzH/WVK2', NULL, 'sasmita12@gmail.com', 10, 20, 0, 0, 1551394325, 1551394325),
-(13, 'endah_k', 'x_aXu1-UxgbustpuBWRx3klWOKcC3Fit', '$2y$13$Gk7H3QtFoh2n0peWQeiGjeeFttkwkmYlx12LpVtdvlxiNhMVFBEBW', NULL, 'end4hK@gmail.com', 0, 20, 0, 0, 1551499840, 1551833741);
+(13, 'endah_k', 'x_aXu1-UxgbustpuBWRx3klWOKcC3Fit', '$2y$13$Gk7H3QtFoh2n0peWQeiGjeeFttkwkmYlx12LpVtdvlxiNhMVFBEBW', NULL, 'end4hK@gmail.com', 10, 20, 0, 0, 1551499840, 1552508741),
+(14, 'sulkeni', 'obaY7-XK5_5xkJQHZFcNnkTObugBS1gu', '$2y$13$St/AuvXPkTBFvJ7N0pxFUOy46SqmkELWSCLv6wDUO5qH8ICprQOnu', NULL, 'sulkeni@web.id', 10, 30, 0, 0, 1552858636, 1552858636);
 
 --
 -- Indexes for dumped tables
@@ -1237,7 +1273,7 @@ ALTER TABLE `module_jurusan`
 ALTER TABLE `module_kelas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_tbl_kelas_tbl_jurusan_idx` (`jurusan_id`),
-  ADD KEY `fk_module_kelas_module_guru1_idx` (`guru_id`);
+  ADD KEY `fk_tbl_kelas_tbl_guru` (`guru_id`);
 
 --
 -- Indexes for table `module_mata_pelajaran`
@@ -1372,7 +1408,7 @@ ALTER TABLE `module_guru`
 -- AUTO_INCREMENT for table `module_jadwal`
 --
 ALTER TABLE `module_jadwal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_jurusan`
@@ -1396,7 +1432,7 @@ ALTER TABLE `module_mata_pelajaran`
 -- AUTO_INCREMENT for table `module_materi`
 --
 ALTER TABLE `module_materi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `module_materi_file`
@@ -1414,13 +1450,13 @@ ALTER TABLE `module_materi_kategori`
 -- AUTO_INCREMENT for table `module_materi_komentar`
 --
 ALTER TABLE `module_materi_komentar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `module_materi_soal`
 --
 ALTER TABLE `module_materi_soal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_materi_soal_file`
@@ -1438,13 +1474,13 @@ ALTER TABLE `module_materi_soal_jawaban`
 -- AUTO_INCREMENT for table `module_spp`
 --
 ALTER TABLE `module_spp`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -1499,7 +1535,7 @@ ALTER TABLE `module_jadwal`
 -- Constraints for table `module_kelas`
 --
 ALTER TABLE `module_kelas`
-  ADD CONSTRAINT `fk_module_kelas_module_guru1` FOREIGN KEY (`guru_id`) REFERENCES `module_guru` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_tbl_kelas_tbl_guru` FOREIGN KEY (`guru_id`) REFERENCES `module_guru` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_tbl_kelas_tbl_jurusan` FOREIGN KEY (`jurusan_id`) REFERENCES `module_jurusan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

@@ -20,10 +20,20 @@ class ModuleGuru extends BaseModuleGuru
             [['user_id', 'mata_pelajaran_id'], 'required'],
             [['user_id', 'mata_pelajaran_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
-            [['user_id'], 'unique'],
+            [['user_id'], 'unique', 'message'=>'User Ini telah menjadi Guru.'],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);
+    }
+    /**
+     * 
+     * @overide
+     * replace ```index.php?modelName[id]=1``` to ```index.php?modelName[id]=1```
+     * 
+     */
+    public function formName()
+    {
+        return '';
     }
 	
 }

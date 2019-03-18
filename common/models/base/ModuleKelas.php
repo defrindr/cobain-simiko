@@ -129,7 +129,7 @@ class ModuleKelas extends \yii\db\ActiveRecord
      */
     public function getGuru()
     {
-        return $this->hasOne(\common\models\ModuleGuru::className(), ['user_id' => 'guru_id']);
+        return $this->hasOne(\common\models\ModuleGuru::className(), ['id' => 'guru_id']);
     }
         
     /**

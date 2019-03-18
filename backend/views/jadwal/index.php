@@ -28,18 +28,6 @@ echo "<div id='modalContent'></div>";
 yii\bootstrap\Modal::end();
 
 
-/**
- * List Guru
- *
- * Mengambil data semua guru dan meletakkannya dalam array
- * 
- * @return array
- */
-$guru = \common\models\ModuleGuru::find()->all();
-$list_guru = [];
-foreach ($guru as $each) {
-    $list_guru += [$each->id=>$each->profile->nama];
-}
 
 /**
  * List Kelas
@@ -48,11 +36,63 @@ foreach ($guru as $each) {
  * 
  * @return array
  */
-$kelas = \common\models\ModuleKelas::find()->all();
+
+$kelas = \common\models\ModuleKelas::find()->orderBy('kelas')->all();
 $list_kelas = [];
 foreach ($kelas as $each) {
     $list_kelas += [$each->id=>$each->grade." ".$each->jurusan->nama." ".$each->kelas];
 }
+
+
+/**
+ * List Jam
+ * @var Array
+ */
+$list_jam = [
+    '07.00'=>'07.00',
+    '07.40'=>'07.40',
+    '08.20'=>'08.20',
+    '10.00'=>'10.00',
+    '10.40'=>'10.40',
+    '11.20'=>'11.20',
+    '12.00'=>'12.00',
+    '12.40'=>'12.40',
+    '13.20'=>'13.20',
+    '14.20'=>'14.20',
+    '15.00'=>'15.00',
+    '15.40'=>'15.40'
+];
+
+
+/**
+ * List Hari
+ * @var Array
+ */
+$list_hari = [
+    'senin' => 'senin',
+    'selasa' => 'selasa',
+    'rabu' => 'rabu',
+    'kamis' => 'kamis',
+    'jum\'at' => 'jum\'at',
+    'sabtu' => 'sabtu'
+];
+
+/**
+ * List Guru
+ *
+ * Mengambil data semua guru dan meletakkannya dalam array
+ * 
+ * @return array
+ */
+
+$guru =  \common\models\ModuleGuru::find()->all();
+$list_guru = [];
+foreach ($guru as $each) {
+    $tmp = [$each->mataPelajaran->nama_mapel=>[$each->id=>$each->profile->nama]];
+    $list_guru = array_merge_recursive($list_guru,$tmp);
+}
+
+
 ?>
 <div class="module-jadwal-index">
     <div class="box box-success">
@@ -60,12 +100,8 @@ foreach ($kelas as $each) {
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
                 <p>
                     <?= Html::a('Tambah Jadwal', ['create'], ['class' => 'btn btn-success']) ?>
-                    <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
                 </p>
-                <div class="search-form" style="display:none">
-                    <?=  $this->render('_search', ['model' => $searchModel]); ?>
-                </div>
-                        </div>
+        </div>
         <div class="box-body">
             <?php 
                 $gridColumn = [
@@ -97,12 +133,51 @@ foreach ($kelas as $each) {
                         ],
                         'filterInputOptions' => ['placeholder' => 'Pilih Guru', 'id' => 'grid-module-jadwal-search-kode_guru']
                     ],
-                    'jam_mulai',
-                    'jam_selesai',
-                    'hari',
+                    [
+                        'attribute'=>'hari',
+                        'filterType' => GridView::FILTER_SELECT2,
+                        'filter' => $list_hari,
+                        'filterWidgetOptions' => [
+                            'pluginOptions' => ['allowClear' => true],
+                        ],
+                        'filterInputOptions' => ['placeholder' => 'Pilih hari', 'id' => 'grid-module-jadwal-search-hari']
+                    ],
+                    [
+                        'attribute'=>'jam_mulai',
+                        'filterType' => GridView::FILTER_SELECT2,
+                        'filter' => $list_jam,
+                        'filterWidgetOptions' => [
+                            'pluginOptions' => ['allowClear' => true],
+                        ],
+                        'filterInputOptions' => ['placeholder' => 'Pilih jam mulai', 'id' => 'grid-module-jadwal-search-jam-mulai']
+                    ],
+                    [
+                        'attribute'=>'jam_selesai',
+                        'filterType' => GridView::FILTER_SELECT2,
+                        'filter' => $list_jam,
+                        'filterWidgetOptions' => [
+                            'pluginOptions' => ['allowClear' => true],
+                        ],
+                        'filterInputOptions' => ['placeholder' => 'Pilih jam selesai', 'id' => 'grid-module-jadwal-search-jam-selesai']
+                    ],
+                    [
+                        'attribute' => 'mata-pelajaran',
+                        'label' => 'Mata Pelajaran',
+                        'value' => function($model){
+                            return $model->kodeGuru->mataPelajaran->nama_mapel;
+                        }
+                    ],
                     ['attribute' => 'lock', 'visible' => false],
                     [
                         'class' => 'yii\grid\ActionColumn',
+                        'template' => '{update} {delete}',
+                        'buttons' => [
+                            'update' => function($url,$model) {
+                                return Html::a('<i class="glyphicon glyphicon-pencil"></i>',
+                                    ['update','id'=>$model->id],
+                                    ['data'=>['method'=>'post']]);
+                            },
+                        ]
                     ],
                         ]; 
                     ?>

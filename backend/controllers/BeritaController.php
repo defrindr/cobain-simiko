@@ -29,6 +29,11 @@ class BeritaController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'delete-kategori' => ['post'],
+                    'restore' => ['post'],
+                    'restore-kategori' => ['post'],
+                    'dpermanent' => ['post'],
+                    'dpermanent-kategori' => ['post'],
                 ],
             ],
         ];

@@ -29,6 +29,8 @@ class BankController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'restore' => ['post'],
+                    'dpermanent' => ['post']
                 ],
             ],
         ];

@@ -10,38 +10,40 @@ $jurusan = ModuleJurusan::find()->all();
 ?>
 
 <div class="container-fluid banner">
-	<div class="row">
-		<div class="col-sm-4">
-			<?= Html::img(Url::base()."/uploaded/base/ireng.png", ['class'=>'img img-responsive img-center']) ?> 
-		</div>
-		<div class="col-sm-4 text-center">
-			<div class="row">
-				<div class="col-xs-6">
-					<h4 class="banner-title">Jurusan</h4>
-					<p>
-						<?php 
-						foreach ($jurusan as $each) {
-							echo '<li><a href="#banner">'.$each->nama.'</a></li>';
-						}
-						 ?>
-					</p>
-				</div>
-				<div class="col-xs-6">
-					<h4 class="banner-title">Sosial Media</h4>
-						<span class="circle"><a href ="#facebook" class="fa fa-facebook fa-xs"></a></span>
-						<span class="circle"><a href ="#twitter" class="fa fa-twitter fa-xs"></a></span>
-						<span class="circle"><a href ="#instagram" class="fa fa-instagram fa-xs"></a></span>
-						<span class="circle"><a href ="https://github.com/pringgojs/smtj.git" class="fa fa-github-square fa-xs"></a></span>
-						<span class="circle"><a href="#youtube" class="fa fa-youtube fa-xs"></a></span>
-						<span class="circle"><a href="https://id.wikipedia.org/wiki/SMK_Negeri_1_Jenangan_Ponorogo" class="fa fa-wikipedia-w fa-xs"></a></span>
-				</div>
+	<div class="col-sm-4">
+		<?= Html::img(Url::base()."/uploaded/base/ireng.png", ['class'=>'img img-responsive img-center']) ?> 
+	</div>
+	<div class="col-sm-4 text-center">
+		<div class="row">
+			<div class="col-xs-6">
+				<h4 class="banner-title">Jurusan</h4>
+				<p>
+					<?php 
+					foreach ($jurusan as $each) {
+						echo '<li><a href="#banner">'.$each->nama.'</a></li>';
+					}
+					 ?>
+				</p>
+			</div>
+			<div class="col-xs-6">
+				<h4 class="banner-title">Sosial Media</h4>
+					<a href ="#facebook" class="fa fa-facebook fa-xs circle"></a>
+					<a href ="#twitter" class="fa fa-twitter fa-xs circle"></a>
+					<a href ="#instagram" class="fa fa-instagram fa-xs circle"></a>
+					<a href ="https://github.com/pringgojs/smtj.git" class="fa fa-github-square fa-xs circle"></a>
+					<a href="#youtube" class="fa fa-youtube fa-xs circle"></a>
+					<a href="https://id.wikipedia.org/wiki/SMK_Negeri_1_Jenangan_Ponorogo" class="fa fa-wikipedia-w fa-xs circle"></a>
 			</div>
 		</div>
-		<div class="col-sm-4">
-			<h4 class="banner-title">Info</h4>
-			Phone: (0352) 481236 | <br/>
-			 Email : smkn1jenpo@yahoo.co.id |<br/><br/>
-			Jl. Niken Gandini No.98, Setono,<br/> Kec. Ponorogo, Kabupaten Ponorogo, Jawa Timur 63492
+	</div>
+	<div class="col-sm-4" style="padding: 0;">
+		<h4 class="banner-title text-center">Info</h4>
+		<div class="col-xs-6 col-sm-12 info-1">
+			Phone: (0352) 481236<br/>
+			 Email : smkn1jenpo@yahoo.co.id<br><br>	
+		</div>
+		<div class="col-xs-6 col-sm-12 info-2">
+			Jl. Niken Gandini No.98,<br> Setono, Kec. Ponorogo, Kabupaten Ponorogo, Jawa Timur 63492
 		</div>
 	</div>
 </div>

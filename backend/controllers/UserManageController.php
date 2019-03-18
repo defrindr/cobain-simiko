@@ -168,7 +168,7 @@ class UserManageController extends Controller
                             return $this->redirect(['index']);
                         } else {
                             $transaction->rollback();
-                            Yii::$app->session->setFlash('error','User saat menambahkan ke data siswa');
+                            Yii::$app->session->setFlash('error','Error saat menambahkan ke data siswa');
                             return $this->redirect(['index']);
                         }
                     } else {
@@ -249,7 +249,7 @@ class UserManageController extends Controller
                                 return $this->redirect(['index']);
                             } else {
                                 $transaction->rollback();
-                                Yii::$app->session->setFlash('error','User saat menambahkan ke data Guru');
+                                Yii::$app->session->setFlash('error','Error saat menambahkan ke data Guru');
                                 return $this->redirect(['index']);
                             }
                         } else {

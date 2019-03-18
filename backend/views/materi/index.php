@@ -91,6 +91,12 @@ foreach ($modelBab as $bab) {
                     ],
                     'judul',
                     'gambar',
+                    [
+                        'attribute' => 'komentar',
+                        'value' => function($model){
+                            return count($model->moduleMateriKomentars);
+                        }
+                    ],
                     // 'isi:ntext',
                     ['attribute' => 'lock', 'visible' => false],
                     [

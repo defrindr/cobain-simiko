@@ -26,5 +26,15 @@ class ModuleUser extends BaseModuleUser
             [['password_reset_token'], 'unique']
         ]);
     }
+    /**
+     * 
+     * @overide
+     * replace ```index.php?modelName[id]=1``` to ```index.php?modelName[id]=1```
+     * 
+     */
+    public function formName()
+    {
+        return '';
+    }
 	
 }

@@ -15,10 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="module-galeri-view">
     <div class="container-fluid">
         <div class="row">
-            <h2><?= Html::encode($this->title) ?></h2>
-        </div>
-
-        <div class="row">
     <?php 
         $gridColumn = [
             ['attribute' => 'id', 'visible' => false],
@@ -28,9 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // ],
             [
                 'attribute' => 'link',
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function($model){
-                    return '<span style="overflow: auto; word-wrap: break-word;">'.$model->link.'</span>';
+                    return '<span style="word-break:break-all">'.$model->link.'</span>';
                 }
             ],
             'judul',
@@ -54,9 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
         echo DetailView::widget([
             'model' => $model,
             'attributes' => $gridColumn,
-            // 'options' => [
-            //     'style' => 'overflow-x:auto'
-            // ]
         ]);
     ?>
         </div>
@@ -71,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ];
         echo DetailView::widget([
             'model' => $model->kategori0,
-            'attributes' => $gridColumnModuleGaleriKategori
+            'attributes' => $gridColumnModuleGaleriKategori,
         ]);
         ?>
 

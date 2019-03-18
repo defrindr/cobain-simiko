@@ -157,6 +157,7 @@ class ModuleMateri extends \yii\db\ActiveRecord
         return $this->hasMany(\common\models\ModuleMateriSoal::className(), ['materi_id' => 'id']);
     }
     
+
     /**
      * @inheritdoc
      * @return array mixed

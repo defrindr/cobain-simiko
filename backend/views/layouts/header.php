@@ -58,14 +58,28 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                             <?= Html::a(
                                 'Profile',
                                 ['/profile'],
-                                ['class' => 'btn btn-flat', 'style' => 'border:0']
+                                [
+                                    'class' => 'btn btn-flat lia'
+                                ]
+                            ) ?>
+                        </li>
+                        <li>
+                            <?= Html::a(
+                                'Ganti Password',
+                                ['/site/change-password'],
+                                [
+                                    'class' => 'btn btn-flat lia',
+                                ]
                             ) ?>
                         </li>
                         <li>
                             <?= Html::a(
                                 'Sign out',
                                 ['/site/logout'],
-                                ['data-method' => 'post', 'class' => 'btn btn-flat', 'style' => 'border:0']
+                                [
+                                    'data-method' => 'post',
+                                     'class' => 'btn btn-flat lia'
+                            ]
                             ) ?>
                         </li>
                     </ul>

@@ -4,12 +4,17 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\grid\GridView;
 use yii\helpers\Url;
+use yii\helpers\StringHelper;
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleKelas */
 
 $this->title = $model->grade.' '.$model->getJurusan()->one()->nama.' '.$model->kelas;
 $this->params['breadcrumbs'][] = ['label' => 'Kelas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+
+
 
 
 
@@ -97,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-12">
             <div class="box box-success">
                 <div class="box-header">
-                    <h4>Siswa kelas <?= $model->grade.' '.$model->getJurusan()->one()->nama.' '.$model->kelas ?></h4>
+                    <h4>Siswa</h4>
                 </div>
                 <!-- end box header -->
                 <div class="box-body">
@@ -109,7 +114,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                 //     'attribute' => 'user.username',
                                 //     'label' => 'User'
                                 // ],
-                                ['attribute'=>'nama','value'=>function($model){return $model->profile->nama;}],
+                                [
+                                    'attribute'=>'nama',
+                                    'value'=>function($model){
+                                        return $model->profile->nama;
+                                    }
+                                ],
                                 // 'tempat_lahir',
                                 // 'tanggal_lahir',
                                 // 'avatar',
@@ -141,87 +151,52 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <?php
+
 if($providerModuleJadwal->totalCount){
+    echo '
+<div class="box box-success">
+    <div class="box-header">
+    <h4>Jadwal</h4>
+    </div>
+    <div class="box-body">';
     $gridColumnModuleJadwal = [
         ['class' => 'yii\grid\SerialColumn'],
             ['attribute' => 'id', 'visible' => false],
+            // 'id',
             [
-                'attribute' => 'kodeMapel.id',
-                'label' => 'Kode Mapel'
+                'attribute' => 'kode_guru',
+                'label' => 'Guru',
+                'value' => function($model) {
+                    return $model->kodeGuru->profile->nama;
+                }
             ],
+            [
+                'attribute' => 'mapel',
+                'label' => 'Mata Pelajaran',
+                'value' => function($model) {
+                    return $model->kodeGuru->mataPelajaran->nama_mapel;
+                }
+            ],
+            'hari',
             'jam_mulai',
             'jam_selesai',
-            'hari',
             ['attribute' => 'lock', 'visible' => false],
     ];
     echo Gridview::widget([
         'dataProvider' => $providerModuleJadwal,
         'pjax' => true,
         'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-jadwal']],
-        'panel' => [
-            'type' => GridView::TYPE_PRIMARY,
-            'heading' => '<span class="glyphicon glyphicon-book"></span> ' . Html::encode('Module Jadwal'),
-        ],
+        'panel' => false,
         'export' => false,
         'columns' => $gridColumnModuleJadwal
     ]);
+    echo '
+    </div>
+</div>
+    ';
 }
 ?>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -232,6 +207,7 @@ if($providerModuleMateri->totalCount){
     echo '
 <div class="box box-success">
     <div class="box-header">
+        <h4>Materi</h4>
     </div>
     <div class="box-body">
     ';
@@ -244,9 +220,15 @@ if($providerModuleMateri->totalCount){
             ],
             'judul',
             'gambar',
-            'isi:ntext',
+            [
+                'attribute' => 'isi',
+                'label' => 'Content',
+                'value' => function($model){
+                    return StringHelper::truncateWords($model->isi,5,'...');
+                }
+            ],
             ['attribute' => 'lock', 'visible' => false],
-    ];
+        ];
     echo Gridview::widget([
         'dataProvider' => $providerModuleMateri,
         'pjax' => true,

@@ -36,9 +36,8 @@ yii\bootstrap\Modal::end();
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             
             <p>
-                <?php if(Yii::$app->user->can('Admin')){ ?>
-                    <?php // echo Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
-                    <?php // echo Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?php echo Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?php if(Yii::$app->user->can('guru.restore')){ ?>
                     <?= Html::button('Restore data',['value' => Url::to(['guru/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning', 'style' => ['margin'=> '2px 2px 2px 0']]); ?>
                 <?php } ?>
             </p>
@@ -52,7 +51,7 @@ yii\bootstrap\Modal::end();
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'user_id',
-                'label' => 'User',
+                'label' => 'Nama',
                 'value' => function($model){
                     return $model->profile->nama;
                 },
@@ -61,7 +60,7 @@ yii\bootstrap\Modal::end();
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => 'User', 'id' => 'grid-module-guru-search-user_id']
+                'filterInputOptions' => ['placeholder' => 'Nama', 'id' => 'grid-module-guru-search-user_id']
             ],
             [
                 'attribute' => 'mata_pelajaran_id',
@@ -74,11 +73,18 @@ yii\bootstrap\Modal::end();
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => 'Module mata pelajaran', 'id' => 'grid-module-guru-search-mata_pelajaran_id']
+                'filterInputOptions' => ['placeholder' => 'Mata pelajaran', 'id' => 'grid-module-guru-search-mata_pelajaran_id']
             ],
             ['attribute' => 'lock', 'visible' => false],
             [
                 'class' => 'yii\grid\ActionColumn',
+                'buttons' => [
+                    'update' => function($url,$model) {
+                        return Html::a('<i class="glyphicon glyphicon-pencil"></i>',
+                            ['update','id'=>$model->id],
+                            ['data'=>['method'=>'post']]);
+                    },
+                ]
             ],
             ];
             ?>

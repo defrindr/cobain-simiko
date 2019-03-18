@@ -69,7 +69,7 @@ yii\bootstrap\Modal::begin([
                             return Html::button('<i class="glyphicon glyphicon-pencil"></i>',[
                                 'value' => Url::to(['jurusan/update','id'=>$id]),
                                 'title' => 'Update '.$model->nama,
-                                'class' => 'showModalButton btn btn-actionColumn'
+                                'class' => 'showModalButton btn-actionColumn',
                             ]);
                         },
                     ],

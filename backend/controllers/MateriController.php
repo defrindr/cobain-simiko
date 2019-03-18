@@ -5,6 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\ModuleMateri;
 use common\models\ModuleMateriSearch;
+use common\models\ModuleMateriKomentar;
+use common\models\ModuleMateriKomentarSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
@@ -80,7 +82,7 @@ class MateriController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $modelKomentar = new \common\models\ModuleMateriKomentar();
+        $modelKomentar = new ModuleMateriKomentar();
         $providerModuleMateriFile = new \yii\data\ArrayDataProvider([
             'allModels' => $model->moduleMateriFiles,
         ]);
@@ -327,6 +329,35 @@ class MateriController extends Controller
         }
     }
 
+    public function actionDeleteKomentar($id)
+    {
+        $model = $this->findModelKomentar($id);
+        if($model->materi->created_by == Yii::$app->user->id or Yii::$app->user->can('Admin') or $model->created_by == Yii::$app->user->id)
+        {
+            $materiId = $model->materi->id;
+            if($model->delete())
+            {
+                Yii::$app->session->setFlash('success','Komentar berhasil dihapus');
+            }else
+            {
+                Yii::$app->session->setFlash('error','Gagal menghapus komentar');
+            }
+            return $this->redirect(['view','id'=>$materiId]);
+        } else 
+        {
+            throw new ForbiddenHttpException;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     
     /**
      * Finds the ModuleMateri model based on its primary key value.
@@ -343,6 +374,32 @@ class MateriController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    /**
+     * Finds the ModuleMateri model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return ModuleMateri the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelKomentar($id)
+    {
+        if (($model = ModuleMateriKomentar::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     
     /**
     * Action to load a tabular form grid

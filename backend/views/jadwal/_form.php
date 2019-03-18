@@ -8,12 +8,25 @@ use \kartik\widgets\Select2;
 /* @var $form yii\widgets\ActiveForm */
 
 
+/**
+ * List Kelas
+ *
+ * Mengambil data semua kelas dan meletakkannya dalam array
+ * 
+ * @return array
+ */
+
 $kelas = \common\models\ModuleKelas::find()->orderBy('kelas')->all();
 $list_kelas = [];
 foreach ($kelas as $each) {
     $list_kelas += [$each->id=>$each->grade." ".$each->jurusan->nama." ".$each->kelas];
 }
 
+
+/**
+ * List Jam
+ * @var Array
+ */
 $list_jam = [
     '07.00'=>'07.00',
     '07.40'=>'07.40',
@@ -29,6 +42,11 @@ $list_jam = [
     '15.40'=>'15.40'
 ];
 
+
+/**
+ * List Hari
+ * @var Array
+ */
 $list_hari = [
     'senin' => 'senin',
     'selasa' => 'selasa',
@@ -38,6 +56,13 @@ $list_hari = [
     'sabtu' => 'sabtu'
 ];
 
+/**
+ * List Guru
+ *
+ * Mengambil data semua guru dan meletakkannya dalam array
+ * 
+ * @return array
+ */
 
 $guru =  \common\models\ModuleGuru::find()->all();
 $list_guru = [];

@@ -6,7 +6,8 @@
 
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
-use kartik\grid\GridView;use yii\helpers\Url;
+use kartik\grid\GridView;
+use yii\helpers\Url;
 
 
 $this->title = 'Kelas';
@@ -43,7 +44,11 @@ $this->registerJs($search);
                             return $model->guru->profile->nama;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->innerJoinWith(['user','profile'])->where(['user.role'=>20])->asArray()->all(), 'user_id', 'profile.nama'),
+                        'filter' => yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()
+                            ->innerJoinWith('profile')
+                            ->orderBy('profile.nama')
+                            ->asArray()
+                            ->all(),'id','profile.nama'),
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
@@ -73,7 +78,7 @@ $this->registerJs($search);
                 ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    // 'filterModel' => $searchModel,
+                    'filterModel' => $searchModel,
                     'columns' => $gridColumn,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-kelas']],

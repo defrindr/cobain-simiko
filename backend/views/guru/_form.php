@@ -29,19 +29,9 @@ use yii\widgets\ActiveForm;
             
         </div>
         <div class="box-body">
-
-
-            <?= $form->field($model, 'user_id')->widget(\kartik\widgets\Select2::classname(), [
-                'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleUser::find()->innerJoinWith(['profile'])->where(['role'=>20])->orderBy('id')->asArray()->all(), 'id', 'profile.nama'),
-                'options' => ['placeholder' => 'Choose User'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]); ?>
-
             <?= $form->field($model, 'mata_pelajaran_id')->widget(\kartik\widgets\Select2::classname(), [
                 'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMataPelajaran::find()->orderBy('id')->asArray()->all(), 'id', 'nama_mapel'),
-                'options' => ['placeholder' => 'Choose Module mata pelajaran'],
+                'options' => ['placeholder' => 'Mata pelajaran'],
                 'pluginOptions' => [
                     'allowClear' => true
                 ],

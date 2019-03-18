@@ -36,7 +36,7 @@ $nama = $ModuleProfile->nama;
             ?>
         </div>
     </div> -->
-    <div class="box" style="border: 0;padding:12px 20px">
+    <div class="box box-materi">
         <p>
             <div class="row">
                 <div class="col-xs-11 col-sm-11 col-md-11">
@@ -53,57 +53,16 @@ $nama = $ModuleProfile->nama;
             </div>
         </p>
         <center>
-            <?= Html::img(Url::base()."/uploaded/materi/".$model->gambar,['class'=>'img img-responsive','style'=>'max-width:350px;max-height:350px;']) ?>
+            <?= Html::img(Url::base()."/uploaded/materi/".$model->gambar,['class'=>'img img-responsive']) ?>
         </center>
         <p style="min-height: 100px;padding:20px 10px 10px">
             <?= $model->isi?>
         </p>
     </div>
-    <div class="box" style="border: 0;padding:12px;position: relative;">
-        <h3>Komentar</h3>
-        <hr>
-        <?php if($providerModuleMateriKomentar->totalCount == 0){
-            echo "Belum ada komentar.";
-        }else {
-            $moduleKomentar = \common\models\ModuleMateriKomentar::find()->where('materi_id='.$model->id)->all();
-            foreach ($moduleKomentar as $komentar) {
-                // $photo = \common\models\ModuleProfile::find()->where('user_id='.$komentar->user_id)->one();
-             ?>
-                <div style="border: 1px solid #aaa;border-left:3px solid <?php $a=['red','green','blue','purple','yellow']; echo $a[random_int(0,2)]; ?>;margin: 4px 0;padding: 20px">
-                    <div class="row">
-                        <div class="col-sm-2 col-xs-3 col-md-1 col-lg-1">
-                            <?= Html::img(Url::base()."/uploaded/img-profil/".$komentar->profile->avatar,['class'=>'img img-circle','style'=>'width:60px;height:60px;']) ?>
-                        </div>
-                        <div class="col-sm-10 col-xs-9 col-md-11 col-lg-11">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <span style="font-size: 18px">
-                                        <?= $komentar->profile->nama ?>
-                                    </span>
-                                    <?php if($komentar->created_by == $model->created_by) {echo '<p class="badge label-primary" style="padding:3px 12px;border:0;display:inline-block">creator</p>'; } ?>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                        <?= date('H:i:s l F o',$komentar->created_at); ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span style="font-size: 14px"><b><?= $komentar->subject ?></b></span>
-                            <br/>
-                            <?= $komentar->komentar ?>
-                        </div>
-                    </div>
-                </div>
+    
+    <?= $this->render('_view_komentar',['providerModuleMateriKomentar' => $providerModuleMateriKomentar,'model'=>$model]) ?>
 
-            <?php }
-        } ?>
-    </div>
-        <?=  $this->render('_formKomentar', ['model' => $modelKomentar]); ?>
+    <?=  $this->render('_formKomentar', ['model' => $modelKomentar]); ?>
 
 <!--     <div class="row">
 <?php 

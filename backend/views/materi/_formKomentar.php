@@ -14,9 +14,11 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
 
-    <div class="box box-success">
+    <div class="box box-materi">
         <div class="box-header">
+            <h4>Tambah Komentar</h4>
         </div>
+        <hr>
         <!-- end header box -->
         <div class="box-body">
             

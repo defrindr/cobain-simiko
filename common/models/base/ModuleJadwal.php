@@ -87,7 +87,7 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'kelas_id' => 'Kelas ID',
+            'kelas_id' => 'Kelas Id',
             'kode_guru' => 'Kode Guru',
             'jam_mulai' => 'Jam Mulai',
             'jam_selesai' => 'Jam Selesai',

@@ -1,0 +1,15 @@
+.box-materi{
+	border: 0;
+	padding:1rem;
+	transition: .5s;
+}
+.box-materi:hover {
+		box-shadow: 3px 3px 15px 2px rgba(22,22,22,.5);
+		transition: .5s;
+}
+
+.lia {
+	color: #444 !important;
+	text-align: left;
+	border0;
+}

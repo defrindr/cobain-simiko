@@ -7,19 +7,14 @@ use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleJadwal */
 
-$this->title = $model->id;
+$this->title = $model->kelas->grade." ".$model->kelas->jurusan->nama." ".$model->kelas->kelas." Jam ".$model->jam_mulai."-".$model->jam_selesai;
 $this->params['breadcrumbs'][] = ['label' => 'Jadwal', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-jadwal-view">
-
-    <div class="row">
-        <div class="col-sm-9">
-            <h2><?= 'Module Jadwal'.' '. Html::encode($this->title) ?></h2>
-        </div>
-        <div class="col-sm-3" style="margin-top: 15px">
-            
-            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <div class="box box-success">
+        <div class="box-header">
+            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary','data'=>['method'=>'post']]) ?>
             <?= Html::a('Delete', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
@@ -28,47 +23,43 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ])
             ?>
+            
+        </div>
+        <div class="box-body">
+            <?php 
+                $gridColumn = [
+                    ['attribute' => 'id', 'visible' => false],
+                    [
+                        'attribute' => 'kelas.id',
+                        'label' => 'Kelas',
+                        'value' => function($model){
+                            return $model->kelas->grade." ".$model->kelas->jurusan->nama." ".$model->kelas->kelas;
+                        }
+                    ],
+                    [
+                        'attribute' => 'kodeGuru.user_id',
+                        'label' => 'Mapel',
+                        'value' => function($model){
+                            return $model->kodeGuru->profile->nama;
+                        }
+                    ],
+                    [
+                        'attribute' => 'mata-pelajaran',
+                        'label' => 'Mata Pelajaran',
+                        'value' => function($model){
+                            return $model->kodeGuru->mataPelajaran->nama_mapel;
+                        }
+                    ],
+                    'hari',
+                    'jam_mulai',
+                    'jam_selesai',
+                    ['attribute' => 'lock', 'visible' => false],
+                ];
+                echo DetailView::widget([
+                    'model' => $model,
+                    'attributes' => $gridColumn
+                ]);
+            ?>
         </div>
     </div>
-
-    <div class="row">
-<?php 
-    $gridColumn = [
-        ['attribute' => 'id', 'visible' => false],
-        [
-            'attribute' => 'kelas.id',
-            'label' => 'Kelas',
-        ],
-        [
-            'attribute' => 'kodeGuru.user_id',
-            'label' => 'Kode Mapel',
-        ],
-        'jam_mulai',
-        'jam_selesai',
-        'hari',
-        ['attribute' => 'lock', 'visible' => false],
-    ];
-    echo DetailView::widget([
-        'model' => $model,
-        'attributes' => $gridColumn
-    ]);
-?>
-    </div>
-    <div class="row">
-        <h4>ModuleKelas<?= ' '. Html::encode($this->title) ?></h4>
-    </div>
-    <?php 
-    $gridColumnModuleKelas = [
-        ['attribute' => 'id', 'visible' => false],
-        'jurusan_id',
-        'guru_id',
-        'kelas',
-        'grade',
-        'tahun',
-        ['attribute' => 'lock', 'visible' => false],
-    ];
-    echo DetailView::widget([
-        'model' => $model->kelas,
-        'attributes' => $gridColumnModuleKelas    ]);
-    ?>
 </div>

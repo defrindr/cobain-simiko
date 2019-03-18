@@ -37,7 +37,13 @@ $this->title = 'Bank restore';
                         );
                     },
                     'dpermanent' => function($url,$model){
-                        return Html::a('Hard Delete',['dpermanent','id'=>$model->id],['class'=>'btn btn-danger']);
+                        return Html::a('Hard Delete',['dpermanent','id'=>$model->id],[
+                            'class'=>'btn btn-danger',
+                            'data' => [
+                                'method' => 'post',
+                                'confirm' => 'Anda Yakin ingin Menghapus permanen data ini ?'
+                            ]
+                        ]);
                     }
                 ]
             ],

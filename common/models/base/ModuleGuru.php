@@ -134,7 +134,7 @@ class ModuleGuru extends \yii\db\ActiveRecord
      */
     public function getModuleKelas()
     {
-        return $this->hasMany(\common\models\ModuleKelas::className(), ['guru_id' => 'user_id']);
+        return $this->hasMany(\common\models\ModuleKelas::className(), ['guru_id' => 'id']);
     }
     
     /**

@@ -59,12 +59,13 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                         ]
                     ],
                     ['label' => 'Guru', 'url' => ['/guru'], 'icon' => 'dashboard'],
+                    ['label'=>'Jadwal','url'=> ['/jadwal'], 'icon'=>'calendar'],
                     [
                         'label' => 'Jurusan',
                         'url' => ['/jurusan'],
                         'icon' => 'dashboard',
                     ],
-                    ['label'=>'Jadwal','url'=> ['/jadwal'], 'icon'=>'calendar'],
+                    ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
                     [
                         'label' => 'Materi Fitur',
                         'icon'=>'dashboard', 
@@ -86,7 +87,6 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                             ],
                         ],
                     ],
-                    ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
                     ['label' => 'Pembayaran SPP', 'icon'=> 'dashboard','url'=>['/spp']],
                 ],
             ]

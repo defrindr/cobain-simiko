@@ -9,7 +9,7 @@ use yii\helpers\Url;
 // $logo = Html::img(Url::base().'/uploaded/base/ireng.png',['class' => 'img img-responsive', 'style' => 'max-height:55px;max-width:225px']);
 NavBar::begin([
 	// 'brandLabel' => $logo,
-    'brandLabel' => '<b style="text-shadow:2px 2px 2px #222">'.Yii::$app->name.'</b>',
+    'brandLabel' => Yii::$app->name,
     'brandUrl' => Yii::$app->homeUrl,
     'id' => 'navbarHead',
     'options' => [

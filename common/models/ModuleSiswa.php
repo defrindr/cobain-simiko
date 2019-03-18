@@ -25,5 +25,15 @@ class ModuleSiswa extends BaseModuleSiswa
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);
     }
+    /**
+     * 
+     * @overide
+     * replace ```index.php?modelName[id]=1``` to ```index.php?modelName[id]=1```
+     * 
+     */
+    public function formName()
+    {
+        return '';
+    }
 	
 }

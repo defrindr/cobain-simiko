@@ -21,6 +21,9 @@ class GuruController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'update' => ['post'],
+                    'dpermanent' => ['post'],
+                    'restore' => ['post']
                 ],
             ],
         ];
@@ -48,11 +51,11 @@ class GuruController extends Controller
      */
     public function actionDataRestore()
     {
-        if(Yii::$app->user->can('guru.data-restore')){
+        if(Yii::$app->user->can('guru.restore')){
             $searchModel = new ModuleGuruSearch();
             $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-            return $this->renderAjax('index', [
+            return $this->renderAjax('data-restore', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
@@ -103,24 +106,25 @@ class GuruController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
-        if(Yii::$app->user->can('guru.create')){
-            $model = new ModuleGuru();
+    // public function actionCreate()
+    // {
+    //     if(Yii::$app->user->can('guru.create')){
+    //         $model = new ModuleGuru();
+    //         $model->scenario = "create";
 
-            if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-                return $this->redirect(['view', 'id' => $model->user_id]);
-            } else {
-                return $this->render('create', [
-                    'model' => $model,
-                ]);
-            }
+    //         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+    //             return $this->redirect(['view', 'id' => $model->user_id]);
+    //         } else {
+    //             return $this->render('create', [
+    //                 'model' => $model,
+    //             ]);
+    //         }
 
-        } else {
-            throw new \yii\web\NotFoundHttpException;
-        }
+    //     } else {
+    //         throw new \yii\web\NotFoundHttpException;
+    //     }
 
-    }
+    // }
 
     /**
      * Updates an existing ModuleGuru model.
@@ -132,9 +136,9 @@ class GuruController extends Controller
     {
         if(Yii::$app->user->can('guru.update')){
             $model = $this->findModel($id);
-
+            
             if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-                return $this->redirect(['view', 'id' => $model->user_id]);
+                return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
@@ -156,7 +160,7 @@ class GuruController extends Controller
      */
     public function actionDelete($id)
     {
-        if(Yii::$app->user->can('guru.data-restore')){
+        if(Yii::$app->user->can('guru.delete')){
             $this->findModel($id)->deleteWithRelated();
 
             return $this->redirect(['index']);
@@ -166,6 +170,8 @@ class GuruController extends Controller
         }
 
     }
+
+    // public
 
     
     /**

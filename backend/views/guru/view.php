@@ -14,8 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-6">
             <div class="box box-success">
                 <div class="box-header">
-                    <?= Html::a('Update', ['update', 'id' => $model->user_id], ['class' => 'btn btn-primary']) ?>
-                    <?= Html::a('Delete', ['delete', 'id' => $model->user_id], [
+                    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary',
+                        'data' => [
+                            'method'=>'post',
+                        ],
+                    ]) ?>
+                    <?= Html::a('Delete', ['delete', 'id' => $model->id], [
                     'class' => 'btn btn-danger',
                     'data' => [
                     'confirm' => 'Are you sure you want to delete this item?',
@@ -102,8 +106,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php } else { ?>
 <div class="box box-success">
     <div class="box-header">
-        <?= Html::a('Update', ['update', 'id' => $model->user_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->user_id], [
+        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary',
+            'data' => [
+                'method'=>'post',
+            ],
+        ]) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
         'class' => 'btn btn-danger',
         'data' => [
         'confirm' => 'Are you sure you want to delete this item?',

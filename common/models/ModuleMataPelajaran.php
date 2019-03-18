@@ -26,5 +26,14 @@ class ModuleMataPelajaran extends BaseModuleMataPelajaran
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ]);
     }
-	
+    /**
+     * 
+     * @overide
+     * replace ```index.php?modelName[id]=1``` to ```index.php?modelName[id]=1```
+     * 
+     */
+    public function formName()
+    {
+        return '';
+    }
 }

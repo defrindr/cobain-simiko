@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php 
                             $url = $model->gambar;
                             if($url != ""){
-                                echo Html::img(Url::to(Url::home()."/uploaded/berita/".$url),
+                                echo Html::img(Url::to(str_replace("/administrator","",Url::home())."/uploaded/berita/".$url),
                                     ['class' => 'img img-responsive']);
                             } else {
                                 echo "<center><b>No Image</b></center>";

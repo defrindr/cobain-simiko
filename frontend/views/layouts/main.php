@@ -15,19 +15,15 @@ use \yii\helpers\Url;
 AppAsset::register($this);
 \app\assets\fontAwesomeAsset::register($this);
 
-
-// var_dump(Url::to());
-// exit();
-
 $carousel = [
     [
         'content' => '',
-        'caption' => '<h1>SMKN 2 Jenangan</h1><br><p>Merupakan sebuah Sekolah  Menengah Atas yang berlokasi di jln. Niken Gandini , Jenangan Ponorogo .</p><a href="<span id="more-info"></span>" <a class="btn btn-caption">More Info</a>',
+        'caption' => '<h1>SMKN 1 Jenangan</h1><br><p>Merupakan sebuah Sekolah  Menengah Atas yang berlokasi di jln. Niken Gandini , Jenangan Ponorogo .</p><a href="<span id="more-info"></span>" <a class="btn btn-caption" href="site/about">More Info</a>',
         'options' => ['class'=>'slide','style' => 'background-image:url('.\yii\helpers\Url::to("@web/uploaded/base/head.png").')'],
     ],
     [
         'content' => '',
-        'caption' => '<h1>SMKN 1 Jenangan</h1><br><p>Merupakan sebuah Sekolah  Menengah Atas yang berlokasi di jln. Niken Gandini , Jenangan Ponorogo .</p><a href="<span id="more-info"></span>" <a class="btn btn-caption">More Info</a>',
+        'caption' => '<h1>SMKN 1 Jenangan</h1><br><p>Merupakan sebuah Sekolah  Menengah Atas yang berlokasi di jln. Niken Gandini , Jenangan Ponorogo .</p><a href="<span id="more-info"></span>" <a class="btn btn-caption" href="site/about">More Info</a>',
         'options' => ['class'=>'slide','style' => 'background-image:url('.\yii\helpers\Url::to("@web/uploaded/base/head2.png").')'],
     ]
 ];
@@ -46,8 +42,9 @@ $carousel = [
 </head>
 <body>
 <?php $this->beginBody() ?>
+
 <header>
-    <?= $this->render('_header'); ?>
+    <?= $this->render('_navigation'); ?>
 </header>
 
 <?php if(Url::to()==Url::base()."/" or Url::to() == Url::base().'/site/index'){ ?>
@@ -62,7 +59,12 @@ $carousel = [
 
 <?php }else { ?>
 
-    <div class="header-green"></div>
+    <div class="header-green">
+            <div class="another">
+                <h2>SMKN 1 Jenangan</h2>
+                <span> Jaya Luar Biasa</span>
+            </div>
+    </div>
 
 <?php } ?>
 <div class="wrap">
@@ -86,20 +88,10 @@ $carousel = [
     <?php } ?>
 </div>
 
-<?php // $this->render('maps') ?>
-<footer id="foot">
-    <?= $this->render('_banner') ?>
-    <div class="container-fluid footer">
-        <div class="row">
-            <div class="col-md-6 col-sm-6">
-                &copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?>
-            </div>
-            <div class="col-md-6 col-sm-6">
-                <p class="copyright"><?= /*'Powered by <a href="#">Smkn 1 Jenangan</a>.'.*/'Themes <a href="#">Luxury</a> by <a href="#">Defri Indra</a>' ?></p>
-            </div>
-        </div>
-    </div>
-</footer>
+<?php // echo $this->render('maps') ?>
+
+
+<?= $this->render('_footer') ?>
 
 <?php $this->endBody() ?>
 </body>

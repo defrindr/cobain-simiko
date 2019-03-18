@@ -9,7 +9,7 @@ use kartik\export\ExportMenu;
 use kartik\grid\GridView;use yii\helpers\Url;
 
 
-$this->title = 'Module Profile';
+$this->title = 'Daftar Profile';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -50,14 +50,39 @@ yii\bootstrap\Modal::end();
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
-                        'filterInputOptions' => ['placeholder' => 'User', 'id' => 'grid-module-profile-search-user_id']
+                        'filterInputOptions' => ['placeholder' => 'Pilih User', 'id' => 'grid-module-profile-search-user_id']
                     ],
                     'nama',
-                    'tgl_lahir',
-                    'tempat_lahir',
-                    'bio:ntext',
-                    'no_telp',
-                    'avatar',
+                    [
+                        'attribute' => 'tgl_lahir',
+                        'value' => function($model) {
+                            return ($model->tgl_lahir !== null) ? date('d-m-Y',$model->tgl_lahir) : "";
+                        }
+                    ],
+                    [
+                        'attribute' => 'tempat_lahir',
+                        'value' => function($model) {
+                            return ($model->tempat_lahir !== null) ? $model->tempat_lahir : "";
+                        }
+                    ],
+                    [
+                        'attribute' => 'bio',
+                        'value' => function($model) {
+                            return ($model->bio !== null) ? $model->bio : "";
+                        }
+                    ],
+                    [
+                        'attribute' => 'no_telp',
+                        'value' => function($model) {
+                            return ($model->no_telp !== null) ? $model->no_telp : "";
+                        }
+                    ],
+                    // [
+                    //     'attribute' => 'avatar',
+                    //     'value' => function($model) {
+                    //         return ($model->avatar !== null) ? $model->avatar : "";
+                    //     }
+                    // ],
                     ['attribute' => 'lock', 'visible' => false],
                     [
                         'class' => 'yii\grid\ActionColumn',

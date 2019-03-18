@@ -19,16 +19,20 @@ use \kartik\widgets\Select2;
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
     <?= $form->field($model, 'jurusan_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleJurusan::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
-        'options' => ['placeholder' => 'Choose Module jurusan'],
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleJurusan::find()->orderBy('id')->asArray()->all(), 'id', 'nama'),
+        'options' => ['placeholder' => 'jurusan'],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ]); ?>
 
     <?= $form->field($model, 'guru_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->orderBy('user_id')->asArray()->all(), 'user_id', 'user_id'),
-        'options' => ['placeholder' => 'Choose Module guru'],
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()
+        ->innerJoinWith('profile')
+        ->orderBy('profile.nama')
+        ->asArray()
+        ->all(),'id','profile.nama'),
+        'options' => ['placeholder' => 'guru'],
         'pluginOptions' => [
             'allowClear' => true
         ],

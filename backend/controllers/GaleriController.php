@@ -28,6 +28,11 @@ class GaleriController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'delete-kategori' => ['post'],
+                    'restore' => ['post'],
+                    'restore-kategori' => ['post'],
+                    'dpermanent' => ['post'],
+                    'dpermanent-kategori' => ['post'],
                 ],
             ],
         ];
@@ -375,6 +380,10 @@ class GaleriController extends Controller
         $this->findModel($id)->deleteWithRelated();
         return $this->redirect(['index']);
     }
+
+
+
+
 
     public function actionDeleteKategori($id)
     {

@@ -22,6 +22,7 @@ class JurusanController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'restore' => ['post']
                 ],
             ],
         ];
@@ -184,6 +185,22 @@ class JurusanController extends Controller
         }
 
         return $this->redirect(['index']);
+    }
+
+    public function actionDpermanent($id) 
+    {
+        if(Yii::$app->user->can('jurusan.restore')){
+            $model = $this->findModel($id);
+            if($model->delete()){
+                Yii::$app->session->setFlash('success','Data berhasil di hapus permanen');
+            } else {
+                Yii::$app->session->setFlash('error','Data gagal di hapus permanen');
+            }
+            return $this->redirect(['index']);
+        }else {
+            throw new ForbiddenHttpException;
+            
+        }
     }
 
     
