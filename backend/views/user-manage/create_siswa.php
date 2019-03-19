@@ -19,7 +19,7 @@ foreach ($modelKelas as $kelas) {
 
 		<?= $form->field($model, 'abstract')->label('Kelas')->widget(\kartik\widgets\Select2::classname(), [
 			'data' => $list_kelas,
-			'options' => ['placeholder' => 'Choose Module kelas'],
+			'options' => ['placeholder' => 'Kelas'],
 			'pluginOptions' => [
 			'allowClear' => true
 			],

@@ -6,6 +6,23 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleMateriSearch */
 /* @var $form yii\widgets\ActiveForm */
+
+
+$list_kelas = [];
+
+$modelKelas = \common\models\ModuleKelas::find()->orderBy('id')->all();
+foreach ($modelKelas as $kelas) {
+    $list_kelas += [$kelas->id=>$kelas->grade." ".$kelas->jurusan->nama." ".$kelas->kelas];
+}
+
+
+$list_bab = [];
+$modelBab = \common\models\ModuleMateriKategori::find()->orderBy('id')->all();
+foreach ($modelBab as $bab) {
+    $list_bab = array_merge_recursive($list_bab,[$bab->mataPelajaran->nama_mapel => [$bab->id => $bab->nama]]);
+}
+
+
 ?>
 
 <div class="form-module-materi-search">
@@ -18,16 +35,16 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
     <?= $form->field($model, 'kelas_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleKelas::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
-        'options' => ['placeholder' => 'Choose Module kelas'],
+        'data' => $list_kelas,
+        'options' => ['placeholder' => 'Kelas'],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ]); ?>
 
     <?= $form->field($model, 'materi_kategori_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateriKategori::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
-        'options' => ['placeholder' => 'Choose Module materi kategori'],
+        'data' => $list_bab,
+        'options' => ['placeholder' => 'Materi Kategori'],
         'pluginOptions' => [
             'allowClear' => true
         ],

@@ -13,3 +13,7 @@
 	text-align: left;
 	border0;
 }
+.small-box .icon {
+	top : 0;
+	font-size: 60px;
+}

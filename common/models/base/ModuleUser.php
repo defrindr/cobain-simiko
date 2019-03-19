@@ -16,7 +16,6 @@ use yii\behaviors\TimestampBehavior;
  * @property string $email
  * @property integer $status
  * @property integer $role
- * @property integer $online
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -51,7 +50,7 @@ class ModuleUser extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'auth_key', 'password_hash', 'email', 'role', 'created_at', 'updated_at'], 'required'],
-            [['status', 'role', 'online', 'created_at', 'updated_at'], 'integer'],
+            [['status', 'role', 'created_at', 'updated_at'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
@@ -82,7 +81,6 @@ class ModuleUser extends \yii\db\ActiveRecord
             'email' => 'Email',
             'status' => 'Status',
             'role' => 'Role',
-            'online' => 'Online',
         ];
     }
     

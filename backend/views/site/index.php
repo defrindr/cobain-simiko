@@ -14,27 +14,35 @@ $jmlBank = \common\models\ModuleBank::find()->all();
 $jmlUser = \common\models\ModuleUser::find()->all();
 $jmlSiswa = \common\models\ModuleSiswa::find()->all();
 $jmlJadwal = \common\models\ModuleJadwal::find()->all();
-$jmlMateri = \common\models\ModuleMateri::find()->all();
+if(Yii::$app->user->identity->role === 20) {
+	$jmlMateri = \common\models\ModuleMateri::find()->where(["created_by"=>Yii::$app->user->id])->all();
+} else {
+	$jmlMateri = \common\models\ModuleMateri::find()->all();
+}
+class test {
+	public function createBox($count,$label,$icon=null){
+		echo '<div class="col-lg-3 col-xs-6">
+			<div class="small-box bg-green">
+				<div class="inner">
+					<h3>'.count($count).'</h3>
+					<p>'.$label.'</p>
+				</div>
+				<div class="icon">
+					<i class="glyphicon glyphicon-'.$icon.'"></i>
+				</div>
+				<a href="#" class="small-box-footer"> More Info <i class="fa fa-arrow-circle-right"></i></a>
+			</div>
+		</div>';
+	}
+}
 
 
 
 ?>
 <div class="site-module-index">
-	<div class="col-lg-3 col-xs-6">
-		<div class="small-box bg-green">
-			<div class="row">
-				<div class="col-xs-4">
-						<i class="glyphicon glyphicon-plus icon-lg"></i>
-				</div>
-				<div class="col-xs-8">
-					<div class="inner">
-						<h3><?= count($jmlKelas) ?></h3>
-						<p>Kelas</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	</div>
 	
+	<?= test::createBox($jmlKelas, "Kelas") ?>
+	<?= test::createBox($jmlMateri, "Materi", "book") ?>
+	<?= test::createBox($jmlUser, "Pengguna", "user") ?>
+	<!-- <i class="glyphicon-us"></i> -->
 </div>

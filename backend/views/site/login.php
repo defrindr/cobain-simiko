@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use kartik\checkbox\CheckboxX;
+use dmstr\widgets\Alert;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -29,6 +30,8 @@ $checkboxTemplate = '<div class="switch">{beginLabel}{input}{labelTitle}<span cl
         </center>
     </div>
     <div class="col-sm-8 rightCol">
+
+        <?= Alert::widget() ?>
       <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false, 'fieldConfig' => ['errorOptions' => ['encode' => false, 'class' => 'help-block']]]); ?>
 
         <?= $form

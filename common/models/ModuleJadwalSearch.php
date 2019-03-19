@@ -18,8 +18,8 @@ use common\models\ModuleJadwal;
     public function rules()
     {
         return [
-            [['id', 'kelas_id', 'kode_guru', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
-            [['jam_mulai', 'jam_selesai', 'hari', 'deleted_at'], 'safe'],
+            [['id', 'kelas_id', 'kode_guru', 'jam_mulai', 'jam_selesai', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['hari', 'deleted_at'], 'safe'],
         ];
     }
 
@@ -59,6 +59,8 @@ use common\models\ModuleJadwal;
             'id' => $this->id,
             'kelas_id' => $this->kelas_id,
             'kode_guru' => $this->kode_guru,
+            'jam_mulai' => $this->jam_mulai,
+            'jam_selesai' => $this->jam_selesai,
             'created_by' => $this->created_by,
             'created_at' => $this->created_at,
             'updated_by' => $this->updated_by,
@@ -68,9 +70,52 @@ use common\models\ModuleJadwal;
             'lock' => $this->lock,
         ]);
 
-        $query->andFilterWhere(['like', 'jam_mulai', $this->jam_mulai])
-            ->andFilterWhere(['like', 'jam_selesai', $this->jam_selesai])
-            ->andFilterWhere(['like', 'hari', $this->hari]);
+        $query->andFilterWhere(['like', 'hari', $this->hari]);
+
+        return $dataProvider;
+    }
+
+
+
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function searchRestore($params)
+    {
+        $query = ModuleJadwal::findDeleted();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'kelas_id' => $this->kelas_id,
+            'kode_guru' => $this->kode_guru,
+            'jam_mulai' => $this->jam_mulai,
+            'jam_selesai' => $this->jam_selesai,
+            'created_by' => $this->created_by,
+            'created_at' => $this->created_at,
+            'updated_by' => $this->updated_by,
+            'updated_at' => $this->updated_at,
+            'deleted_by' => $this->deleted_by,
+            'deleted_at' => $this->deleted_at,
+            'lock' => $this->lock,
+        ]);
+
+        $query->andFilterWhere(['like', 'hari', $this->hari]);
 
         return $dataProvider;
     }

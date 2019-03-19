@@ -12,8 +12,8 @@ $this->title = 'Dashboard';
 		<?php if($model){ ?>
 				<div class="row">
 			<?php foreach ($model as $materi) { ?>
-					<div class="col-xs-12 col-sm-6 col-lg-4">
-						<div class="box box-materi">
+					<div class="col-xs-12 col-sm-6 col-lg-4" style="height: 300px;">
+						<div class="box box-materi" style="position: relative;">
 							<div class="container text-wrap">
 								<a href="<?= Url::to(['/materi/view/'.$materi->id]) ?>"><b><?= Html::encode($materi->judul) ?></b></a>
 								<br>
@@ -22,13 +22,13 @@ $this->title = 'Dashboard';
 							</div>
 							<hr>
 							<div class="row">
-								<div class="col-xs-12">
+								<div class="col-xs-12" style="word-break:break-all">
 									<?= Html::img(Url::to(['uploaded/materi/'.$materi->gambar]),['class'=>'img img-thumbnail','style'=>'border-radius:100%;height:50px;width:50px']) ?>
-									<?= StringHelper::truncateWords(Html::encode($materi->isi),12,'...',null,false); ?>
+									<?= StringHelper::truncateWords(Html::encode($materi->isi),7,'...',null,false); ?>
 								</div>
 							</div>
 							<br>
-							<div class="row">
+							<div class="row" style="position: absolute;bottom: 5px; left: 5px;right: 5px">
 								<div class="col-xs-6">
 									<i class="glyphicon glyphicon-time"></i> <?= date('d-m-Y',$materi->created_at) ?>
 								</div>

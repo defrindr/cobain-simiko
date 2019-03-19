@@ -46,6 +46,10 @@ class JadwalController extends Controller
             $model = ModuleJadwal::find()->where('kode_guru='.Yii::$app->user->id)->all();
 
             return $this->render('_index',['model'=>$model]);
+        }  else if(Yii::$app->user->identity->role == 30) {
+            $model = ModuleJadwal::find()->where('kelas_id='.\common\models\ModuleSiswa::findOne(Yii::$app->user->id)->kelas->id)->all();
+
+            return $this->render('_index',['model'=>$model]);
         }
     }
 
@@ -77,9 +81,9 @@ class JadwalController extends Controller
              * Check apakah jadwal berbenturan atau tidak
              * return array
              */
-            $dataGuruQuery = 'kode_guru=\''.$model->kode_guru.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'';
+            $dataGuruQuery = 'kode_guru="'.$model->kode_guru.'" and jam_selesai > '.$model->jam_mulai.' and jam_selesai < "'.$model->jam_selesai.'" and hari="'.htmlspecialchars($model->hari).'"';
 
-            $dataKelasQuery = 'kelas_id=\''.$model->kelas_id.'\' and jam_mulai=\''.$model->jam_mulai.'\' and jam_selesai=\''.$model->jam_selesai.'\' and hari=\''.$model->hari.'\'';
+            $dataKelasQuery = 'kelas_id="'.$model->kelas_id.'" and jam_selesai > '.$model->jam_mulai.' and jam_selesai < "'.$model->jam_selesai.'" and hari="'.$model->hari.'"';
 
             $dataGuru = \common\models\ModuleJadwal::find()
             ->where($dataGuruQuery)
@@ -88,6 +92,10 @@ class JadwalController extends Controller
             $dataKelas = \common\models\ModuleJadwal::find()
             ->where($dataKelasQuery)
             ->all();
+
+            // echo "<pre>";
+            // print_r($dataGuru . "\n\n\n\n" . $dataKelas);
+            // exit();
 
             if( $dataGuru == [] and $dataKelas == []){
 

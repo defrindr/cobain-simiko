@@ -18,7 +18,7 @@ class ModuleUser extends BaseModuleUser
         return array_replace_recursive(parent::rules(),
 	    [
             [['username', 'auth_key', 'password_hash', 'email', 'role', 'created_at', 'updated_at'], 'required'],
-            [['status', 'role', 'online', 'created_at', 'updated_at','last_login'], 'integer'],
+            [['status', 'role', 'created_at', 'updated_at','last_login'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],

@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 
 		<?= $form->field($model, 'abstract')->label('Mata Pelajaran')->widget(\kartik\widgets\Select2::classname(), [
 			'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMataPelajaran::find()->orderBy('id')->asArray()->all(), 'id', 'nama_mapel'),
-			'options' => ['placeholder' => 'Choose Module mata pelajaran'],
+			'options' => ['placeholder' => 'Mata pelajaran'],
 			'pluginOptions' => [
 				'allowClear' => true
 			],

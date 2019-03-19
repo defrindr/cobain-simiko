@@ -21,7 +21,7 @@ $menuItems = [
     ['label' => 'Tentang', 'url' => ['/site/about']],
     ['label' => 'Galeri', 'url' => ['/site/galeri']],
     ['label' => 'Kontak', 'url' => ['/site/contact']],
-    ['label' => 'Artikel', 'url' => '#'],
+    ['label' => 'Artikel', 'url' => ['/artikel']],
 ];
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right in'],

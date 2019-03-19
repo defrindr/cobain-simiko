@@ -39,9 +39,9 @@ class SppController extends Controller
     public function actionIndex()
     {
         $searchModel = new ModuleSppSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchInvalidate(Yii::$app->request->queryParams);
         $searchModel2 = new ModuleSppSearch();
-        $dataProvider2 = $searchModel2->search(Yii::$app->request->queryParams);
+        $dataProvider2 = $searchModel2->searchValidate(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -187,17 +187,20 @@ class SppController extends Controller
     public function actionDelete($id)
     {
         $model = ModuleSpp::find()->where('id='.$id)->one();
-        if((($model->created_by == Yii::$app->user->id and $model->status == 0) or Yii::$app->user->can('Admin'))){
+        if((($model->siswa_id == Yii::$app->user->id and $model->status == 0) or Yii::$app->user->can('Admin'))){
             if(file_exists(Url::to('@backend/web/uploaded/spp/'.$model->bukti_bayar))){
                 unlink(Url::to('@backend/web/uploaded/spp/'.$model->bukti_bayar));
             }
-            $this->findModel($id)->delete();
-            Yii::$app->session->setFlash('success','Berhasil dihapus');
+            if($this->findModel($id)->delete()){
+                Yii::$app->session->setFlash('success','Berhasil dihapus');
+            } else {
+                Yii::$app->session->setFlash('error','gagal dihapus');
+            }
+            return $this->redirect(['index']);
         }else {
-            throw new ForbiddenHttpException;
+            throw new ForbiddenHttpException('Forbidden To delete');
         }
 
-        return $this->redirect(['index']);
     }
     
     /**
@@ -211,20 +214,20 @@ class SppController extends Controller
         // $model = $this->findModel($id);
         // 
         $searchModel = new ModuleSppSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->searchValidate(Yii::$app->request->queryParams);
 
         $content = $this->renderAjax('_pdf', [
-            // 'searchModel' => $searchModel,
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-
+        
         $pdf = new \kartik\mpdf\Pdf([
             'mode' => \kartik\mpdf\Pdf::MODE_CORE,
             'format' => \kartik\mpdf\Pdf::FORMAT_A4,
             'orientation' => \kartik\mpdf\Pdf::ORIENT_PORTRAIT,
             'destination' => \kartik\mpdf\Pdf::DEST_BROWSER,
             'content' => $content,
-            'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+            // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
             'cssInline' => '.kv-heading-1{font-size:18px}',
             'options' => ['title' => \Yii::$app->name],
             'methods' => [
@@ -258,10 +261,10 @@ class SppController extends Controller
      */
     public function checkDir(){
         if(!file_exists(Url::to("@backend")."/web/uploaded/")){
-            mkdir(Url::to("@backend")."/web/uploaded/");
+            mkdir(Url::to("@backend")."/web/uploaded/",0777);
         }
         if(!file_exists(Url::to("@backend")."/web/uploaded/spp/")){
-            mkdir(Url::to("@backend")."/web/uploaded/spp/");
+            mkdir(Url::to("@backend")."/web/uploaded/spp/",0777);
         }
     }
 

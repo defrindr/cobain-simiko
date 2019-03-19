@@ -1,5 +1,6 @@
 <?php
-
+use yii\helpers\Url;
+use kartik\grid\GridView;
 $this->title = "Jadwal";
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -9,7 +10,29 @@ $no = 1;
 
 <div class="module-jadwal-index">
 	<?php if(count($model) > 0){ ?>
-		<table>
+	<?php
+	$gridColumn = [
+		['class' => 'yii\grid\SerialColumn'],
+		['attribute' => 'id', 'visible' => false],
+		'no',
+		[
+			'attribute' => 'kelas_id',
+			'label' => 'Kelas',
+			'value' => function($model){
+				return $model->kelas->grade." ".$model->kelas->jurusan->nama." ".$model->kelas->kelas;
+			}
+		],
+		'hari',
+		'jam_mulai',
+		'jam_selesai',
+		['attribute' => 'lock', 'visible' => false],
+		[
+			'class' => 'yii\grid\ActionColumns'
+		],
+	];
+	?>
+
+<!-- 		<table>
 			<tr>
 				<th>No</th>
 				<th>Kelas</th>
@@ -28,7 +51,7 @@ $no = 1;
 			<?php
 			$no+=1;
 			 } ?>
-		</table>
+		</table> -->
 	<?php } else { ?>
 		Belum Ada Jadwal Untuk Anda Saat ini.
 	<?php } ?>

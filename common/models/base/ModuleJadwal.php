@@ -12,8 +12,8 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $id
  * @property integer $kelas_id
  * @property integer $kode_guru
- * @property string $jam_mulai
- * @property string $jam_selesai
+ * @property integer $jam_mulai
+ * @property integer $jam_selesai
  * @property string $hari
  * @property integer $created_by
  * @property integer $created_at
@@ -24,7 +24,9 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $lock
  *
  * @property \common\models\ModuleGuru $kodeGuru
+ * @property \common\models\ModuleJam $jamMulai
  * @property \common\models\ModuleKelas $kelas
+ * @property \common\models\ModuleJam $jamSelesai
  */
 class ModuleJadwal extends \yii\db\ActiveRecord
 {
@@ -36,7 +38,7 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     public function __construct(){
         parent::__construct();
         $this->_rt_softdelete = [
-            'deleted_by' => \Yii::$app->user->id,
+            'deleted_by' => Yii::$app->user->id,
             'deleted_at' => date('Y-m-d H:i:s'),
         ];
         $this->_rt_softrestore = [
@@ -53,7 +55,9 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     {
         return [
             'kodeGuru',
-            'kelas'
+            'jamMulai',
+            'kelas',
+            'jamSelesai'
         ];
     }
 
@@ -64,10 +68,10 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     {
         return [
             [['kelas_id', 'kode_guru', 'jam_mulai', 'jam_selesai', 'hari'], 'required'],
-            [['kelas_id', 'kode_guru', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['kelas_id', 'kode_guru', 'jam_mulai', 'jam_selesai', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
-            [['jam_mulai', 'jam_selesai', 'hari'], 'string', 'max' => 45],
-            [['lock'], 'default', 'value' => 0],
+            [['hari'], 'string', 'max' => 45],
+            [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];
     }
@@ -81,13 +85,24 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     }
 
     /**
+     *
+     * @return string
+     * overwrite function optimisticLock
+     * return string name of field are used to stored optimistic lock
+     *
+     */
+    public function optimisticLock() {
+        return 'lock';
+    }
+
+    /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
-            'kelas_id' => 'Kelas Id',
+            'kelas_id' => 'Kelas ID',
             'kode_guru' => 'Kode Guru',
             'jam_mulai' => 'Jam Mulai',
             'jam_selesai' => 'Jam Selesai',
@@ -107,9 +122,25 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getJamMulai()
+    {
+        return $this->hasOne(\common\models\ModuleJam::className(), ['id' => 'jam_mulai']);
+    }
+        
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getKelas()
     {
         return $this->hasOne(\common\models\ModuleKelas::className(), ['id' => 'kelas_id']);
+    }
+        
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJamSelesai()
+    {
+        return $this->hasOne(\common\models\ModuleJam::className(), ['id' => 'jam_selesai']);
     }
     
     /**
@@ -128,6 +159,7 @@ class ModuleJadwal extends \yii\db\ActiveRecord
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
+                'value' => Yii::$app->user->id,
             ],
         ];
     }

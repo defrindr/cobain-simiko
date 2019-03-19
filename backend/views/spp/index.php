@@ -35,6 +35,7 @@ foreach ($siswa as $people) {
 }
 
 
+
 $gridColumn = [
     ['class' => 'yii\grid\SerialColumn'],
     ['attribute' => 'id', 'visible' => false],
@@ -49,20 +50,20 @@ $gridColumn = [
         'filterWidgetOptions' => [
             'pluginOptions' => ['allowClear' => true],
         ],
-        'filterInputOptions' => ['placeholder' => 'Module siswa', 'id' => 'grid-module-spp-search-siswa_id']
+        'filterInputOptions' => ['placeholder' => 'Siswa', 'id' => 'grid-module-spp-search-siswa_id']
     ],
     [
         'attribute' => 'bank_id',
         'label' => 'Bank',
         'value' => function($model){
-            return $model->bank->id;
+            return $model->bank->nama_bank;
         },
         'filterType' => GridView::FILTER_SELECT2,
         'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBank::find()->asArray()->all(), 'id', 'nama_bank'),
         'filterWidgetOptions' => [
             'pluginOptions' => ['allowClear' => true],
         ],
-        'filterInputOptions' => ['placeholder' => 'Module bank', 'id' => 'grid-module-spp-search-bank_id']
+        'filterInputOptions' => ['placeholder' => 'Bank', 'id' => 'grid-module-spp-search-bank_id']
     ],
     'bulan',
     'tahun',
@@ -110,41 +111,125 @@ $gridColumn = [
         ]
     ],
 ];
-$content1 = GridView::widget([
+
+
+
+
+
+
+$gridColumn2 = [
+    ['class' => 'yii\grid\SerialColumn'],
+    ['attribute' => 'id', 'visible' => false],
+    [
+        'attribute' => 'siswa_id',
+        'label' => 'Siswa',
+        'value' => function($model){
+            return $model->siswa->profile->nama;
+        },
+        'filterType' => GridView::FILTER_SELECT2,
+        'filter' => $list_siswa,
+        'filterWidgetOptions' => [
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'filterInputOptions' => ['placeholder' => 'Siswa', 'id' => 'grid-module-spp-search-siswa_id2']
+    ],
+    [
+        'attribute' => 'bank_id',
+        'label' => 'Bank',
+        'value' => function($model){
+            return $model->bank->nama_bank;
+        },
+        'filterType' => GridView::FILTER_SELECT2,
+        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBank::find()->asArray()->all(), 'id', 'nama_bank'),
+        'filterWidgetOptions' => [
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'filterInputOptions' => ['placeholder' => 'Bank', 'id' => 'grid-module-spp-search-bank_id2']
+    ],
+    'bulan',
+    'tahun',
+    'bukti_bayar',
+    'spp',
+    'tabungan_prakerin',
+    'tabungan_study_tour',
+    'total',
+    [
+        'attribute' => 'status',
+        'label' => 'Status',
+        'value' => function($model){
+            if($model->status==1){
+                return "Sudah Divalidasi";
+            }else {
+                return "Belum divalidasi";
+            }
+        }
+    ],
+    ['attribute' => 'lock', 'visible' => false],
+    [
+        'class' => 'yii\grid\ActionColumn',
+        'template' => '{valid} {view}',
+        'visibleButtons' => [
+            'valid' => function($model) {
+                return \yii::$app->user->can('spp.validator',['post'=>$model]);
+            }
+        ],
+        'buttons' => [
+            'valid' => function($url,$model) {
+                if($model->status == 0){
+                    return Html::a('Validasi',['validasi','id'=>$model->id],
+                        [
+                        'class' => 'btn btn-primary btn-flat',
+                        'method' =>'post'
+                    ]);
+                } else {
+                    return Html::a('Unvalidasi',['unvalidasi','id'=>$model->id],
+                        [
+                        'class' => 'btn btn-danger btn-flat',
+                        'method' =>'post'
+                    ]);
+                }
+            }
+        ]
+    ],
+];
+
+$content = GridView::widget([
     'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
     'columns' => $gridColumn,
     'responsiveWrap' => false,
     'pjax' => true,
-    'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-spp']],
-    'panel' => false,
-]);
-$content2 = GridView::widget([
-    'dataProvider' => $dataProvider2,
-    'columns' => $gridColumn,
-    'responsiveWrap' => false,
-    'pjax' => true,
-    'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-spp']],
+    'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-spp1']],
     'panel' => false,
 ]);
 
+
+$content2 = GridView::widget([
+    'dataProvider' => $dataProvider2,
+    'filterModel' => $searchModel2,
+    'columns' => $gridColumn2,
+    'responsiveWrap' => false,
+    'pjax' => true,
+    'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-spp2']],
+    'panel' => false,
+]);
 
 
 $items = [
     [
         'label' => 'Belum Divalidasi',
-        'content' => $content1,
+        'content' => $content,
         'encode' => true
     ],
     [
         'label' => 'Sudah Divalidasi',
-        'content' => $content1,
+        'content' => $content2,
         'encode' => true
     ],
 
 ];
 
-
-?>
+ ?>
 <div class="module-spp-index">
     <div class="box box-success">
         <div class="box-header">
@@ -169,11 +254,18 @@ $items = [
             </div>
         </div>
         <div class="box-body">
-            <?= TabsX::widget([
-                'items' => $items,
-                'encodeLabels' => false,
-                'position' => TabsX::POS_ABOVE
-            ]) ?>
+
+
+
+
+
+
+
+
+
+
+
+                 <?= TabsX::widget(['items' => $items,'encodeLabels' => false,'position' => TabsX::POS_ABOVE]) ?> 
         </div>
     </div>
 

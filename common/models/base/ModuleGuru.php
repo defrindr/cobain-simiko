@@ -38,7 +38,7 @@ class ModuleGuru extends \yii\db\ActiveRecord
         ];
         $this->_rt_softrestore = [
             'deleted_by' => 0,
-            'deleted_at' => date('Y-m-d H:i:s'),
+            'deleted_at' => 0,
         ];
     }
 

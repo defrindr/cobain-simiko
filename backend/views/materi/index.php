@@ -51,11 +51,11 @@ foreach ($modelBab as $bab) {
                 <?php if(Yii::$app->user->identity->role == 10 or Yii::$app->user->identity->role == 20){ ?>
                 <?= Html::a('Tambah Materi', ['create'], ['class' => 'btn btn-success']) ?>
                 <?php } ?>
-                <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?php //echo Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
                 <?= Html::button('Restore data',['value' => Url::to(['/materi/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning', 'style' => ['margin'=> '2px 2px 2px 0']]); ?>
             </p>
             <div class="search-form" style="display:none">
-                <?=  $this->render('_search_siswa', ['model' => $searchModel]); ?>
+                <?=  $this->render('_search', ['model' => $searchModel]); ?>
             </div>
         </div>
         <div class="box-body">
@@ -106,7 +106,7 @@ foreach ($modelBab as $bab) {
                 ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    // 'filterModel' => $searchModel,
+                    'filterModel' => $searchModel,
                     'columns' => $gridColumn,
                     'responsiveWrap' => false,
                     'pjax' => true,

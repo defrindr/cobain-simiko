@@ -28,20 +28,36 @@ class ArtikelController extends Controller
 					'comments' => 'post'
 				]
 			]
-		]
+		];
 	}
 
 
 	public function actionIndex()
 	{
-		$search = ModuleBeritaSearch::find();
-		$dataProvider = $search->search(Yii::$app->request->queryParams);
-
-		return $this->render([
-			'index',[
-				'search' => $search,
-				'dataProvider' => $dataProvider
-			]
+		// $search = ModuleBeritaSearch::find();
+		// $dataProvider = $search->search(Yii::$app->request->queryParams);
+		$model = ModuleBerita::find()->all();
+		return $this->render('index',
+			[
+				'model'=>$model
 		]);
+	}
+
+	public function actionView($id)
+	{
+		$model = ModuleBerita::findOne($id);
+
+		return $this->render('view',['model'=>$model]);
+	}
+
+	protected function findModel($id)
+	{
+		if(($model = ModuleBerita::findOne($id)) !== []){
+			return $model;
+		} else 
+		{
+			throw new \yii\web\NotFoundHttpException('artikel is not found');
+			
+		}
 	}
 }

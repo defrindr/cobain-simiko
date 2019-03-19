@@ -9,7 +9,7 @@ use kartik\export\ExportMenu;
 use kartik\grid\GridView;use yii\helpers\Url;
 
 
-$this->title = 'Module Materi File';
+$this->title = 'Materi File';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -32,7 +32,7 @@ yii\bootstrap\Modal::end();
         <div class="box-header">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             <p>
-                <?= Html::a('Tambah Module Materi File', ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Tambah Materi File', ['create'], ['class' => 'btn btn-success']) ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
             </p>
             <div class="search-form" style="display:none">
@@ -48,14 +48,21 @@ yii\bootstrap\Modal::end();
                         'attribute' => 'materi_id',
                         'label' => 'Materi',
                         'value' => function($model){
-                            return $model->materi->id;
+                            return $model->materi->judul;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateri::find()->asArray()->all(), 'id', 'id'),
+                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateri::find()->asArray()->all(),'id','judul'),
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
-                        'filterInputOptions' => ['placeholder' => 'Module materi', 'id' => 'grid-module-materi-file-search-materi_id']
+                        'filterInputOptions' => ['placeholder' => 'Materi', 'id' => 'grid-module-materi-file-search-materi_id']
+                    ],
+                    [
+                        'attribute' => 'kelas',
+                        'label' => 'Kelas',
+                        'value' => function($model){
+                            return $model->materi->kelas->grade . " " . $model->materi->kelas->jurusan->nama . " " . $model->materi->kelas->kelas;
+                        }
                     ],
                     'nama_file',
                     'link_file',
@@ -72,10 +79,7 @@ yii\bootstrap\Modal::end();
                     'responsiveWrap' => false,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-materi-file']],
-                    'panel' => [
-                        'type' => GridView::TYPE_PRIMARY,
-                        'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
-                    ],
+                    'panel' => false,
                     'export' => false,
                     // your toolbar can include the additional full export menu
                     'toolbar' => [
