@@ -58,10 +58,17 @@ yii\bootstrap\Modal::end();
                     ],
                     'filterInputOptions' => ['placeholder' => 'Materi Soal', 'id' => 'grid-module-materi-soal-file-search-materi_soal_id']
                 ],
-                'gambar',
+                [
+                    'attribute'=>'gambar',
+                    'format' => 'html',
+                    'value' => function($model){
+                        return Html::a($model->gambar,["/uploaded/materi-soal-file/".$model->gambar],['target'=>'_blank','data-pjax'=>'0']);
+                    }
+                ],
                 ['attribute' => 'lock', 'visible' => false],
                 [
                     'class' => 'yii\grid\ActionColumn',
+                    'template' => '{delete}'
                 ],
             ]; 
                 ?>

@@ -135,18 +135,23 @@ class MateriFileController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $file = $model->link_file;
-        if($model->delete()){
-            if(file_exists(Url::to("@webroot/uploaded/materi-file".$file)))
-            {
-                unlink(Url::to("@webroot/uploaded/materi-file".$file));
+        if(Yii::$app->user->can('Admin') or $model->created_by === Yii::$app->user->id){
+            $file = $model->link_file;
+            if($model->delete()){
+                if(file_exists(Url::to("@webroot/uploaded/materi-file".$file)))
+                {
+                    unlink(Url::to("@webroot/uploaded/materi-file".$file));
+                }
+                Yii::$app->session->setFlash('success','File Berhasil dihapus');
+            } else {
+                Yii::$app->session->setFlash('success','File Berhasil dihapus');
             }
-            Yii::$app->session->setFlash('success','File Berhasil dihapus');
-        } else {
-            Yii::$app->session->setFlash('success','File Berhasil dihapus');
-        }
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+
+        } else {
+            throw new \yii\web\ForbiddenHttpException;
+        }
     }
 
     

@@ -46,33 +46,6 @@ class MateriSoalFileController extends Controller
 
 
     /**
-     * Lists all ModuleMateriSoalFile models.
-     * @return mixed
-     */
-    public function actionDataRestore()
-    {
-        $searchModel = new ModuleMateriSoalFileSearch();
-        $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
-
-        return $this->renderAjax('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionRestore($id){
-        $model = ModuleMateriSoalFile::findDeleted($id)->one();
-        if($model->restoreWithRelated()){
-            Yii::$app->session->setFlash('success','Data berhasil direstore');
-        } else {
-            Yii::$app->session->setFlash('success','Data gagal direstore');
-        } return $this->redirect(['index']);
-    }
-
-
-
-
-    /**
      * Displays a single ModuleMateriSoalFile model.
      * @param integer $id
      * @return mixed
@@ -96,8 +69,9 @@ class MateriSoalFileController extends Controller
 
         if ($model->loadAll(Yii::$app->request->post())) {
             $model->file = UploadedFile::getInstance($model,'file');
-            $model->gambar = time()."_".$model->file->extension;
+            $model->gambar = time()."_".base64_encode(random_int(0, 999)).".".$model->file->extension;
             $path = Url::to("@webroot/uploaded/materi-soal-file/");
+            $this->checkDir();
             if($model->validate()){
                 if($model->save()){
                     $model->file->saveAs($path.$model->gambar);
@@ -146,9 +120,24 @@ class MateriSoalFileController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
+        $model = $this->findModel($id);
+        if(Yii::$app->user->can('Admin') or $model->created_by === Yii::$app->user->id){
+            $file = $model->gambar;
+            if($model->delete()){
+                if(file_exists(Url::to("@webroot/uploaded/materi-soal-file".$file)))
+                {
+                    unlink(Url::to("@webroot/uploaded/materi-soal-file".$file));
+                }
+                Yii::$app->session->setFlash('success','File Berhasil dihapus');
+            } else {
+                Yii::$app->session->setFlash('success','File Berhasil dihapus');
+            }
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+
+        } else {
+            throw new \yii\web\ForbiddenHttpException;
+        }
     }
 
     
@@ -165,6 +154,16 @@ class MateriSoalFileController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    protected function checkDir()
+    {
+        if(!file_exists(Url::to("@webroot/uploaded")))
+        {
+            mkdir(Url::to("@webroot/uploaded"));
+        }
+        if(!file_exists(Url::to("@webroot/uploaded/materi-soal-file"))){
+            mkdir(Url::to("@webroot/uploaded/materi-soal-file"));
         }
     }
 }
