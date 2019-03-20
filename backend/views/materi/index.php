@@ -90,7 +90,7 @@ foreach ($modelBab as $bab) {
                         'filterInputOptions' => ['placeholder' => 'Module materi kategori', 'id' => 'grid-module-materi-search-materi_kategori_id']
                     ],
                     'judul',
-                    'gambar',
+                    // 'gambar',
                     [
                         'attribute' => 'komentar',
                         'value' => function($model){
