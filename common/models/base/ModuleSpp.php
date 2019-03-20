@@ -108,8 +108,8 @@ class ModuleSpp extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'siswa_id' => 'Siswa ID',
-            'bank_id' => 'Bank ID',
+            'siswa_id' => 'Siswa',
+            'bank_id' => 'Bank',
             'bulan' => 'Bulan',
             'tahun' => 'Tahun',
             'bukti_bayar' => 'Bukti Bayar',

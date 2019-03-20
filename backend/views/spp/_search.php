@@ -6,6 +6,12 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleSppSearch */
 /* @var $form yii\widgets\ActiveForm */
+
+$namaAll = common\models\ModuleSiswa::find()->all();
+$nama= [];
+foreach ($namaAll as $each) {
+    $nama += [$each->user_id=>$each->profile->nama];
+}
 ?>
 
 <div class="form-module-spp-search">
@@ -18,16 +24,16 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
 
     <?= $form->field($model, 'siswa_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleSiswa::find()->orderBy('user_id')->asArray()->all(), 'user_id', 'user_id'),
-        'options' => ['placeholder' => 'Choose Module siswa'],
+        'data' => $nama,
+        'options' => ['placeholder' => 'Siswa'],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ]); ?>
 
     <?= $form->field($model, 'bank_id')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBank::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
-        'options' => ['placeholder' => 'Choose Module bank'],
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBank::find()->orderBy('id')->asArray()->all(), 'id', 'nama_bank'),
+        'options' => ['placeholder' => 'Bank'],
         'pluginOptions' => [
             'allowClear' => true
         ],

@@ -20,7 +20,7 @@ if(Yii::$app->user->identity->role === 20) {
 	$jmlMateri = \common\models\ModuleMateri::find()->all();
 }
 class test {
-	public function createBox($count,$label,$icon=null){
+	public function createBox($count,$label,$link,$icon=null){
 		echo '<div class="col-lg-3 col-xs-6">
 			<div class="small-box bg-green">
 				<div class="inner">
@@ -30,7 +30,7 @@ class test {
 				<div class="icon">
 					<i class="glyphicon glyphicon-'.$icon.'"></i>
 				</div>
-				<a href="#" class="small-box-footer"> More Info <i class="fa fa-arrow-circle-right"></i></a>
+				<a href="'.$link.'" class="small-box-footer"> More Info <i class="fa fa-arrow-circle-right"></i></a>
 			</div>
 		</div>';
 	}
@@ -41,8 +41,8 @@ class test {
 ?>
 <div class="site-module-index">
 	
-	<?= test::createBox($jmlKelas, "Kelas") ?>
-	<?= test::createBox($jmlMateri, "Materi", "book") ?>
-	<?= test::createBox($jmlUser, "Pengguna", "user") ?>
+	<?= test::createBox($jmlKelas, "Kelas",Url::to(["/kelas"])) ?>
+	<?= test::createBox($jmlMateri, "Materi", Url::to(["/materi"]),"book") ?>
+	<?= test::createBox($jmlUser, "Pengguna",Url::to(["/user"]), "user") ?>
 	<!-- <i class="glyphicon-us"></i> -->
 </div>

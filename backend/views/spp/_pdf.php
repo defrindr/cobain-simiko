@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'siswa_id',
                         'label' => 'Siswa',
                         'value' => function($model){
-                            return $model->siswa->user_id;
+                            return $model->siswa->profile->nama;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
                         'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleSiswa::find()->asArray()->all(), 'user_id', 'user_id'),
@@ -38,26 +38,54 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filterInputOptions' => ['placeholder' => 'Module siswa', 'id' => 'grid-module-spp-search-siswa_id']
                     ],
                     [
-                        'attribute' => 'bank_id',
-                        'label' => 'Bank',
+                        'attribute' => 'Kelas',
                         'value' => function($model){
-                            return $model->bank->id;
-                        },
-                        'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBank::find()->asArray()->all(), 'id', 'id'),
-                        'filterWidgetOptions' => [
-                            'pluginOptions' => ['allowClear' => true],
-                        ],
-                        'filterInputOptions' => ['placeholder' => 'Module bank', 'id' => 'grid-module-spp-search-bank_id']
+                            return $model->siswa->kelas->grade ." ". $model->siswa->kelas->jurusan->nama . " ". $model->siswa->kelas->kelas;
+                        }
                     ],
+                    // [
+                    //     'attribute' => 'bank_id',
+                    //     'label' => 'Bank',
+                    //     'value' => function($model){
+                    //         return $model->bank->nama_bank;
+                    //     },
+                    //     'filterType' => GridView::FILTER_SELECT2,
+                    //     'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBank::find()->asArray()->all(), 'id', 'id'),
+                    //     'filterWidgetOptions' => [
+                    //         'pluginOptions' => ['allowClear' => true],
+                    //     ],
+                    //     'filterInputOptions' => ['placeholder' => 'Module bank', 'id' => 'grid-module-spp-search-bank_id']
+                    // ],
                     'bulan',
                     'tahun',
-                    'bukti_bayar',
-                    'spp',
-                    'tabungan_prakerin',
-                    'tabungan_study_tour',
-                    'total',
-                    'status',
+                    // 'bukti_bayar',
+                    [
+                        'attribute' => 'spp',
+                        'value' => function($model){
+                            return "Rp. ".$model->spp;
+                        }
+                    ],
+                    [
+                        'attribute' => 'tabungan_prakerin',
+                        'value' => function($model){
+                            return "Rp. ".$model->tabungan_prakerin;
+                        }
+                    ],
+
+                    [
+                        'attribute' => 'tabungan_study_tour',
+                        'value' => function($model){
+                            return "Rp. ".$model->tabungan_study_tour;
+                        }
+                    ],
+
+                    [
+                        'attribute' => 'total',
+                        'value' => function($model){
+                            return "Rp. ".$model->total;
+                        }
+                    ],
+                    // 'status',
                     // ['attribute' => 'lock', 'visible' => false],
                     // [
                     //     'class' => 'yii\grid\ActionColumn',

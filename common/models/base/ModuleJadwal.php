@@ -91,10 +91,10 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'kelas_id' => 'Kelas ID',
-            'mapel_id' => 'Mapel ID',
-            'kode_guru' => 'Kode Guru',
-            'jam_id' => 'Jam ID',
+            'kelas_id' => 'Kelas',
+            'mapel_id' => 'Mapel',
+            'kode_guru' => 'Guru',
+            'jam_id' => 'Jam',
             'hari' => 'Hari',
             'lock' => 'Lock',
         ];
