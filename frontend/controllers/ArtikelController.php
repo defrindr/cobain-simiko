@@ -33,18 +33,24 @@ class ArtikelController extends Controller
 	}
 
 
-	public function actionIndex()
+	public function actionIndex($kategori=null)
 	{
 		// $search = ModuleBeritaSearch::find();
 		// $dataProvider = $search->search(Yii::$app->request->queryParams);
-		$query = \common\models\ModuleBerita::find();
+		if($kategori!=null){
+			$query = \common\models\ModuleBerita::find()->where(['berita_kategori_id'=>addslashes($kategori)]);
+		}else {
+			$query = \common\models\ModuleBerita::find();
+		}
+		$kategories = \common\models\ModuleBeritaKategori::find()->all();
 		$countQuery = clone $query;
 		$pages = new Pagination(['totalCount'=>$countQuery->count(),'pageSize' => 6]);
 		$models = $query->offset($pages->offset)->limit($pages->limit)->all();
 		return $this->render('index',
 			[
 				'models'=>$models,
-				'pages' => $pages
+				'pages' => $pages,
+				'kategories' => $kategories
 		]);
 	}
 

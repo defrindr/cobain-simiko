@@ -77,19 +77,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Displaying galeri image
-     * @return model :v
-     */
-    public function actionGaleri()
-    {
-        $query = \common\models\ModuleGaleri::find();
-        $countQuery = clone $query;
-        $pages = new Pagination(['totalCount'=>$countQuery->count(),'pageSize' => 14]);
-        $models = $query->offset($pages->offset)->limit($pages->limit-2)->all();
-        return $this->render('galeri',['models'=>$models,'pages'=>$pages]);
-    }
-
-    /**
      * Logs in a user.
      *
      * @return mixed

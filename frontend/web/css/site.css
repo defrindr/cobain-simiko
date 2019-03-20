@@ -4,6 +4,15 @@
     font-weight: normal;
     font-weight: normal;
 }
+
+.jumbotron {
+    border: 1px solid #ddd;
+}
+.site-index {
+    padding: 2rem
+}
+
+
 html,
 body {
     height: 100%;

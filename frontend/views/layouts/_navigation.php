@@ -19,7 +19,7 @@ NavBar::begin([
 $menuItems = [
     ['label' => 'Beranda', 'url' => ['/site/index']],
     ['label' => 'Tentang', 'url' => ['/site/about']],
-    ['label' => 'Galeri', 'url' => ['/site/galeri']],
+    ['label' => 'Galeri', 'url' => ['/galeri']],
     ['label' => 'Kontak', 'url' => ['/site/contact']],
     ['label' => 'Artikel', 'url' => ['/artikel']],
 ];
