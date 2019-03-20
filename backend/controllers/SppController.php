@@ -236,7 +236,8 @@ class SppController extends Controller
             ]
         ]);
 
-        return $pdf->render();
+        return $this->renderAjax('_sort',["model"=>$searchModel]);
+        // return $pdf->render();
     }
 
     

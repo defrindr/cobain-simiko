@@ -19,7 +19,26 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Bulan</th>
+                    <th>Tahun</th>
+                    <th>SPP</th>
+                    <th>Prakerin</th>
+                    <th>Study Tour</th>
+                    <th>Total</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+            
+            </tbody>
+        </table> -->
 <?php 
                 $gridColumn = [
                     ['class' => 'yii\grid\SerialColumn'],
