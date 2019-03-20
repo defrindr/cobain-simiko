@@ -74,7 +74,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                         'items' => [
                             ['label' => 'Materi', 'url' => ['/materi'], 'icon' => 'dashboard'],
                             ['label' => 'Materi File', 'url' => ['/materi-file'], 'icon' => 'dashboard'],
-                            ['label' => 'Materi Komentar', 'url' => ['/materi-komentar'], 'icon' => 'dashboard'],
+                            // ['label' => 'Materi Komentar', 'url' => ['/materi-komentar'], 'icon' => 'dashboard'],
                             ['label' => 'Materi Bab', 'url' => ['/materi-kategori'], 'icon' => 'dashboard'],
                             [
                                 'label' => 'Soal',

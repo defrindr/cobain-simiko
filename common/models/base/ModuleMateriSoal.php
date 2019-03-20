@@ -22,7 +22,7 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $lock
  *
  * @property \common\models\ModuleMateri $materi
- * @property \common\models\ModuleMateriSoalGambar[] $moduleMateriSoalGambars
+ * @property \common\models\ModuleMateriSoalFile[] $moduleMateriSoalFiles
  * @property \common\models\ModuleMateriSoalJawaban[] $moduleMateriSoalJawabans
  */
 class ModuleMateriSoal extends \yii\db\ActiveRecord
@@ -52,7 +52,7 @@ class ModuleMateriSoal extends \yii\db\ActiveRecord
     {
         return [
             'materi',
-            'moduleMateriSoalGambars',
+            'moduleMateriSoalFiles',
             'moduleMateriSoalJawabans'
         ];
     }
@@ -117,9 +117,9 @@ class ModuleMateriSoal extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getModuleMateriSoalGambars()
+    public function getModuleMateriSoalFiles()
     {
-        return $this->hasMany(\common\models\ModuleMateriSoalGambar::className(), ['materi_soal_id' => 'id']);
+        return $this->hasMany(\common\models\ModuleMateriSoalFile::className(), ['materi_soal_id' => 'id']);
     }
         
     /**

@@ -8,6 +8,8 @@ use common\models\ModuleMateriFileSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
  * MateriFileController implements the CRUD actions for ModuleMateriFile model.
@@ -42,31 +44,6 @@ class MateriFileController extends Controller
     }
 
 
-    /**
-     * Lists all ModuleMateriFile models.
-     * @return mixed
-     */
-    public function actionDataRestore()
-    {
-        $searchModel = new ModuleMateriFileSearch();
-        $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
-
-        return $this->renderAjax('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionRestore($id){
-        $model = ModuleMateriFile::findDeleted($id)->one();
-        if($model->restoreWithRelated()){
-            Yii::$app->session->setFlash('success','Data berhasil direstore');
-        } else {
-            Yii::$app->session->setFlash('success','Data gagal direstore');
-        } return $this->redirect(['index']);
-    }
-
-
 
 
     /**
@@ -74,13 +51,13 @@ class MateriFileController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        $model = $this->findModel($id);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Creates a new ModuleMateriFile model.
@@ -91,8 +68,38 @@ class MateriFileController extends Controller
     {
         $model = new ModuleMateriFile();
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->loadAll(Yii::$app->request->post())) {
+            $materi = common\models\ModuleMateri::findOne($model->materi_id)->one();
+            if($materi->created_by == Yii::$app->user->id or Yii::$app->user->can('Admin')){
+                $model->file = UploadedFile::getInstance($model,"file");
+                $this->checkDir();
+                if($model->validate())
+                {
+                    $model->link_file = md5(time())."_".random_int(0,100).".".$model->file->extension;
+                    $path = Url::to("@webroot/uploaded/materi-file/");
+                    try {
+                        if($model->saveAll()){
+                            $model->file->saveAs($path.$model->link_file);
+                            Yii::$app->session->setFlash('success','File Berhasil ditambahkan');
+                            return $this->redirect(['index']);
+                        } else {
+                            Yii::$app->session->setFlash('error','File Gagal ditambahkan');
+                            return $this->redirect(['index']);
+
+                        }
+                    } catch (Exception $e) {
+                        Yii::$app->session->setFlash('danger','File Gagal ditambahkan');
+                        return $this->redirect(['index']);
+                    }
+                }else {
+                    Yii::$app->session->setFlash('warning','Error validasi');
+                    return $this->redirect(['index']);
+
+                }
+            } else {
+                Yii::$app->session->setFlash('warning','Forbidden');
+                return $this->redirect(['index']);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -106,18 +113,18 @@ class MateriFileController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+    // public function actionUpdate($id)
+    // {
+    //     $model = $this->findModel($id);
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
+    //     if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+    //         return $this->redirect(['view', 'id' => $model->id]);
+    //     } else {
+    //         return $this->render('update', [
+    //             'model' => $model,
+    //         ]);
+    //     }
+    // }
 
     /**
      * Deletes an existing ModuleMateriFile model.
@@ -127,7 +134,17 @@ class MateriFileController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->deleteWithRelated();
+        $model = $this->findModel($id);
+        $file = $model->link_file;
+        if($model->delete()){
+            if(file_exists(Url::to("@webroot/uploaded/materi-file".$file)))
+            {
+                unlink(Url::to("@webroot/uploaded/materi-file".$file));
+            }
+            Yii::$app->session->setFlash('success','File Berhasil dihapus');
+        } else {
+            Yii::$app->session->setFlash('success','File Berhasil dihapus');
+        }
 
         return $this->redirect(['index']);
     }
@@ -146,6 +163,19 @@ class MateriFileController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    protected function checkDir()
+    {
+        if(!file_exists(Url::to("@webroot/uploaded")))
+        {
+            mkdir(Url::to("@webroot/uploaded"),0777);
+        }
+
+        if(!file_exists(Url::to("@webroot/uploaded/materi-file")))
+        {
+            mkdir(Url::to("@webroot/uploaded/materi-file"),0777);
         }
     }
 }

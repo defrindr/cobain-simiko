@@ -69,7 +69,7 @@ return [
             /**
              * Automatic logout after 5 minutes inactive
              */
-            'authTimeout' => 300,
+            // 'authTimeout' => 300,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [

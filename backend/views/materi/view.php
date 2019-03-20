@@ -18,25 +18,7 @@ $ModuleProfile = \common\models\ModuleProfile::find()->where('user_id='.Yii::$ap
 $nama = $ModuleProfile->nama;
 ?>
 <div class="module-materi-view">
-
-<!--     <div class="row">
-        <div class="col-sm-9">
-            <h2><?= 'Module Materi'.' '. Html::encode($this->title) ?></h2>
-        </div>
-        <div class="col-sm-3" style="margin-top: 15px">
-            
-            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => 'Are you sure you want to delete this item?',
-                    'method' => 'post',
-                ],
-            ])
-            ?>
-        </div>
-    </div> -->
-    <div class="box box-materi">
+    <div class="box box-materi" style="padding: 2rem">
         <p>
             <div class="row">
                 <div class="col-xs-11 col-sm-11 col-md-11">
@@ -58,6 +40,15 @@ $nama = $ModuleProfile->nama;
         <p style="min-height: 100px;padding:20px 10px 10px">
             <?= $model->isi?>
         </p>
+        <?php if ($providerModuleMateriFile->count > 0){
+            $modelLampiran = \common\models\ModuleMateriFile::find()->where(["materi_id"=>$model->id])->all();
+            echo "<h4>Lampiran</h4>";
+            foreach ($modelLampiran as $lampiran) {
+                ?>
+                    <li><a href="<?= Url::to("@web/uploaded/materi-file/".$lampiran->link_file) ?>" target="_blank"><?= $lampiran->nama_file ?></a></li>
+                <?php
+            }
+        } ?>
     </div>
     
     <?= $this->render('_view_komentar',['providerModuleMateriKomentar' => $providerModuleMateriKomentar,'model'=>$model]) ?>

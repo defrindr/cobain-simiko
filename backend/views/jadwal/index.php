@@ -6,11 +6,10 @@
 
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
-use kartik\grid\GridView;
-use yii\helpers\Url;
+use kartik\grid\GridView;use yii\helpers\Url;
 
 
-$this->title = 'Jadwal';
+$this->title = 'Module Jadwal';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -34,7 +33,7 @@ yii\bootstrap\Modal::end();
                             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             
                 <p>
-                    <?= Html::a('Tambah Jadwal', ['create'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Tambah Module Jadwal', ['create'], ['class' => 'btn btn-success']) ?>
                                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
                             </p>
                             <div class="search-form" style="display:none">
@@ -45,75 +44,78 @@ yii\bootstrap\Modal::end();
                         <?php 
                 $gridColumn = [
                     ['class' => 'yii\grid\SerialColumn'],
-                    ['attribute' => 'id', 'visible' => false],
-                    [
-                        'attribute' => 'kelas_id',
-                        'label' => 'Kelas',
-                        'value' => function($model){
-                            return $model->kelas->id;
-                        },
-                        'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleKelas::find()->asArray()->all(), 'id', 'id'),
-                        'filterWidgetOptions' => [
-                            'pluginOptions' => ['allowClear' => true],
-                        ],
-                        'filterInputOptions' => ['placeholder' => 'Module kelas', 'id' => 'grid-module-jadwal-search-kelas_id']
-                    ],
-                    [
-                        'attribute' => 'kode_guru',
-                        'label' => 'Kode Guru',
-                        'value' => function($model){
-                            return $model->kodeGuru->id;
-                        },
-                        'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->asArray()->all(), 'id', 'id'),
-                        'filterWidgetOptions' => [
-                            'pluginOptions' => ['allowClear' => true],
-                        ],
-                        'filterInputOptions' => ['placeholder' => 'Module guru', 'id' => 'grid-module-jadwal-search-kode_guru']
-                    ],
-                    [
-                        'attribute' => 'jam_mulai',
-                        'label' => 'Jam Mulai',
-                        'value' => function($model){
-                            return $model->jamMulai->id;
-                        },
-                        'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleJam::find()->asArray()->all(), 'id', 'id'),
-                        'filterWidgetOptions' => [
-                            'pluginOptions' => ['allowClear' => true],
-                        ],
-                        'filterInputOptions' => ['placeholder' => 'Module jam', 'id' => 'grid-module-jadwal-search-jam_mulai']
-                    ],
-                    [
-                    'attribute' => 'jam_selesai',
-                    'label' => 'Jam Selesai',
-                    'value' => function($model){
-                        return $model->jamSelesai->id;
-                    },
-                    'filterType' => GridView::FILTER_SELECT2,
-                    'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleJam::find()->asArray()->all(), 'id', 'id'),
-                    'filterWidgetOptions' => [
-                        'pluginOptions' => ['allowClear' => true],
-                    ],
-                    'filterInputOptions' => ['placeholder' => 'Module jam', 'id' => 'grid-module-jadwal-search-jam_selesai']
+                                            ['attribute' => 'id', 'visible' => false],
+                                [
+                'attribute' => 'kelas_id',
+                'label' => 'Kelas',
+                'value' => function($model){                   
+                    return $model->kelas->id;                   
+                },
+                'filterType' => GridView::FILTER_SELECT2,
+                'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleKelas::find()->asArray()->all(), 'id', 'id'),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
                 ],
-                'hari',
-                ['attribute' => 'lock', 'visible' => false],
-                [
-                    'class' => 'yii\grid\ActionColumn',
+                'filterInputOptions' => ['placeholder' => 'Module kelas', 'id' => 'grid-module-jadwal-search-kelas_id']
+            ],
+                                [
+                'attribute' => 'mapel_id',
+                'label' => 'Mapel',
+                'value' => function($model){                   
+                    return $model->mapel->id;                   
+                },
+                'filterType' => GridView::FILTER_SELECT2,
+                'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMataPelajaran::find()->asArray()->all(), 'id', 'id'),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
                 ],
-            ]; 
-                ?>
+                'filterInputOptions' => ['placeholder' => 'Module mata pelajaran', 'id' => 'grid-module-jadwal-search-mapel_id']
+            ],
+                                [
+                'attribute' => 'kode_guru',
+                'label' => 'Kode Guru',
+                'value' => function($model){                   
+                    return $model->kodeGuru->id;                   
+                },
+                'filterType' => GridView::FILTER_SELECT2,
+                'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->asArray()->all(), 'id', 'id'),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+                'filterInputOptions' => ['placeholder' => 'Module guru', 'id' => 'grid-module-jadwal-search-kode_guru']
+            ],
+                                [
+                'attribute' => 'jam_id',
+                'label' => 'Jam',
+                'value' => function($model){                   
+                    return $model->jam->id;                   
+                },
+                'filterType' => GridView::FILTER_SELECT2,
+                'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleJam::find()->asArray()->all(), 'id', 'id'),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+                'filterInputOptions' => ['placeholder' => 'Module jam', 'id' => 'grid-module-jadwal-search-jam_id']
+            ],
+                                'hari',
+                                ['attribute' => 'lock', 'visible' => false],
+                                [
+                        'class' => 'yii\grid\ActionColumn',
+                                ],
+                ]; 
+                            ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
-                    'columns' => $gridColumn,
+        'columns' => $gridColumn,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-jadwal']],
-                    'panel' => false,
-                    'export' => false,
-                    // your toolbar can include the additional full export menu
+                    'panel' => [
+                        'type' => GridView::TYPE_PRIMARY,
+                        'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
+                    ],
+                                'export' => false,
+                                // your toolbar can include the additional full export menu
                     'toolbar' => [
                         '{export}',
                         ExportMenu::widget([
@@ -128,12 +130,13 @@ yii\bootstrap\Modal::end();
                                     '<li class="dropdown-header">Export All Data</li>',
                                 ],
                             ],
-                            'exportConfig' => [
+                                        'exportConfig' => [
                                 ExportMenu::FORMAT_PDF => false
                             ]
-                        ]) ,
+                                    ]) ,
                     ],
                 ]); ?>
+                        
         </div>
     </div>
 

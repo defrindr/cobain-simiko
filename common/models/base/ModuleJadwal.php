@@ -11,9 +11,9 @@ use yii\behaviors\BlameableBehavior;
  *
  * @property integer $id
  * @property integer $kelas_id
+ * @property integer $mapel_id
  * @property integer $kode_guru
- * @property integer $jam_mulai
- * @property integer $jam_selesai
+ * @property integer $jam_id
  * @property string $hari
  * @property integer $created_by
  * @property integer $created_at
@@ -23,10 +23,10 @@ use yii\behaviors\BlameableBehavior;
  * @property string $deleted_at
  * @property integer $lock
  *
+ * @property \common\models\ModuleMataPelajaran $mapel
  * @property \common\models\ModuleGuru $kodeGuru
- * @property \common\models\ModuleJam $jamMulai
+ * @property \common\models\ModuleJam $jam
  * @property \common\models\ModuleKelas $kelas
- * @property \common\models\ModuleJam $jamSelesai
  */
 class ModuleJadwal extends \yii\db\ActiveRecord
 {
@@ -54,10 +54,10 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     public function relationNames()
     {
         return [
+            'mapel',
             'kodeGuru',
-            'jamMulai',
-            'kelas',
-            'jamSelesai'
+            'jam',
+            'kelas'
         ];
     }
 
@@ -67,8 +67,8 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['kelas_id', 'kode_guru', 'jam_mulai', 'jam_selesai', 'hari'], 'required'],
-            [['kelas_id', 'kode_guru', 'jam_mulai', 'jam_selesai', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['kelas_id', 'mapel_id', 'kode_guru', 'jam_id', 'hari'], 'required'],
+            [['kelas_id', 'mapel_id', 'kode_guru', 'jam_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
             [['hari'], 'string', 'max' => 45],
             [['lock'], 'default', 'value' => '0'],
@@ -85,17 +85,6 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     }
 
     /**
-     *
-     * @return string
-     * overwrite function optimisticLock
-     * return string name of field are used to stored optimistic lock
-     *
-     */
-    public function optimisticLock() {
-        return 'lock';
-    }
-
-    /**
      * @inheritdoc
      */
     public function attributeLabels()
@@ -103,14 +92,22 @@ class ModuleJadwal extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'kelas_id' => 'Kelas ID',
+            'mapel_id' => 'Mapel ID',
             'kode_guru' => 'Kode Guru',
-            'jam_mulai' => 'Jam Mulai',
-            'jam_selesai' => 'Jam Selesai',
+            'jam_id' => 'Jam ID',
             'hari' => 'Hari',
             'lock' => 'Lock',
         ];
     }
     
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMapel()
+    {
+        return $this->hasOne(\common\models\ModuleMataPelajaran::className(), ['id' => 'mapel_id']);
+    }
+        
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -122,9 +119,9 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getJamMulai()
+    public function getJam()
     {
-        return $this->hasOne(\common\models\ModuleJam::className(), ['id' => 'jam_mulai']);
+        return $this->hasOne(\common\models\ModuleJam::className(), ['id' => 'jam_id']);
     }
         
     /**
@@ -133,14 +130,6 @@ class ModuleJadwal extends \yii\db\ActiveRecord
     public function getKelas()
     {
         return $this->hasOne(\common\models\ModuleKelas::className(), ['id' => 'kelas_id']);
-    }
-        
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getJamSelesai()
-    {
-        return $this->hasOne(\common\models\ModuleJam::className(), ['id' => 'jam_selesai']);
     }
     
     /**
@@ -154,6 +143,7 @@ class ModuleJadwal extends \yii\db\ActiveRecord
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => 'updated_at',
+                'value' => time(),
             ],
             'blameable' => [
                 'class' => BlameableBehavior::className(),

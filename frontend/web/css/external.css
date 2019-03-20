@@ -149,15 +149,31 @@ Content
 	padding: 20px;
 	background: #fff;
 	border: 1px solid #ddd;
-	border-radius: 10px;
+	border-radius: 0 0 10px 10px;
 	height: 80%;
+}
+.artikel > .row > .berita-creator {
+	transform: translate(-10px,-25px);
+	background: #fff;
+	border: 1px solid #ddd;
+	padding: 2rem;
+	border-radius : 10px 0 0 0 ;
 }
 
 
+.berita-thumbnail {
+	width: 50px;
+	height: 50px;
+	display: inline-flex;
+}
 
 
-
-
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+	margin: 0 5px;
+	color: #fff;
+	background: #333;
+	border-color : transparent; 
+}
 
 
 
@@ -316,11 +332,12 @@ footer#foot > div.container-fluid.banner > div.col-sm-4 > .row > .col-xs-6 > li 
 		border: 1px solid #ddd;
 		border-radius: 10px;
 		transition: .5s;
+		min-height: 70vh;
 	}
-	.content:hover {
+/*	.content:hover {
 		box-shadow: 1px 1px 30px 2px rgba(10,10,10,.8);
 		transition: .5s;
-	}
+	}*/
 	.artikel {
 		/*transform:  translateY(-100px);*/
 		transition: .5s;
@@ -331,5 +348,16 @@ footer#foot > div.container-fluid.banner > div.col-sm-4 > .row > .col-xs-6 > li 
 	}
 	.another {
 		display: none;
+	}
+
+	.content > .title-content {
+		display: inline-block;
+		border-style: solid;
+		border-width: 1px 1px 1px 0;
+		background: #fff;
+		border-radius: 10px 10px 10px 0;
+		border-color : #ddd;
+		padding: 1.6rem;
+		transform: translateX(-25px);
 	}
 }

@@ -8,7 +8,6 @@ use Yii;
  * This is the base model class for table "module_jam".
  *
  * @property integer $id
- * @property integer $jam_ke
  * @property string $jam
  *
  * @property \common\models\ModuleJadwal[] $moduleJadwals
@@ -35,9 +34,8 @@ class ModuleJam extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['jam_ke', 'jam'], 'required'],
-            [['jam_ke'], 'integer'],
-            [['jam'], 'string', 'max' => 10]
+            [['jam'], 'required'],
+            [['jam'], 'string', 'max' => 45]
         ];
     }
 
@@ -56,7 +54,6 @@ class ModuleJam extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'jam_ke' => 'Jam Ke',
             'jam' => 'Jam',
         ];
     }
@@ -66,7 +63,7 @@ class ModuleJam extends \yii\db\ActiveRecord
      */
     public function getModuleJadwals()
     {
-        return $this->hasMany(\common\models\ModuleJadwal::className(), ['jam_selesai' => 'id']);
+        return $this->hasMany(\common\models\ModuleJadwal::className(), ['jam_id' => 'id']);
     }
     
 

@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'materi_id')->widget(\kartik\widgets\Select2::classname(), [
                 'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateri::find()->orderBy('id')->asArray()->all(), 'id', 'judul'),
-                'options' => ['placeholder' => 'Choose Module materi'],
+                'options' => ['placeholder' => 'Materi'],
                 'pluginOptions' => [
                     'allowClear' => true
                 ],

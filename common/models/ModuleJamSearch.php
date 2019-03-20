@@ -5,12 +5,12 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\ModuleJadwal;
+use common\models\ModuleJam;
 
 /**
- * common\models\ModuleJadwalSearch represents the model behind the search form about `common\models\ModuleJadwal`.
+ * common\models\ModuleJamSearch represents the model behind the search form about `common\models\ModuleJam`.
  */
- class ModuleJadwalSearch extends ModuleJadwal
+ class ModuleJamSearch extends ModuleJam
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ use common\models\ModuleJadwal;
     public function rules()
     {
         return [
-            [['id', 'kelas_id', 'mapel_id', 'kode_guru', 'jam_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
-            [['hari', 'deleted_at'], 'safe'],
+            [['id'], 'integer'],
+            [['jam'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ use common\models\ModuleJadwal;
      */
     public function search($params)
     {
-        $query = ModuleJadwal::find();
+        $query = ModuleJam::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,20 +57,9 @@ use common\models\ModuleJadwal;
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'kelas_id' => $this->kelas_id,
-            'mapel_id' => $this->mapel_id,
-            'kode_guru' => $this->kode_guru,
-            'jam_id' => $this->jam_id,
-            'created_by' => $this->created_by,
-            'created_at' => $this->created_at,
-            'updated_by' => $this->updated_by,
-            'updated_at' => $this->updated_at,
-            'deleted_by' => $this->deleted_by,
-            'deleted_at' => $this->deleted_at,
-            'lock' => $this->lock,
         ]);
 
-        $query->andFilterWhere(['like', 'hari', $this->hari]);
+        $query->andFilterWhere(['like', 'jam', $this->jam]);
 
         return $dataProvider;
     }
@@ -86,7 +75,7 @@ use common\models\ModuleJadwal;
      */
     public function searchRestore($params)
     {
-        $query = ModuleJadwal::findDeleted();
+        $query = ModuleJam::findDeleted();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -102,20 +91,9 @@ use common\models\ModuleJadwal;
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'kelas_id' => $this->kelas_id,
-            'mapel_id' => $this->mapel_id,
-            'kode_guru' => $this->kode_guru,
-            'jam_id' => $this->jam_id,
-            'created_by' => $this->created_by,
-            'created_at' => $this->created_at,
-            'updated_by' => $this->updated_by,
-            'updated_at' => $this->updated_at,
-            'deleted_by' => $this->deleted_by,
-            'deleted_at' => $this->deleted_at,
-            'lock' => $this->lock,
         ]);
 
-        $query->andFilterWhere(['like', 'hari', $this->hari]);
+        $query->andFilterWhere(['like', 'jam', $this->jam]);
 
         return $dataProvider;
     }

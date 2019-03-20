@@ -9,7 +9,8 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use common\models\ModuleBerita;
 use common\models\ModuleBeritaSearch;
-
+use yii\data\ActiveDataProvider;
+use yii\data\Pagination;
 
 
 /**
@@ -36,11 +37,21 @@ class ArtikelController extends Controller
 	{
 		// $search = ModuleBeritaSearch::find();
 		// $dataProvider = $search->search(Yii::$app->request->queryParams);
-		$model = ModuleBerita::find()->all();
+		$query = \common\models\ModuleBerita::find();
+		$countQuery = clone $query;
+		$pages = new Pagination(['totalCount'=>$countQuery->count(),'pageSize' => 6]);
+		$models = $query->offset($pages->offset)->limit($pages->limit)->all();
 		return $this->render('index',
 			[
-				'model'=>$model
+				'models'=>$models,
+				'pages' => $pages
 		]);
+	}
+
+
+	public function actionKategori()
+	{
+
 	}
 
 	public function actionView($id)

@@ -25,6 +25,14 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
+    <?= $form->field($model, 'mapel_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMataPelajaran::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
+        'options' => ['placeholder' => 'Choose Module mata pelajaran'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
+
     <?= $form->field($model, 'kode_guru')->widget(\kartik\widgets\Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
         'options' => ['placeholder' => 'Choose Module guru'],
@@ -33,15 +41,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'jam_mulai')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleJam::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
-        'options' => ['placeholder' => 'Choose Module jam'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
-
-    <?= $form->field($model, 'jam_selesai')->widget(\kartik\widgets\Select2::classname(), [
+    <?= $form->field($model, 'jam_id')->widget(\kartik\widgets\Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleJam::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
         'options' => ['placeholder' => 'Choose Module jam'],
         'pluginOptions' => [

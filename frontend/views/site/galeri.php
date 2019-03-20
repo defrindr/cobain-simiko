@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = ["label"=>"Galeri","url"=>"#"];
 		<?php foreach ($models as $model) {
 		?>
 		<div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-			<div class="card showModalButton card-shadow">
+			<div class="card showModalButton card-shadow artikel" style="z-index: 2">
 				<?= Html::img(Url::base()."/uploaded/galeri/".$model->link, ['class'=>'img img-responsive img-galeri','alt' => $model->judul]) ?>
-				<div class="card-caption">
+				<div class="card-caption" style="z-index: 1">
 					<center><?= $model->judul ?></center>
 				</div>
 			</div>

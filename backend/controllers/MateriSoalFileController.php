@@ -8,6 +8,9 @@ use common\models\ModuleMateriSoalFileSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
+
 
 /**
  * MateriSoalFileController implements the CRUD actions for ModuleMateriSoalFile model.
@@ -74,13 +77,13 @@ class MateriSoalFileController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        $model = $this->findModel($id);
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+    // public function actionView($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
 
     /**
      * Creates a new ModuleMateriSoalFile model.
@@ -91,7 +94,23 @@ class MateriSoalFileController extends Controller
     {
         $model = new ModuleMateriSoalFile();
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+        if ($model->loadAll(Yii::$app->request->post())) {
+            $model->file = UploadedFile::getInstance($model,'file');
+            $model->gambar = time()."_".$model->file->extension;
+            $path = Url::to("@webroot/uploaded/materi-soal-file/");
+            if($model->validate()){
+                if($model->save()){
+                    $model->file->saveAs($path.$model->gambar);
+                    Yii::$app->session->setFlash('success','File Berhasil disave');
+                    return $this->redirect(['index']);
+                }else {
+                    Yii::$app->session->setFlash('error','File gagal disave');
+                    return $this->redirect(['index']);
+                }
+            } else {
+                Yii::$app->session->setFlash('error','Validasi error');
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -106,18 +125,18 @@ class MateriSoalFileController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+    // public function actionUpdate($id)
+    // {
+    //     $model = $this->findModel($id);
 
-        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
+    //     if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+    //         return $this->redirect(['view', 'id' => $model->id]);
+    //     } else {
+    //         return $this->render('update', [
+    //             'model' => $model,
+    //         ]);
+    //     }
+    // }
 
     /**
      * Deletes an existing ModuleMateriSoalFile model.

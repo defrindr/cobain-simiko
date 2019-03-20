@@ -115,7 +115,7 @@ class ModuleMataPelajaran extends \yii\db\ActiveRecord
      */
     public function getModuleJadwals()
     {
-        return $this->hasMany(\common\models\ModuleJadwal::className(), ['kode_mapel' => 'id']);
+        return $this->hasMany(\common\models\ModuleJadwal::className(), ['mapel_id' => 'id']);
     }
         
     /**

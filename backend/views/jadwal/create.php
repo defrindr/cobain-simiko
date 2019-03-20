@@ -11,7 +11,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Jadwal', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-jadwal-create">
-
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

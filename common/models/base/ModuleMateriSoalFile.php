@@ -29,6 +29,8 @@ class ModuleMateriSoalFile extends \yii\db\ActiveRecord
     private $_rt_softdelete;
     private $_rt_softrestore;
 
+    public $file;
+
     public function __construct(){
         parent::__construct();
         $this->_rt_softdelete = [
@@ -58,10 +60,11 @@ class ModuleMateriSoalFile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['materi_soal_id', 'gambar'], 'required'],
+            [['materi_soal_id',], 'required'],
             [['materi_soal_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
-            [['gambar'], 'string', 'max' => 60],
+            [['file'], 'file', 'extensions' => 'png,jpg,jpeg,gif', 'maxSize'=>1024*1024*6],
+
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
         ];

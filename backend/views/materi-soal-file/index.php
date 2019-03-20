@@ -6,10 +6,11 @@
 
 use yii\helpers\Html;
 use kartik\export\ExportMenu;
-use kartik\grid\GridView;use yii\helpers\Url;
+use kartik\grid\GridView;
+use yii\helpers\Url;
 
 
-$this->title = 'Module Materi Soal File';
+$this->title = 'Materi Soal Gambar';
 $this->params['breadcrumbs'][] = $this->title;
 $search = "$('.search-button').click(function(){
 	$('.search-form').toggle(1000);
@@ -30,53 +31,49 @@ yii\bootstrap\Modal::end();
 <div class="module-materi-soal-file-index">
     <div class="box box-success">
         <div class="box-header">
-                            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-            
-                <p>
-                    <?= Html::a('Tambah Module Materi Soal File', ['create'], ['class' => 'btn btn-success']) ?>
-                                <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
-                            </p>
-                            <div class="search-form" style="display:none">
-                    <?=  $this->render('_search', ['model' => $searchModel]); ?>
-                </div>
-                        </div>
+            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <p>
+                <?= Html::a('Tambah Materi Soal File', ['create'], ['class' => 'btn btn-success']) ?>
+                <?php //echo Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+            </p>
+            <div class="search-form" style="display:none">
+                <?php //echo  $this->render('_search', ['model' => $searchModel]); ?>
+            </div>
+        </div>
         <div class="box-body">
-                        <?php 
-                $gridColumn = [
-                    ['class' => 'yii\grid\SerialColumn'],
-                                            ['attribute' => 'id', 'visible' => false],
-                                [
-                'attribute' => 'materi_soal_id',
-                'label' => 'Materi Soal',
-                'value' => function($model){                   
-                    return $model->materiSoal->id;                   
-                },
-                'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateriSoal::find()->asArray()->all(), 'id', 'id'),
-                'filterWidgetOptions' => [
-                    'pluginOptions' => ['allowClear' => true],
+            <?php 
+            $gridColumn = [
+                ['class' => 'yii\grid\SerialColumn'],
+                ['attribute' => 'id', 'visible' => false],
+                [
+                    'attribute' => 'materi_soal_id',
+                    'label' => 'Materi Soal',
+                    'value' => function($model){
+                        return $model->materiSoal->judul;
+                    },
+                    'filterType' => GridView::FILTER_SELECT2,
+                    'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateriSoal::find()->asArray()->all(), 'id', 'judul'),
+                    'filterWidgetOptions' => [
+                        'pluginOptions' => ['allowClear' => true],
+                    ],
+                    'filterInputOptions' => ['placeholder' => 'Materi Soal', 'id' => 'grid-module-materi-soal-file-search-materi_soal_id']
                 ],
-                'filterInputOptions' => ['placeholder' => 'Module materi soal', 'id' => 'grid-module-materi-soal-file-search-materi_soal_id']
-            ],
-                                'gambar',
-                                ['attribute' => 'lock', 'visible' => false],
-                                [
-                        'class' => 'yii\grid\ActionColumn',
-                                ],
-                ]; 
-                            ?>
+                'gambar',
+                ['attribute' => 'lock', 'visible' => false],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                ],
+            ]; 
+                ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
-        'columns' => $gridColumn,
+                    'columns' => $gridColumn,
                     'pjax' => true,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-materi-soal-file']],
-                    'panel' => [
-                        'type' => GridView::TYPE_PRIMARY,
-                        'heading' => '<span class="glyphicon glyphicon-book"></span>  ' . Html::encode($this->title),
-                    ],
-                                'export' => false,
-                                // your toolbar can include the additional full export menu
+                    'panel' => false,
+                    'export' => false,
+                    // your toolbar can include the additional full export menu
                     'toolbar' => [
                         '{export}',
                         ExportMenu::widget([
@@ -91,13 +88,12 @@ yii\bootstrap\Modal::end();
                                     '<li class="dropdown-header">Export All Data</li>',
                                 ],
                             ],
-                                        'exportConfig' => [
+                            'exportConfig' => [
                                 ExportMenu::FORMAT_PDF => false
                             ]
-                                    ]) ,
+                        ]) ,
                     ],
                 ]); ?>
-                        
         </div>
     </div>
 

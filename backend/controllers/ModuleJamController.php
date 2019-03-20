@@ -10,9 +10,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * JamController implements the CRUD actions for ModuleJam model.
+ * ModuleJamController implements the CRUD actions for ModuleJam model.
  */
-class JamController extends Controller
+class ModuleJamController extends Controller
 {
     public function behaviors()
     {

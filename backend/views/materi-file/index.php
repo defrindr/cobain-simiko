@@ -69,6 +69,7 @@ yii\bootstrap\Modal::end();
                     ['attribute' => 'lock', 'visible' => false],
                     [
                         'class' => 'yii\grid\ActionColumn',
+                        'template' => '{delete}'
                     ],
                 ]; 
                 ?>

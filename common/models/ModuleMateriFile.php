@@ -20,7 +20,7 @@ class ModuleMateriFile extends BaseModuleMateriFile
             [['materi_id', 'nama_file', 'file'], 'required'],
             [['materi_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
-            ['file','file','extensions'=>'pdf,xlsx,docs'],
+            ['file','file','extensions'=>'pdf,xlsx,docs,png,jpg,jpeg,gif','maxSize' => 1024*1024*10],
             ['nama_file', 'string', 'max' => 45],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']

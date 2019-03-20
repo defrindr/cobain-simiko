@@ -70,7 +70,7 @@ $carousel = [
 <div class="wrap">
     <?php if(!(Url::to()==Url::base()."/" or Url::to() == Url::base().'/site/index')){ ?>
     <div class="container content">
-        <h3><?= Html::encode($this->title) ?></h3>
+        <h3 class="title-content"><?= Html::encode($this->title) ?></h3>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

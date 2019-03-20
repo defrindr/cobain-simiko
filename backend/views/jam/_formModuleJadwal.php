@@ -32,6 +32,16 @@ echo TabularForm::widget([
             ],
             'columnOptions' => ['width' => '200px']
         ],
+        'mapel_id' => [
+            'label' => 'Module mata pelajaran',
+            'type' => TabularForm::INPUT_WIDGET,
+            'widgetClass' => \kartik\widgets\Select2::className(),
+            'options' => [
+                'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMataPelajaran::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
+                'options' => ['placeholder' => 'Choose Module mata pelajaran'],
+            ],
+            'columnOptions' => ['width' => '200px']
+        ],
         'kode_guru' => [
             'label' => 'Module guru',
             'type' => TabularForm::INPUT_WIDGET,
@@ -39,16 +49,6 @@ echo TabularForm::widget([
             'options' => [
                 'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGuru::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
                 'options' => ['placeholder' => 'Choose Module guru'],
-            ],
-            'columnOptions' => ['width' => '200px']
-        ],
-        'jam_mulai' => [
-            'label' => 'Module jam',
-            'type' => TabularForm::INPUT_WIDGET,
-            'widgetClass' => \kartik\widgets\Select2::className(),
-            'options' => [
-                'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleJam::find()->orderBy('id')->asArray()->all(), 'id', 'id'),
-                'options' => ['placeholder' => 'Choose Module jam'],
             ],
             'columnOptions' => ['width' => '200px']
         ],

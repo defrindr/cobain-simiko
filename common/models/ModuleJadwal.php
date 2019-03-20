@@ -17,8 +17,8 @@ class ModuleJadwal extends BaseModuleJadwal
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['kelas_id', 'kode_guru', 'jam_mulai', 'jam_selesai', 'hari'], 'required'],
-            [['kelas_id', 'kode_guru', 'jam_mulai', 'jam_selesai', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['kelas_id', 'mapel_id', 'kode_guru', 'jam_id', 'hari'], 'required'],
+            [['kelas_id', 'mapel_id', 'kode_guru', 'jam_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
             [['hari'], 'string', 'max' => 45],
             [['lock'], 'default', 'value' => '0'],

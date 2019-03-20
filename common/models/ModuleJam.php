@@ -17,9 +17,8 @@ class ModuleJam extends BaseModuleJam
     {
         return array_replace_recursive(parent::rules(),
 	    [
-            [['jam_ke', 'jam'], 'required'],
-            [['jam_ke'], 'integer'],
-            [['jam'], 'string', 'max' => 10]
+            [['jam'], 'required'],
+            [['jam'], 'string', 'max' => 45]
         ]);
     }
 	
