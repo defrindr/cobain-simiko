@@ -19,6 +19,33 @@
   color: #fff;
 }
 
+#login-logo {
+  animation: putar 2s infinite linear;
+}
+@keyframes putar {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(5deg);
+  }
+  40% {
+  transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+  60% {
+    transform: rotate(10deg);
+  }
+  80%{
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 .formInput:focus{
   background: #78A7AE;
   opacity: 0.5;
@@ -96,6 +123,9 @@
     width: 15%;
     height: 15%;
     box-shadow: 2px 2px 10px #fff;
+  }
+  #login-logo{
+    animation : none;
   }
 }
 @media screen and (max-width: 544px) {

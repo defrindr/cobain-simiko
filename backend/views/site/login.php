@@ -26,7 +26,7 @@ $checkboxTemplate = '<div class="switch">{beginLabel}{input}{labelTitle}<span cl
         <center>
             <h2><b>L</b>ogin Page</h2>
             SMK Negeri 1 Jenangan
-            <img src="<?=yii\helpers\Url::base().'/uploaded/base/smk.png'?>" class="img img-responsive imgLogin">
+            <img src="<?=yii\helpers\Url::base().'/uploaded/base/smk.png'?>" class="img img-responsive imgLogin" id="login-logo">
         </center>
     </div>
     <div class="col-sm-8 rightCol">

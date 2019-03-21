@@ -5,11 +5,8 @@
     font-weight: normal;
 }
 
-.jumbotron {
-    border: 1px solid #ddd;
-}
 .site-index {
-    padding: 2rem
+    padding: 2rem;
 }
 
 
@@ -37,7 +34,9 @@ h1,h2,h3,h4,h5,h6,.navbar-brand {
 
 .jumbotron {
     text-align: center;
-    background-color: transparent;
+    border: 1px solid #ddd;
+    margin: 0;
+    background: #fff;
 }
 
 .jumbotron .btn {
