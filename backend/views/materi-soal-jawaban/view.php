@@ -39,7 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'materiSoal.id',
             'label' => 'Materi Soal',
         ],
-        'siswa_id',
+        [
+            'attribute' => 'siswa.user_id',
+            'label' => 'Siswa',
+        ],
         'link',
         ['attribute' => 'lock', 'visible' => false],
     ];
@@ -49,6 +52,19 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
 ?>
     </div>
+    <div class="row">
+        <h4>ModuleSiswa<?= ' '. Html::encode($this->title) ?></h4>
+    </div>
+    <?php 
+    $gridColumnModuleSiswa = [
+        'user_id',
+        'kelas_id',
+        ['attribute' => 'lock', 'visible' => false],
+    ];
+    echo DetailView::widget([
+        'model' => $model->siswa,
+        'attributes' => $gridColumnModuleSiswa    ]);
+    ?>
     <div class="row">
         <h4>ModuleMateriSoal<?= ' '. Html::encode($this->title) ?></h4>
     </div>

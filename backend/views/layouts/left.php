@@ -41,9 +41,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Side Menu', 'options' => ['class' => 'header']],
-                    // ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                    // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
-                    ['label'=>'dashboard','url'=>Url::base(), 'icon' => 'dashboard'],
+                    ['label'=>'Dashboard','url'=>Url::base(), 'icon' => 'dashboard'],
                     [
                         'label' => 'Admin Menu', 
                         'icon'=>'dashboard', 

@@ -58,7 +58,19 @@ yii\bootstrap\Modal::end();
                 ],
                 'filterInputOptions' => ['placeholder' => 'Module materi soal', 'id' => 'grid-module-materi-soal-jawaban-search-materi_soal_id']
             ],
-                                'siswa_id',
+                                [
+                'attribute' => 'siswa_id',
+                'label' => 'Siswa',
+                'value' => function($model){                   
+                    return $model->siswa->user_id;                   
+                },
+                'filterType' => GridView::FILTER_SELECT2,
+                'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleSiswa::find()->asArray()->all(), 'user_id', 'user_id'),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+                'filterInputOptions' => ['placeholder' => 'Module siswa', 'id' => 'grid-module-materi-soal-jawaban-search-siswa_id']
+            ],
                                 'link',
                                 ['attribute' => 'lock', 'visible' => false],
                                 [

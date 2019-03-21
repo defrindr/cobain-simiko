@@ -40,8 +40,8 @@ foreach (range(date('Y'),date('Y')-3) as $each) {
 <div class="form-module-spp-search">
 
     <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
+        'action' => ['pdf'],
+        'method' => 'post',
     ]); ?>
 
     <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
@@ -63,7 +63,11 @@ foreach (range(date('Y'),date('Y')-3) as $each) {
     ]); ?>
 
     <?= $form->field($model, 'bulan')->widget(Select2::classname(),[
-    	'data' => $list_bulan
+    	'data' => $list_bulan,
+        'options' => ['placeholder' => 'Bulan'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
     ]) ?>
 
     <?= $form->field($model, 'tahun')->textInput(['maxlength' => true, 'placeholder' => 'Tahun']) ?>
@@ -83,8 +87,7 @@ foreach (range(date('Y'),date('Y')-3) as $each) {
     <?php /* echo $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); */ ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Generate', ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

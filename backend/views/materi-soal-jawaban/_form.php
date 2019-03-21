@@ -41,7 +41,13 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'siswa_id')->textInput(['placeholder' => 'Siswa']) ?>
+    <?= $form->field($model, 'siswa_id')->widget(\kartik\widgets\Select2::classname(), [
+        'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleSiswa::find()->orderBy('user_id')->asArray()->all(), 'user_id', 'user_id'),
+        'options' => ['placeholder' => 'Choose Module siswa'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
     <?= $form->field($model, 'link')->textInput(['maxlength' => true, 'placeholder' => 'Link']) ?>
 

@@ -210,34 +210,38 @@ class SppController extends Controller
      * @return mixed
      */
     public function actionPdf() {
-        $model = ModuleSpp::find()->all();
+        // $model = ModuleSpp::find()->all();
         // $model = $this->findModel($id);
         // 
         $searchModel = new ModuleSppSearch();
-        $dataProvider = $searchModel->searchValidate(Yii::$app->request->queryParams);
+        if($searchModel->load(Yii::$app->request->post())){
+            $dataProvider = $searchModel->searchValidate(Yii::$app->request->queryParams);
+            $content = $this->renderAjax('_pdf', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+            
+            $pdf = new \kartik\mpdf\Pdf([
+                'mode' => \kartik\mpdf\Pdf::MODE_CORE,
+                'format' => \kartik\mpdf\Pdf::FORMAT_A4,
+                'orientation' => \kartik\mpdf\Pdf::ORIENT_PORTRAIT,
+                'destination' => \kartik\mpdf\Pdf::DEST_BROWSER,
+                'content' => $content,
+                // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+                'cssInline' => '.kv-heading-1{font-size:18px}',
+                'options' => ['title' => \Yii::$app->name],
+                'methods' => [
+                    'SetHeader' => [\Yii::$app->name],
+                    'SetFooter' => ['{PAGENO}'],
+                ]
+            ]);
+            return $pdf->render();
 
-        $content = $this->renderAjax('_pdf', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-        
-        $pdf = new \kartik\mpdf\Pdf([
-            'mode' => \kartik\mpdf\Pdf::MODE_CORE,
-            'format' => \kartik\mpdf\Pdf::FORMAT_A4,
-            'orientation' => \kartik\mpdf\Pdf::ORIENT_PORTRAIT,
-            'destination' => \kartik\mpdf\Pdf::DEST_BROWSER,
-            'content' => $content,
-            // 'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
-            'cssInline' => '.kv-heading-1{font-size:18px}',
-            'options' => ['title' => \Yii::$app->name],
-            'methods' => [
-                'SetHeader' => [\Yii::$app->name],
-                'SetFooter' => ['{PAGENO}'],
-            ]
-        ]);
+        }else {
+            return $this->renderAjax('_sort',["model"=>$searchModel]);
 
-        return $this->renderAjax('_sort',["model"=>$searchModel]);
-        // return $pdf->render();
+        }
+
     }
 
     

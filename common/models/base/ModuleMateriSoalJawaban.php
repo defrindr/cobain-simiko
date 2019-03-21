@@ -21,6 +21,7 @@ use yii\behaviors\BlameableBehavior;
  * @property string $deleted_at
  * @property integer $lock
  *
+ * @property \common\models\ModuleSiswa $siswa
  * @property \common\models\ModuleMateriSoal $materiSoal
  */
 class ModuleMateriSoalJawaban extends \yii\db\ActiveRecord
@@ -33,7 +34,7 @@ class ModuleMateriSoalJawaban extends \yii\db\ActiveRecord
     public function __construct(){
         parent::__construct();
         $this->_rt_softdelete = [
-            'deleted_by' => \Yii::$app->user->id,
+            'deleted_by' => Yii::$app->user->id,
             'deleted_at' => date('Y-m-d H:i:s'),
         ];
         $this->_rt_softrestore = [
@@ -49,6 +50,7 @@ class ModuleMateriSoalJawaban extends \yii\db\ActiveRecord
     public function relationNames()
     {
         return [
+            'siswa',
             'materiSoal'
         ];
     }
@@ -104,6 +106,14 @@ class ModuleMateriSoalJawaban extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getSiswa()
+    {
+        return $this->hasOne(\common\models\ModuleSiswa::className(), ['user_id' => 'siswa_id']);
+    }
+        
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getMateriSoal()
     {
         return $this->hasOne(\common\models\ModuleMateriSoal::className(), ['id' => 'materi_soal_id']);
@@ -126,6 +136,7 @@ class ModuleMateriSoalJawaban extends \yii\db\ActiveRecord
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
+                'value' => Yii::$app->user->id,
             ],
         ];
     }
@@ -160,5 +171,17 @@ class ModuleMateriSoalJawaban extends \yii\db\ActiveRecord
     {
         $query = new \app\models\ModuleMateriSoalJawabanQuery(get_called_class());
         return $query->where(['module_materi_soal_jawaban.deleted_by' => 0]);
+    }
+
+
+
+        /**
+     * @inheritdoc
+     * @return \app\models\ModuleMateriSoalJawabanQuery the active query used by this AR class.
+     */
+    public static function findDeleted()
+    {
+        $query = new \app\models\ModuleMateriSoalJawabanQuery(get_called_class());
+        return $query->where('module_materi_soal_jawaban.deleted_by != 0');
     }
 }

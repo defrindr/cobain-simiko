@@ -4,6 +4,9 @@ use yii\helpers\Url;
 
 $this->title = "Dashboard";
 
+
+
+
 switch (date('m')) {
 	case '01':
 		$bulan = "Januari";
@@ -80,15 +83,15 @@ class test {
 
 ?>
 <div class="site-module-index">
-	
-	<?= test::createBox($jmlUser, "Pengguna",Url::to(["/user"]), "user") ?>
-	<?= test::createBox($jmlSiswa , "Siswa", Url::to(['/siswa']), 'user' ) ?>
-	<?= test::createBox($jmlGuru , "Guru", Url::to(['/Guru']), 'user' ) ?>
-	<?= test::createBox($jmlMataPelajaran, "Mata Pelajaran", Url::to(['/mata-pelajaran']),'book') ?>
-	<?= test::createBox($jmlMateri, "Materi", Url::to(["/materi"]),"bookmark") ?>
-	<?= test::createBox($jmlKelas, "Kelas",Url::to(["/kelas"]),'expand') ?>
-	<?= test::createBox($jmlJadwal, "Jadwal",Url::to(["/Jadwal"]),'calendar') ?>
-	<?= test::createBox($jmlSPP,"SPP Bulan ini", Url::to(['/spp']),'usd') ?>
-
-	<i class="glyphicon-"></i>
+	<div class="row">
+		<?= test::createBox($jmlUser, "Pengguna",Url::to(["/user"]), "user") ?>
+		<?= test::createBox($jmlSiswa , "Siswa", Url::to(['/siswa']), 'user' ) ?>
+		<?= test::createBox($jmlGuru , "Guru", Url::to(['/Guru']), 'user' ) ?>
+		<?= test::createBox($jmlMataPelajaran, "Mata Pelajaran", Url::to(['/mata-pelajaran']),'book') ?>
+		<?= test::createBox($jmlMateri, "Materi", Url::to(["/materi"]),"bookmark") ?>
+		<?= test::createBox($jmlKelas, "Kelas",Url::to(["/kelas"]),'expand') ?>
+		<?= test::createBox($jmlJadwal, "Jadwal",Url::to(["/Jadwal"]),'calendar') ?>
+		<?= test::createBox($jmlSPP,"SPP Bulan ini", Url::to(['/spp']),'usd') ?>
+		
+	</div>
 </div>

@@ -242,9 +242,12 @@ $items = [
                 <?php
                  if(Yii::$app->user->can('spp-manage')) {
                 ?>
-                <?= Html::a('Export Data',Url::to(['spp/pdf']),
+                <?= Html::button('Export Data',
                     [
-                    'class' => 'btn btn-default'
+                    'value' => Url::to(['spp/pdf']),
+                    'class' => 'btn btn-default showModalButton',
+                    'title' => 'Export Filter',
+
                 ]);
                 ?>
                 <?php } ?>
