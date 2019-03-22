@@ -40,14 +40,14 @@ use kartik\grid\GridView;
                         // 'link',
                         'judul',
                         'tahun',
-                        [
-                            'attribute' => 'preview',
-                            'format' => 'html',
-                            'value' => function($model){
-                                $path = Url::base()."/uploaded/galeri/".$model->link;
-                                return Html::img($path,['width' => '70px']);
-                            }
-                        ],
+                        // [
+                        //     'attribute' => 'preview',
+                        //     'format' => 'html',
+                        //     'value' => function($model){
+                        //         $path = Url::base()."/uploaded/galeri/".$model->link;
+                        //         return Html::img($path,['width' => '70px']);
+                        //     }
+                        // ],
                         ['attribute' => 'lock', 'visible' => false],
                         [
                             'class' => 'yii\grid\ActionColumn',

@@ -179,8 +179,7 @@ if($providerModuleJadwal->totalCount){
                 }
             ],
             'hari',
-            'jam_mulai',
-            'jam_selesai',
+            'jam_id',
             ['attribute' => 'lock', 'visible' => false],
     ];
     echo Gridview::widget([

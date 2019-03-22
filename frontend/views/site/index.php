@@ -27,7 +27,7 @@ $this->title = Yii::$app->name;
                     <h3 class="index-title"><i class="glyphicon glyphicon-asterisk"></i> New Artikel</h3>
                     <div class="row">
                         <?php foreach ($newArtikel as $Artikel) { ?>
-                        <a href="<?= Url::to(['view','id'=>$Artikel->id]) ?>">
+                        <a href="<?= Url::to(['/artikel/view','id'=>$Artikel->id]) ?>">
                             <div class="col-xs-6 col-sm-6 col-lg-6" style="height: auto;margin:2rem 0">
                                 <div class="artikel">
                                     <div class="row">
@@ -58,6 +58,7 @@ $this->title = Yii::$app->name;
                 </div>
             </div>
         </div>
+        <hr>
 
     </div>
 </div>

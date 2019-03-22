@@ -104,7 +104,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             return "Rp. ".$model->total;
                         }
                     ],
-                    // 'status',
+                    [
+                        'attribute'=>'status',
+                        'value' => function($model){
+                            return ($model->status==1)? "Sudah Divalidasi":"Belum DIvalidasi";
+                        }
+                    ],
                     // ['attribute' => 'lock', 'visible' => false],
                     // [
                     //     'class' => 'yii\grid\ActionColumn',

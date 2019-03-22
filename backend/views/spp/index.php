@@ -67,7 +67,17 @@ $gridColumn = [
     ],
     'bulan',
     'tahun',
-    'bukti_bayar',
+    [
+        'attribute' => 'bukti_bayar',
+        'format' => 'raw',
+        'value' => function($model){
+            if(file_exists(Url::to('@webroot/uploaded/spp/'.$model->bukti_bayar))){
+                return Html::a($model->bukti_bayar,['/uploaded/spp/'.$model->bukti_bayar],['data-pjax'=>'0']);
+            } else {
+                return " Bukti bayar hilang";
+            }
+        }
+    ],
     'spp',
     'tabungan_prakerin',
     'tabungan_study_tour',
@@ -148,7 +158,17 @@ $gridColumn2 = [
     ],
     'bulan',
     'tahun',
-    'bukti_bayar',
+    [
+        'attribute' => 'bukti_bayar',
+        'format' => 'raw',
+        'value' => function($model){
+            if(file_exists(Url::to('@webroot/uploaded/spp/'.$model->bukti_bayar))){
+                return Html::a($model->bukti_bayar,['/uploaded/spp/'.$model->bukti_bayar],['data-pjax'=>'0']);
+            } else {
+                return " Bukti bayar hilang";
+            }
+        }
+    ],
     'spp',
     'tabungan_prakerin',
     'tabungan_study_tour',
@@ -235,7 +255,7 @@ $items = [
         <div class="box-header">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             <p>
-                <?php if(Yii::$app->user->can('spp.create')){ ?>
+                <?php if(Yii::$app->user->identity->role == 30){ ?>
                 <?= Html::a('Tambah Spp', ['create'], ['class' => 'btn btn-success']) ?>
                 <?php } ?>
                 <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>

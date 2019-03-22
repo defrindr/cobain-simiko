@@ -31,7 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'judul',
             'tahun',
-            'uploaded_by',
+            [
+                'attribute' => 'uploaded_by',
+                'value' => function($model){
+                    return$model->;
+                }
+            ],
             [
                 'attribute' => 'uploaded_at',
                 'value' => function($model){

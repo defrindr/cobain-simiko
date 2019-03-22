@@ -215,7 +215,7 @@ class SppController extends Controller
         // 
         $searchModel = new ModuleSppSearch();
         if($searchModel->load(Yii::$app->request->post())){
-            $dataProvider = $searchModel->searchValidate(Yii::$app->request->queryParams);
+            $dataProvider = $searchModel->searchPdf(Yii::$app->request->queryParams);
             $content = $this->renderAjax('_pdf', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,

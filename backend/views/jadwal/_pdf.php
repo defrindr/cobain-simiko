@@ -1,45 +1,54 @@
 <?php
-
+use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 use kartik\grid\GridView;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\ModuleJadwal */
-
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Module Jadwal', 'url' => ['index']];
+$this->title = "Jadwal";
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="module-jadwal-view">
 
-    <div class="row">
-        <div class="col-sm-9">
-            <h2><?= 'Module Jadwal'.' '. Html::encode($this->title) ?></h2>
+if (Yii::$app->user->identity->role == 30) {
+    $kelas = \common\models\ModuleSiswa::findOne(yii::$app->user->id)->kelas;
+}
+$no = 1;
+// var_dump($model);
+?>
+
+<div class="module-jadwal-pdf">
+    <?php if(count($model) > 0){ ?>
+        <h1><?php if(Yii::$app->user->identity->role == 30){ echo "Jadwal ".$kelas->grade." ".$kelas->jurusan->nama." ".$kelas->kelas; }  ?></h1>
+        <!-- <div class="box box-success">
+            <div class="box-body"> -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Guru</th>
+                            <th>Mapel</th>
+                            <th>Kelas</th>
+                            <th>Hari</th>
+                            <th>Jam</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody class="bg-success">
+                        <?php foreach ($model as $each){ ?>
+                        <tr>
+                            <td><?= $no ?></td>
+                            <td><?= $each->kodeGuru->profile->nama ?></td>
+                            <td><?= $each->mapel->nama_mapel ?></td>
+                            <td><?= $each->kelas->grade." ".$each->kelas->jurusan->nama." ".$each->kelas->kelas ?></td>
+                            <td><?= $each->hari ?></td>
+                            <td><?= $each->jam->jam ?></td>
+                        </tr>
+                        <?php
+                        $no+=1;
+                         } ?>
+                        
+                    </tbody>
+                </table>
+                
+            </div>
         </div>
-    </div>
-
-    <div class="row">
-<?php 
-    $gridColumn = [
-        ['attribute' => 'id', 'visible' => false],
-        [
-                'attribute' => 'kelas.id',
-                'label' => 'Kelas'
-            ],
-        [
-                'attribute' => 'kodeGuru.id',
-                'label' => 'Kode Guru'
-            ],
-        'jam_mulai',
-        'jam_selesai',
-        'hari',
-        ['attribute' => 'lock', 'visible' => false],
-    ];
-    echo DetailView::widget([
-        'model' => $model,
-        'attributes' => $gridColumn
-    ]); 
-?>
-    </div>
+    <?php } else { ?>
+        Belum Ada Jadwal Untuk Anda Saat ini.
+    <?php } ?>
 </div>

@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\ModuleJadwal;
+use common\models\ModuleSiswa;
 use common\models\ModuleJadwalSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -32,13 +33,17 @@ class JadwalController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ModuleJadwalSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        if(yii::$app->user->can('Admin')){
+            $searchModel = new ModuleJadwalSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else if(yii::$app->user->can('Siswa')) {
+            $model = ModuleJadwal::find()->where(['kelas_id' => ModuleSiswa::findOne(Yii::$app->user->id)->kelas_id])->all();
+            return $this->render('_index',['model'=>$model]);
+        }
     }
 
 
@@ -130,6 +135,50 @@ class JadwalController extends Controller
         $this->findModel($id)->deleteWithRelated();
 
         return $this->redirect(['index']);
+    }
+
+
+    public function actionPdf() {
+        if(Yii::$app->user->identity->role === 30){
+            $model = ModuleJadwal::find()->where(['kelas_id' => ModuleSiswa::findOne(Yii::$app->user->id)->kelas_id])->all();
+            $content = $this->renderAjax('_pdf',['model'=>$model]);
+            $pdf = new \kartik\mpdf\Pdf([
+                'mode' => \kartik\mpdf\Pdf::MODE_CORE,
+                'format' => \kartik\mpdf\Pdf::FORMAT_A4,
+                'orientation' => \kartik\mpdf\Pdf::ORIENT_PORTRAIT,
+                'destination' => \kartik\mpdf\Pdf::DEST_BROWSER,
+                'content' => $content,
+                'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+                'cssInline' => '.kv-heading-1{font-size:18px}',
+                'options' => ['title' => \Yii::$app->name],
+                'methods' => [
+                    'SetHeader' => [\Yii::$app->name],
+                    'SetFooter' => ['{PAGENO}'],
+                ]
+
+            ]);
+            return $pdf->render();
+        }else if(Yii::$app->user->identity->role === 10){
+            
+            $model = ModuleJadwal::find()->all();
+            $content = $this->renderAjax('_pdf',['model'=>$model]);
+            $pdf = new \kartik\mpdf\Pdf([
+                'mode' => \kartik\mpdf\Pdf::MODE_CORE,
+                'format' => \kartik\mpdf\Pdf::FORMAT_A4,
+                'orientation' => \kartik\mpdf\Pdf::ORIENT_PORTRAIT,
+                'destination' => \kartik\mpdf\Pdf::DEST_BROWSER,
+                'content' => $content,
+                'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+                'cssInline' => '.kv-heading-1{font-size:18px}',
+                'options' => ['title' => \Yii::$app->name],
+                'methods' => [
+                    'SetHeader' => [\Yii::$app->name],
+                    'SetFooter' => ['{PAGENO}'],
+                ]
+
+            ]);
+            return $pdf->render();
+        }
     }
 
     

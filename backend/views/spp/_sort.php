@@ -54,13 +54,13 @@ foreach (range(date('Y'),date('Y')-3) as $each) {
         ],
     ]); ?>
 
-    <?= $form->field($model, 'bank_id')->widget(Select2::classname(), [
+    <?php /* $form->field($model, 'bank_id')->widget(Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleBank::find()->orderBy('id')->asArray()->all(), 'id', 'nama_bank'),
         'options' => ['placeholder' => 'Bank'],
         'pluginOptions' => [
             'allowClear' => true
         ],
-    ]); ?>
+    ]);*/ ?>
 
     <?= $form->field($model, 'bulan')->widget(Select2::classname(),[
     	'data' => $list_bulan,
@@ -82,7 +82,16 @@ foreach (range(date('Y'),date('Y')-3) as $each) {
 
     <?php /* echo $form->field($model, 'total')->textInput(['placeholder' => 'Total']) */ ?>
 
-    <?php /* echo $form->field($model, 'status')->textInput(['placeholder' => 'Status']) */ ?>
+    <?php echo $form->field($model, 'status')->widget(Select2::classname(),[
+        'data' => [
+            1 => 'Sudah Divalidasi',
+            0 => 'Belum Divalidasi'
+        ],
+        'options'=> ['placeholder'=>'status'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]) ?>
 
     <?php /* echo $form->field($model, 'lock', ['template' => '{input}'])->textInput(['style' => 'display:none']); */ ?>
 

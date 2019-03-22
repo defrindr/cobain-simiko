@@ -77,6 +77,7 @@ $jam = [
                 <p>
                 <?= Html::a('Tambah Jadwal', ['create'], ['class' => 'btn btn-success']) ?>
                 <?php echo Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+                <?= Html::a('Export PDF',['pdf'],['class'=>'btn btn-default']) ?>
                 </p>
             <div class="search-form" style="display:none">
                 <?php echo  $this->render('_search', ['model' => $searchModel]); ?>
