@@ -1,5 +1,6 @@
 <?php
 use common\models\ModuleProfile;
+use common\models\ModuleKelas;
 use yii\helpers\Url;
 $admin = true;
 $guru = true;
@@ -8,6 +9,9 @@ $admin = (Yii::$app->user->identity->role == 10);
 $guru = (Yii::$app->user->identity->role == 20);
 $siswa = (Yii::$app->user->identity->role == 30);
 $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
+
+$check_kelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id]);
+$kelas = ($check_kelas !== []) ? true : false;
 ?>
 
 <aside class="main-sidebar">
@@ -51,7 +55,6 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                             ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard'],
                             ['label' => 'berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
                             ['label' => 'Galeri', 'url' => ['/galeri'], 'icon' => 'dashboard'],
-                            ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard'],
                             ['label' => 'Profile Manage', 'url' => ['/profile/all'], 'icon' => 'dashboard'],
                             ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard'],
                             ['label' => 'User Manage', 'url' => ['/user-manage'], 'icon' => 'dashboard'],
@@ -64,6 +67,7 @@ $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
                         'url' => ['/jurusan'],
                         'icon' => 'dashboard',
                     ],
+                    ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard', 'visible' => $kelas or $admin ],
                     ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
                     [
                         'label' => 'Materi Fitur',

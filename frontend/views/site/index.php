@@ -57,8 +57,18 @@ $this->title = Yii::$app->name;
                         <?= Html::a("Artikel Lain <i class='glyphicon glyphicon-arrow-right'></i>",['/artikel'],['class'=> 'more','style'=>'color:#fff;']) ?>
                 </div>
             </div>
+            <!-- row -->
+            <div class="row">
+                <h3 class="index-title"> <i class="glyphicon glyphicon-camera"></i> New Image In Galeri</h3>
+                <?php foreach ($newGaleri as $galeri) {?>
+                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                        <div class="card showModalButton card-shadow artikel" onclick="">
+                            <?= Html::img(Url::base()."/uploaded/galeri/".$galeri->link, ['class'=>'img img-responsive img-galeri showModalButton','onclick'=>'prevImages(this)','alt' => $galeri->judul]) ?>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+                <?= Html::a("Gambar Lain <i class='glyphicon glyphicon-arrow-right'></i>",['/galeri'],['class'=> 'more','style'=>'color:#fff;']) ?>
         </div>
-        <hr>
-
     </div>
 </div>

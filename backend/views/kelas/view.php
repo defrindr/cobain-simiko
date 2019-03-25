@@ -15,6 +15,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
+yii\bootstrap\Modal::begin([
+'headerOptions' => ['id' => 'modalHeader'],
+'id' => 'modal',
+'size' => 'modal-lg',
+/*'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]*/
+]);
+echo "<div id='modalContent'></div>";
+yii\bootstrap\Modal::end();
+
+
 
 
 
@@ -65,7 +75,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'label' => 'Nama Wali Kelas',
                                 'format'=>'raw',
                                 'value' => function($model){
-                                    return '<a href="'.Url::to(['/guru/view/'.$model->guru->user_id]).'">'.$model->guru->getProfile()->one()->nama.'</a>';
+                                    return Html::button($model->guru->profile->nama,[
+                                        'value' => Url::to(['/profile/view-modal','id'=>$model->guru->profile->user_id]),
+                                        'class' => 'btn-actionColumn showModalButton',
+                                        'title' => $model->guru->profile->nama,
+                                    ]);
                                 }
                             ],
                             // [
@@ -102,7 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-12">
             <div class="box box-success">
                 <div class="box-header">
-                    <h4>Siswa</h4>
+                    <h4 style="display: inline-block;">Siswa</h4> <?= Html::button("Generate Absen",['class'=>'btn btn-default showModalButton','style' =>'float:right','title' => 'Set Absen','value' => Url::to(['generate-absen','id'=>$model->id])]) ?>
                 </div>
                 <!-- end box header -->
                 <div class="box-body">

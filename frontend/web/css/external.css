@@ -144,6 +144,23 @@ Content
 	margin-bottom: 3rem; 
 }
 
+.site-index > .border-colored {
+	padding: 5px;
+	background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+	border-radius: 10px;
+	animation: animatedgradient 3s ease alternate infinite;
+}
+@keyframes animatedgradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
 .content{
 	padding: 20px;
 	background: #fff;
@@ -185,7 +202,8 @@ Content
 .kategori {
 	padding: 0;
 	border: 1px solid #ddd;
-	border-radius: 10px
+	border-radius: 10px;
+	background: #fff;
 }
 
 .berita-thumbnail {
@@ -411,18 +429,16 @@ footer#foot > div.container-fluid.banner > div.col-sm-4 > .row > .col-xs-6 > li 
 	.footer{
 		padding: 30px;
 	}
+	.kategori {
+		transform: translateY(15px);
+	}
 	.content {
 		transform:  translateY(-100px);
 		border: 1px solid #ddd;
 		border-radius: 10px;
 		transition: .5s;
 	}
-/*	.content:hover {
-		box-shadow: 1px 1px 30px 2px rgba(10,10,10,.8);
-		transition: .5s;
-	}*/
 	.artikel {
-		/*transform:  translateY(-100px);*/
 		transition: .5s;
 	}
 	.artikel:hover {
@@ -432,7 +448,6 @@ footer#foot > div.container-fluid.banner > div.col-sm-4 > .row > .col-xs-6 > li 
 	.another {
 		display: none;
 	}
-
 	.content > .title-content {
 		display: inline-block;
 		border-style: solid;
@@ -453,10 +468,5 @@ footer#foot > div.container-fluid.banner > div.col-sm-4 > .row > .col-xs-6 > li 
 		left: -1px;
 		background: #ddd;
 		border-radius: 0 0 0 100%;
-	}
-	.site-index > .border-colored {
-		padding: 5px;
-		background-image: linear-gradient(to bottom,#316767,yellow);
-		border-radius: 10px;
 	}
 }

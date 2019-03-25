@@ -18,6 +18,13 @@ $search = "$('.search-button').click(function(){
 });";
 $this->registerJs($search);
 
+$grade = [
+"X"=>"X",
+"XI"=>"XI",
+"XII"=>"XII"
+];
+
+
 ?>
 <div class="module-kelas-index">
     <div class="box box-success">
@@ -52,9 +59,18 @@ $this->registerJs($search);
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
-                        'filterInputOptions' => ['placeholder' => 'Module guru', 'id' => 'grid-module-kelas-search-guru_id']
+                        'filterInputOptions' => ['placeholder' => 'Guru', 'id' => 'grid-module-kelas-search-guru_id']
                     ],
-                    'grade',
+                    [
+                        'attribute' => 'grade',
+                        'filterType' => GridView::FILTER_SELECT2,
+                        'filter' => $grade,
+                        'filterWidgetOptions' => [
+                            'pluginOptions' => ['allowClear' => true],
+                        ],
+                        'filterInputOptions' => ['placeholder' => 'Grade', 'id' => 'grid-module-kelas-search-grade']
+
+                    ],
                     [
                         'attribute' => 'jurusan_id',
                         'label' => 'Jurusan',
@@ -66,7 +82,7 @@ $this->registerJs($search);
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
-                        'filterInputOptions' => ['placeholder' => 'Module jurusan', 'id' => 'grid-module-kelas-search-jurusan_id']
+                        'filterInputOptions' => ['placeholder' => 'Jurusan', 'id' => 'grid-module-kelas-search-jurusan_id']
                     ],
                     'kelas',
                     'tahun',

@@ -9,24 +9,6 @@ use kartik\grid\GridView;
 $this->title = "Galeri";
 $this->params['breadcrumbs'][] = ["label"=>"Galeri","url"=>["/galeri"]];
 
-
-yii\bootstrap\Modal::begin([
-	'headerOptions' => [
-		'id' => 'modalHeader',
-	],
-	'id' => 'modal',
-	'options' => ['style'=>''],
-	'size' => 'modal-lg',
-	'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]
-]);
-
-echo '<div id="modalContent">
-<center><img id="modImg" class="img img-responsive" src="" alt="" style="min-height:50vh"></center>
-</div>';
-yii\bootstrap\Modal::end();
-
-
-
 ?>
 
 <div class="site-galeri">
@@ -38,11 +20,11 @@ yii\bootstrap\Modal::end();
 					foreach ($models as $model) {
 				?>
 				<div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-					<div class="card showModalButton card-shadow artikel" onclick="">
+					<div class="card showModalButton card-shadow artikel">
 						<?= Html::img(Url::base()."/uploaded/galeri/".$model->link, ['class'=>'img img-responsive img-galeri showModalButton','onclick'=>'prevImages(this)','alt' => $model->judul]) ?>
-						<!-- <div class="card-caption" style="z-index: 1">
-							<center><?= $model->judul ?></center>
-						</div> -->
+						<div class="card-caption hidden" style="z-index: 1">
+							<?= $model->judul ?>
+						</div>
 					</div>
 				</div>
 				<?php }
@@ -56,7 +38,7 @@ yii\bootstrap\Modal::end();
 				<?= LinkPager::widget(['pagination'=>$pages,'hideOnSinglePage'=>true]) ?>
 			</center>
 		</div>
-		<div class="col-sm-4 col-xs-12">
+		<div class="col-sm-4 col-xs-10 col-xs-offset-1 col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
 			<div class="kategori">
 				<h4 class="kategori-title">
 					Galeri Kategori

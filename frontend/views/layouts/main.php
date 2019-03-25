@@ -68,7 +68,21 @@ $carousel = [
 
 <?php } ?>
 <div class="wrap">
-    <?php if(!(Url::to()==Url::base()."/" or Url::to() == Url::base().'/site/index')){ ?>
+    <?php if(!(Url::to()==Url::base()."/" or Url::to() == Url::base().'/site/index')){ 
+        yii\bootstrap\Modal::begin([
+            'headerOptions' => [
+                'id' => 'modalHeader',
+            ],
+            'id' => 'modalShow',
+        ]);
+
+    echo '<div id="modalContent">
+    <center><img id="modImg" class="img img-responsive" src="" alt="" style="min-height:50vh"></center>
+    </div>';
+    yii\bootstrap\Modal::end();
+
+        ?>
+
     <div class="container content">
         <h3 class="title-content"><?= Html::encode($this->title) ?></h3>
         <?= Breadcrumbs::widget([

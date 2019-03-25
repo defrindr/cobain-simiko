@@ -23,7 +23,7 @@ use kartik\widgets\FileInput;
 
     <?= $form->field($model, 'kategori')->widget(\kartik\widgets\Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleGaleriKategori::find()->orderBy('id')->asArray()->all(), 'id', 'nama'),
-        'options' => ['placeholder' => 'Choose Module galeri kategori'],
+        'options' => ['placeholder' => 'Galeri kategori'],
         'pluginOptions' => [
             'allowClear' => true
         ],

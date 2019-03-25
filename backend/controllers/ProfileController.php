@@ -58,25 +58,25 @@ class ProfileController extends Controller
      * Lists all ModuleProfile models.
      * @return mixed
      */
-    public function actionDataRestore()
-    {
-        $searchModel = new ModuleProfileSearch();
-        $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+    // public function actionDataRestore()
+    // {
+    //     $searchModel = new ModuleProfileSearch();
+    //     $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-        return $this->renderAjax('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+    //     return $this->renderAjax('index', [
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider,
+    //     ]);
+    // }
 
-    public function actionRestore($id){
-        $model = ModuleProfile::findDeleted($id)->one();
-        if($model->restoreWithRelated()){
-            Yii::$app->session->setFlash('success','Data berhasil direstore');
-        } else {
-            Yii::$app->session->setFlash('success','Data gagal direstore');
-        } return $this->redirect(['index']);
-    }
+    // public function actionRestore($id){
+    //     $model = ModuleProfile::findDeleted($id)->one();
+    //     if($model->restoreWithRelated()){
+    //         Yii::$app->session->setFlash('success','Data berhasil direstore');
+    //     } else {
+    //         Yii::$app->session->setFlash('success','Data gagal direstore');
+    //     } return $this->redirect(['index']);
+    // }
 
 
 
@@ -219,7 +219,7 @@ class ProfileController extends Controller
     {
         $model = $this->findModel($id);
         return $this->renderAjax('_view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 

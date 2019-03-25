@@ -32,13 +32,40 @@ class KelasController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ModuleKelasSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if( Yii::$app->user->can('Admin')){
+            $searchModel = new ModuleKelasSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }else if(Yii::$app->user->identity->role == 20){
+            $checkKelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one();
+            if( $checkKelas == []){
+                throw new \yii\web\ForbiddenHttpException("Hayo lho !! Anda tidak punya akses :v");
+            }else {
+                $model = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one();
+                $providerModuleJadwal = new \yii\data\ArrayDataProvider([
+                    'allModels' => $model->moduleJadwals,
+                ]);
+                $providerModuleMateri = new \yii\data\ArrayDataProvider([
+                    'allModels' => $model->moduleMateris,
+                ]);
+                $providerModuleSiswa = new \yii\data\ArrayDataProvider([
+                    'allModels' => $model->moduleSiswas,
+                ]);
+
+                return $this->render('view', [
+                    'model' => $model,
+                    'providerModuleJadwal' => $providerModuleJadwal,
+                    'providerModuleMateri' => $providerModuleMateri,
+                    'providerModuleSiswa' => $providerModuleSiswa,
+                ]);
+            }
+        } else {
+            throw new \yii\web\ForbiddenHttpException;
+        }
     }
 
 
@@ -227,4 +254,43 @@ class KelasController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+
+
+    public function actionGenerateAbsen($id=null)
+    {
+        if(Yii::$app->user->can('Admin')){
+            $model = new \backend\models\modelFormGenerateAbsen();
+            if($model->load(Yii::$app->request->post())){
+                if(!$model->validate()){
+                    Yii::$app->session->setFlash('error','Validasi Error');
+                    return $this->redirect(['index']);
+                }else {
+                    $modelKelas = $this->findModel($id);
+                    $daftar_siswa = \common\models\ModuleSiswa::find()->where(['kelas_id'=>$id])->all();
+                    $content = $this->renderAjax('_pdfAbsen',['daftar_siswa'=>$daftar_siswa, 'bulan' => $model->bulan, 'tahun' => $model->tahun,'model' => $modelKelas]);
+                    $pdf = new \kartik\mpdf\Pdf([
+                    'mode' => \kartik\mpdf\Pdf::MODE_CORE,
+                    'format' => \kartik\mpdf\Pdf::FORMAT_A4,
+                    'orientation' => \kartik\mpdf\Pdf::ORIENT_LANDSCAPE,
+                    'destination' => \kartik\mpdf\Pdf::DEST_BROWSER,
+                    'content' => $content,
+                    'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+                    'cssInline' => '.kv-heading-1{font-size:18px}',
+                    'options' => ['title' => \Yii::$app->name],
+                    'methods' => [
+                        'SetHeader' => [\Yii::$app->name],
+                        'SetFooter' => ['{PAGENO}'],
+                    ]
+                ]);
+                return $pdf->render();
+                }
+            }
+            return $this->renderAjax('_formGenerateAbsen',['model'=>$model]);
+        }
+
+    }
+
+
 }

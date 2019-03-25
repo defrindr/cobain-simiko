@@ -73,8 +73,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $newArtikel = \common\models\ModuleBerita::find()->orderBy(['deleted_by'=>SORT_DESC])->limit(4)->all();
-        return $this->render('index',['newArtikel'=>$newArtikel]);
+        $newArtikel = \common\models\ModuleBerita::find()->orderBy(['created_at'=>SORT_DESC])->limit(4)->all();
+        $newGaleri = \common\models\ModuleGaleri::find()->orderBy(['uploaded_at'=>SORT_DESC])->limit(4)->all();
+        return $this->render('index',['newArtikel'=>$newArtikel,'newGaleri'=> $newGaleri]);
     }
 
     /**

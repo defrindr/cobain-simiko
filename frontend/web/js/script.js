@@ -1,16 +1,19 @@
-function showHide() {
-    $toHide = document.getElementById("toHide");
-    $toShow = document.getElementById("toShow");
-    $("#toShow").removeClass('hidden');
-    $("#toHide").addClass("hidden");
-}
 
-// function showCardCaption(image){
-// 	console.log(image);
-// 	var elemen = image.getElementsByClassName("card-caption");
-// 	// console.log();
-// 	elemen.className = elemen[0].className.replace(" hidden","");
+
+
+// function showHide() {
+//     $toHide = document.getElementById("toHide");
+//     $toShow = document.getElementById("toShow");
+//     $("#toShow").removeClass('hidden');
+//     $("#toHide").addClass("hidden");
 // }
+
+function showCardCaption(image){
+	console.log("test");
+	// var elemen = image.getElementsByClassName("card-caption");
+	// // console.log();
+	// elemen.className = elemen[0].className.replace(" hidden","");
+}
 
 function prevImages(anu) {
     img = document.getElementById('modImg');
@@ -26,12 +29,12 @@ function prevImages(anu) {
 
 $(function(){
 	$(document).on('click', '.showModalButton', function(){
-		if ($('#modal').data('bs.modal').isShown) {
-			$('#modal').find('#modalContent')
+		if ($('#modalShow').data('bs.modal').isShown) {
+			$('#modalShow').find('#modalContent')
 			.load($(this).attr('value'));
 			document.getElementById('modalHeader').innerHTML = '<h4>' + $(this).attr('title') + '</h4>';
 		} else {
-			$('#modal').modal('show')
+			$('#modalShow').modal('show')
 			.find('#modalContent')
 			.load($(this).attr('value'));
 			document.getElementById('modalHeader').innerHTML = '<h4>' + $(this).attr('title') + '</h4>';

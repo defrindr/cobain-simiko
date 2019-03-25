@@ -86,7 +86,15 @@ yii\bootstrap\Modal::end();
                     ['attribute' => 'lock', 'visible' => false],
                     [
                         'class' => 'yii\grid\ActionColumn',
-                        'template' => '{view}'
+                        'template' => '{view}',
+                        'buttons' => [
+                            'view' => function($url,$model){
+                                return Html::button('<i class="glyphicon glyphicon-eye-open"></i>',[
+                                    'value' => Url::to(['view-modal','id'=>$model->user_id]),
+                                    'class' => 'btn-actionColumn showModalButton'
+                                ]);
+                            }
+                        ]
                     ],
                 ]; 
                 ?>
@@ -95,6 +103,7 @@ yii\bootstrap\Modal::end();
                     'filterModel' => $searchModel,
                     'columns' => $gridColumn,
                     'pjax' => true,
+                    'responsiveWrap' => false,
                     'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-profile']],
                     'panel' => false,
                 ]); ?>

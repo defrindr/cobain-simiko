@@ -11,15 +11,6 @@ use yii\helpers\Url;
 
 $this->title = 'Berita';
 $this->params['breadcrumbs'][] = $this->title;
-
-yii\bootstrap\Modal::begin([
-'headerOptions' => ['id' => 'modalHeader'],
-'id' => 'modal',
-'size' => 'modal-lg',
-/*'clientOptions' => ['backdrop' => 'static', 'keyboard' => false]*/
-]);
-echo "<div id='modalContent'></div>";
-yii\bootstrap\Modal::end();
 ?>
 <div class="module-berita-index">
     <div class="container">
