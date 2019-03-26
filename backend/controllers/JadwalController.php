@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\ModuleJadwal;
 use common\models\ModuleSiswa;
+use common\models\ModuleGuru;
 use common\models\ModuleJadwalSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -43,33 +44,37 @@ class JadwalController extends Controller
         } else if(yii::$app->user->can('Siswa')) {
             $model = ModuleJadwal::find()->where(['kelas_id' => ModuleSiswa::findOne(Yii::$app->user->id)->kelas_id])->all();
             return $this->render('_index',['model'=>$model]);
+        } else if(yii::$app->user->can('Guru')){
+            $model = ModuleJadwal::find()->where(['kode_guru' => ModuleGuru::find()->where(['user_id'=>Yii::$app->user->id])->one()->id])->all();
+            return $this->render('_index',['model'=>$model]);
+
         }
     }
 
 
-    /**
-     * Lists all ModuleJadwal models.
-     * @return mixed
-     */
-    public function actionDataRestore()
-    {
-        $searchModel = new ModuleJadwalSearch();
-        $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
+    // /**
+    //  * Lists all ModuleJadwal models.
+    //  * @return mixed
+    //  */
+    // public function actionDataRestore()
+    // {
+    //     $searchModel = new ModuleJadwalSearch();
+    //     $dataProvider = $searchModel->searchRestore(Yii::$app->request->queryParams);
 
-        return $this->renderAjax('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+    //     return $this->renderAjax('index', [
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider,
+    //     ]);
+    // }
 
-    public function actionRestore($id){
-        $model = ModuleJadwal::findDeleted($id)->one();
-        if($model->restoreWithRelated()){
-            Yii::$app->session->setFlash('success','Data berhasil direstore');
-        } else {
-            Yii::$app->session->setFlash('success','Data gagal direstore');
-        } return $this->redirect(['index']);
-    }
+    // public function actionRestore($id){
+    //     $model = ModuleJadwal::findDeleted($id)->one();
+    //     if($model->restoreWithRelated()){
+    //         Yii::$app->session->setFlash('success','Data berhasil direstore');
+    //     } else {
+    //         Yii::$app->session->setFlash('success','Data gagal direstore');
+    //     } return $this->redirect(['index']);
+    // }
 
 
 

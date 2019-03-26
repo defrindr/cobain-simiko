@@ -78,6 +78,14 @@ yii\bootstrap\Modal::end();
             ['attribute' => 'lock', 'visible' => false],
             [
                 'class' => 'yii\grid\ActionColumn',
+                'visibleButtons' => [
+                    'update' => function ($model) {
+                        return \Yii::$app->user->can('guru.update', ['post' => $model]);
+                    },
+                    'delete' => function ($model) {
+                        return \Yii::$app->user->can('guru.delete', ['post' => $model]);
+                    },
+                ],
                 'buttons' => [
                     'update' => function($url,$model) {
                         return Html::a('<i class="glyphicon glyphicon-pencil"></i>',

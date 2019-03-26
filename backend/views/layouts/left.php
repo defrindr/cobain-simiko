@@ -10,8 +10,7 @@ $guru = (Yii::$app->user->identity->role == 20);
 $siswa = (Yii::$app->user->identity->role == 30);
 $user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
 
-$check_kelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id]);
-$kelas = ($check_kelas !== []) ? true : false;
+$check_kelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one();
 ?>
 
 <aside class="main-sidebar">
@@ -67,7 +66,7 @@ $kelas = ($check_kelas !== []) ? true : false;
                         'url' => ['/jurusan'],
                         'icon' => 'dashboard',
                     ],
-                    ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard', 'visible' => $kelas or $admin ],
+                    ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard', 'visible' => ($check_kelas != [] or $admin) ],
                     ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
                     [
                         'label' => 'Materi Fitur',

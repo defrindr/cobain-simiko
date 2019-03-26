@@ -37,11 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="form-group">
             <?= Html::submitButton('Upload File',['class' => 'btn btn-primary']) ?>
         </div>
-        <div class="bg-red">Note: Anda Tidak akan dapat menghapus file setelah anda meng-uploadnya.</div>
+        <span class="bg-red"style="padding: 5px">Note: Anda Tidak akan dapat menghapus/mengganti file setelah anda meng-uploadnya.</span>
         <?php ActiveForm::end();?>
          <?php } else {?>
             Anda Telah Menambahkan file jawaban : 
-            <?= Html::a($check->link,['/uploaded/materi-soal-jawaban/'.$check->link]) ?>
+            <?= Html::a($check->link,['/uploaded/materi-soal-jawaban/'.$check->link],['target'=>'_blank']) ?>
         <?php } ?>
 	</div>
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 21, 2019 at 05:33 AM
+-- Generation Time: Mar 26, 2019 at 10:53 AM
 -- Server version: 10.1.38-MariaDB-0ubuntu0.18.04.1
 -- PHP Version: 7.2.16-1+ubuntu18.04.1+deb.sury.org+1
 
@@ -528,7 +528,7 @@ CREATE TABLE `module_bank` (
 --
 
 INSERT INTO `module_bank` (`id`, `no_rekening`, `nama_bank`, `atas_nama`, `gambar`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
-(1, '1000000000', 'aldana123', 'siswa1', '21769537e1133ad50560a5e545675795_41_1549594578.jpg', 0, 0, 4, 1552280190, 0, '2019-03-11 11:56:30', 12),
+(1, '1000000000', 'aldana123', 'siswa1', '21769537e1133ad50560a5e545675795_54_1553223323.png', 0, 0, 4, 1553223323, 0, '2019-03-11 11:56:30', 13),
 (2, '1010101010', 'BNI 2', 'sri astuti', '21769537e1133ad50560a5e545675795_12_1550403000.jpg', 4, 2147483647, 4, 1552724645, 0, '2019-03-16 15:24:05', 8),
 (3, '110011001001', 'BNI 1', 'Wahyu widodo', '21769537e1133ad50560a5e545675795_47_1551159555.jpg', 4, 2147483647, 4, 1551159555, 0, '2019-02-10 05:01:48', 3),
 (4, '1000020000100', 'BPT', 'rahardian wisma', '21769537e1133ad50560a5e545675795_87_1550402976.jpg', 4, 1549774190, 4, 1550402976, 0, '2019-02-10 11:49:50', 2);
@@ -591,7 +591,9 @@ CREATE TABLE `module_berita_kategori` (
 INSERT INTO `module_berita_kategori` (`id`, `nama`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
 (1, 'Adiwiyata', 4, 2147483647, 4, 1551238500, 0, '2019-02-07 11:26:59', 3),
 (2, 'Lirik Lagu', 4, 2147483647, 4, 1550325467, 0, '2019-02-16 13:57:47', 15),
-(3, 'Anime', 4, 1549773037, 4, 1551255293, 0, '2019-02-27 08:14:53', 16);
+(3, 'Anime', 4, 1549773037, 4, 1551255293, 0, '2019-02-27 08:14:53', 16),
+(4, 'Chord Gitar', 4, 1553216028, 4, 1553216028, 0, '2019-03-22 07:53:48', 0),
+(5, 'Techno', 4, 1553216049, 4, 1553216049, 0, '2019-03-22 07:54:09', 0);
 
 -- --------------------------------------------------------
 
@@ -641,7 +643,9 @@ INSERT INTO `module_galeri` (`id`, `kategori`, `link`, `judul`, `tahun`, `upload
 (24, 4, '30c2007404e1e8aef160820a2848fd7c671551232556.png', 'test3', 2019, 4, 1551232556, 4, 1551915810, 0, '0000-00-00 00:00:00', 1),
 (25, 4, '30c2007404e1e8aef160820a2848fd7c601551232556.png', 'test3', 2019, 4, 1551232556, 4, 1551915834, 0, '0000-00-00 00:00:00', 1),
 (26, 4, '30c2007404e1e8aef160820a2848fd7c771551232556.png', 'test3', 2019, 4, 1551232556, 4, 1551915842, 0, '0000-00-00 00:00:00', 1),
-(27, 4, '30c2007404e1e8aef160820a2848fd7c741551232556.png', 'test3', 2019, 4, 1551232556, 4, 1551915854, 0, '0000-00-00 00:00:00', 1);
+(27, 4, '30c2007404e1e8aef160820a2848fd7c741551232556.png', 'test3', 2019, 4, 1551232556, 4, 1551915854, 0, '0000-00-00 00:00:00', 1),
+(28, 1, '30c2007404e1e8aef160820a2848fd7c791553554055.jpg', 'wallpaper bary', 2019, 4, 1553554055, 4, 1553554055, 0, '2019-03-26 05:47:35', 0),
+(29, 1, '30c2007404e1e8aef160820a2848fd7c821553554056.jpg', 'wallpaper bary', 2019, 4, 1553554056, 4, 1553554056, 0, '2019-03-26 05:47:36', 0);
 
 -- --------------------------------------------------------
 
@@ -975,20 +979,16 @@ CREATE TABLE `module_materi_komentar` (
 --
 
 INSERT INTO `module_materi_komentar` (`id`, `user_id`, `materi_id`, `subject`, `komentar`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`, `lock`) VALUES
-(4, 4, 1, 'Wah keren', 'keren banget materinya h3h3', 0, 1551775349, 4, 1551775349, 4, '2019-03-18 02:07:26', 4, 0),
-(5, 5, 8, 'Gaya Gesek', 'Di pelajari lebih lanjut dan dikerjakan soalnya .', 0, 1551873061, 5, 1551873061, 5, '2019-03-18 01:01:31', 4, 0),
-(8, 4, 8, 'Ok', 'Siap pak !!!!', 0, 1551873361, 4, 1551873361, 4, '2019-03-18 01:01:31', 4, 0),
 (12, 4, 9, '<i>Hai</i>', 'test komen italic', 0, 1551882942, 4, 1551882942, 4, '2019-03-08 14:26:37', 0, 0),
-(13, 4, 8, '<i>miring </i>', '<i>ini italic</i>\r\n<b>ini bold</b>\r\n<u>ini underline</u>\r\n', 0, 1551885232, 4, 1551885232, 4, '2019-03-18 01:01:31', 4, 0),
 (14, 4, 9, '\"&gt;', '\"&gt;', 0, 1552055394, 4, 1552055394, 4, '2019-03-08 14:29:54', 0, 0),
 (15, 4, 9, 'quot;gt;<s></s>', 'quot;gt;<s></s>', 0, 1552055646, 4, 1552055646, 4, '2019-03-08 14:34:06', 0, 0),
 (16, 4, 3, '.', 'quot;gt;<s></s>', 0, 1552055695, 4, 1552055695, 4, '2019-03-08 14:34:55', 0, 0),
-(18, 4, 10, 'ha', 'L opo ??', 0, 1552539852, 4, 1552539852, 4, '2019-03-18 01:01:38', 4, 0),
 (20, 4, 4, 'asss', 'asss', 0, 1552785769, 4, 1552785769, 4, '2019-03-17 01:22:49', 0, 0),
-(21, 8, 1, 'Hai', 'Keren', 0, 1552870446, 8, 1552870446, 8, '2019-03-18 02:07:26', 4, 0),
 (22, 10, 4, 'Hey!!', 'Hey Apa apaan ini !!!\n', 0, 1552895988, 10, 1552895988, 10, '2019-03-18 07:59:49', 0, 0),
 (23, 7, 4, 'qwerty', 'siyap', 0, 1553048874, 7, 1553048874, 7, '2019-03-20 02:27:54', 0, 0),
-(24, 4, 3, 'Hai', 'AAA', 0, 1553050986, 4, 1553050986, 4, '2019-03-20 03:03:06', 0, 0);
+(24, 4, 3, 'Hai', 'AAA', 0, 1553050986, 4, 1553050986, 4, '2019-03-20 03:03:06', 0, 0),
+(25, 7, 4, 'awkawk', 'Ada ada aja ya hahaha\n', 0, 1553165496, 7, 1553165496, 7, '2019-03-21 10:51:36', 0, 0),
+(27, 8, 1, 'test', 'Komen\n', 0, 1553558767, 8, 1553558767, 8, '2019-03-26 00:06:07', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1064,6 +1064,13 @@ CREATE TABLE `module_materi_soal_jawaban` (
   `lock` bigint(20) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `module_materi_soal_jawaban`
+--
+
+INSERT INTO `module_materi_soal_jawaban` (`id`, `materi_soal_id`, `siswa_id`, `link`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
+(1, 1, 8, '1_Daniel.pdf', 8, 1553569460, 8, 1553569460, 0, '2019-03-26 10:04:20', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -1125,10 +1132,10 @@ CREATE TABLE `module_spp` (
 --
 
 INSERT INTO `module_spp` (`id`, `siswa_id`, `bank_id`, `bulan`, `tahun`, `bukti_bayar`, `spp`, `tabungan_prakerin`, `tabungan_study_tour`, `total`, `created_by`, `status`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
-(6, 8, 1, 'Januari', 2019, '8_1552513111_76_2019.jpg', 150000, 30000, 20000, 200000, 8, 1, 1552513111, 4, 1552533189, 0, '2019-03-14 04:38:31', 1),
-(7, 8, 4, 'Februari', 2018, '8_1552514018_29_2018.png', 175000, 10000, 25000, 210000, 8, 1, 1552514018, 8, 1552514018, 0, '2019-03-14 04:53:38', 0),
-(10, 8, 3, 'Februari', 2019, '8_1552884680_77_2019.jpg', 175000, 20000, 25000, 220000, 8, 0, 1552884680, 8, 1552884680, 0, '2019-03-18 11:51:20', 0),
-(11, 7, 1, 'Januari', 2019, '7_1553049074_13_2019.jpg', 150000, 10000, 30000, 190000, 7, 1, 1553049074, 4, 1553049934, 0, '2019-03-20 09:31:14', 1);
+(10, 8, 3, 'Februari', 2019, '8_1552884680_77_2019.jpg', 175000, 20000, 25000, 220000, 8, 1, 1552884680, 4, 1553215873, 0, '2019-03-18 11:51:20', 1),
+(12, 7, 1, 'Maret', 2019, '7_1553165557_5_2019.png', 175000, 15000, 15000, 205000, 7, 1, 1553165557, 4, 1553566172, 0, '2019-03-22 09:55:23', 1),
+(13, 8, 3, 'Maret', 2019, '8_1553565688_100_2019.png', 175000, 30000, 30000, 235000, 8, 1, 1553565688, 4, 1553565762, 0, '2019-03-26 09:01:28', 1),
+(14, 7, 3, 'April', 2019, '7_1553572368_50_2019.png', 175000, 30000, 30000, 235000, 7, 0, 1553572368, 7, 1553572368, 0, '2019-03-26 10:52:48', 0);
 
 -- --------------------------------------------------------
 
@@ -1161,7 +1168,7 @@ CREATE TABLE `profile` (
 INSERT INTO `profile` (`user_id`, `nama`, `jenis_kelamin`, `tgl_lahir`, `tempat_lahir`, `bio`, `no_telp`, `avatar`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `lock`) VALUES
 (4, 'Administrator', 'L', 1401901200, 'Ponorogo', 'Try , error , and never give up :v', '+6285604845437', 'admin_1552279194.png', 4, 1550309550, 4, 1552585821, 0, '2019-02-16 16:32:30', 32),
 (5, 'Bima arya nugraha', 'L', 12309876, 'ponorogo', '', '', '', 4, 1550328503, 4, 1550328503, 0, '2019-02-16 21:48:23', 0),
-(6, 'Narendra edi darma budi arta', 'L', 994291200, 'Ponorogo', 'Dont judge person by cover', '+6286754884930', NULL, 4, 1550615604, 6, 1551275186, 0, '2019-02-20 05:33:24', 1),
+(6, 'Narendra edi darma budi arta', 'L', 994266000, 'Ponorogo', 'Dont judge person by cover', '+6286754884930', 'guru2_1553488976.jpg', 4, 1550615604, 6, 1553488976, 0, '2019-02-20 05:33:24', 2),
 (7, 'Ryan Erlangga', 'L', 1502064000, 'Ponorogo', '', '+6276544487', 'siswa_1550622519.jpeg', 4, 1550331594, 7, 1551687916, 0, '2019-02-16 22:39:54', 13),
 (8, 'Daniel', 'L', 0, '', '', '', 'siswa2_1552276218.png', 4, 1550616352, 8, 1552276218, 0, '2019-02-20 05:45:52', 1),
 (9, 'Aldi Wahyu Ghanesa putra', 'L', 15, 'Ponorogo', 'Why me ??', '6285604845437', NULL, 4, 1550628649, 4, 1550628649, 0, '2019-02-20 09:10:49', 0),
@@ -1196,11 +1203,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `role`, `last_login`, `created_at`, `updated_at`) VALUES
-(4, 'admin', '68r2xcRUUj-MNODNLTd3C-FyqU91ENQF', '$2y$13$CX9I6C0VQa6blxgbbPo.cOsMZrsip6xO94/dnYRVnRSjRfJjgrxPG', NULL, 'admin@web.id', 10, 10, 1553116825, 1549491206, 1553116825),
-(5, 'guru', 'fwIsNL9Vuu8A_3qHnvPURA6dRFMquctB', '$2y$13$JZlIgBJiTK18lWV9LsHPc.V2apfRtvIEHJqINOy9W2SKlaWszruCu', NULL, 'teach@bout.tech', 10, 20, 1552956075, 1549491248, 1552956075),
-(6, 'guru2', 'F96ul2asFIcIzE6Y1a9MFcsrLoV7FVuc', '$2y$13$s6S5EAa0viQAmOlPv24OQuMzQCJwdoB8fhYsenzXbwGitc0Rm/QU.', NULL, 'teacher@bout.tech', 10, 20, 0, 1549491290, 1550327675),
-(7, 'siswa', 'HeAz61KeZt8Ds-SeK_0zb55cv6rC0ydU', '$2y$13$.yEydf0wQaVsO2fL9vgBSeQIToK7NFTDvZOxRAuXpFRxeRItjsbXS', NULL, 'siswa@info.tech', 10, 30, 1553049968, 1549491316, 1553049968),
-(8, 'siswa2', 'nS0hqnLo5p8uC3dPJG99GhO18QhqaKIk', '$2y$13$FoxjjD07wrv81Noqe8AcI.2f0Gjo6V58Mz8Hltv1Cwd5At7CqpwiK', NULL, 'student2@info.tech', 10, 30, 1552875816, 1549491350, 1552875816),
+(4, 'admin', '68r2xcRUUj-MNODNLTd3C-FyqU91ENQF', '$2y$13$CX9I6C0VQa6blxgbbPo.cOsMZrsip6xO94/dnYRVnRSjRfJjgrxPG', NULL, 'admin@web.id', 10, 10, 1553571727, 1549491206, 1553571727),
+(5, 'guru', 'fwIsNL9Vuu8A_3qHnvPURA6dRFMquctB', '$2y$13$JZlIgBJiTK18lWV9LsHPc.V2apfRtvIEHJqINOy9W2SKlaWszruCu', NULL, 'teach@bout.tech', 10, 20, 1553571745, 1549491248, 1553571745),
+(6, 'guru2', 'F96ul2asFIcIzE6Y1a9MFcsrLoV7FVuc', '$2y$13$s6S5EAa0viQAmOlPv24OQuMzQCJwdoB8fhYsenzXbwGitc0Rm/QU.', NULL, 'teacher@bout.tech', 10, 20, 1553571520, 1549491290, 1553571520),
+(7, 'siswa', 'HeAz61KeZt8Ds-SeK_0zb55cv6rC0ydU', '$2y$13$.yEydf0wQaVsO2fL9vgBSeQIToK7NFTDvZOxRAuXpFRxeRItjsbXS', NULL, 'siswa@info.tech', 10, 30, 1553572146, 1549491316, 1553572146),
+(8, 'siswa2', 'nS0hqnLo5p8uC3dPJG99GhO18QhqaKIk', '$2y$13$FoxjjD07wrv81Noqe8AcI.2f0Gjo6V58Mz8Hltv1Cwd5At7CqpwiK', NULL, 'student2@info.tech', 10, 30, 1553566707, 1549491350, 1553566707),
 (9, 'testblockuser', 'HXx8iqAuzBk35GLbWtMtsa4Vdt4ADbuJ', '$2y$13$Uaxap79k/4ESEwv4aZ8JIu9dP/z1W/7jvz6hZ1RsiFtHY2OdO0RuC', NULL, 'testblockuser@tech.in', 0, 30, 0, 1550055721, 1551833729),
 (10, 'renaldi51', 'piKTrMUtSUFe4e7H3PrlyKOQc0fcIrDf', '$2y$13$CX9I6C0VQa6blxgbbPo.cOsMZrsip6xO94/dnYRVnRSjRfJjgrxPG', NULL, 'renaldi51@gmail.com', 10, 30, 1552974751, 1551272917, 1552974751),
 (11, 'arsyadC0d', 'Ykysv63DyDvQXc6qaGINpSfT-Om0Nr0z', '$2y$13$nOT71z2L6W0YF.fCgL9/T.RF7dS3KljqM4NR6LlbBVMRUzZ2Td8Mu', NULL, 'arsyadC0d@gmail.com', 10, 20, 0, 1551273991, 1551273991),
@@ -1373,7 +1380,8 @@ ALTER TABLE `module_materi_soal_file`
 --
 ALTER TABLE `module_materi_soal_jawaban`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_tbl_materi_soal_jawaban_tbl_materi_soal1_idx` (`materi_soal_id`);
+  ADD KEY `fk_tbl_materi_soal_jawaban_tbl_materi_soal1_idx` (`materi_soal_id`),
+  ADD KEY `fk_tbl_materi_soal_jawaban_tabel_siswa1` (`siswa_id`);
 
 --
 -- Indexes for table `module_siswa`
@@ -1426,13 +1434,13 @@ ALTER TABLE `module_berita`
 -- AUTO_INCREMENT for table `module_berita_kategori`
 --
 ALTER TABLE `module_berita_kategori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `module_galeri`
 --
 ALTER TABLE `module_galeri`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `module_galeri_kategori`
@@ -1498,7 +1506,7 @@ ALTER TABLE `module_materi_kategori`
 -- AUTO_INCREMENT for table `module_materi_komentar`
 --
 ALTER TABLE `module_materi_komentar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `module_materi_soal`
@@ -1516,13 +1524,13 @@ ALTER TABLE `module_materi_soal_file`
 -- AUTO_INCREMENT for table `module_materi_soal_jawaban`
 --
 ALTER TABLE `module_materi_soal_jawaban`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `module_spp`
 --
 ALTER TABLE `module_spp`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -1630,6 +1638,7 @@ ALTER TABLE `module_materi_soal_file`
 -- Constraints for table `module_materi_soal_jawaban`
 --
 ALTER TABLE `module_materi_soal_jawaban`
+  ADD CONSTRAINT `fk_tbl_materi_soal_jawaban_tabel_siswa1` FOREIGN KEY (`siswa_id`) REFERENCES `module_siswa` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_tbl_materi_soal_jawaban_tbl_materi_soal1` FOREIGN KEY (`materi_soal_id`) REFERENCES `module_materi_soal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

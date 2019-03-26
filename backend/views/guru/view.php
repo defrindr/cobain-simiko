@@ -14,19 +14,22 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-6">
             <div class="box box-success">
                 <div class="box-header">
-                    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary',
+                    <?php if(Yii::$app->user->can('Admin')){?>
+                        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary',
+                            'data' => [
+                                'method'=>'post',
+                            ],
+                        ]) ?>
+                        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+                        'class' => 'btn btn-danger',
                         'data' => [
-                            'method'=>'post',
+                        'confirm' => 'Are you sure you want to delete this item?',
+                        'method' => 'post',
                         ],
-                    ]) ?>
-                    <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                    'confirm' => 'Are you sure you want to delete this item?',
-                    'method' => 'post',
-                    ],
-                    ])
-                    ?>
+                        ])
+                        ?>
+
+                    <?php } ?>
                 </div>
                 <div class="box-body">
                     <?php
