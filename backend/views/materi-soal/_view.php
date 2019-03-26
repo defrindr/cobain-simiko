@@ -27,13 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 	<div class="box box-materi">
 		<h4>Upload Jawaban</h4>
-		<hr>
-		<?php $form = ActiveForm::begin();?>
-		<?= $form->field($addJawaban,'file')->label("")->widget(FileInput::classname()); ?>
-	    <div class="form-group">
-	        <?= Html::submitButton('Upload File',['class' => 'btn btn-primary']) ?>
-	    </div>
-		<?php ActiveForm::end();?>
+        <?php
+        $check = \common\models\ModuleMateriSoalJawaban::find()->where(['materi_soal_id'=>$model->id,'created_by'=>Yii::$app->user->id])->one();
+         if(($check == [])){ ?>
+
+        <hr>
+        <?php $form = ActiveForm::begin();?>
+        <?= $form->field($addJawaban,'file')->label("")->widget(FileInput::classname()); ?>
+        <div class="form-group">
+            <?= Html::submitButton('Upload File',['class' => 'btn btn-primary']) ?>
+        </div>
+        <div class="bg-red">Note: Anda Tidak akan dapat menghapus file setelah anda meng-uploadnya.</div>
+        <?php ActiveForm::end();?>
+         <?php } else {?>
+            Anda Telah Menambahkan file jawaban : 
+            <?= Html::a($check->link,['/uploaded/materi-soal-jawaban/'.$check->link]) ?>
+        <?php } ?>
 	</div>
 
 

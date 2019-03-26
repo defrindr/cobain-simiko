@@ -8,6 +8,8 @@ use common\models\ModuleMateriSoalSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
  * MateriSoalController implements the CRUD actions for ModuleMateriSoal model.
@@ -99,6 +101,40 @@ class MateriSoalController extends Controller
         $providerModuleMateriSoalJawaban = new \yii\data\ArrayDataProvider([
             'allModels' => $model->moduleMateriSoalJawabans,
         ]);
+        if($addJawaban->load(Yii::$app->request->post())){
+            if(Yii::$app->user->identity->role == 30){
+                $siswa = \common\models\ModuleSiswa::find()->where(['user_id'=>Yii::$app->user->id])->one();
+                if($model->materi->kelas_id == $siswa->kelas_id){
+                    $addJawaban->file = UploadedFile::getInstance($addJawaban,'file');
+                    $addJawaban->link = $model->id."_".$siswa->profile->nama.".".$addJawaban->file->extension;
+                    $path = Url::to('@webroot/uploaded/materi-soal-jawaban/');
+                    $addJawaban->siswa_id = $siswa->user_id;
+                    $addJawaban->materi_soal_id = $model->id;
+                    if($addJawaban->validate()){
+                        if($addJawaban->save()){
+                            $this->checkDir();
+                            $addJawaban->file->saveAs($path.$addJawaban->link);
+                            Yii::$app->session->setFlash('success','File berhasil diupload');
+                            return $this->redirect(['show','id'=>$id]);
+                        }else {
+                            Yii::$app->session->setFlash('error','gagal menyimpan file');
+                            return $this->redirect(['show','id'=>$id]);
+                        }
+
+                    } else {
+                        Yii::$app->session->setFlash('error','validasi error');
+                        return $this->redirect(['show','id'=>$id]);
+                    }
+
+                } else {
+                    Yii::$app->session->setFlash('error','Hayoloh bukan kelasmu ini !!');
+                    return $this->redirect(['show','id'=>$id]);
+                }
+            }else {
+                Yii::$app->session->setFlash('warning','Anda Bukan Siswa !!!');
+                return $this->redirect(['show','id'=>$id]);
+            }
+        }
         return $this->render('_view', [
             'model' => $this->findModel($id),
             'providerModuleMateriSoalFile' => $providerModuleMateriSoalFile,
@@ -211,6 +247,23 @@ class MateriSoalController extends Controller
             return $this->renderAjax('_formModuleMateriSoalJawaban', ['row' => $row]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    /**
+     * Check dir exist or not
+     * if dir is not exist
+     * create dir
+     *
+     * reference http://youtube.com
+     * no return value
+     */
+    public function checkDir(){
+
+        if(!file_exists(Url::to('@webroot'))) {
+            mkdir(Url::to('@webroot/uploaded'),0777,true);
+        }
+        if(!file_exists(Url::to(Yii::$app->basePath."/web/uploaded/materi-soal-jawaban"))){
+            mkdir(Url::to(Yii::$app->basePath."/web/uploaded/materi-soal-jawaban"),0777,true);
         }
     }
 }
