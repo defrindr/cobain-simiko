@@ -1,12 +1,10 @@
 <center>
 	<h1>Sekolah Apps</h1>
 </center>
-========================================
-========================================
 
 <h2>Features :</h2>
 ```
-	- Menggunakan 3 role :
+	- Menggunakan 3 role :\n
 		- Admin
 		- Guru
 		- User
