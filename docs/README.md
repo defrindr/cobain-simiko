@@ -1,7 +1,7 @@
 # Sekolah Apps
 
 ## Features
-* Menggunakan 3 role :\n
+* Menggunakan 3 role
 	- Admin
 	- Guru
 	- User
