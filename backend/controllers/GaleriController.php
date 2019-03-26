@@ -12,7 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-
+use yii\helpers\Url;
 /**
  * GaleriController implements the CRUD actions for ModuleGaleri model.
  */

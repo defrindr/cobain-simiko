@@ -35,7 +35,7 @@ use kartik\grid\GridView;
                                 'filterWidgetOptions' => [
                                     'pluginOptions' => ['allowClear' => true],
                                 ],
-                                'filterInputOptions' => ['placeholder' => 'Module galeri kategori', 'id' => 'grid-module-galeri-search-kategori']
+                                'filterInputOptions' => ['placeholder' => 'Galeri kategori', 'id' => 'grid-module-galeri-search-kategori']
                             ],
                         // 'link',
                         'judul',

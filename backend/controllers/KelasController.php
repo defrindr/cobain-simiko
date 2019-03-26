@@ -41,11 +41,11 @@ class KelasController extends Controller
                 'dataProvider' => $dataProvider,
             ]);
         }else if(Yii::$app->user->identity->role == 20){
-            $checkKelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one();
+            $checkKelas = ModuleKelas::find()->where(['guru_id'=>\common\models\ModuleGuru::find(Yii::$app->user->id)->one()->id])->one();
             if( $checkKelas == []){
                 throw new \yii\web\ForbiddenHttpException("Hayo lho !! Anda tidak punya akses :v");
             }else {
-                $model = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one();
+                $model = ModuleKelas::find()->where(['guru_id'=>\common\models\ModuleGuru::find(Yii::$app->user->id)->one()->id])->one();
                 $providerModuleJadwal = new \yii\data\ArrayDataProvider([
                     'allModels' => $model->moduleJadwals,
                 ]);
@@ -260,7 +260,8 @@ class KelasController extends Controller
 
     public function actionGenerateAbsen($id=null)
     {
-        if(Yii::$app->user->can('Admin')){
+        $checkKelas = ModuleKelas::find()->where(['guru_id'=>\common\models\ModuleGuru::find(Yii::$app->user->id)->one()->id])->one();
+        if(Yii::$app->user->can('Admin') or $checkKelas != []){
             $model = new \backend\models\modelFormGenerateAbsen();
             if($model->load(Yii::$app->request->post())){
                 if(!$model->validate()){

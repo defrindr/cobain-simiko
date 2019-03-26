@@ -14,14 +14,14 @@ if ($('#modal').data('bs.modal').isShown) {
 $('#modal').find('#modalContent')
 .load($(this).attr('value'));
 //dynamiclly set the header for the modal
-document.getElementById('modalHeader').innerHTML = '<h4>' + $(this).attr('title') + '</h4>';
+document.getElementById('modalHeader').innerHTML = '<b>' + $(this).attr('title') + '</b> </b><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
 } else {
 //if modal isn't open; open it and load content
 $('#modal').modal('show')
 .find('#modalContent')
 .load($(this).attr('value'));
 //dynamiclly set the header for the modal
-document.getElementById('modalHeader').innerHTML = '<h4>' + $(this).attr('title') + '</h4>';
-}
+document.getElementById('modalHeader').innerHTML = '<b>' + $(this).attr('title') + '</b> </b><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
+}administrator
 });
 });

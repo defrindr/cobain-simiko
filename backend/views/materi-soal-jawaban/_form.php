@@ -43,7 +43,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'siswa_id')->widget(\kartik\widgets\Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleSiswa::find()->orderBy('user_id')->asArray()->all(), 'user_id', 'user_id'),
-        'options' => ['placeholder' => 'Choose Module siswa'],
+        'options' => ['placeholder' => 'Siswa'],
         'pluginOptions' => [
             'allowClear' => true
         ],

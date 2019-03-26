@@ -27,6 +27,7 @@ use yii\behaviors\BlameableBehavior;
 class ModuleMateriSoalJawaban extends \yii\db\ActiveRecord
 {
     use \mootensai\relation\RelationTrait;
+    public $file;
 
     private $_rt_softdelete;
     private $_rt_softrestore;
@@ -61,9 +62,10 @@ class ModuleMateriSoalJawaban extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['materi_soal_id', 'siswa_id', 'link'], 'required'],
+            [['materi_soal_id', 'siswa_id', 'link','file'], 'required'],
             [['materi_soal_id', 'siswa_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
+            ['file','file','extensions'=>'pdf,xls,docx'],
             [['link'], 'string', 'max' => 100],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']

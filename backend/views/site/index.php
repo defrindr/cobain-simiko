@@ -53,27 +53,34 @@ $jmlMataPelajaran = \common\models\ModuleMataPelajaran::find()->all();
 $jmlBerita = \common\models\ModuleBerita::find()->all();
 $jmlBank = \common\models\ModuleBank::find()->all();
 $jmlUser = \common\models\ModuleUser::find()->all();
-$jmlSiswa = \common\models\ModuleSiswa::find()->all();
 $jmlJadwal = \common\models\ModuleJadwal::find()->all();
 $jmlSPP = \common\models\ModuleSpp::find()->where(['bulan'=>$bulan,'tahun'=>date('Y')])->all();
 $jmlGaleri = \common\models\ModuleGaleri::find()->all();
 
+$wali_kelas = ($checkKelas = \common\models\ModuleKelas::find()->where(['guru_id'=>\common\models\ModuleGuru::find(Yii::$app->user->id)->one()->id])->one() == [])? false : true;
 
 if(Yii::$app->user->identity->role === 20) {
 	$jmlMateri = \common\models\ModuleMateri::find()->where(["created_by"=>Yii::$app->user->id])->all();
 } else {
 	$jmlMateri = \common\models\ModuleMateri::find()->all();
 }
+if($wali_kelas){
+	$jmlSiswa = \common\models\ModuleSiswa::find()->where(['kelas_id' => \common\models\ModuleKelas::find()->where(['guru_id'=>\common\models\ModuleGuru::find(Yii::$app->user->id)->one()->id])->one()->id])->all();
+} else {
+	$jmlSiswa = \common\models\ModuleSiswa::find()->where()->all();
+}
+
+
 class test {
 	public function createBox($count,$label,$link,$icon=null,$size=null){
 		if($size == null){
-			$size = 'lg-3';
+			$size = 'col-lg-3 col-xs-6';
 		}
 		if($icon == null ){
 			$icon = "book";
 		}
 		$color = ["red","green","yellow","blue"];
-		return '<div class="col-'.$size.' col-xs-6">
+		return '<div class="'.$size.'">
 			<div class="small-box bg-'.$color[random_int(0, 3)].'">
 				<div class="inner">
 					<h3>'.count($count).'</h3>
@@ -93,15 +100,23 @@ class test {
 ?>
 <div class="site-module-index">
 	<div class="row">
-		<?= test::createBox($jmlUser, "Pengguna",Url::to(["/user-manage"]), "user") ?>
-		<?= test::createBox($jmlSiswa , "Siswa", Url::to(['/siswa']), 'user' ) ?>
-		<?= test::createBox($jmlGuru , "Guru", Url::to(['/Guru']), 'user' ) ?>
-		<?= test::createBox($jmlMataPelajaran, "Mata Pelajaran", Url::to(['/mata-pelajaran']),'book') ?>
-		<?= test::createBox($jmlMateri, "Materi", Url::to(["/materi"]),"bookmark") ?>
-		<?= test::createBox($jmlKelas, "Kelas",Url::to(["/kelas"]),'expand') ?>
-		<?= test::createBox($jmlJadwal, "Jadwal",Url::to(["/Jadwal"]),'calendar') ?>
-		<?= test::createBox($jmlSPP,"SPP Bulan ini", Url::to(['/spp']),'usd') ?>
-		<?= test::createBox($jmlGaleri, "Image Galeri",Url::to(['/galeri']),'camera','lg-6') ?>
-		<?= test::createBox($jmlBerita, "Artikel Berita",Url::to(['/galeri']),'paperclip','lg-6') ?>
+		<?php if(Yii::$app->user->identity->role == 10){?>
+			<?= test::createBox($jmlUser, "Pengguna",Url::to(["/user-manage"]), "user") ?>
+			<?= test::createBox($jmlSiswa , "Siswa", Url::to(['/siswa']), 'user' ) ?>
+			<?= test::createBox($jmlGuru , "Guru", Url::to(['/Guru']), 'user' ) ?>
+			<?= test::createBox($jmlMataPelajaran, "Mata Pelajaran", Url::to(['/mata-pelajaran']),'book') ?>
+			<?= test::createBox($jmlMateri, "Materi", Url::to(["/materi"]),"bookmark") ?>
+			<?= test::createBox($jmlKelas, "Kelas",Url::to(["/kelas"]),'expand') ?>
+			<?= test::createBox($jmlJadwal, "Jadwal",Url::to(["/Jadwal"]),'calendar') ?>
+			<?= test::createBox($jmlSPP,"SPP Bulan ini", Url::to(['/spp']),'usd') ?>
+			<?= test::createBox($jmlGaleri, "Image Galeri",Url::to(['/galeri']),'camera','col-lg-6 col-xs-6') ?>
+			<?= test::createBox($jmlBerita, "Artikel Berita",Url::to(['/galeri']),'paperclip','col-lg-6 col-xs-6') ?>
+		<?php }else if(Yii::$app->user->identity->role == 20){
+				if($wali_kelas){?>
+					<?= test::createBox($jmlSiswa , "Siswa", '#', 'user','col-md-12 col-xs-12') ?>
+				<?php } ?>
+			<?= test::createBox($jmlMateri, "Materi", '#',"bookmark", 'col-lg-6') ?>
+			<?= test::createBox($jmlJadwal, "Jadwal",'#','calendar', 'col-lg-6') ?>
+		<?php } ?>
 	</div>
 </div>

@@ -90,6 +90,23 @@ class MateriSoalController extends Controller
         ]);
     }
 
+    public function actionShow($id){
+        $model = $this->findModel($id);
+        $addJawaban = new \common\models\ModuleMateriSoalJawaban();
+        $providerModuleMateriSoalFile = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->moduleMateriSoalFiles,
+        ]);
+        $providerModuleMateriSoalJawaban = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->moduleMateriSoalJawabans,
+        ]);
+        return $this->render('_view', [
+            'model' => $this->findModel($id),
+            'providerModuleMateriSoalFile' => $providerModuleMateriSoalFile,
+            'providerModuleMateriSoalJawaban' => $providerModuleMateriSoalJawaban,
+            'addJawaban' => $addJawaban
+        ]);
+    }
+
     /**
      * Creates a new ModuleMateriSoal model.
      * If creation is successful, the browser will be redirected to the 'view' page.

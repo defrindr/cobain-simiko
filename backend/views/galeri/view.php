@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'uploaded_by',
                 'value' => function($model){
-                    return$model->;
+                    return \common\models\ModuleProfile::findOne($model->uploaded_by)->nama;
                 }
             ],
             [

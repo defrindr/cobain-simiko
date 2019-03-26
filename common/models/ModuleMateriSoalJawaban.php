@@ -20,6 +20,7 @@ class ModuleMateriSoalJawaban extends BaseModuleMateriSoalJawaban
             [['materi_soal_id', 'siswa_id', 'link'], 'required'],
             [['materi_soal_id', 'siswa_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
+            ['file','file','extensions'=>'pdf,xls,docx'],
             [['link'], 'string', 'max' => 100],
             [['lock'], 'default', 'value' => '0'],
             [['lock'], 'mootensai\components\OptimisticLockValidator']
@@ -35,5 +36,4 @@ class ModuleMateriSoalJawaban extends BaseModuleMateriSoalJawaban
     {
         return '';
     }
-	
 }

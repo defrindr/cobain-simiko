@@ -26,6 +26,14 @@ yii\bootstrap\Modal::end();
 
 
 
+// var_dump($model->guru->profile->nama.$model->guru->profile->user_id);
+// exit();\
+// 
+
+
+// echo "<pre>";
+// print_r($model);
+// exit();
 
 
 ?>
@@ -35,15 +43,17 @@ yii\bootstrap\Modal::end();
         <div class="col-md-12">
             <div class="box box-success">
                 <div class="box-header">
-                    <?= Html::a('Ubah', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                    <?= Html::a('Hapus', ['delete', 'id' => $model->id], [
-                        'class' => 'btn btn-danger',
-                        'data' => [
-                            'confirm' => 'Yakin ingin menghapus data ini ?',
-                            'method' => 'post',
-                        ],
-                    ])
-                    ?>
+                    <?php if(Yii::$app->user->can('Admin')){?>
+                        <?= Html::a('Ubah', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                        <?= Html::a('Hapus', ['delete', 'id' => $model->id], [
+                            'class' => 'btn btn-danger',
+                            'data' => [
+                                'confirm' => 'Yakin ingin menghapus data ini ?',
+                                'method' => 'post',
+                            ],
+                        ])
+                        ?>
+                    <?php }?>
                 </div>
                 <!-- end box header -->
                 <div class="box-body">

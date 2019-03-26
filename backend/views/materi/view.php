@@ -41,19 +41,83 @@ $nama = $ModuleProfile->nama;
             <?= $model->isi?>
         </p>
         <?php if ($providerModuleMateriFile->count > 0){
-            $modelLampiran = \common\models\ModuleMateriFile::find()->where(["materi_id"=>$model->id])->all();
-            echo "<h4>Lampiran</h4>";
-            foreach ($modelLampiran as $lampiran) {
+            $modelLampiran = \common\models\ModuleMateriFile::find()->where(["materi_id"=>$model->id])->all(); ?>
+                <h4>Lampiran</h4>
+            <?php foreach ($modelLampiran as $lampiran) {
                 ?>
                     <li><a href="<?= Url::to("@web/uploaded/materi-file/".$lampiran->link_file) ?>" target="_blank"><?= $lampiran->nama_file ?></a></li>
                 <?php
             }
-        } ?>
+        }
+        if($providerModuleMateriSoal->totalCount){
+            $modelSoal = \common\models\ModuleMateriSoal::find()->where(["materi_id"=>$model->id])->all(); ?>
+            <h4>Soal</h4>
+            <?php foreach ($modelSoal as $soal) {
+                ?>
+                <li><a href="<?= Url::to(['/materi-soal/show','id'=> $soal->id])?>" class="btn-actionColumn"><?= $soal->judul ?></a></li>
+                <?php
+            } ?>
+        <?php } ?>
     </div>
     
     <?= $this->render('_view_komentar',['providerModuleMateriKomentar' => $providerModuleMateriKomentar,'model'=>$model]) ?>
 
     <?=  $this->render('_formKomentar', ['model' => $modelKomentar]); ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!--     <div class="row">
 <?php 
