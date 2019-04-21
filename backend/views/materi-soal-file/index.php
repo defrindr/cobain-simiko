@@ -49,10 +49,10 @@ yii\bootstrap\Modal::end();
                     'attribute' => 'materi_soal_id',
                     'label' => 'Materi Soal',
                     'value' => function($model){
-                        return $model->materiSoal->judul;
+                        return $model->materiSoal->materi->judul." - ".$model->materiSoal->judul;
                     },
                     'filterType' => GridView::FILTER_SELECT2,
-                    'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateriSoal::find()->asArray()->all(), 'id', 'judul'),
+                    'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateriSoal::find()->with(['materi'])->asArray()->all(), 'id', 'judul','materi.judul'),
                     'filterWidgetOptions' => [
                         'pluginOptions' => ['allowClear' => true],
                     ],

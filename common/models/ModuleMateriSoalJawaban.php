@@ -18,7 +18,7 @@ class ModuleMateriSoalJawaban extends BaseModuleMateriSoalJawaban
         return array_replace_recursive(parent::rules(),
 	    [
             [['materi_soal_id', 'siswa_id', 'link'], 'required'],
-            [['materi_soal_id', 'siswa_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['materi_soal_id', 'siswa_id', 'nilai', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
             ['file','file','extensions'=>'pdf,xls,docx'],
             [['link'], 'string', 'max' => 100],

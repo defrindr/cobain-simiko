@@ -14,36 +14,43 @@ $this->params['breadcrumbs'][] = ['label' => $model->materi->judul, 'url' => ['/
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-materi-soal-view">
-	<div class="box box-materi" style="padding: 3rem">
-			<?= $model->isi ?>
-			<?php if($providerModuleMateriSoalFile->totalCount > 0){
-				$modelFile = \common\models\ModuleMateriSoalFile::find()->where(['materi_soal_id'=> $model->id])->all();
-				?> 
-				<h4>Lampiran Soal</h4>
-				<?php foreach($modelFile as $file){?>
-					<li><a href="<?= Url::to(['/uploaded/materi-soal-file/'.$file->gambar]) ?>"><?= $file->gambar?></a></li>
-			<?php }
-			 } ?>
-	</div>
-	<div class="box box-materi">
-		<h4>Upload Jawaban</h4>
+    <div class="box box-materi" style="padding: 3rem">
+            <?= $model->isi ?>
+            <?php if($providerModuleMateriSoalFile->totalCount > 0){
+                $modelFile = \common\models\ModuleMateriSoalFile::find()->where(['materi_soal_id'=> $model->id])->all();
+                ?> 
+                <h4>Lampiran Soal</h4>
+                <?php foreach($modelFile as $file){?>
+                    <li><a href="<?= Url::to(['/uploaded/materi-soal-file/'.$file->gambar]) ?>"><?= $file->gambar?></a></li>
+            <?php }
+             } ?>
+    </div>
+    <div class="box box-materi">
+        <h4>Upload Jawaban</h4>
         <?php
-        $check = \common\models\ModuleMateriSoalJawaban::find()->where(['materi_soal_id'=>$model->id,'created_by'=>Yii::$app->user->id])->one();
-         if(($check == [])){ ?>
+        if(Yii::$app->user->identity->role ==30)
+        {
+            $check = \common\models\ModuleMateriSoalJawaban::find()->where(['materi_soal_id'=>$model->id,'created_by'=>Yii::$app->user->id])->one();
+             if(($check == [])){ ?>
 
-        <hr>
-        <?php $form = ActiveForm::begin();?>
-        <?= $form->field($addJawaban,'file')->label("")->widget(FileInput::classname()); ?>
-        <div class="form-group">
-            <?= Html::submitButton('Upload File',['class' => 'btn btn-primary']) ?>
-        </div>
-        <span class="bg-red"style="padding: 5px">Note: Anda Tidak akan dapat menghapus/mengganti file setelah anda meng-uploadnya.</span>
-        <?php ActiveForm::end();?>
-         <?php } else {?>
-            Anda Telah Menambahkan file jawaban : 
-            <?= Html::a($check->link,['/uploaded/materi-soal-jawaban/'.$check->link],['target'=>'_blank']) ?>
+            <hr>
+            <?php $form = ActiveForm::begin();?>
+            <?= $form->field($addJawaban,'file')->label("")->widget(FileInput::classname()); ?>
+            <div class="form-group">
+                <?= Html::submitButton('Upload File',['class' => 'btn btn-primary']) ?>
+            </div>
+            <span class="bg-red"style="padding: 5px">Note: Anda Tidak akan dapat menghapus/mengganti file setelah anda meng-uploadnya.</span>
+            <?php ActiveForm::end();?>
+             <?php } else {?>
+                Anda Telah Menambahkan file jawaban : 
+                <?= Html::a($check->link,['/uploaded/materi-soal-jawaban/'.$check->link],['target'=>'_blank']) ?>
+            <?php } ?>
+
+        <?php }else 
+        {?>
+            <span class="bg-red" style="padding: 5px;display: block;border-radius: 4px">Selain Siswa Tidak dapat meng-Upload Jawaban !!!</span>
         <?php } ?>
-	</div>
+    </div>
 
 
 

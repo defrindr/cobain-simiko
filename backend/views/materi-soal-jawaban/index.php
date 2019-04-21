@@ -30,16 +30,15 @@ yii\bootstrap\Modal::end();
 <div class="module-materi-soal-jawaban-index">
     <div class="box box-success">
         <div class="box-header">
-                            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-            
-                <p>
-                    <?= Html::a('Tambah Module Materi Soal Jawaban', ['create'], ['class' => 'btn btn-success']) ?>
-                                <?= Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
-                            </p>
-                            <div class="search-form" style="display:none">
-                    <?=  $this->render('_search', ['model' => $searchModel]); ?>
-                </div>
-                        </div>
+            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <p>
+                <?php //Html::a('Tambah Jawaban', ['create'], ['class' => 'btn btn-success']) ?>
+                <?php // Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
+            </p>
+            <div class="search-form" style="display:none">
+                <?php // $this->render('_search', ['model' => $searchModel]); ?>
+            </div>
+        </div>
         <div class="box-body">
                         <?php 
                 $gridColumn = [
@@ -49,27 +48,27 @@ yii\bootstrap\Modal::end();
                         'attribute' => 'materi_soal_id',
                         'label' => 'Materi Soal',
                         'value' => function($model){
-                            return $model->materiSoal->id;
+                            return $model->materiSoal->materi->judul." - ".$model->materiSoal->judul;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateriSoal::find()->asArray()->all(), 'id', 'id'),
+                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMateriSoal::find()->with(['materi'])->asArray()->all(), 'id', 'judul', 'materi.judul'),
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                                 ],
-                        'filterInputOptions' => ['placeholder' => 'Module materi soal', 'id' => 'grid-module-materi-soal-jawaban-search-materi_soal_id']
+                        'filterInputOptions' => ['placeholder' => 'materi soal', 'id' => 'grid-module-materi-soal-jawaban-search-materi_soal_id']
                     ],
                     [
                         'attribute' => 'siswa_id',
                         'label' => 'Siswa',
                         'value' => function($model){
-                            return $model->siswa->user_id;
+                            return $model->siswa->profile->nama;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleSiswa::find()->asArray()->all(), 'user_id', 'user_id'),
+                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleSiswa::find()->with(['profile'])->asArray()->all(), 'user_id', 'profile.nama'),
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
-                        'filterInputOptions' => ['placeholder' => 'Module siswa', 'id' => 'grid-module-materi-soal-jawaban-search-siswa_id']
+                        'filterInputOptions' => ['placeholder' => 'siswa', 'id' => 'grid-module-materi-soal-jawaban-search-siswa_id']
                     ],
                     'link',
                     ['attribute' => 'lock', 'visible' => false],

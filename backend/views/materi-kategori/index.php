@@ -33,7 +33,7 @@ yii\bootstrap\Modal::end();
         <div class="box-header">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             <p>
-                <?= Html::button('Tambah Materi Kategori', ['value'=>Url::to(['create']), 'class' => 'btn btn-success showModalButton']) ?>
+                <?= Html::button('Tambah Materi Kategori', ['value'=>Url::to(['create']), 'class' => 'btn btn-success showModalButton','title' => 'Tambah Bab']) ?>
             </p>
         </div>
         <div class="box-body">

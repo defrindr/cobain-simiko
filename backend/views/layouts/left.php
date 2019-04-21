@@ -89,6 +89,7 @@ $check_kelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one
                             ],
                         ],
                     ],
+                    ['label' => 'Nilai','url'=>['/nilai'], 'visible' => $siswa],
                     ['label' => 'Pembayaran SPP', 'icon'=> 'dashboard','url'=>['/spp']],
                 ],
             ]

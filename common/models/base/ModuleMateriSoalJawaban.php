@@ -13,6 +13,7 @@ use yii\behaviors\BlameableBehavior;
  * @property integer $materi_soal_id
  * @property integer $siswa_id
  * @property string $link
+ * @property int $nilai
  * @property integer $created_by
  * @property integer $created_at
  * @property integer $updated_by
@@ -63,7 +64,7 @@ class ModuleMateriSoalJawaban extends \yii\db\ActiveRecord
     {
         return [
             [['materi_soal_id', 'siswa_id', 'link','file'], 'required'],
-            [['materi_soal_id', 'siswa_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['materi_soal_id', 'siswa_id', 'nilai', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['deleted_at'], 'safe'],
             ['file','file','extensions'=>'pdf,xls,docx'],
             [['link'], 'string', 'max' => 100],

@@ -7,89 +7,80 @@ use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model common\models\ModuleMateriKategori */
 
-$this->title = $model->id;
+$this->title = $model->nama;
 $this->params['breadcrumbs'][] = ['label' => 'Module Materi Kategori', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="module-materi-kategori-view">
-
-    <div class="row">
-        <div class="col-sm-9">
-            <h2><?= 'Module Materi Kategori'.' '. Html::encode($this->title) ?></h2>
-        </div>
-        <div class="col-sm-3" style="margin-top: 15px">
-            
-            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+    <div class="box box-success">
+        <div class="box-header">
+            <?= Html::a('Ubah', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Hapus', ['delete', 'id' => $model->id], [
                 'class' => 'btn btn-danger',
                 'data' => [
-                    'confirm' => 'Are you sure you want to delete this item?',
+                    'confirm' => 'Yakin Ingin Menghapus Ini?',
                     'method' => 'post',
                 ],
             ])
             ?>
+            
+        </div>
+        <div class="box-body">
+            <?php 
+                $gridColumn = [
+                    ['attribute' => 'id', 'visible' => false],
+                    [
+                        'attribute' => 'mataPelajaran.id',
+                        'label' => 'Mata Pelajaran',
+                        'value' => function($model){
+                            return $model->mataPelajaran->nama_mapel;
+                        }
+                    ],
+                    'nama',
+                    ['attribute' => 'lock', 'visible' => false],
+                ];
+                echo DetailView::widget([
+                    'model' => $model,
+                    'attributes' => $gridColumn
+                ]);
+            ?>
+            
         </div>
     </div>
-
-    <div class="row">
-<?php 
-    $gridColumn = [
-        ['attribute' => 'id', 'visible' => false],
-        [
-            'attribute' => 'mataPelajaran.id',
-            'label' => 'Mata Pelajaran',
-        ],
-        'nama',
-        ['attribute' => 'lock', 'visible' => false],
-    ];
-    echo DetailView::widget([
-        'model' => $model,
-        'attributes' => $gridColumn
-    ]);
-?>
+    <!-- end box -->
+    <?php if($providerModuleMateri->totalCount){ ?>
+    <div class="box box-info">
+        <div class="box-header">
+            
+        </div>
+        <div class="box-body">
+            <?php
+                    $gridColumnModuleMateri = [
+                        ['class' => 'yii\grid\SerialColumn'],
+                            ['attribute' => 'id', 'visible' => false],
+                            [
+                                'attribute' => 'kelas.id',
+                                'label' => 'Kelas',
+                                'value' => function($model){
+                                    return $model->kelas->grade." ".$model->kelas->jurusan->nama." ".$model->kelas->kelas;
+                                }
+                            ],
+                            'judul',
+                            // 'gambar',
+                            // 'isi:ntext',
+                            ['attribute' => 'lock', 'visible' => false],
+                    ];
+                    echo Gridview::widget([
+                        'dataProvider' => $providerModuleMateri,
+                        'pjax' => true,
+                        'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-materi']],
+                        'panel' => 0,
+                        'export' => false,
+                        'columns' => $gridColumnModuleMateri
+                    ]);
+                
+                ?>
+        </div>
     </div>
-    
-    <div class="row">
-<?php
-if($providerModuleMateri->totalCount){
-    $gridColumnModuleMateri = [
-        ['class' => 'yii\grid\SerialColumn'],
-            ['attribute' => 'id', 'visible' => false],
-            [
-                'attribute' => 'kelas.id',
-                'label' => 'Kelas'
-            ],
-                        'judul',
-            'gambar',
-            'isi:ntext',
-            ['attribute' => 'lock', 'visible' => false],
-    ];
-    echo Gridview::widget([
-        'dataProvider' => $providerModuleMateri,
-        'pjax' => true,
-        'pjaxSettings' => ['options' => ['id' => 'kv-pjax-container-module-materi']],
-        'panel' => [
-            'type' => GridView::TYPE_PRIMARY,
-            'heading' => '<span class="glyphicon glyphicon-book"></span> ' . Html::encode('Module Materi'),
-        ],
-        'export' => false,
-        'columns' => $gridColumnModuleMateri
-    ]);
-}
-?>
-
-    </div>
-    <div class="row">
-        <h4>ModuleMataPelajaran<?= ' '. Html::encode($this->title) ?></h4>
-    </div>
-    <?php 
-    $gridColumnModuleMataPelajaran = [
-        ['attribute' => 'id', 'visible' => false],
-        'nama_mapel',
-        ['attribute' => 'lock', 'visible' => false],
-    ];
-    echo DetailView::widget([
-        'model' => $model->mataPelajaran,
-        'attributes' => $gridColumnModuleMataPelajaran    ]);
-    ?>
+    <?php } ?>
 </div>

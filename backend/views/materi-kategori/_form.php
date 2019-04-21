@@ -26,9 +26,9 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'id', ['template' => '{input}'])->textInput(['style' => 'display:none']); ?>
             <?php if(Yii::$app->user->identity->role != 20){ ?>
 
-                <?= $form->field($model, 'mata_pelajaran_id')->widget(\kartik\widgets\Select2::classname(), [
+                <?= $form->field($model, 'mata_pelajaran_id')->label('Mata Pelajaran')->widget(\kartik\widgets\Select2::classname(), [
                     'data' => \yii\helpers\ArrayHelper::map(\common\models\ModuleMataPelajaran::find()->orderBy('id')->asArray()->all(), 'id', 'nama_mapel'),
-                    'options' => ['placeholder' => 'Choose Module mata pelajaran'],
+                    'options' => ['placeholder' => 'Pilih Mata Pelajaran'],
                     'pluginOptions' => [
                         'allowClear' => true
                     ],

@@ -106,7 +106,18 @@ class MateriController extends Controller
     
     public function actionChangeNilai($id){
         $model = \common\models\ModuleMateriSoalJawaban::findOne($id);
-        return $this->renderAjax('change-nilai',['model'=>$model]);
+        if($model->loadAll(Yii::$app->request->post())){
+            if($model->save(false)){
+                Yii::$app->session->setFlash('success','Nilai Berhasil Diubah');
+            }else{
+                Yii::$app->session->setFlash('error','Nilai Gagal Diubah');
+            }
+
+            return $this->actionSoalView(1);
+        }else {
+            return $this->renderAjax('change-nilai',['model'=>$model]);
+
+        }
     }
 
 

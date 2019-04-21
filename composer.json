@@ -35,7 +35,8 @@
         "bower-asset/Font-Awesome": "4.7.0",
         "yiidoc/yii2-redactor": "*",
         "philippfrenzel/yii2fullcalendar":"*",
-        "slavkovrn/yii2-lightbox": "*"
+        "slavkovrn/yii2-lightbox": "*",
+        "kartik-v/yii2-slider": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

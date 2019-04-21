@@ -18,7 +18,7 @@ use common\models\ModuleMateriSoalJawaban;
     public function rules()
     {
         return [
-            [['id', 'materi_soal_id', 'siswa_id', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
+            [['id', 'materi_soal_id', 'siswa_id', 'nilai', 'created_by', 'created_at', 'updated_by', 'updated_at', 'deleted_by', 'lock'], 'integer'],
             [['link', 'deleted_at'], 'safe'],
         ];
     }
