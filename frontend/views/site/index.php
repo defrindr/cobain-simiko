@@ -62,7 +62,7 @@ $this->title = Yii::$app->name;
                 <h3 class="index-title"> <i class="glyphicon glyphicon-camera"></i> New Image In Galeri</h3>
                 <?php foreach ($newGaleri as $galeri) {?>
                      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                        <div class="card showModalButton card-shadow artikel" onclick="">
+                        <div class="card showModalButton card-shadow artikel">
                             <?= Html::img(Url::base()."/uploaded/galeri/".$galeri->link, ['class'=>'img img-responsive img-galeri showModalButton','onclick'=>'prevImages(this)','alt' => $galeri->judul]) ?>
                         </div>
                     </div>

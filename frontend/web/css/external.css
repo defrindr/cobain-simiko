@@ -336,6 +336,36 @@ footer
 
 
  */
+.subs-group{
+	margin: 50px auto;
+	text-align: center;
+	padding: 0;
+}
+.sub-join{
+	border: 1px solid #333;
+	display: inline-block;
+	border-radius: 10px;
+	padding: 0;
+}
+.sub-text{
+	margin: 0;
+	padding: 5px 20px;
+	background: rgba(45,45,45,.5);
+	border: 0;
+	border-radius: 10px 0 0 10px;
+	height: 40px;
+	width: 200px;
+}
+.sub-button{
+	background: #333;
+	color: #316767;
+	border: 0;
+	margin: 0;
+	border-radius: 0 10px 10px 0;
+	height: 40px;
+	width: 40px;
+}
+
 .col-sm-4 > .row > .col-xs-6 > span {
 	display: inline-block;
 	margin: 4px;
@@ -416,6 +446,9 @@ footer#foot > div.container-fluid.banner > div.col-sm-4 > .row > .col-xs-6 > li 
 
 @media only screen and (min-width: 768px){
 	/*navigation*/
+	.subs-group{
+		margin: 20px auto;
+	}
 	.navbar-inverse {
 		background: transparent;
 	}

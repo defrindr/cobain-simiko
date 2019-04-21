@@ -8,22 +8,21 @@
 //     $("#toHide").addClass("hidden");
 // }
 
-function showCardCaption(image){
-	console.log("test");
+// function showCardCaption(image){
+	// console.log("test");
 	// var elemen = image.getElementsByClassName("card-caption");
 	// // console.log();
 	// elemen.className = elemen[0].className.replace(" hidden","");
-}
+// }
 
+/**
+ * preview images with modal
+ */
 function prevImages(anu) {
     img = document.getElementById('modImg');
     text = document.getElementById('modalHeader');
     img.src = anu.src;
     text.innerHTML = "<b>" + anu.alt + '</b><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>';
-    // alert(1);
-    // alert("11");
-    // image.src = img.src;
-
 }
 
 

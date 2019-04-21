@@ -10,6 +10,12 @@ use kartik\grid\GridView;
 use yii\helpers\Url;
 
 
+
+
+// $get = \common\models\ModuleKelas::find()->all();
+// $result = \yii\helpers\ArrayHelper::map($get,'concat("jurusan id",jurusan_id)','kelas');
+// print_r($result);
+
 // var_dump("@frontend");
 
 $this->title = 'Materi';
@@ -31,15 +37,11 @@ yii\bootstrap\Modal::end();
 
 $list_kelas = [];
 
-$modelKelas = \common\models\ModuleKelas::find()->orderBy('id')->all();
-foreach ($modelKelas as $kelas) {
-    $list_kelas += [$kelas->id=>$kelas->grade." ".$kelas->jurusan->nama." ".$kelas->kelas];
-}
 
 $list_bab = [];
 $modelBab = \common\models\ModuleMateriKategori::find()->orderBy('id')->all();
 foreach ($modelBab as $bab) {
-    $list_bab += [$bab->mataPelajaran->nama_mapel=>[$bab->id => $bab->nama]];
+    $list_bab = array_merge_recursive([$bab->mataPelajaran->nama_mapel=>[$bab->id => $bab->nama]],$list_bab);
 }
 
 ?>
@@ -52,7 +54,7 @@ foreach ($modelBab as $bab) {
                 <?= Html::a('Tambah Materi', ['create'], ['class' => 'btn btn-success']) ?>
                 <?php } ?>
                 <?php //echo Html::a('Pencarian', '#', ['class' => 'btn btn-info search-button']) ?>
-                <?= Html::button('Restore data',['value' => Url::to(['/materi/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning', 'style' => ['margin'=> '2px 2px 2px 0']]); ?>
+                <?php // Html::button('Restore data',['value' => Url::to(['/materi/data-restore']),'title' => 'restore data', 'class' => 'showModalButton btn btn-warning', 'style' => ['margin'=> '2px 2px 2px 0']]); ?>
             </p>
             <div class="search-form" style="display:none">
                 <?=  $this->render('_search', ['model' => $searchModel]); ?>
@@ -70,11 +72,16 @@ foreach ($modelBab as $bab) {
                             return $model->kelas->grade." ".$model->kelas->jurusan->nama." ".$model->kelas->kelas;
                         },
                         'filterType' => GridView::FILTER_SELECT2,
-                        'filter' => $list_kelas,
+                        'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleKelas::find()->with('jurusan')->asArray()->all(),'id',
+                            function($model){
+                                // return var_dump($model);
+                                return $model['grade']." ".$model['jurusan']['nama']." ".$model['kelas'];
+                            }
+                    ),
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
-                        'filterInputOptions' => ['placeholder' => 'Module kelas', 'id' => 'grid-module-materi-search-kelas_id']
+                        'filterInputOptions' => ['placeholder' => 'Kelas', 'id' => 'grid-module-materi-search-kelas_id']
                     ],
                     [
                         'attribute' => 'materi_kategori_id',
@@ -87,20 +94,44 @@ foreach ($modelBab as $bab) {
                         'filterWidgetOptions' => [
                             'pluginOptions' => ['allowClear' => true],
                         ],
-                        'filterInputOptions' => ['placeholder' => 'Module materi kategori', 'id' => 'grid-module-materi-search-materi_kategori_id']
+                        'filterInputOptions' => ['placeholder' => 'Materi Kategori', 'id' => 'grid-module-materi-search-materi_kategori_id']
                     ],
                     'judul',
-                    // 'gambar',
+                    [
+                        'attribute' => 'created_by',
+                        'label' => 'Pembuat',
+                        'value' => function($model){
+                            return \common\models\ModuleProfile::find()->where(['user_id'=>$model->created_by])->one()->nama;
+                        }
+                    ],
                     [
                         'attribute' => 'komentar',
                         'value' => function($model){
                             return count($model->moduleMateriKomentars);
                         }
                     ],
-                    // 'isi:ntext',
+                    [
+                        'attribute' => 'soal',
+                        'label' => 'Jumlah Soal',
+                        'value' => function($model){
+                            return count($model->moduleMateriSoals);
+                        }
+                    ],
                     ['attribute' => 'lock', 'visible' => false],
                     [
                         'class' => 'yii\grid\ActionColumn',
+                        'template' => '{detail} {view} {update} {delete}',
+                        'buttons' => [
+                            'detail' => function($url,$model){
+                                $id = $model->id;
+                                return Html::a(
+                                                '<i class="glyphicon glyphicon-file"></i>',
+                                                Url::to(['/materi/detail','id'=>$id]),
+                                                [
+                                                'class' => 'btn-actionColumn',
+                                                ]);
+                            }
+                        ],
                     ],
                 ]; 
                 ?>

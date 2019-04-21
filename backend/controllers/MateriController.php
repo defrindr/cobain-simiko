@@ -7,6 +7,9 @@ use common\models\ModuleMateri;
 use common\models\ModuleMateriSearch;
 use common\models\ModuleMateriKomentar;
 use common\models\ModuleMateriKomentarSearch;
+use common\models\ModuleMateriSoal;
+use common\models\ModuleMateriSoalSearch;
+use common\models\ModuleMateriSoalJawaban;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
@@ -67,8 +70,43 @@ class MateriController extends Controller
         if($model->restoreWithRelated()){
             Yii::$app->session->setFlash('success','Data berhasil direstore');
         } else {
-            Yii::$app->session->setFlash('success','Data gagal direstore');
+            Yii::$app->session->setFlash('error','Data gagal direstore');
         } return $this->redirect(['index']);
+    }
+
+
+    /**
+     * Check info dari materi
+     */
+    public function actionDetail($id){
+        $model = $this->findModel($id);
+        $modelSoal = ModuleMateriSoal::find()->where(['materi_id'=>$id])->all();
+        $providerModuleMateriSoal = new \yii\data\ArrayDataProvider([
+            'allModels' => $model->moduleMateriSoals
+        ]);
+        return $this->render('detail',[
+                            'model'=>$model,
+                            'modelSoal'=>$modelSoal,
+                            'providerModuleMateriSoal' => $providerModuleMateriSoal
+                        ]);
+    }
+
+    /**
+     * Check Info Soal
+     */
+    public function actionSoalView($id){
+        $model = ModuleMateriSoal::findOne($id);
+        $providerModuleMateriSoalJawaban = new \yii\data\ArrayDataProvider(['allModels'=> $model->moduleMateriSoalJawabans]);
+        return $this->render('soal-view',['model'=>$model,'providerModuleMateriSoalJawaban' => $providerModuleMateriSoalJawaban]);
+    }
+
+    /**
+     * Jawaban Detail
+     */
+    
+    public function actionChangeNilai($id){
+        $model = \common\models\ModuleMateriSoalJawaban::findOne($id);
+        return $this->renderAjax('change-nilai',['model'=>$model]);
     }
 
 
@@ -101,13 +139,6 @@ class MateriController extends Controller
                 Yii::$app->session->setFlash('error','Komentar gagal ditambahkan');
             }
             return $this->redirect(['view','id'=>$model->id]);
-            // return $this->render('view', [
-            //     'model' => $this->findModel($id),
-            //     'modelKomentar' => $modelKomentar,
-            //     'providerModuleMateriFile' => $providerModuleMateriFile,
-            //     'providerModuleMateriKomentar' => $providerModuleMateriKomentar,
-            //     'providerModuleMateriSoal' => $providerModuleMateriSoal,
-            // ]);
         }else{
             return $this->render('view', [
                 'model' => $this->findModel($id),
@@ -117,9 +148,6 @@ class MateriController extends Controller
                 'providerModuleMateriSoal' => $providerModuleMateriSoal,
             ]);
         }
-    }
-    public function actionKomentar(){
-        
     }
 
     /**

@@ -46,7 +46,7 @@ use common\models\ModuleSpp;
         }else{
             $query = ModuleSpp::find();
         }
-        $query->where('status=1');
+        $query->AndWhere('status=1');
         
 
         $dataProvider = new ActiveDataProvider([
@@ -101,7 +101,7 @@ use common\models\ModuleSpp;
         }else{
             $query = ModuleSpp::find();
         }
-        $query->where('status=0');
+        $query->AndWhere('status=0');
         
 
         $dataProvider = new ActiveDataProvider([

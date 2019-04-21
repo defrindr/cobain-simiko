@@ -66,7 +66,8 @@ yii\bootstrap\Modal::end();
                     'filterType' => GridView::FILTER_SELECT2,
                     'filter' => \yii\helpers\ArrayHelper::map(\common\models\ModuleKelas::find()->asArray()->all(), 'id', 
                         function($model){
-                            return $model['grade']." ".$model['jurusan']." ".$model['kelas'];
+                            $jurusan = \common\models\ModuleJurusan::find()->where(['id'=>$model['jurusan_id']])->one();
+                            return $model['grade']." ".$jurusan->nama." ".$model['kelas'];
                         }
                     ),
                     'filterWidgetOptions' => [

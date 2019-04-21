@@ -10,6 +10,18 @@ $jurusan = ModuleJurusan::find()->all();
 ?>
 
 <div class="container-fluid banner">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="subs-group">
+				<div class="sub-join">
+					<input type="text" class="sub-text">
+					<button class="sub-button">
+						<i class="fa fa-send"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="col-sm-4">
 		<?= Html::img(Url::base()."/uploaded/base/ireng.png", ['class'=>'img img-responsive img-center']) ?> 
 	</div>

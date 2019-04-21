@@ -63,62 +63,6 @@ $nama = $ModuleProfile->nama;
     <?= $this->render('_view_komentar',['providerModuleMateriKomentar' => $providerModuleMateriKomentar,'model'=>$model]) ?>
 
     <?=  $this->render('_formKomentar', ['model' => $modelKomentar]); ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!--     <div class="row">
 <?php 
     $gridColumn = [

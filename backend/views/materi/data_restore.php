@@ -21,7 +21,7 @@ foreach ($modelKelas as $kelas) {
 $list_bab = [];
 $modelBab = \common\models\ModuleMateriKategori::find()->orderBy('id')->all();
 foreach ($modelBab as $bab) {
-    $list_bab += [$bab->mataPelajaran->nama_mapel=>[$bab->id => $bab->nama]];
+    $list_bab = array_merge_recursive([$bab->mataPelajaran->nama_mapel=>[$bab->id => $bab->nama]],$list_bab);
 }
 
 ?>

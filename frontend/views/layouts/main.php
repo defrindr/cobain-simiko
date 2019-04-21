@@ -91,7 +91,20 @@ $carousel = [
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
-    <?php }else{ ?>
+    <?php }else{
+        yii\bootstrap\Modal::begin([
+            'headerOptions' => [
+                'id' => 'modalHeader',
+            ],
+            'id' => 'modalShow',
+        ]);
+
+    echo '<div id="modalContent">
+    <center><img id="modImg" class="img img-responsive" src="" alt="" style="min-height:50vh"></center>
+    </div>';
+    yii\bootstrap\Modal::end();
+
+     ?>
     <div class="container-fluid">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

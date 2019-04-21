@@ -69,7 +69,7 @@ class MateriFileController extends Controller
         $model = new ModuleMateriFile();
 
         if ($model->loadAll(Yii::$app->request->post())) {
-            $materi = common\models\ModuleMateri::findOne($model->materi_id)->one();
+            $materi = \common\models\ModuleMateri::findOne($model->materi_id);
             if($materi->created_by == Yii::$app->user->id or Yii::$app->user->can('Admin')){
                 $model->file = UploadedFile::getInstance($model,"file");
                 $this->checkDir();

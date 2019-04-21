@@ -22,6 +22,7 @@ $menuItems = [
     ['label' => 'Galeri', 'url' => ['/galeri']],
     ['label' => 'Kontak', 'url' => ['/site/contact']],
     ['label' => 'Artikel', 'url' => ['/artikel']],
+    ['label' => 'Login', 'url'=>['/administrator']],
 ];
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right in'],
