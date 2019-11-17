@@ -7,28 +7,22 @@ use yii\helpers\Url;
 $this->title = Yii::$app->name;
 ?>
 <div class="site-index">
-    <div class="border-colored">
-        <div class="jumbotron">
-            <h1>Welcome To Website <br> SMKN 1 Jenangan</h1>
-        </div>
-    </div>
-
     <div class="body-content">
 
         <div class="container">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-lg-4 col-md-8 col-lg-offset-0 col-md-offset-2 col-sm-6">
                     <div class="kategori">
                         <h4 class="kategori-title">Introduction</h4>
-                        <iframe height="200px" width="100%" src="https://www.youtube.com/embed/hNw3gGdcmuQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 0 0 10px 10px"></iframe>
+                        <iframe height="300px" width="100%" src="https://www.youtube.com/embed/hNw3gGdcmuQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 0 0 10px 10px"></iframe>
                     </div>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-lg-8 col-md-12 col-sm-12">
                     <h3 class="index-title"><i class="glyphicon glyphicon-asterisk"></i> New Artikel</h3>
                     <div class="row">
                         <?php foreach ($newArtikel as $Artikel) { ?>
                         <a href="<?= Url::to(['/artikel/view','id'=>$Artikel->id]) ?>">
-                            <div class="col-xs-6 col-sm-6 col-lg-6" style="height: auto;margin:2rem 0">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" style="height: auto;margin:2rem 0">
                                 <div class="artikel">
                                     <div class="row">
                                         <div class="berita-creator">
@@ -43,7 +37,7 @@ $this->title = Yii::$app->name;
                                         <?= $Artikel->judul ?>
 
                                         <?php if(($Artikel->gambar != "") and file_exists(Url::to('@webroot/uploaded/berita/'.$Artikel->gambar))){ ?>
-                                            <?= Html::img(Url::to('@web/uploaded/berita/'.$Artikel->gambar),['class'=>'img img-responsive img-circle artikel-image','style'=>'height:70px;width:70px;margin:10px auto']) ?>
+                                            <?= Html::img(Url::to('@web/uploaded/berita/'.$Artikel->gambar),['class'=> 'img img-responsive  img-galeri img-circle artikel-image','style'=>'height:70px;width:70px;margin:10px auto']) ?>
 
                                         <?php } else { ?>
                                             <?= Html::img(Url::to('@web/uploaded/base/no-thumbnail.jpg'),['class'=>'img img-responsive img-circle artikel-image','style'=>'height:70px;width:70px;margin:10px auto']) ?>
@@ -61,9 +55,9 @@ $this->title = Yii::$app->name;
             <div class="row">
                 <h3 class="index-title"> <i class="glyphicon glyphicon-camera"></i> New Image In Galeri</h3>
                 <?php foreach ($newGaleri as $galeri) {?>
-                     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                         <div class="card showModalButton card-shadow artikel">
-                            <?= Html::img(Url::base()."/uploaded/galeri/".$galeri->link, ['class'=>'img img-responsive img-galeri showModalButton','onclick'=>'prevImages(this)','alt' => $galeri->judul]) ?>
+                            <?= Html::img(Url::base()."/uploaded/galeri/".$galeri->link, ['style' => 'margin:0 auto','class'=>'img img-responsive showModalButton','onclick'=>'prevImages(this)','alt' => $galeri->judul]) ?>
                         </div>
                     </div>
                 <?php } ?>
