@@ -4,15 +4,15 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use yii\helpers\Url;
+use yii\bootstrap\Modal;
 use yii\bootstrap\Carousel;
-use \yii\helpers\Url;
 
 AppAsset::register($this);
+
 \app\assets\fontAwesomeAsset::register($this);
 
 $carousel = [
@@ -50,7 +50,7 @@ $carousel = [
 <?php if(Url::to()==Url::base()."/" or Url::to() == Url::base().'/site/index'){ ?>
 
 <section class="slider">
-    <?=  \yii\bootstrap\Carousel::widget([
+    <?= Carousel::widget([
         'id'=>'myCarousel',
         // 'controls' => false,
         'items' => $carousel,
@@ -69,7 +69,7 @@ $carousel = [
 <?php } ?>
 <div class="wrap">
     <?php if(!(Url::to()==Url::base()."/" or Url::to() == Url::base().'/site/index')){ 
-        yii\bootstrap\Modal::begin([
+        Modal::begin([
             'headerOptions' => [
                 'id' => 'modalHeader',
             ],
@@ -79,7 +79,7 @@ $carousel = [
     echo '<div id="modalContent">
     <center><img id="modImg" class="img img-responsive" src="" alt="" style="min-height:50vh"></center>
     </div>';
-    yii\bootstrap\Modal::end();
+    Modal::end();
 
         ?>
 
@@ -92,7 +92,7 @@ $carousel = [
         <?= $content ?>
     </div>
     <?php }else{
-        yii\bootstrap\Modal::begin([
+        Modal::begin([
             'headerOptions' => [
                 'id' => 'modalHeader',
             ],
@@ -102,7 +102,7 @@ $carousel = [
     echo '<div id="modalContent">
     <center><img id="modImg" class="img img-responsive" src="" alt="" style="min-height:50vh"></center>
     </div>';
-    yii\bootstrap\Modal::end();
+    Modal::end();
 
      ?>
     <div class="container-fluid">
