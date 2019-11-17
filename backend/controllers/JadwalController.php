@@ -2,10 +2,12 @@
 
 namespace backend\controllers;
 
+
 use Yii;
 use common\models\ModuleJadwal;
 use common\models\ModuleSiswa;
 use common\models\ModuleGuru;
+use common\models\ModuleKelas;
 use common\models\ModuleJadwalSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -16,6 +18,34 @@ use yii\filters\VerbFilter;
  */
 class JadwalController extends Controller
 {
+    
+    public $hari = [
+        "Senin" => "Senin",
+        "Selasa" => "Selasa",
+        "Rabu" => "Rabu",
+        "Kamis" => "Kamis",
+        "Jum'at" => "Jum'at",
+        "Sabtu" => "Sabtu",
+    ];
+
+    public $GuruAll;
+    public $guru;
+    public $kelasAll;
+    public $kelas;
+
+    public function _set(){
+        $this->GuruAll = \common\models\ModuleGuru::find()->orderBy('id')->all();
+        $this->guru = [];
+        $this->kelasAll = \common\models\ModuleKelas::find()->orderBy('id')->all();
+        $this->kelas = [];
+        foreach ($this->GuruAll as $each) {
+            $this->guru += [$each->id => $each->profile->nama];
+        }
+        foreach ($this->kelasAll as $each) {
+            $this->kelas += [$each->id => $each->grade . " " . " " . $each->jurusan->nama . " " . $each->kelas];
+        }
+    }
+    
     public function behaviors()
     {
         return [
@@ -34,19 +64,31 @@ class JadwalController extends Controller
      */
     public function actionIndex()
     {
+        $this->_set(); //running depend
+
         if(yii::$app->user->can('Admin')){
             $searchModel = new ModuleJadwalSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
+                'kelas' => $this->kelas,
+                'guru' => $this->guru,
+                "hari" => $this->hari
             ]);
         } else if(yii::$app->user->can('Siswa')) {
             $model = ModuleJadwal::find()->where(['kelas_id' => ModuleSiswa::findOne(Yii::$app->user->id)->kelas_id])->all();
-            return $this->render('_index',['model'=>$model]);
+            return $this->render('_index',[
+                'model'=>$model,
+                ]);
         } else if(yii::$app->user->can('Guru')){
             $model = ModuleJadwal::find()->where(['kode_guru' => ModuleGuru::find()->where(['user_id'=>Yii::$app->user->id])->one()->id])->all();
-            return $this->render('_index',['model'=>$model]);
+            return $this->render('_index',[
+                'model'=>$model,
+                'kelas' => $this->kelas,
+                'guru' => $this->guru,
+                "hari" => $this->hari
+                ]);
 
         }
     }
@@ -100,12 +142,15 @@ class JadwalController extends Controller
     public function actionCreate()
     {
         $model = new ModuleJadwal();
-
+        $this->_set(); //running depend
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'guru' => $this->guru,
+                'kelas' => $this->kelas,
+                'hari' => $this->hari
             ]);
         }
     }
@@ -119,12 +164,15 @@ class JadwalController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $this->_set(); //running depend
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'guru' => $this->guru,
+                'kelas' => $this->kelas,
+                'hari' => $this->hari
             ]);
         }
     }

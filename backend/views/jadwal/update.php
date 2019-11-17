@@ -13,6 +13,9 @@ $this->params['breadcrumbs'][] = 'Update';
 <div class="module-jadwal-update">
     <?= $this->render('_form', [
         'model' => $model,
+        'guru'  => $guru,
+        'kelas' => $kelas,
+        'hari'  => $hari
     ]) ?>
 
 </div>

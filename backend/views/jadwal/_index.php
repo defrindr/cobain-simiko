@@ -6,7 +6,6 @@ $this->title = "Jadwal";
 $this->params['breadcrumbs'][] = $this->title;
 
 $no = 1;
-// var_dump($model);
 ?>
 
 <div class="module-jadwal-index">
