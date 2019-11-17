@@ -2,14 +2,15 @@
 use common\models\ModuleProfile;
 use common\models\ModuleKelas;
 use yii\helpers\Url;
+
 $admin = true;
-$guru = true;
+$guru  = true;
 $siswa = true;
 $admin = (Yii::$app->user->identity->role == 10);
-$guru = (Yii::$app->user->identity->role == 20);
+$guru  = (Yii::$app->user->identity->role == 20);
 $siswa = (Yii::$app->user->identity->role == 30);
-$user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
 
+$user = ModuleProfile::find()->where('user_id = '.Yii::$app->user->id)->one();
 $check_kelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one();
 ?>
 
@@ -59,7 +60,7 @@ $check_kelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one
                             ['label' => 'User Manage', 'url' => ['/user-manage'], 'icon' => 'dashboard'],
                         ]
                     ],
-                    ['label' => 'Guru', 'url' => ['/guru'], 'icon' => 'dashboard'],
+                    ['label' => 'Guru', 'visible' => $admin, 'url' => ['/guru'], 'icon' => 'dashboard'],
                     ['label'=>'Jadwal','url'=> ['/jadwal'], 'icon'=>'calendar'],
                     [
                         'label' => 'Jurusan',
@@ -67,7 +68,12 @@ $check_kelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one
                         'icon' => 'dashboard',
                     ],
                     ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard', 'visible' => ($check_kelas != [] or $admin) ],
-                    ['label' => 'Mata Pelajaran', 'icon'=> 'dashboard','url'=>['/mata-pelajaran']],
+                    [
+                        'label' => 'Mata Pelajaran', 
+                        'icon' => 'dashboard',
+                        'visible' => $admin,
+                        'url' => ['/mata-pelajaran']
+                    ],
                     [
                         'label' => 'Materi Fitur',
                         'icon'=>'dashboard', 
