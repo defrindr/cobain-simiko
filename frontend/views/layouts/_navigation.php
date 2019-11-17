@@ -5,8 +5,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Url;
 
-
-$logo = Html::img(Url::base().'/uploaded/base/ireng.png',['class' => 'img img-responsive', 'style' => 'max-height:55px;max-width:225px']);
+$logo = Html::img(Url::base(). '/administrator/uploaded/base/smk.png',['class' => 'img img-responsive', 'style' => 'max-height:55px;max-width:225px']);
 NavBar::begin([
 	'brandLabel' => $logo,
     // 'brandLabel' => Yii::$app->name,
