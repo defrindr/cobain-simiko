@@ -52,8 +52,7 @@ $check_kelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one
                         'url'=>'#',
                         'visible' => $admin,
                         'items' => [
-                            ['label' => 'Bank', 'url' => ['/bank'], 'icon' => 'dashboard'],
-                            ['label' => 'berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
+                            ['label' => 'Berita', 'url' => ['/berita'], 'icon' => 'dashboard'],
                             ['label' => 'Galeri', 'url' => ['/galeri'], 'icon' => 'dashboard'],
                             ['label' => 'Profile Manage', 'url' => ['/profile/all'], 'icon' => 'dashboard'],
                             ['label' => 'Siswa', 'url' => ['/siswa'], 'icon' => 'dashboard'],
@@ -67,7 +66,7 @@ $check_kelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one
                         'url' => ['/jurusan'],
                         'icon' => 'dashboard',
                     ],
-                    ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard', 'visible' => ($check_kelas != [] or $admin) ],
+                    ['label' => 'Kelas', 'url' => ['/kelas'], 'icon' => 'dashboard', 'visible' => (($guru and $check_kelas != []) or $admin) ],
                     [
                         'label' => 'Mata Pelajaran', 
                         'icon' => 'dashboard',
@@ -96,7 +95,6 @@ $check_kelas = ModuleKelas::find()->where(['guru_id'=>Yii::$app->user->id])->one
                         ],
                     ],
                     ['label' => 'Nilai','url'=>['/nilai'], 'visible' => $siswa],
-                    ['label' => 'Pembayaran SPP', 'icon'=> 'dashboard','url'=>['/spp']],
                 ],
             ]
         ) ?>

@@ -12,11 +12,11 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'name' => "SMKN 1 Jenangan",
-    'homeUrl' => "/sekolah",
+    // 'homeUrl' => "/sekolah",
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
-            'baseUrl' => "/sekolah",
+            // 'baseUrl' => "/sekolah",
         ],
         'user' => [
             'identityClass' => 'common\models\User',

@@ -54,14 +54,16 @@ return [
           // see settings on http://demos.krajee.com/tree-manager#module
             ],
     ],
-    'homeUrl' => "/sekolah/administrator",
+    // 'homeUrl' => "/sekolah/administrator",
+    // 'homeUrl' => "../../",
     'components' => [
        'authManager' => [
            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
         ],
         'request' => [
             'csrfParam' => '_csrf-backend',
-            'baseUrl' => "/sekolah/administrator",
+            // 'baseUrl' => "/sekolah/administrator",
+            // 'baseUrl' => "../../",
         ],
         'user' => [
             'identityClass' => 'common\models\User',

@@ -85,11 +85,7 @@ class JadwalController extends Controller
             $model = ModuleJadwal::find()->where(['kode_guru' => ModuleGuru::find()->where(['user_id'=>Yii::$app->user->id])->one()->id])->all();
             return $this->render('_index',[
                 'model'=>$model,
-                'kelas' => $this->kelas,
-                'guru' => $this->guru,
-                "hari" => $this->hari
                 ]);
-
         }
     }
 

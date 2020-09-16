@@ -1,0 +1,14 @@
+@import url("__header.css");
+html {
+  font-size: 12px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+a:hover {
+  text-decoration: none;
+  color: rgb(55, 124, 59);
+}
+a{
+  color: #47C24D;
+}
+/*# sourceMappingURL=style.css.map */
